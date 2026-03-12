@@ -1,3 +1,3 @@
 defmodule TrpgMasterWeb.Gettext do
-  use Gettext, otp_app: :trpg_master
+  use Gettext.Backend, otp_app: :trpg_master
 end
