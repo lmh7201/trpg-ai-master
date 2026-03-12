@@ -1,0 +1,29 @@
+# Dependencies
+/deps/
+
+# Build
+/_build/
+
+# Generated files
+/priv/static/assets/
+
+# Data directory (runtime)
+/data/campaigns/
+
+# Environment
+.env
+*.env.local
+
+# Editor
+.elixir_ls/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Crash dumps
+erl_crash.dump
+
+# Mix lock (not needed for git deps)
+# /mix.lock

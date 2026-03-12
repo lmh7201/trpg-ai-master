@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <title>AI TRPG Master</title>
+    <link rel="stylesheet" href={~p"/css/app.css"} />
+  </head>
+  <body>
+    {@inner_content}
+    <script src="/assets/phoenix/phoenix.min.js"></script>
+    <script src="/assets/phoenix_live_view/phoenix_live_view.min.js"></script>
+    <script>
+      let Hooks = {};
+
+      Hooks.ScrollBottom = {
+        mounted() {
+          this.scrollToBottom();
+          this.observer = new MutationObserver(() => { this.scrollToBottom(); });
+          this.observer.observe(this.el, { childList: true, subtree: true });
+        },
+        updated() { this.scrollToBottom(); },
+        destroyed() { if (this.observer) this.observer.disconnect(); },
+        scrollToBottom() { this.el.scrollTop = this.el.scrollHeight; }
+      };
+
+      let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+      let liveSocket = new window.LiveView.LiveSocket("/live", window.Phoenix.Socket, {
+        hooks: Hooks,
+        params: { _csrf_token: csrfToken }
+      });
+      liveSocket.connect();
+      window.liveSocket = liveSocket;
+    </script>
+  </body>
+</html>
