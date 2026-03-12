@@ -44,7 +44,7 @@ defmodule TrpgMaster.MixProject do
       {:phoenix_pubsub, github: "phoenixframework/phoenix_pubsub", tag: "v2.1.3", override: true},
       {:phoenix_template, github: "phoenixframework/phoenix_template", tag: "v1.0.4", override: true},
       {:websock_adapter, github: "phoenixframework/websock_adapter", tag: "0.5.8", override: true},
-      {:castore, github: "elixir-mint/castore", tag: "v1.0.10", override: true, runtime: false},
+      {:castore, path: "local_deps/castore", override: true},
       {:websock, github: "phoenixframework/websock", tag: "0.5.3", override: true},
       {:thousand_island, github: "mtrudel/thousand_island", tag: "1.4.3", override: true},
       {:hpax, github: "elixir-mint/hpax", tag: "v1.0.3", override: true},
