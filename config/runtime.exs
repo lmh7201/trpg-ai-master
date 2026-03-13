@@ -19,6 +19,12 @@ if config_env() == :prod do
 
   config :trpg_master, TrpgMasterWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
-    http: [ip: {0, 0, 0, 0}, port: port],
-    secret_key_base: secret_key_base
+    http: [
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
+      port: port
+    ],
+    secret_key_base: secret_key_base,
+    server: true
+
+  config :trpg_master, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 end
