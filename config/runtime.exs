@@ -3,7 +3,6 @@ import Config
 config :trpg_master,
   anthropic_api_key: System.get_env("ANTHROPIC_API_KEY"),
   data_dir: System.get_env("DATA_DIR", "data"),
-  rules_dir: System.get_env("RULES_DIR", "priv/rules"),
   ai_model: System.get_env("AI_MODEL", "claude-sonnet-4-20250514")
 
 if config_env() == :prod do
