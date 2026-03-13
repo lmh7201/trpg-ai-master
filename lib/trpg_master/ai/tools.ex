@@ -1,17 +1,27 @@
 defmodule TrpgMaster.AI.Tools do
   @moduledoc """
   Claude에게 제공할 tool 정의 및 실행.
-  Phase 1: roll_dice만 구현.
+  Phase 1: roll_dice
+  Phase 2: lookup_spell, lookup_monster, lookup_class, lookup_item
   """
 
   alias TrpgMaster.Dice.Roller
+  alias TrpgMaster.Rules.Loader, as: RulesLoader
 
   @doc """
-  Phase 1에서 사용 가능한 tool 목록을 반환한다.
+  사용 가능한 tool 목록을 반환한다.
   """
   def definitions do
-    [roll_dice_def()]
+    [
+      roll_dice_def(),
+      lookup_spell_def(),
+      lookup_monster_def(),
+      lookup_class_def(),
+      lookup_item_def()
+    ]
   end
+
+  # ── Tool definitions ────────────────────────────────────────────────────────
 
   defp roll_dice_def do
     %{
@@ -43,6 +53,80 @@ defmodule TrpgMaster.AI.Tools do
     }
   end
 
+  defp lookup_spell_def do
+    %{
+      name: "lookup_spell",
+      description:
+        "D&D 5e 주문 데이터를 조회한다. 주문 시전, 효과 확인, 규칙 판단 시 사용. 한국어 또는 영어 주문 이름으로 검색 가능. 정확한 이름이 아니어도 부분 검색을 시도한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          name: %{
+            type: "string",
+            description: "주문 이름 (한국어 또는 영어). 예: \"파이어볼\", \"Fireball\""
+          }
+        },
+        required: ["name"]
+      }
+    }
+  end
+
+  defp lookup_monster_def do
+    %{
+      name: "lookup_monster",
+      description:
+        "D&D 5e 몬스터/적 데이터를 조회한다. 전투 시작, 적 스탯 확인, 조우 구성 시 사용.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          name: %{
+            type: "string",
+            description: "몬스터 이름 (한국어 또는 영어). 예: \"고블린\", \"Goblin\""
+          }
+        },
+        required: ["name"]
+      }
+    }
+  end
+
+  defp lookup_class_def do
+    %{
+      name: "lookup_class",
+      description:
+        "D&D 5e 클래스 정보를 조회한다. 클래스 특성, 레벨업 정보, 주문 목록 등 확인 시 사용.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          name: %{
+            type: "string",
+            description: "클래스 이름. 예: \"위자드\", \"Wizard\", \"파이터\""
+          }
+        },
+        required: ["name"]
+      }
+    }
+  end
+
+  defp lookup_item_def do
+    %{
+      name: "lookup_item",
+      description:
+        "D&D 5e 아이템/장비 데이터를 조회한다. 무기, 방어구, 마법 아이템, 도구 등의 정보를 확인할 때 사용.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          name: %{
+            type: "string",
+            description: "아이템 이름 (한국어 또는 영어). 예: \"대검\", \"Greatsword\""
+          }
+        },
+        required: ["name"]
+      }
+    }
+  end
+
+  # ── Tool execution ──────────────────────────────────────────────────────────
+
   @doc """
   tool_use 요청을 실행하고 결과를 반환한다.
   """
@@ -64,8 +148,43 @@ defmodule TrpgMaster.AI.Tools do
     end
   end
 
+  def execute("lookup_spell", input) do
+    name = Map.get(input, "name", "")
+    lookup_rule(:spell, name)
+  end
+
+  def execute("lookup_monster", input) do
+    name = Map.get(input, "name", "")
+    lookup_rule(:monster, name)
+  end
+
+  def execute("lookup_class", input) do
+    name = Map.get(input, "name", "")
+    lookup_rule(:class, name)
+  end
+
+  def execute("lookup_item", input) do
+    name = Map.get(input, "name", "")
+    lookup_rule(:item, name)
+  end
+
   def execute(tool_name, _input) do
     {:error, "알 수 없는 도구: #{tool_name}"}
+  end
+
+  # ── Private helpers ─────────────────────────────────────────────────────────
+
+  defp lookup_rule(type, name) do
+    case RulesLoader.lookup(type, name) do
+      {:ok, entry} ->
+        {:ok, entry}
+
+      :not_found ->
+        case RulesLoader.search(type, name) do
+          [first | _] -> {:ok, first}
+          [] -> {:ok, %{"error" => "데이터에서 찾을 수 없습니다", "query" => name}}
+        end
+    end
   end
 
   defp format_tool_result(result) do
