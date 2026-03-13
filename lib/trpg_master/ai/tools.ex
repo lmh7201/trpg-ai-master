@@ -125,6 +125,143 @@ defmodule TrpgMaster.AI.Tools do
     }
   end
 
+  # ── State-change tool definitions ────────────────────────────────────────────
+
+  @doc """
+  상태 변경 도구 정의를 반환한다.
+  """
+  def state_tool_definitions do
+    [
+      update_character_def(),
+      register_npc_def(),
+      update_quest_def(),
+      set_location_def(),
+      start_combat_def(),
+      end_combat_def()
+    ]
+  end
+
+  defp update_character_def do
+    %{
+      name: "update_character",
+      description:
+        "캐릭터의 상태를 변경한다. HP 변화, 인벤토리 추가/제거, 주문 슬롯 소모, 상태이상 등. 반드시 변경된 필드만 포함한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          character_name: %{
+            type: "string",
+            description: "대상 캐릭터 이름"
+          },
+          changes: %{
+            type: "object",
+            description:
+              "변경할 필드들. 예: {\"hp_current\": 8, \"inventory_add\": [\"치유 물약\"], \"inventory_remove\": [\"화살\"], \"spell_slots_used\": 1, \"conditions_add\": [\"중독\"], \"conditions_remove\": [\"축복\"]}"
+          }
+        },
+        required: ["character_name", "changes"]
+      }
+    }
+  end
+
+  defp register_npc_def do
+    %{
+      name: "register_npc",
+      description:
+        "새로운 NPC를 등록하거나 기존 NPC 정보를 수정한다. NPC가 처음 등장할 때, 또는 NPC의 상태/태도가 변할 때 호출한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          name: %{type: "string", description: "NPC 이름"},
+          description: %{type: "string", description: "NPC 외모/특징 설명"},
+          disposition: %{
+            type: "string",
+            description: "PC에 대한 태도 (우호적/중립/적대적 등)"
+          },
+          location: %{type: "string", description: "현재 위치"},
+          notes: %{type: "string", description: "기타 메모 (비밀, 목표 등)"}
+        },
+        required: ["name"]
+      }
+    }
+  end
+
+  defp update_quest_def do
+    %{
+      name: "update_quest",
+      description:
+        "퀘스트의 진행 상황을 변경한다. 새 퀘스트 추가, 진행 상태 변경, 완료 처리 등.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          quest_name: %{type: "string", description: "퀘스트 이름"},
+          status: %{
+            type: "string",
+            description: "진행중 | 완료 | 실패 | 발견"
+          },
+          description: %{type: "string", description: "퀘스트 설명 또는 업데이트 내용"},
+          notes: %{type: "string", description: "추가 메모"}
+        },
+        required: ["quest_name"]
+      }
+    }
+  end
+
+  defp set_location_def do
+    %{
+      name: "set_location",
+      description:
+        "파티의 현재 위치를 변경한다. 새로운 장소에 도착하거나 이동할 때 호출한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          location_name: %{type: "string", description: "위치 이름"},
+          description: %{type: "string", description: "위치 설명"}
+        },
+        required: ["location_name"]
+      }
+    }
+  end
+
+  defp start_combat_def do
+    %{
+      name: "start_combat",
+      description:
+        "전투를 시작한다. 전투 참가자 목록과 함께 호출한다. 이 도구를 호출한 후 각 참가자의 주도권을 roll_dice로 굴린다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          participants: %{
+            type: "array",
+            items: %{type: "string"},
+            description: "전투 참가자 이름 목록"
+          }
+        },
+        required: ["participants"]
+      }
+    }
+  end
+
+  defp end_combat_def do
+    %{
+      name: "end_combat",
+      description: "전투를 종료한다. 전리품과 경험치 정보를 포함할 수 있다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          loot: %{
+            type: "array",
+            items: %{type: "string"},
+            description: "획득한 전리품 목록"
+          },
+          xp: %{type: "integer", description: "획득 경험치"},
+          summary: %{type: "string", description: "전투 결과 요약"}
+        },
+        required: []
+      }
+    }
+  end
+
   # ── Tool execution ──────────────────────────────────────────────────────────
 
   @doc """
@@ -166,6 +303,42 @@ defmodule TrpgMaster.AI.Tools do
   def execute("lookup_item", input) do
     name = Map.get(input, "name", "")
     lookup_rule(:item, name)
+  end
+
+  # State-change tools: return confirmation, actual state update happens in Campaign.Server
+  def execute("update_character", input) do
+    {:ok, %{"status" => "ok", "message" => "#{input["character_name"]}의 상태가 업데이트되었습니다."}}
+  end
+
+  def execute("register_npc", input) do
+    {:ok, %{"status" => "ok", "message" => "NPC '#{input["name"]}'이(가) 등록/수정되었습니다."}}
+  end
+
+  def execute("update_quest", input) do
+    {:ok,
+     %{
+       "status" => "ok",
+       "message" => "퀘스트 '#{input["quest_name"]}'이(가) 업데이트되었습니다."
+     }}
+  end
+
+  def execute("set_location", input) do
+    {:ok,
+     %{"status" => "ok", "message" => "현재 위치가 '#{input["location_name"]}'(으)로 변경되었습니다."}}
+  end
+
+  def execute("start_combat", input) do
+    participants = input["participants"] || []
+
+    {:ok,
+     %{
+       "status" => "ok",
+       "message" => "전투가 시작되었습니다. 참가자: #{Enum.join(participants, ", ")}"
+     }}
+  end
+
+  def execute("end_combat", _input) do
+    {:ok, %{"status" => "ok", "message" => "전투가 종료되었습니다."}}
   end
 
   def execute(tool_name, _input) do

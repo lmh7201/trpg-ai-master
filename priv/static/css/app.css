@@ -337,6 +337,184 @@ html, body {
   }
 }
 
+/* Lobby */
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+
+.lobby-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.lobby-header h1 {
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  margin-bottom: 0.25rem;
+}
+
+.lobby-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.lobby-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.new-campaign h2,
+.campaign-list h2 {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.new-campaign-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.new-campaign-form input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+}
+
+.new-campaign-form input:focus {
+  border-color: var(--accent-blue);
+}
+
+.new-campaign-form input::placeholder {
+  color: var(--text-secondary);
+}
+
+.new-campaign-form button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.new-campaign-form button:hover {
+  opacity: 0.9;
+}
+
+.lobby-error {
+  color: var(--accent-red);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.campaigns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.campaign-card {
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.campaign-card:hover {
+  border-color: var(--accent-gold);
+}
+
+.campaign-link {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.campaign-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.campaign-date {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.campaign-delete {
+  padding: 0.5rem 0.75rem;
+  margin-right: 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.campaign-delete:hover {
+  background: rgba(231, 76, 60, 0.2);
+  color: var(--accent-red);
+}
+
+/* Game header with back link */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.back-link:hover {
+  color: var(--accent-gold);
+}
+
+.location-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(46, 204, 113, 0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
 /* Safe area for notched phones */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .input-area {

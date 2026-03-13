@@ -53,8 +53,9 @@ RUN chown nobody /app
 
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/trpg_master ./
 
-# Create data directory
+# Create data directories (local dev fallback + Fly volume mount point)
 RUN mkdir -p /app/data && chown nobody:root /app/data
+RUN mkdir -p /data && chown nobody:root /data
 
 USER nobody
 
