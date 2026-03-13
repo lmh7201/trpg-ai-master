@@ -13,6 +13,7 @@ defmodule TrpgMasterWeb.Router do
   scope "/", TrpgMasterWeb do
     pipe_through :browser
 
-    live "/", CampaignLive, :index
+    live "/", LobbyLive, :index
+    live "/play/:id", CampaignLive, :play
   end
 end

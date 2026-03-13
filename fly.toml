@@ -9,9 +9,14 @@ kill_signal = 'SIGTERM'
 
 [build]
 
+[mounts]
+  source = "campaign_data"
+  destination = "/data"
+
 [env]
   PHX_HOST = 'trpg-ai-master.fly.dev'
   PORT = '8080'
+  DATA_DIR = '/data'
 
 [http_service]
   internal_port = 8080

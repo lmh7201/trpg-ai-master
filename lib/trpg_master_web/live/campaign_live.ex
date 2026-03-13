@@ -3,17 +3,35 @@ defmodule TrpgMasterWeb.CampaignLive do
 
   import TrpgMasterWeb.GameComponents
 
-  alias TrpgMaster.AI.{Client, PromptBuilder, Tools}
+  alias TrpgMaster.Campaign.{Manager, Server}
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok,
-     socket
-     |> assign(:messages, [])
-     |> assign(:conversation_history, [])
-     |> assign(:input_text, "")
-     |> assign(:loading, false)
-     |> assign(:error, nil)}
+  def mount(%{"id" => campaign_id}, _session, socket) do
+    # Ensure the campaign server is running
+    case Manager.start_campaign(campaign_id) do
+      {:ok, _id} ->
+        state = Server.get_state(campaign_id)
+
+        # Build display messages from conversation history
+        messages = build_display_messages(state.conversation_history)
+
+        {:ok,
+         socket
+         |> assign(:campaign_id, campaign_id)
+         |> assign(:campaign_name, state.name)
+         |> assign(:messages, messages)
+         |> assign(:input_text, "")
+         |> assign(:loading, false)
+         |> assign(:error, nil)
+         |> assign(:current_location, state.current_location)
+         |> assign(:phase, state.phase)}
+
+      {:error, :not_found} ->
+        {:ok,
+         socket
+         |> put_flash(:error, "캠페인을 찾을 수 없습니다.")
+         |> push_navigate(to: "/")}
+    end
   end
 
   @impl true
@@ -23,23 +41,18 @@ defmodule TrpgMasterWeb.CampaignLive do
     if message == "" do
       {:noreply, socket}
     else
-      # Add player message to display
+      # Add player message to display immediately
       messages = socket.assigns.messages ++ [%{type: :player, text: message}]
-
-      # Add to conversation history (Claude API format)
-      conversation_history =
-        socket.assigns.conversation_history ++ [%{role: "user", content: message}]
 
       socket =
         socket
         |> assign(:messages, messages)
-        |> assign(:conversation_history, conversation_history)
         |> assign(:input_text, "")
         |> assign(:loading, true)
         |> assign(:error, nil)
 
-      # Trigger async AI call
-      send(self(), {:call_ai, conversation_history})
+      # Trigger async AI call via GenServer
+      send(self(), {:call_ai, message})
 
       {:noreply, socket}
     end
@@ -50,32 +63,35 @@ defmodule TrpgMasterWeb.CampaignLive do
   end
 
   @impl true
-  def handle_info({:call_ai, conversation_history}, socket) do
-    system_prompt = PromptBuilder.system_prompt()
-    tools = Tools.definitions()
+  def handle_info({:call_ai, message}, socket) do
+    campaign_id = socket.assigns.campaign_id
 
-    case Client.chat(system_prompt, conversation_history, tools) do
+    case Server.player_action(campaign_id, message) do
       {:ok, result} ->
         # Add tool results to display
         messages =
           Enum.reduce(result.tool_results, socket.assigns.messages, fn tool_result, acc ->
             case tool_result do
-              %{result: dice_result} -> acc ++ [%{type: :dice, result: dice_result}]
-              _ -> acc
+              %{result: %{"formatted" => _} = dice_result} ->
+                acc ++ [%{type: :dice, result: dice_result}]
+
+              _ ->
+                acc
             end
           end)
 
         # Add DM response to display
         messages = messages ++ [%{type: :dm, text: result.text}]
 
-        # Add assistant response to conversation history
-        updated_history = conversation_history ++ [%{role: "assistant", content: result.text}]
+        # Get updated state for sidebar info
+        state = Server.get_state(campaign_id)
 
         {:noreply,
          socket
          |> assign(:messages, messages)
-         |> assign(:conversation_history, updated_history)
-         |> assign(:loading, false)}
+         |> assign(:loading, false)
+         |> assign(:current_location, state.current_location)
+         |> assign(:phase, state.phase)}
 
       {:error, reason} ->
         {:noreply,
@@ -90,8 +106,14 @@ defmodule TrpgMasterWeb.CampaignLive do
     ~H"""
     <div class="game-container">
       <header class="game-header">
-        <h1>AI TRPG Master</h1>
-        <span class="mode-badge">모험 모드</span>
+        <div class="header-left">
+          <a href="/" class="back-link">←</a>
+          <h1><%= @campaign_name %></h1>
+        </div>
+        <div class="header-right">
+          <span :if={@current_location} class="location-badge"><%= @current_location %></span>
+          <span class="mode-badge"><%= phase_label(@phase) %></span>
+        </div>
       </header>
 
       <div class="chat-area" id="chat-area" phx-hook="ScrollBottom">
@@ -141,4 +163,28 @@ defmodule TrpgMasterWeb.CampaignLive do
     </div>
     """
   end
+
+  # ── Private helpers ─────────────────────────────────────────────────────────
+
+  defp build_display_messages(conversation_history) do
+    conversation_history
+    |> Enum.reduce([], fn msg, acc ->
+      case msg do
+        %{"role" => "user", "content" => content} when is_binary(content) ->
+          acc ++ [%{type: :player, text: content}]
+
+        %{"role" => "assistant", "content" => content} when is_binary(content) ->
+          acc ++ [%{type: :dm, text: content}]
+
+        _ ->
+          acc
+      end
+    end)
+  end
+
+  defp phase_label(:exploration), do: "탐험"
+  defp phase_label(:combat), do: "전투"
+  defp phase_label(:dialogue), do: "대화"
+  defp phase_label(:rest), do: "휴식"
+  defp phase_label(_), do: "모험"
 end
