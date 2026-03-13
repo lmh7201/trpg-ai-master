@@ -169,14 +169,15 @@ defmodule TrpgMaster.AI.Client do
 
     case :httpc.request(:post, request, http_opts, []) do
       {:ok, {{_, status, _}, _headers, resp_body}} when status in 200..299 ->
-        case Jason.decode(to_string(resp_body)) do
+        case Jason.decode(:erlang.list_to_binary(resp_body)) do
           {:ok, parsed} -> {:ok, parsed}
           {:error, reason} -> {:error, "JSON 파싱 오류: #{inspect(reason)}"}
         end
 
       {:ok, {{_, status, _}, _headers, resp_body}} ->
-        Logger.error("Claude API 오류 #{status}: #{to_string(resp_body)}")
-        {:error, "API 오류 (#{status}): #{to_string(resp_body) |> String.slice(0, 200)}"}
+        body_str = :erlang.list_to_binary(resp_body)
+        Logger.error("Claude API 오류 #{status}: #{body_str}")
+        {:error, "API 오류 (#{status}): #{String.slice(body_str, 0, 200)}"}
 
       {:error, reason} ->
         Logger.error("HTTP 요청 실패: #{inspect(reason)}")
