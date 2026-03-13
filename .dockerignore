@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Elixir/Mix
+_build
+deps
+*.ez
+
+# Node (if any)
+node_modules
+
+# IDE
+.elixir_ls
+.vscode
+
+# OS
+.DS_Store
+*.swp
+
+# Docker
+Dockerfile*
+.dockerignore

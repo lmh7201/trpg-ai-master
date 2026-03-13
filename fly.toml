@@ -1,0 +1,22 @@
+app = "trpg-ai-master"
+primary_region = "nrt"
+
+[build]
+
+[env]
+  PHX_HOST = "trpg-ai-master.fly.dev"
+  DATA_DIR = "/app/data"
+  RULES_DIR = "/app/lib/trpg_master-0.1.0/priv/rules"
+
+[http_service]
+  internal_port = 4000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
