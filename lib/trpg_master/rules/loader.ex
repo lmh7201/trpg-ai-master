@@ -7,22 +7,46 @@ defmodule TrpgMaster.Rules.Loader do
 
   ETS 테이블: :dnd_rules
   키 형태: {:spell, "파이어볼"}, {:monster, "고블린"} 등
-  이름은 downcase + trim으로 정규화. 한국어(name) + 영어(name_en) 이중 키 등록.
+  이름은 downcase + trim으로 정규화. 한국어 + 영어 이중 키 등록.
+
+  ## 파일별 name 필드 구조
+
+  | 파일                | 한국어 키  | 영어 키   | JSON 형태 |
+  |---------------------|-----------|----------|----------|
+  | spells.json         | nameKo    | name     | list     |
+  | monsters.json       | name      | nameEn   | list     |
+  | classes.json        | name      | nameEn   | list     |
+  | feats.json          | name.ko   | name.en  | list (name은 {ko:,en:} 객체) |
+  | items.json          | name      | nameEn   | list     |
+  | weapons.json        | nameKo    | name     | dict → weapons 키 |
+  | armor.json          | nameKo    | name     | dict → armor 키  |
+  | adventuringGear.json| nameKo    | name     | dict → gear 키   |
   """
 
   use GenServer
   require Logger
 
   @table :dnd_rules
-  @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd_reference/src/data"
+  @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd-reference/src/data"
   @fetch_timeout 60_000
 
+  # {filename, ets_type, name_style, list_key}
+  # name_style:
+  #   :nameKo_name    — 한국어: nameKo, 영어: name
+  #   :name_nameEn    — 한국어: name, 영어: nameEn
+  #   :name_object    — name이 {ko: ..., en: ...} 객체
+  # list_key:
+  #   nil             — JSON 최상위가 배열
+  #   "key"           — JSON 최상위가 dict; 해당 키의 배열을 사용
   @file_type_map [
-    {"spells.json", :spell},
-    {"monsters.json", :monster},
-    {"classes.json", :class},
-    {"feats.json", :feat},
-    {"items.json", :item}
+    {"spells.json", :spell, :nameKo_name, nil},
+    {"monsters.json", :monster, :name_nameEn, nil},
+    {"classes.json", :class, :name_nameEn, nil},
+    {"feats.json", :feat, :name_object, nil},
+    {"items.json", :item, :name_nameEn, nil},
+    {"weapons.json", :item, :nameKo_name, "weapons"},
+    {"armor.json", :item, :nameKo_name, "armor"},
+    {"adventuringGear.json", :item, :nameKo_name, "gear"}
   ]
 
   # ── Public API ─────────────────────────────────────────────────────────────
@@ -54,8 +78,8 @@ defmodule TrpgMaster.Rules.Loader do
     rescue
       ArgumentError -> []
     end
-    |> Enum.filter(fn {name_str, _entry} -> String.contains?(name_str, normalized_query) end)
-    |> Enum.map(fn {_name_str, entry} -> entry end)
+    |> Enum.filter(fn {name_str, _} -> String.contains?(name_str, normalized_query) end)
+    |> Enum.map(fn {_, entry} -> entry end)
     |> Enum.uniq()
   end
 
@@ -74,13 +98,12 @@ defmodule TrpgMaster.Rules.Loader do
   @doc """
   로드 현황 반환. IEx에서 확인용.
 
-  iex> TrpgMaster.Rules.Loader.status()
-  [spell: 300, monster: 450, class: 12, feat: 80, item: 200]
+      iex> TrpgMaster.Rules.Loader.status()
+      [spell: 392, monster: 3, class: 12, feat: 78, item: 120]
   """
   def status do
-    Enum.map(@file_type_map, fn {_filename, type} ->
-      {type, list(type) |> length()}
-    end)
+    types = @file_type_map |> Enum.map(fn {_, t, _, _} -> t end) |> Enum.uniq()
+    Enum.map(types, fn type -> {type, list(type) |> length()} end)
   end
 
   # ── GenServer callbacks ─────────────────────────────────────────────────────
@@ -95,7 +118,6 @@ defmodule TrpgMaster.Rules.Loader do
     :inets.start()
 
     table = :ets.new(@table, [:set, :public, :named_table, read_concurrency: true])
-
     token = System.get_env("DATA_GITHUB_TOKEN")
 
     if is_binary(token) && token != "" do
@@ -105,8 +127,12 @@ defmodule TrpgMaster.Rules.Loader do
       load_from_local(table)
     end
 
-    totals = Enum.map(@file_type_map, fn {_, t} -> "#{t}:#{list(t) |> length()}" end)
-    Logger.info("Rules.Loader: 로드 완료 — #{Enum.join(totals, ", ")}")
+    totals =
+      status()
+      |> Enum.map(fn {t, n} -> "#{t}:#{n}" end)
+      |> Enum.join(", ")
+
+    Logger.info("Rules.Loader: 로드 완료 — #{totals}")
 
     {:ok, %{table: table}}
   end
@@ -116,28 +142,29 @@ defmodule TrpgMaster.Rules.Loader do
   defp load_from_github(table, token) do
     Logger.info("Rules.Loader: DATA_GITHUB_TOKEN 감지됨 → GitHub에서 데이터 fetch 시작")
 
-    Enum.each(@file_type_map, fn {filename, type} ->
+    Enum.each(@file_type_map, fn {filename, type, name_style, list_key} ->
       url = "#{@github_raw_base}/#{filename}"
 
       case fetch_json(url, token) do
-        {:ok, entries} ->
-          count = insert_entries(table, type, entries)
+        {:ok, raw} ->
+          entries = extract_list(raw, list_key)
+          count = insert_entries(table, type, name_style, entries)
           log_columns(type, entries)
-          Logger.info("Rules.Loader: [GitHub] #{type} #{count}개 로드 완료")
+          Logger.info("Rules.Loader: [GitHub] #{filename} → #{type} #{count}개")
 
         {:error, reason} ->
           Logger.warning(
             "Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체"
           )
 
-          load_local_file(table, filename, type)
+          load_local_file(table, filename, type, name_style, list_key)
       end
     end)
   end
 
   defp load_from_local(table) do
-    Enum.each(@file_type_map, fn {filename, type} ->
-      load_local_file(table, filename, type)
+    Enum.each(@file_type_map, fn {filename, type, name_style, list_key} ->
+      load_local_file(table, filename, type, name_style, list_key)
     end)
   end
 
@@ -155,8 +182,7 @@ defmodule TrpgMaster.Rules.Loader do
     case :httpc.request(:get, {String.to_charlist(url), headers}, http_opts, []) do
       {:ok, {{_, 200, _}, _headers, body}} ->
         case Jason.decode(:erlang.list_to_binary(body)) do
-          {:ok, entries} when is_list(entries) -> {:ok, entries}
-          {:ok, _} -> {:error, "응답이 JSON 배열이 아님"}
+          {:ok, data} -> {:ok, data}
           {:error, reason} -> {:error, "JSON 파싱 오류: #{inspect(reason)}"}
         end
 
@@ -177,7 +203,7 @@ defmodule TrpgMaster.Rules.Loader do
 
   # ── Local file load ─────────────────────────────────────────────────────────
 
-  defp load_local_file(table, filename, type) do
+  defp load_local_file(table, filename, type, name_style, list_key) do
     rules_dir = Application.app_dir(:trpg_master, "priv/rules")
     path = Path.join(rules_dir, filename)
 
@@ -187,14 +213,12 @@ defmodule TrpgMaster.Rules.Loader do
       case File.read(path) do
         {:ok, content} ->
           case Jason.decode(content) do
-            {:ok, entries} when is_list(entries) ->
-              count = insert_entries(table, type, entries)
+            {:ok, raw} ->
+              entries = extract_list(raw, list_key)
+              count = insert_entries(table, type, name_style, entries)
               elapsed = System.monotonic_time(:millisecond) - started_at
               log_columns(type, entries)
-              Logger.info("Rules.Loader: [로컬] #{type} #{count}개 로드 완료 (#{elapsed}ms)")
-
-            {:ok, _} ->
-              Logger.warning("Rules.Loader: #{path} — JSON이 배열이 아닙니다. 건너뜁니다.")
+              Logger.info("Rules.Loader: [로컬] #{filename} → #{type} #{count}개 (#{elapsed}ms)")
 
             {:error, reason} ->
               Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
@@ -204,21 +228,34 @@ defmodule TrpgMaster.Rules.Loader do
           Logger.warning("Rules.Loader: #{path} 읽기 실패 — #{inspect(reason)}")
       end
     else
-      Logger.info("Rules.Loader: #{path} 파일 없음. 빈 상태로 시작합니다.")
+      Logger.info("Rules.Loader: #{path} 파일 없음. 건너뜁니다.")
     end
   end
 
+  # ── JSON list extraction ────────────────────────────────────────────────────
+
+  # JSON 최상위가 이미 list인 경우
+  defp extract_list(data, nil) when is_list(data), do: data
+  # JSON 최상위가 dict인 경우 → 지정된 키의 배열 추출
+  defp extract_list(data, list_key) when is_map(data) and is_binary(list_key) do
+    case Map.get(data, list_key) do
+      entries when is_list(entries) -> entries
+      _ -> []
+    end
+  end
+
+  defp extract_list(_, _), do: []
+
   # ── ETS insert ─────────────────────────────────────────────────────────────
 
-  defp insert_entries(table, type, entries) do
+  defp insert_entries(table, type, name_style, entries) do
     Enum.reduce(entries, 0, fn entry, count ->
-      count + insert_entry(table, type, entry)
+      count + insert_entry(table, type, name_style, entry)
     end)
   end
 
-  defp insert_entry(table, type, entry) when is_map(entry) do
-    ko_name = Map.get(entry, "name")
-    en_name = Map.get(entry, "name_en")
+  defp insert_entry(table, type, name_style, entry) when is_map(entry) do
+    {ko_name, en_name} = extract_names(entry, name_style)
 
     inserted =
       if is_binary(ko_name) && ko_name != "" do
@@ -235,11 +272,31 @@ defmodule TrpgMaster.Rules.Loader do
     inserted
   end
 
-  defp insert_entry(_table, _type, _entry), do: 0
+  defp insert_entry(_table, _type, _name_style, _entry), do: 0
+
+  # ── Name extraction per style ───────────────────────────────────────────────
+
+  # spells, weapons, armor, adventuringGear: nameKo=한국어, name=영어
+  defp extract_names(entry, :nameKo_name) do
+    {Map.get(entry, "nameKo"), Map.get(entry, "name")}
+  end
+
+  # monsters, classes, items: name=한국어, nameEn=영어
+  defp extract_names(entry, :name_nameEn) do
+    {Map.get(entry, "name"), Map.get(entry, "nameEn")}
+  end
+
+  # feats: name이 {ko: ..., en: ...} 객체
+  defp extract_names(entry, :name_object) do
+    case Map.get(entry, "name") do
+      %{"ko" => ko, "en" => en} -> {ko, en}
+      name when is_binary(name) -> {name, nil}
+      _ -> {nil, nil}
+    end
+  end
 
   # ── Helpers ─────────────────────────────────────────────────────────────────
 
-  # 각 타입의 첫 엔트리 컬럼을 로그로 출력해 구조 확인
   defp log_columns(_type, []), do: :ok
 
   defp log_columns(type, [first | _]) when is_map(first) do
