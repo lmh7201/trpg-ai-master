@@ -31,9 +31,13 @@ defmodule TrpgMaster.Rules.Loader do
   def lookup(type, name) do
     key = {type, normalize(name)}
 
-    case :ets.lookup(@table, key) do
-      [{^key, entry}] -> {:ok, entry}
-      [] -> :not_found
+    try do
+      case :ets.lookup(@table, key) do
+        [{^key, entry}] -> {:ok, entry}
+        [] -> :not_found
+      end
+    rescue
+      ArgumentError -> :not_found
     end
   end
 
@@ -51,9 +55,11 @@ defmodule TrpgMaster.Rules.Loader do
        [{{:"$1", :"$2"}}]}
     ]
 
-    results = :ets.select(@table, match_spec)
-
-    results
+    try do
+      :ets.select(@table, match_spec)
+    rescue
+      ArgumentError -> []
+    end
     |> Enum.filter(fn {name_str, _entry} ->
       String.contains?(name_str, normalized_query)
     end)
@@ -70,7 +76,12 @@ defmodule TrpgMaster.Rules.Loader do
       {{{type, :"$1"}, :"$2"}, [], [:"$2"]}
     ]
 
-    :ets.select(@table, match_spec) |> Enum.uniq()
+    try do
+      :ets.select(@table, match_spec)
+    rescue
+      ArgumentError -> []
+    end
+    |> Enum.uniq()
   end
 
   # ── GenServer callbacks ─────────────────────────────────────────────────────
