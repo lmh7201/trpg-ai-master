@@ -2,6 +2,7 @@ defmodule TrpgMaster.Campaign.Server do
   @moduledoc """
   캠페인 하나 = GenServer 프로세스 하나.
   플레이어 메시지 처리, 상태 관리, AI 호출을 담당한다.
+  크래시 후 재시작 시 Persistence.load로 자동 복원한다.
   """
 
   use GenServer
@@ -25,6 +26,14 @@ defmodule TrpgMaster.Campaign.Server do
     GenServer.call(via(campaign_id), :get_state)
   end
 
+  def set_mode(campaign_id, mode) when mode in [:adventure, :debug] do
+    GenServer.call(via(campaign_id), {:set_mode, mode})
+  end
+
+  def end_session(campaign_id) do
+    GenServer.call(via(campaign_id), :end_session, 120_000)
+  end
+
   def alive?(campaign_id) do
     case Registry.lookup(TrpgMaster.Campaign.Registry, campaign_id) do
       [{_pid, _}] -> true
@@ -35,9 +44,17 @@ defmodule TrpgMaster.Campaign.Server do
   # ── GenServer Callbacks ─────────────────────────────────────────────────────
 
   @impl true
-  def init(%State{} = state) do
-    Logger.info("캠페인 서버 시작: #{state.name} [#{state.id}]")
-    {:ok, state}
+  def init(%State{id: campaign_id} = initial_state) do
+    # 크래시 후 재시작 시 Persistence.load로 최신 상태 복원
+    case Persistence.load(campaign_id) do
+      {:ok, loaded_state} ->
+        Logger.info("캠페인 복원: #{loaded_state.name} [#{loaded_state.id}]")
+        {:ok, loaded_state}
+
+      {:error, _} ->
+        Logger.info("캠페인 서버 시작: #{initial_state.name} [#{initial_state.id}]")
+        {:ok, initial_state}
+    end
   end
 
   @impl true
@@ -46,8 +63,37 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   @impl true
+  def handle_call({:set_mode, mode}, _from, state) do
+    new_state = %{state | mode: mode}
+    Persistence.save_async(new_state)
+    Logger.info("모드 변경 [#{state.id}]: #{state.mode} → #{mode}")
+    {:reply, :ok, new_state}
+  end
+
+  @impl true
+  def handle_call(:end_session, _from, state) do
+    Logger.info("세션 종료 처리 시작 [#{state.id}] 턴 #{state.turn_count}")
+
+    case generate_session_summary(state) do
+      {:ok, summary_text} ->
+        # 세션 로그 저장
+        session_number = div(state.turn_count, 1) |> then(fn _ -> estimate_session_number(state) end)
+        Persistence.append_session_log(state, session_number, summary_text)
+
+        # 대화 히스토리 리셋 (캐릭터/NPC/퀘스트는 유지)
+        new_state = %{state | conversation_history: []}
+        Persistence.save_async(new_state)
+
+        {:reply, {:ok, summary_text}, new_state}
+
+      {:error, reason} ->
+        Logger.error("세션 요약 생성 실패 [#{state.id}]: #{inspect(reason)}")
+        {:reply, {:error, reason}, state}
+    end
+  end
+
+  @impl true
   def handle_call({:player_action, message}, _from, state) do
-    # 1. Add player message to conversation history
     history = state.conversation_history ++ [%{"role" => "user", "content" => message}]
     state = %{state | conversation_history: history, turn_count: state.turn_count + 1}
 
@@ -55,45 +101,31 @@ defmodule TrpgMaster.Campaign.Server do
       "플레이어 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개"
     )
 
-    # 2. Build system prompt with campaign context
     system_prompt = PromptBuilder.build(state)
-
-    # 3. Build tools list (existing + state-change tools)
     tools = Tools.definitions() ++ Tools.state_tool_definitions()
-
-    # 4. Call AI (trim history for token budget)
     trimmed_history = PromptBuilder.build_messages(history)
 
     case Client.chat(system_prompt, trimmed_history, tools) do
       {:ok, result} ->
-        # 5. Process state-change tool results
         state_before = state
         state = apply_tool_results(state, result.tool_results)
 
         if map_size(state.npcs) != map_size(state_before.npcs) do
           Logger.info(
-            "NPC 상태 변경 [#{state.id}]: #{map_size(state_before.npcs)}개 → #{map_size(state.npcs)}개 (#{Map.keys(state.npcs) |> Enum.join(", ")})"
+            "NPC 상태 변경 [#{state.id}]: #{map_size(state_before.npcs)}개 → #{map_size(state.npcs)}개"
           )
         end
 
-        if length(state.characters) != length(state_before.characters) do
-          Logger.info(
-            "캐릭터 상태 변경 [#{state.id}]: #{length(state_before.characters)}개 → #{length(state.characters)}개"
-          )
-        end
-
-        # 6. Add assistant response to conversation history
         state = %{
           state
           | conversation_history:
               state.conversation_history ++ [%{"role" => "assistant", "content" => result.text}]
         }
 
-        # 7. Save async with updated state
         Persistence.save_async(state)
 
         Logger.info(
-          "턴 #{state.turn_count} 저장 완료 [#{state.id}] — npcs: #{map_size(state.npcs)}개, characters: #{length(state.characters)}개, history: #{length(state.conversation_history)}개"
+          "턴 #{state.turn_count} 저장 완료 [#{state.id}] — npcs: #{map_size(state.npcs)}개, history: #{length(state.conversation_history)}개"
         )
 
         {:reply, {:ok, result}, state}
@@ -108,6 +140,88 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp via(campaign_id) do
     {:via, Registry, {TrpgMaster.Campaign.Registry, campaign_id}}
+  end
+
+  defp estimate_session_number(state) do
+    # 기존 로그 파일에서 세션 번호를 추정 (간단하게 turn_count 기반)
+    max(1, div(state.turn_count, 5))
+  end
+
+  defp generate_session_summary(state) do
+    # 비용 절약을 위해 Haiku 모델 사용
+    haiku_model = "claude-haiku-4-5-20251001"
+
+    summary_prompt = """
+    당신은 D&D 세션 서기입니다. 아래 세션 정보를 바탕으로 간결한 세션 요약을 작성해주세요.
+
+    ## 캠페인: #{state.name}
+    ## 위치: #{state.current_location || "미정"}
+    ## 진행 턴: #{state.turn_count}
+
+    ## 캐릭터
+    #{format_characters(state.characters)}
+
+    ## NPC
+    #{format_npcs(state.npcs)}
+
+    ## 퀘스트
+    #{format_quests(state.active_quests)}
+
+    위 정보를 바탕으로 다음 형식으로 요약을 작성해주세요:
+
+    ## 세션 요약
+    (이번 세션의 주요 사건을 2~3문단으로 요약)
+
+    ## 파티 현황
+    (캐릭터 HP, 현재 위치, 활성 퀘스트)
+
+    ## 등장 NPC
+    (이번 세션에 등장한 NPC 목록)
+
+    ## 다음 세션 예고
+    (다음 세션에서 할 일이나 남은 미스터리를 1~2문장으로)
+    """
+
+    # 최근 대화 히스토리만 포함 (마지막 20개)
+    recent_history = Enum.take(state.conversation_history, -20)
+
+    case Client.chat(summary_prompt, recent_history, [], model: haiku_model, max_tokens: 1024) do
+      {:ok, result} -> {:ok, result.text}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  defp format_characters([]), do: "(없음)"
+
+  defp format_characters(characters) do
+    characters
+    |> Enum.map(fn c ->
+      hp = if c["hp_current"] && c["hp_max"], do: " HP #{c["hp_current"]}/#{c["hp_max"]}", else: ""
+      "- #{c["name"]}#{hp}"
+    end)
+    |> Enum.join("\n")
+  end
+
+  defp format_npcs(npcs) when map_size(npcs) == 0, do: "(없음)"
+
+  defp format_npcs(npcs) do
+    npcs
+    |> Enum.map(fn {name, data} ->
+      desc = if data["description"], do: " — #{data["description"]}", else: ""
+      "- #{name}#{desc}"
+    end)
+    |> Enum.join("\n")
+  end
+
+  defp format_quests([]), do: "(없음)"
+
+  defp format_quests(quests) do
+    quests
+    |> Enum.map(fn q ->
+      status = if q["status"], do: " [#{q["status"]}]", else: ""
+      "- #{q["name"]}#{status}"
+    end)
+    |> Enum.join("\n")
   end
 
   defp apply_tool_results(state, tool_results) do
@@ -125,14 +239,12 @@ defmodule TrpgMaster.Campaign.Server do
     characters =
       case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
         nil ->
-          # Character doesn't exist, create it
           Logger.info("새 캐릭터 생성: #{char_name}")
           [Map.merge(%{"name" => char_name}, changes) | state.characters]
 
         idx ->
           List.update_at(state.characters, idx, fn char ->
-            char
-            |> apply_character_changes(changes)
+            apply_character_changes(char, changes)
           end)
       end
 
@@ -141,8 +253,7 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp apply_single_tool_result(state, %{tool: "register_npc", input: input}) do
     name = input["name"]
-
-    Logger.info("NPC 등록: #{name} — #{inspect(input |> Map.drop(["name"]))}")
+    Logger.info("NPC 등록: #{name}")
 
     npc_data =
       Map.merge(
@@ -229,13 +340,8 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp apply_list_change(map, key, add, remove) do
     current = Map.get(map, key, [])
-
-    current =
-      if is_list(add), do: current ++ add, else: current
-
-    current =
-      if is_list(remove), do: current -- remove, else: current
-
+    current = if is_list(add), do: current ++ add, else: current
+    current = if is_list(remove), do: current -- remove, else: current
     Map.put(map, key, current)
   end
 end

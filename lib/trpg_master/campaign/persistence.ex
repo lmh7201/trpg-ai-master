@@ -104,6 +104,40 @@ defmodule TrpgMaster.Campaign.Persistence do
   end
 
   @doc """
+  세션 로그를 campaign-log.md에 추가한다.
+  """
+  def append_session_log(%State{} = state, session_number, summary_text) do
+    dir = campaign_dir(state.id)
+    log_path = Path.join(dir, "campaign-log.md")
+
+    date_str = Date.utc_today() |> Date.to_iso8601()
+
+    # 파티 현황 섹션
+    party_section = format_party_section(state)
+
+    entry = """
+
+    ---
+
+    # 세션 #{session_number} — #{date_str}
+
+    #{summary_text}
+
+    #{party_section}
+    """
+
+    case File.write(log_path, entry, [:append]) do
+      :ok ->
+        Logger.info("세션 로그 추가 완료 [#{state.id}] 세션 #{session_number}")
+        :ok
+
+      {:error, reason} ->
+        Logger.error("세션 로그 저장 실패 [#{state.id}]: #{inspect(reason)}")
+        {:error, reason}
+    end
+  end
+
+  @doc """
   캠페인 데이터를 삭제한다.
   """
   def delete(campaign_id) do
@@ -221,6 +255,32 @@ defmodule TrpgMaster.Campaign.Persistence do
     else
       {:ok, %{}}
     end
+  end
+
+  defp format_party_section(state) do
+    chars =
+      state.characters
+      |> Enum.map(fn c ->
+        hp = if c["hp_current"] && c["hp_max"], do: " HP #{c["hp_current"]}/#{c["hp_max"]}", else: ""
+        "- #{c["name"]}#{hp}"
+      end)
+      |> Enum.join("\n")
+
+    quests =
+      state.active_quests
+      |> Enum.map(fn q -> "- #{q["name"]} [#{q["status"] || "진행중"}]" end)
+      |> Enum.join("\n")
+
+    location = state.current_location || "미정"
+
+    """
+    ## 파티 현황 (자동 기록)
+    - 위치: #{location}
+    #{if chars != "", do: chars, else: "- (캐릭터 없음)"}
+
+    ## 활성 퀘스트
+    #{if quests != "", do: quests, else: "- (없음)"}
+    """
   end
 
   defp load_conversation_history(dir) do

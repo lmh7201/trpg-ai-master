@@ -15,13 +15,15 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
   @doc """
   Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
+  mode에 따라 디버그/모험 분기를 추가한다.
   """
   def build(%State{} = state) do
     base = system_prompt()
     context = build_campaign_context(state)
     tools_instruction = state_tools_instruction()
+    mode_instruction = mode_instruction(state.mode)
 
-    "#{base}\n\n#{context}\n\n#{tools_instruction}"
+    "#{base}\n\n#{context}\n\n#{tools_instruction}\n\n#{mode_instruction}"
   end
 
   @doc """
@@ -218,6 +220,31 @@ defmodule TrpgMaster.AI.PromptBuilder do
     일관성 있는 게임 진행을 위해 모든 상태 변경을 반드시 도구로 기록하세요.
     """
   end
+
+  defp mode_instruction(:adventure) do
+    """
+    ## 🎭 모험 모드 (현재 활성)
+
+    - 몬스터 스탯(AC, HP, 공격 보너스 등)을 플레이어에게 직접 공개하지 않습니다.
+    - 숨겨진 판정(숨겨진 DC, 몬스터의 주사위 결과)은 서술로만 처리하고 수치를 노출하지 않습니다.
+    - DM 전용 정보(罠의 DC, 적의 전투 계획 등)는 플레이어 서술에 포함하지 않습니다.
+    - 몰입감 있는 서술을 최우선으로 합니다.
+    """
+  end
+
+  defp mode_instruction(:debug) do
+    """
+    ## 🔧 디버그 모드 (현재 활성)
+
+    - 모든 판정의 DC, 주사위 결과, 수정치를 명시적으로 공개합니다.
+    - 몬스터 스탯(AC, HP, 공격 보너스 등)을 공개합니다.
+    - 룰 판정 근거를 설명합니다 (예: "민첩 내성 DC 14, 결과 17 → 성공").
+    - 도구 호출 결과를 자세히 설명합니다.
+    - 학습/테스트 목적에 최적화된 모드입니다.
+    """
+  end
+
+  defp mode_instruction(_), do: mode_instruction(:adventure)
 
   defp default_system_prompt do
     """

@@ -4,15 +4,13 @@ defmodule TrpgMasterWeb.CampaignLive do
   import TrpgMasterWeb.GameComponents
 
   alias TrpgMaster.Campaign.{Manager, Server}
+  alias TrpgMaster.AI.Client
 
   @impl true
   def mount(%{"id" => campaign_id}, _session, socket) do
-    # Ensure the campaign server is running
     case Manager.start_campaign(campaign_id) do
       {:ok, _id} ->
         state = Server.get_state(campaign_id)
-
-        # Build display messages from conversation history
         messages = build_display_messages(state.conversation_history)
 
         {:ok,
@@ -23,10 +21,13 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:input_text, "")
          |> assign(:loading, false)
          |> assign(:error, nil)
+         |> assign(:last_player_message, nil)
          |> assign(:current_location, state.current_location)
          |> assign(:phase, state.phase)
          |> assign(:character, List.first(state.characters))
-         |> assign(:combat_state, state.combat_state)}
+         |> assign(:combat_state, state.combat_state)
+         |> assign(:mode, state.mode)
+         |> assign(:ending_session, false)}
 
       {:error, :not_found} ->
         {:ok,
@@ -36,6 +37,8 @@ defmodule TrpgMasterWeb.CampaignLive do
     end
   end
 
+  # ── 메시지 전송 ─────────────────────────────────────────────────────────────
+
   @impl true
   def handle_event("send_message", %{"message" => message}, socket) when message != "" do
     message = String.trim(message)
@@ -43,7 +46,6 @@ defmodule TrpgMasterWeb.CampaignLive do
     if message == "" do
       {:noreply, socket}
     else
-      # Add player message to display immediately
       messages = socket.assigns.messages ++ [%{type: :player, text: message}]
 
       socket =
@@ -52,10 +54,9 @@ defmodule TrpgMasterWeb.CampaignLive do
         |> assign(:input_text, "")
         |> assign(:loading, true)
         |> assign(:error, nil)
+        |> assign(:last_player_message, message)
 
-      # Trigger async AI call via GenServer
       send(self(), {:call_ai, message})
-
       {:noreply, socket}
     end
   end
@@ -64,28 +65,76 @@ defmodule TrpgMasterWeb.CampaignLive do
     {:noreply, socket}
   end
 
+  # ── 다시 시도 ────────────────────────────────────────────────────────────────
+
+  @impl true
+  def handle_event("retry_last", _, socket) do
+    case socket.assigns.last_player_message do
+      nil ->
+        {:noreply, socket}
+
+      message ->
+        socket =
+          socket
+          |> assign(:loading, true)
+          |> assign(:error, nil)
+
+        send(self(), {:call_ai, message})
+        {:noreply, socket}
+    end
+  end
+
+  # ── 모드 전환 ────────────────────────────────────────────────────────────────
+
+  @impl true
+  def handle_event("toggle_mode", _, socket) do
+    campaign_id = socket.assigns.campaign_id
+    new_mode = if socket.assigns.mode == :adventure, do: :debug, else: :adventure
+
+    Server.set_mode(campaign_id, new_mode)
+
+    {:noreply, assign(socket, :mode, new_mode)}
+  end
+
+  # ── 세션 종료 ────────────────────────────────────────────────────────────────
+
+  @impl true
+  def handle_event("end_session", _, socket) do
+    socket =
+      socket
+      |> assign(:ending_session, true)
+      |> assign(:loading, true)
+
+    send(self(), :do_end_session)
+
+    {:noreply, socket}
+  end
+
+  # ── AI 호출 (info) ───────────────────────────────────────────────────────────
+
   @impl true
   def handle_info({:call_ai, message}, socket) do
     campaign_id = socket.assigns.campaign_id
 
     case Server.player_action(campaign_id, message) do
       {:ok, result} ->
-        # Add tool results to display
         messages =
           Enum.reduce(result.tool_results, socket.assigns.messages, fn tool_result, acc ->
             case tool_result do
               %{result: %{"formatted" => _} = dice_result} ->
-                acc ++ [%{type: :dice, result: dice_result}]
+                # 모험 모드에서 hidden 주사위 결과 숨김
+                if socket.assigns.mode == :adventure && Map.get(tool_result.input || %{}, "hidden") do
+                  acc
+                else
+                  acc ++ [%{type: :dice, result: dice_result}]
+                end
 
               _ ->
                 acc
             end
           end)
 
-        # Add DM response to display
         messages = messages ++ [%{type: :dm, text: result.text}]
-
-        # Get updated state for sidebar info
         state = Server.get_state(campaign_id)
 
         {:noreply,
@@ -98,12 +147,46 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:combat_state, state.combat_state)}
 
       {:error, reason} ->
+        error_msg = Client.format_error(reason)
+
         {:noreply,
          socket
          |> assign(:loading, false)
-         |> assign(:error, "AI 오류: #{inspect(reason)}")}
+         |> assign(:error, error_msg)}
     end
   end
+
+  @impl true
+  def handle_info(:do_end_session, socket) do
+    campaign_id = socket.assigns.campaign_id
+
+    case Server.end_session(campaign_id) do
+      {:ok, summary_text} ->
+        messages =
+          socket.assigns.messages ++
+            [
+              %{type: :system, text: "📋 세션이 종료되었습니다. 대화 기록이 저장되었습니다."},
+              %{type: :dm, text: summary_text}
+            ]
+
+        {:noreply,
+         socket
+         |> assign(:messages, messages)
+         |> assign(:loading, false)
+         |> assign(:ending_session, false)}
+
+      {:error, reason} ->
+        error_msg = Client.format_error(reason)
+
+        {:noreply,
+         socket
+         |> assign(:loading, false)
+         |> assign(:ending_session, false)
+         |> assign(:error, "세션 종료 실패: #{error_msg}")}
+    end
+  end
+
+  # ── Render ───────────────────────────────────────────────────────────────────
 
   @impl true
   def render(assigns) do
@@ -117,6 +200,12 @@ defmodule TrpgMasterWeb.CampaignLive do
         <div class="header-right">
           <span :if={@current_location} class="location-badge"><%= @current_location %></span>
           <span class="mode-badge"><%= phase_label(@phase) %></span>
+          <button phx-click="toggle_mode" class={"mode-toggle #{if @mode == :debug, do: "mode-debug", else: "mode-adventure"}"} title={if @mode == :adventure, do: "디버그 모드로 전환", else: "모험 모드로 전환"}>
+            <%= if @mode == :adventure do %>🎭<% else %>🔧<% end %>
+          </button>
+          <button phx-click="end_session" class="end-session-btn" title="세션 종료" disabled={@loading}>
+            📋
+          </button>
         </div>
       </header>
 
@@ -140,13 +229,20 @@ defmodule TrpgMasterWeb.CampaignLive do
           <% end %>
         <% end %>
 
-        <%= if @loading do %>
+        <%= if @ending_session do %>
+          <.system_message text="📋 세션 요약을 생성 중입니다..." />
+        <% end %>
+
+        <%= if @loading && !@ending_session do %>
           <.typing_indicator />
         <% end %>
 
         <%= if @error do %>
           <div class="message error-message">
-            <span><%= @error %></span>
+            <span>⚠️ <%= @error %></span>
+            <%= if @last_player_message do %>
+              <button phx-click="retry_last" class="retry-btn">다시 시도</button>
+            <% end %>
           </div>
         <% end %>
       </div>
@@ -156,26 +252,28 @@ defmodule TrpgMasterWeb.CampaignLive do
         location={@current_location}
         phase={@phase}
         combat_state={@combat_state}
+        mode={@mode}
       />
 
-      <form class="input-area" phx-submit="send_message">
-        <input
-          type="text"
+      <form class="input-area" phx-submit="send_message" id="message-form">
+        <textarea
           name="message"
-          value={@input_text}
-          placeholder="무엇을 하시겠습니까?"
+          placeholder="무엇을 하시겠습니까? (Shift+Enter로 줄바꿈)"
           autocomplete="off"
           disabled={@loading}
-        />
-        <button type="submit" disabled={@loading}>
-          <span>전송</span>
+          rows="1"
+          phx-hook="AutoResize"
+          id="message-input"
+        ><%= @input_text %></textarea>
+        <button type="submit" disabled={@loading} aria-label="전송">
+          <span>↑</span>
         </button>
       </form>
     </div>
     """
   end
 
-  # ── Private helpers ─────────────────────────────────────────────────────────
+  # ── Private helpers ──────────────────────────────────────────────────────────
 
   defp build_display_messages(conversation_history) do
     conversation_history

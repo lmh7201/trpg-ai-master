@@ -14,15 +14,58 @@
     <script>
       let Hooks = {};
 
+      // 채팅 영역 자동 스크롤 (사용자가 위로 스크롤 중이면 멈춤)
       Hooks.ScrollBottom = {
         mounted() {
+          this.userScrolled = false;
+          this.el.addEventListener("scroll", () => {
+            const el = this.el;
+            const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+            this.userScrolled = !atBottom;
+          });
           this.scrollToBottom();
-          this.observer = new MutationObserver(() => { this.scrollToBottom(); });
+          this.observer = new MutationObserver(() => {
+            if (!this.userScrolled) this.scrollToBottom();
+          });
           this.observer.observe(this.el, { childList: true, subtree: true });
         },
-        updated() { this.scrollToBottom(); },
-        destroyed() { if (this.observer) this.observer.disconnect(); },
-        scrollToBottom() { this.el.scrollTop = this.el.scrollHeight; }
+        updated() {
+          if (!this.userScrolled) this.scrollToBottom();
+        },
+        destroyed() {
+          if (this.observer) this.observer.disconnect();
+        },
+        scrollToBottom() {
+          this.el.scrollTop = this.el.scrollHeight;
+        }
+      };
+
+      // Textarea 자동 높이 조절 + Shift+Enter 줄바꿈 / Enter 전송
+      Hooks.AutoResize = {
+        mounted() {
+          this.resize();
+          this.el.addEventListener("input", () => this.resize());
+          this.el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              const form = this.el.closest("form");
+              if (form) {
+                const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+                form.dispatchEvent(submitEvent);
+              }
+            }
+          });
+        },
+        updated() {
+          // LiveView 업데이트 후 높이 리셋 (메시지 전송 후 비워질 때)
+          if (this.el.value === "") {
+            this.el.style.height = "44px";
+          }
+        },
+        resize() {
+          this.el.style.height = "auto";
+          this.el.style.height = Math.min(this.el.scrollHeight, 160) + "px";
+        }
       };
 
       let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
