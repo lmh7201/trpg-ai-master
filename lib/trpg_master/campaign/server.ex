@@ -183,6 +183,8 @@ defmodule TrpgMaster.Campaign.Server do
     |> maybe_put("level", changes["level"])
     |> maybe_put("ac", changes["ac"])
     |> maybe_put("spell_slots_used", changes["spell_slots_used"])
+    |> maybe_put("race", changes["race"])
+    |> maybe_put("inventory", changes["inventory"])
     |> apply_list_change("inventory", changes["inventory_add"], changes["inventory_remove"])
     |> apply_list_change("conditions", changes["conditions_add"], changes["conditions_remove"])
   end

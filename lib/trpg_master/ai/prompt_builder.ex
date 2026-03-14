@@ -145,7 +145,8 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
     아래 도구들을 사용하여 캠페인 상태를 관리합니다. 상태 변경은 자동으로 저장됩니다.
 
-    - **update_character**: 캐릭터의 HP, 인벤토리, 상태이상 등이 변할 때 반드시 호출합니다.
+    - **update_character**: 캐릭터가 처음 등장하거나, HP/인벤토리/상태이상 등이 변할 때 반드시 호출합니다.
+      - ⚠️ 플레이어 캐릭터가 소개되면 즉시 호출하여 초기 스탯(이름, 클래스, 레벨, hp_max, hp_current, ac, 초기 장비)을 등록합니다.
       - 전투에서 피해를 입으면 hp_current를 업데이트합니다.
       - 아이템을 얻거나 잃으면 inventory_add/inventory_remove를 사용합니다.
     - **register_npc**: 새로운 NPC가 등장하거나 NPC의 태도/상태가 변할 때 호출합니다.
