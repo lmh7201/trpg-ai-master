@@ -239,6 +239,44 @@ html, body {
   flex: 1;
 }
 
+/* Status Bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 1rem;
+  background: var(--header-bg);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.status-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.status-item strong {
+  color: var(--text-primary);
+}
+
+.combat-badge {
+  color: #e06c75;
+}
+
+.combat-badge strong {
+  color: #e06c75;
+}
+
 /* Input Area */
 .input-area {
   display: flex;

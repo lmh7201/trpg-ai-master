@@ -14,19 +14,26 @@ defmodule TrpgMaster.AI.Client do
   Claude API에 메시지를 보내고 응답을 받는다.
   tool use가 발생하면 도구를 실행하고 자동으로 재호출한다.
 
+  옵션:
+    - model: 사용할 Claude 모델 (기본값: 설정된 모델)
+    - max_tokens: 최대 출력 토큰 (기본값: 4096)
+
   반환값:
     {:ok, %{text: String.t(), tool_results: [map()], usage: map()}}
     {:error, term()}
   """
-  def chat(system_prompt, messages, tools \\ []) do
+  def chat(system_prompt, messages, tools \\ [], opts \\ []) do
     api_key = Application.get_env(:trpg_master, :anthropic_api_key)
 
     if is_nil(api_key) || api_key == "" do
       {:error, "ANTHROPIC_API_KEY가 설정되지 않았습니다"}
     else
+      selected_model = Keyword.get(opts, :model, model())
+      max_tokens = Keyword.get(opts, :max_tokens, 4096)
+
       body = %{
-        model: model(),
-        max_tokens: 4096,
+        model: selected_model,
+        max_tokens: max_tokens,
         system: system_prompt,
         messages: messages,
         tools: tools

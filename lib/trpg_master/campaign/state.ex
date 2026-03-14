@@ -19,6 +19,7 @@ defmodule TrpgMaster.Campaign.State do
 
   @doc """
   State 구조체를 직렬화 가능한 맵으로 변환한다.
+  character_names, npc_names 포함: 히스토리 트리밍 후에도 AI가 시스템 프롬프트에서 파악 가능.
   """
   def to_summary(%__MODULE__{} = state) do
     %{
@@ -30,7 +31,9 @@ defmodule TrpgMaster.Campaign.State do
       "turn_count" => state.turn_count,
       "mode" => to_string(state.mode),
       "combat_state" => state.combat_state,
-      "updated_at" => DateTime.utc_now() |> DateTime.to_iso8601()
+      "updated_at" => DateTime.utc_now() |> DateTime.to_iso8601(),
+      "character_names" => state.characters |> Enum.map(& &1["name"]) |> Enum.reject(&is_nil/1),
+      "npc_names" => Map.keys(state.npcs)
     }
   end
 
