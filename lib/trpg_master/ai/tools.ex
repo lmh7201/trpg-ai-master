@@ -156,7 +156,7 @@ defmodule TrpgMaster.AI.Tools do
           changes: %{
             type: "object",
             description:
-              "변경할 필드들. 예: {\"hp_current\": 8, \"inventory_add\": [\"치유 물약\"], \"inventory_remove\": [\"화살\"], \"spell_slots_used\": 1, \"conditions_add\": [\"중독\"], \"conditions_remove\": [\"축복\"]}"
+              "변경할 필드들. 초기 등록 시: {\"class\": \"위자드\", \"race\": \"하프엘프\", \"level\": 3, \"hp_max\": 20, \"hp_current\": 20, \"ac\": 12, \"inventory\": [\"지팡이\", \"마법서\", \"탐험가 배낭\"]}. 이후 변경 시: {\"hp_current\": 8, \"inventory_add\": [\"치유 물약\"], \"inventory_remove\": [\"화살\"], \"conditions_add\": [\"중독\"]}"
           }
         },
         required: ["character_name", "changes"]
