@@ -175,7 +175,9 @@ defmodule TrpgMaster.AI.Tools do
       update_quest_def(),
       set_location_def(),
       start_combat_def(),
-      end_combat_def()
+      end_combat_def(),
+      write_journal_def(),
+      read_journal_def()
     ]
   end
 
@@ -300,6 +302,46 @@ defmodule TrpgMaster.AI.Tools do
     }
   end
 
+  defp write_journal_def do
+    %{
+      name: "write_journal",
+      description:
+        "DM으로서 중요한 정보를 저널에 기록합니다. 플롯 복선, NPC 비밀, 발견한 단서, 전투 후 메모 등을 기록하세요. 이 정보는 이후 세션에서도 참조됩니다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          entry: %{
+            type: "string",
+            description: "저널에 기록할 내용"
+          },
+          category: %{
+            type: "string",
+            description: "카테고리: plot | npc | clue | combat | note (기본: note)"
+          }
+        },
+        required: ["entry"]
+      }
+    }
+  end
+
+  defp read_journal_def do
+    %{
+      name: "read_journal",
+      description:
+        "DM 저널에서 이전에 기록한 내용을 읽습니다. 세션 시작 시나 스토리 연속성이 필요할 때 사용하세요.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          category: %{
+            type: "string",
+            description: "특정 카테고리만 필터링 (plot | npc | clue | combat | note). 생략 시 전체 조회."
+          }
+        },
+        required: []
+      }
+    }
+  end
+
   # ── Tool execution ──────────────────────────────────────────────────────────
 
   @doc """
@@ -410,6 +452,26 @@ defmodule TrpgMaster.AI.Tools do
 
   def execute("end_combat", _input) do
     {:ok, %{"status" => "ok", "message" => "전투가 종료되었습니다."}}
+  end
+
+  # Journal tools: write_journal state update happens in Campaign.Server
+  def execute("write_journal", _input) do
+    {:ok, %{"status" => "ok", "message" => "저널에 기록되었습니다."}}
+  end
+
+  def execute("read_journal", input) do
+    # Campaign.Server가 Client.chat 호출 전 프로세스 딕셔너리에 저장해둔 데이터를 읽음
+    category = Map.get(input, "category")
+    entries = Process.get(:journal_entries, [])
+
+    filtered =
+      if category do
+        Enum.filter(entries, &(&1["category"] == category))
+      else
+        entries
+      end
+
+    {:ok, %{"status" => "ok", "entries" => filtered, "total" => length(filtered)}}
   end
 
   def execute(tool_name, _input) do

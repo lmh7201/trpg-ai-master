@@ -14,7 +14,8 @@ defmodule TrpgMaster.Campaign.State do
     combat_state: nil,
     conversation_history: [],
     turn_count: 0,
-    mode: :adventure
+    mode: :adventure,
+    journal_entries: []
   ]
 
   @doc """
@@ -33,7 +34,8 @@ defmodule TrpgMaster.Campaign.State do
       "combat_state" => state.combat_state,
       "updated_at" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "character_names" => state.characters |> Enum.map(& &1["name"]) |> Enum.reject(&is_nil/1),
-      "npc_names" => Map.keys(state.npcs)
+      "npc_names" => Map.keys(state.npcs),
+      "journal_count" => length(state.journal_entries)
     }
   end
 
@@ -51,6 +53,7 @@ defmodule TrpgMaster.Campaign.State do
       turn_count: summary["turn_count"] || 0,
       mode: safe_atom(summary["mode"], :adventure),
       combat_state: summary["combat_state"]
+      # journal_entries는 Persistence.load에서 별도로 로드한다
     }
   end
 

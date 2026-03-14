@@ -21,7 +21,8 @@ defmodule TrpgMaster.Campaign.Persistence do
          :ok <- write_json(Path.join(dir, "campaign-summary.json"), State.to_summary(state)),
          :ok <- save_characters(dir, state.characters),
          :ok <- save_npcs(dir, state.npcs),
-         :ok <- write_json(Path.join(dir, "conversation_history.json"), state.conversation_history) do
+         :ok <- write_json(Path.join(dir, "conversation_history.json"), state.conversation_history),
+         :ok <- write_json(Path.join(dir, "journal.json"), state.journal_entries) do
       :ok
     else
       {:error, reason} ->
@@ -53,12 +54,14 @@ defmodule TrpgMaster.Campaign.Persistence do
       with {:ok, summary} <- read_json(summary_path),
            {:ok, characters} <- load_characters(dir),
            {:ok, npcs} <- load_npcs(dir),
-           {:ok, history} <- load_conversation_history(dir) do
+           {:ok, history} <- load_conversation_history(dir),
+           {:ok, journal} <- load_journal(dir) do
         state =
           State.from_summary(summary)
           |> Map.put(:characters, characters)
           |> Map.put(:npcs, npcs)
           |> Map.put(:conversation_history, history)
+          |> Map.put(:journal_entries, journal)
 
         {:ok, state}
       end
@@ -285,6 +288,16 @@ defmodule TrpgMaster.Campaign.Persistence do
 
   defp load_conversation_history(dir) do
     path = Path.join(dir, "conversation_history.json")
+
+    if File.exists?(path) do
+      read_json(path)
+    else
+      {:ok, []}
+    end
+  end
+
+  defp load_journal(dir) do
+    path = Path.join(dir, "journal.json")
 
     if File.exists?(path) do
       read_json(path)

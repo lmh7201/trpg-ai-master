@@ -105,6 +105,9 @@ defmodule TrpgMaster.Campaign.Server do
     tools = Tools.definitions() ++ Tools.state_tool_definitions()
     trimmed_history = PromptBuilder.build_messages(history)
 
+    # read_journal 도구가 현재 저널 데이터에 접근할 수 있도록 프로세스 딕셔너리에 저장
+    Process.put(:journal_entries, state.journal_entries)
+
     case Client.chat(system_prompt, trimmed_history, tools) do
       {:ok, result} ->
         state_before = state
@@ -314,6 +317,29 @@ defmodule TrpgMaster.Campaign.Server do
   defp apply_single_tool_result(state, %{tool: "end_combat", input: _input}) do
     Logger.info("전투 종료")
     %{state | phase: :exploration, combat_state: nil}
+  end
+
+  @max_journal_entries 100
+
+  defp apply_single_tool_result(state, %{tool: "write_journal", input: input}) do
+    entry_text = input["entry"]
+    category = input["category"] || "note"
+
+    entry = %{
+      "text" => entry_text,
+      "category" => category,
+      "timestamp" => DateTime.utc_now() |> DateTime.to_iso8601()
+    }
+
+    Logger.info("저널 기록 [#{state.id}] [#{category}]: #{String.slice(entry_text, 0, 50)}...")
+
+    entries = (state.journal_entries ++ [entry]) |> Enum.take(-@max_journal_entries)
+    %{state | journal_entries: entries}
+  end
+
+  defp apply_single_tool_result(state, %{tool: "read_journal", input: _input}) do
+    # read_journal은 Tools.execute에서 프로세스 딕셔너리로 처리하므로 상태 변경 없음
+    state
   end
 
   defp apply_single_tool_result(state, result) do
