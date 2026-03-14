@@ -559,3 +559,215 @@ html, body {
     padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
   }
 }
+
+/* ── Phase 5: 모드 토글 + 세션 종료 버튼 ───────────────────────────── */
+
+.mode-toggle,
+.end-session-btn {
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.mode-toggle:hover,
+.end-session-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.mode-toggle.mode-debug {
+  border-color: rgba(52, 152, 219, 0.5);
+  color: var(--accent-blue);
+}
+
+.end-session-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 디버그 모드 배지 */
+.debug-badge {
+  color: var(--accent-blue);
+  font-size: 0.75rem;
+}
+
+/* ── 에러 메시지 + 다시 시도 버튼 ───────────────────────────────────── */
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.retry-btn {
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent-red);
+  background: transparent;
+  color: var(--accent-red);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.retry-btn:hover {
+  background: rgba(231, 76, 60, 0.15);
+}
+
+/* ── Textarea 입력창 ─────────────────────────────────────────────────── */
+
+.input-area textarea {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+  font-family: inherit;
+  line-height: 1.5;
+  min-height: 44px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.input-area textarea:focus {
+  border-color: var(--accent-blue);
+}
+
+.input-area textarea:disabled {
+  opacity: 0.5;
+}
+
+.input-area textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.input-area button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+}
+
+/* ── 로그인 페이지 ──────────────────────────────────────────────────── */
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 1rem;
+}
+
+.login-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  color: var(--accent-gold);
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-error {
+  background: rgba(231, 76, 60, 0.15);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-input {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+}
+
+.login-input:focus {
+  border-color: var(--accent-blue);
+}
+
+.login-btn {
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+/* ── 모바일 조정 ──────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .input-area textarea {
+    font-size: 16px; /* iOS 줌 방지 */
+    padding: 0.6rem 0.8rem;
+  }
+
+  .mode-toggle,
+  .end-session-btn {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.9rem;
+  }
+
+  .header-right {
+    gap: 0.25rem;
+  }
+}

@@ -70,6 +70,7 @@ defmodule TrpgMasterWeb.GameComponents do
   attr :location, :string, default: nil
   attr :phase, :atom, default: :exploration
   attr :combat_state, :map, default: nil
+  attr :mode, :atom, default: :adventure
 
   def status_bar(assigns) do
     ~H"""
@@ -90,9 +91,12 @@ defmodule TrpgMasterWeb.GameComponents do
         <span class="status-item combat-badge">
           ⚔️ <strong><%= @combat_state["round"] || 1 %>라운드</strong>
           <%= if @combat_state["participants"] do %>
-            — <%= Enum.join(@combat_state["participants"], " → ") %>
+            — <%= Enum.join(@combat_state["participants"], " vs ") %>
           <% end %>
         </span>
+      <% end %>
+      <%= if @mode == :debug do %>
+        <span class="status-item debug-badge">🔧 디버그</span>
       <% end %>
     </div>
     """
