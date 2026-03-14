@@ -51,6 +51,10 @@ defmodule TrpgMaster.Campaign.Server do
     history = state.conversation_history ++ [%{"role" => "user", "content" => message}]
     state = %{state | conversation_history: history, turn_count: state.turn_count + 1}
 
+    Logger.info(
+      "플레이어 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개"
+    )
+
     # 2. Build system prompt with campaign context
     system_prompt = PromptBuilder.build(state)
 
@@ -58,12 +62,25 @@ defmodule TrpgMaster.Campaign.Server do
     tools = Tools.definitions() ++ Tools.state_tool_definitions()
 
     # 4. Call AI (trim history for token budget)
-    trimmed_history = PromptBuilder.trim_history(history)
+    trimmed_history = PromptBuilder.build_messages(history)
 
     case Client.chat(system_prompt, trimmed_history, tools) do
       {:ok, result} ->
         # 5. Process state-change tool results
+        state_before = state
         state = apply_tool_results(state, result.tool_results)
+
+        if map_size(state.npcs) != map_size(state_before.npcs) do
+          Logger.info(
+            "NPC 상태 변경 [#{state.id}]: #{map_size(state_before.npcs)}개 → #{map_size(state.npcs)}개 (#{Map.keys(state.npcs) |> Enum.join(", ")})"
+          )
+        end
+
+        if length(state.characters) != length(state_before.characters) do
+          Logger.info(
+            "캐릭터 상태 변경 [#{state.id}]: #{length(state_before.characters)}개 → #{length(state.characters)}개"
+          )
+        end
 
         # 6. Add assistant response to conversation history
         state = %{
@@ -72,12 +89,17 @@ defmodule TrpgMaster.Campaign.Server do
               state.conversation_history ++ [%{"role" => "assistant", "content" => result.text}]
         }
 
-        # 7. Save async
+        # 7. Save async with updated state
         Persistence.save_async(state)
+
+        Logger.info(
+          "턴 #{state.turn_count} 저장 완료 [#{state.id}] — npcs: #{map_size(state.npcs)}개, characters: #{length(state.characters)}개, history: #{length(state.conversation_history)}개"
+        )
 
         {:reply, {:ok, result}, state}
 
       {:error, reason} ->
+        Logger.error("AI 호출 실패 [#{state.id}]: #{inspect(reason)}")
         {:reply, {:error, reason}, state}
     end
   end
@@ -98,10 +120,13 @@ defmodule TrpgMaster.Campaign.Server do
     char_name = input["character_name"]
     changes = input["changes"] || %{}
 
+    Logger.info("캐릭터 업데이트: #{char_name} — #{inspect(changes)}")
+
     characters =
       case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
         nil ->
           # Character doesn't exist, create it
+          Logger.info("새 캐릭터 생성: #{char_name}")
           [Map.merge(%{"name" => char_name}, changes) | state.characters]
 
         idx ->
@@ -116,6 +141,8 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp apply_single_tool_result(state, %{tool: "register_npc", input: input}) do
     name = input["name"]
+
+    Logger.info("NPC 등록: #{name} — #{inspect(input |> Map.drop(["name"]))}")
 
     npc_data =
       Map.merge(
@@ -156,12 +183,16 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   defp apply_single_tool_result(state, %{tool: "set_location", input: input}) do
+    Logger.info("위치 변경: #{state.current_location} → #{input["location_name"]}")
     %{state | current_location: input["location_name"]}
   end
 
   defp apply_single_tool_result(state, %{tool: "start_combat", input: input}) do
+    participants = input["participants"] || []
+    Logger.info("전투 시작: #{Enum.join(participants, ", ")}")
+
     combat = %{
-      "participants" => input["participants"] || [],
+      "participants" => participants,
       "round" => 1,
       "turn_order" => []
     }
@@ -170,10 +201,14 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   defp apply_single_tool_result(state, %{tool: "end_combat", input: _input}) do
+    Logger.info("전투 종료")
     %{state | phase: :exploration, combat_state: nil}
   end
 
-  defp apply_single_tool_result(state, _result), do: state
+  defp apply_single_tool_result(state, result) do
+    Logger.debug("알 수 없는 도구 결과 무시: #{inspect(result.tool)}")
+    state
+  end
 
   defp apply_character_changes(char, changes) do
     char

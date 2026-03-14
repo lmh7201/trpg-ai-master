@@ -6,7 +6,12 @@ defmodule TrpgMaster.AI.PromptBuilder do
   alias TrpgMaster.Campaign.State
 
   @system_prompt_path "priv/prompts/system_dm.md"
-  @max_history_messages 20
+
+  # 토큰 예산 (한국어 위주: ~1토큰/2문자 보수적 추정)
+  # Claude Sonnet 기준 200K 컨텍스트에서 응답 4K 예약, 시스템 프롬프트 10K 예약 후 남은 예산
+  @max_history_tokens 40_000
+
+  require Logger
 
   @doc """
   Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
@@ -30,13 +35,61 @@ defmodule TrpgMaster.AI.PromptBuilder do
   end
 
   @doc """
-  대화 히스토리에서 최근 N개만 반환한다 (토큰 예산 관리).
+  토큰 예산 기반으로 대화 히스토리를 트리밍한다.
+  최근 메시지를 최대한 많이 포함하되 @max_history_tokens 예산 초과 시 오래된 것부터 제거.
   """
-  def trim_history(history) when length(history) <= @max_history_messages, do: history
+  def build_messages(history) when is_list(history) do
+    total = estimate_tokens(history)
 
-  def trim_history(history) do
-    Enum.take(history, -@max_history_messages)
+    if total <= @max_history_tokens do
+      history
+    else
+      # 최근 메시지부터 역순으로 누적하여 예산 내 메시지만 선택
+      {recent, _remaining} =
+        history
+        |> Enum.reverse()
+        |> Enum.reduce_while({[], @max_history_tokens}, fn msg, {acc, remaining} ->
+          tokens = estimate_tokens_msg(msg) + 10
+          if tokens <= remaining do
+            {:cont, {[msg | acc], remaining - tokens}}
+          else
+            {:halt, {acc, 0}}
+          end
+        end)
+
+      trimmed_count = length(history) - length(recent)
+
+      if trimmed_count > 0 do
+        Logger.info(
+          "히스토리 트리밍: #{length(history)}개 → #{length(recent)}개 (#{trimmed_count}개 제거, 추정 토큰: #{total})"
+        )
+      end
+
+      recent
+    end
   end
+
+  @doc """
+  하위 호환: trim_history/1은 build_messages/1로 대체됨.
+  """
+  def trim_history(history), do: build_messages(history)
+
+  # ── Token estimation ────────────────────────────────────────────────────────
+
+  # 한국어 위주 혼합 텍스트: 보수적으로 1토큰/2문자 추정
+  defp estimate_tokens(text) when is_binary(text) do
+    div(String.length(text), 2)
+  end
+
+  defp estimate_tokens(messages) when is_list(messages) do
+    Enum.sum(Enum.map(messages, &(estimate_tokens_msg(&1) + 10)))
+  end
+
+  defp estimate_tokens_msg(%{"content" => content}) when is_binary(content) do
+    estimate_tokens(content)
+  end
+
+  defp estimate_tokens_msg(_), do: 10
 
   # ── Private ─────────────────────────────────────────────────────────────────
 
@@ -141,21 +194,28 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
   defp state_tools_instruction do
     """
-    ## 상태 관리 도구 사용 지침
+    ## ⚠️ 중요: 상태 관리 도구를 반드시 사용하세요
 
-    아래 도구들을 사용하여 캠페인 상태를 관리합니다. 상태 변경은 자동으로 저장됩니다.
+    서버는 당신이 도구를 호출한 결과만 기억합니다. 도구를 호출하지 않으면 다음 턴에서 정보를 잃습니다.
 
-    - **update_character**: 캐릭터가 처음 등장하거나, HP/인벤토리/상태이상 등이 변할 때 반드시 호출합니다.
-      - ⚠️ 플레이어 캐릭터가 소개되면 즉시 호출하여 초기 스탯(이름, 클래스, 레벨, hp_max, hp_current, ac, 초기 장비)을 등록합니다.
-      - 전투에서 피해를 입으면 hp_current를 업데이트합니다.
-      - 아이템을 얻거나 잃으면 inventory_add/inventory_remove를 사용합니다.
-    - **register_npc**: 새로운 NPC가 등장하거나 NPC의 태도/상태가 변할 때 호출합니다.
-    - **update_quest**: 새 퀘스트를 발견하거나 진행 상황이 바뀔 때 호출합니다.
-    - **set_location**: 파티가 새로운 장소로 이동할 때 호출합니다.
-    - **start_combat**: 전투가 시작될 때 호출합니다. 그 후 roll_dice로 주도권을 굴립니다.
-    - **end_combat**: 전투가 끝날 때 호출합니다.
+    ### 필수 규칙 (예외 없음)
 
-    이 도구들을 적극적으로 사용하여 게임 상태를 정확하게 추적하세요.
+    - **새로운 NPC가 등장하면 → 반드시 register_npc를 즉시 호출**
+      - 이름, 외모, 성격, 태도(friendly/neutral/hostile), 위치를 기록합니다
+      - 당신이 register_npc를 호출하지 않으면 서버가 이 NPC를 전혀 기억하지 못합니다
+      - 다음 턴에서 플레이어가 NPC를 언급해도 당신은 기억하지 못하게 됩니다
+    - **캐릭터 HP/아이템/상태가 변하면 → 반드시 update_character를 호출**
+      - 플레이어 캐릭터가 처음 소개되면 즉시 초기 스탯을 등록합니다
+      - 전투 피해 → hp_current 업데이트
+      - 아이템 획득/소실 → inventory_add/inventory_remove
+    - **파티가 이동하면 → 반드시 set_location을 호출**
+    - **새 퀘스트 발견 또는 진행 → 반드시 update_quest를 호출**
+    - **전투 시작 → start_combat, 전투 종료 → end_combat**
+
+    ### 도구 미사용 결과
+    도구를 호출하지 않고 서술만 하면: 서버가 해당 정보를 저장하지 않습니다.
+    다음 턴에서 당신은 그 정보를 시스템 프롬프트에서 볼 수 없게 됩니다.
+    일관성 있는 게임 진행을 위해 모든 상태 변경을 반드시 도구로 기록하세요.
     """
   end
 

@@ -63,6 +63,42 @@ defmodule TrpgMasterWeb.GameComponents do
   end
 
   @doc """
+  캐릭터 상태바 컴포넌트.
+  채팅 화면 하단에 HP, AC, 주문 슬롯, 현재 위치를 표시.
+  """
+  attr :character, :map, default: nil
+  attr :location, :string, default: nil
+  attr :phase, :atom, default: :exploration
+  attr :combat_state, :map, default: nil
+
+  def status_bar(assigns) do
+    ~H"""
+    <div class="status-bar">
+      <%= if @character do %>
+        <span class="status-item">
+          ❤️ <strong><%= @character["hp_current"] || "?" %>/<%= @character["hp_max"] || "?" %></strong>
+        </span>
+        <%= if @character["ac"] do %>
+          <span class="status-item">🛡️ AC <strong><%= @character["ac"] %></strong></span>
+        <% end %>
+        <%= if spell_slot_total(@character) > 0 do %>
+          <span class="status-item">⚡ <strong><%= spell_slots_display(@character) %></strong></span>
+        <% end %>
+      <% end %>
+      <span class="status-item">📍 <%= @location || "미정" %></span>
+      <%= if @phase == :combat && @combat_state do %>
+        <span class="status-item combat-badge">
+          ⚔️ <strong><%= @combat_state["round"] || 1 %>라운드</strong>
+          <%= if @combat_state["participants"] do %>
+            — <%= Enum.join(@combat_state["participants"], " → ") %>
+          <% end %>
+        </span>
+      <% end %>
+    </div>
+    """
+  end
+
+  @doc """
   타이핑 인디케이터.
   """
   def typing_indicator(assigns) do
@@ -87,4 +123,35 @@ defmodule TrpgMasterWeb.GameComponents do
   end
 
   defp format_text(_), do: ""
+
+  # 주문 슬롯 표시 (예: "1/3")
+  defp spell_slots_display(character) do
+    slots = character["spell_slots"] || %{}
+    used = character["spell_slots_used"] || %{}
+    total = spell_slot_total(character)
+
+    used_count =
+      used
+      |> Enum.map(fn {_k, v} -> if is_integer(v), do: v, else: 0 end)
+      |> Enum.sum()
+
+    total_count =
+      slots
+      |> Enum.map(fn {_k, v} -> if is_integer(v), do: v, else: 0 end)
+      |> Enum.sum()
+
+    if total > 0 do
+      "주문 슬롯 #{total_count - used_count}/#{total_count}"
+    else
+      ""
+    end
+  end
+
+  defp spell_slot_total(character) do
+    slots = character["spell_slots"] || %{}
+
+    slots
+    |> Enum.map(fn {_k, v} -> if is_integer(v), do: v, else: 0 end)
+    |> Enum.sum()
+  end
 end

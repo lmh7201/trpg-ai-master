@@ -24,7 +24,9 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:loading, false)
          |> assign(:error, nil)
          |> assign(:current_location, state.current_location)
-         |> assign(:phase, state.phase)}
+         |> assign(:phase, state.phase)
+         |> assign(:character, List.first(state.characters))
+         |> assign(:combat_state, state.combat_state)}
 
       {:error, :not_found} ->
         {:ok,
@@ -91,7 +93,9 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:messages, messages)
          |> assign(:loading, false)
          |> assign(:current_location, state.current_location)
-         |> assign(:phase, state.phase)}
+         |> assign(:phase, state.phase)
+         |> assign(:character, List.first(state.characters))
+         |> assign(:combat_state, state.combat_state)}
 
       {:error, reason} ->
         {:noreply,
@@ -146,6 +150,13 @@ defmodule TrpgMasterWeb.CampaignLive do
           </div>
         <% end %>
       </div>
+
+      <.status_bar
+        character={@character}
+        location={@current_location}
+        phase={@phase}
+        combat_state={@combat_state}
+      />
 
       <form class="input-area" phx-submit="send_message">
         <input
