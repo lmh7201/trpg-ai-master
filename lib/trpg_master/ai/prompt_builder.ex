@@ -6,7 +6,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
   alias TrpgMaster.Campaign.State
 
   @system_prompt_path "priv/prompts/system_dm.md"
-  @max_history_messages 40
+  @max_history_messages 20
 
   @doc """
   Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
