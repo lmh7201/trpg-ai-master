@@ -10,6 +10,7 @@ defmodule TrpgMaster.Application do
       {Phoenix.PubSub, name: TrpgMaster.PubSub},
       {DNSCluster, query: Application.get_env(:trpg_master, :dns_cluster_query) || :ignore},
       TrpgMaster.Rules.Loader,
+      TrpgMaster.Oracle.Loader,
       {Registry, keys: :unique, name: TrpgMaster.Campaign.Registry},
       {DynamicSupervisor, name: TrpgMaster.Campaign.Manager, strategy: :one_for_one},
       TrpgMasterWeb.Endpoint

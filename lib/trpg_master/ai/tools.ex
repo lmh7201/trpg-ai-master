@@ -7,6 +7,7 @@ defmodule TrpgMaster.AI.Tools do
 
   alias TrpgMaster.Dice.Roller
   alias TrpgMaster.Rules.Loader, as: RulesLoader
+  alias TrpgMaster.Oracle.Loader, as: OracleLoader
 
   @doc """
   사용 가능한 tool 목록을 반환한다.
@@ -17,7 +18,9 @@ defmodule TrpgMaster.AI.Tools do
       lookup_spell_def(),
       lookup_monster_def(),
       lookup_class_def(),
-      lookup_item_def()
+      lookup_item_def(),
+      consult_oracle_def(),
+      list_oracles_def()
     ]
   end
 
@@ -121,6 +124,41 @@ defmodule TrpgMaster.AI.Tools do
           }
         },
         required: ["name"]
+      }
+    }
+  end
+
+  defp consult_oracle_def do
+    %{
+      name: "consult_oracle",
+      description:
+        "오라클 테이블에서 무작위 결과를 뽑아 스토리 방향을 결정한다. AI의 자의적 판단 대신 진정한 무작위성을 제공한다. 예/아니오 판단, NPC 동기, 장소, 분위기, 플롯 반전 결정 시 사용한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          oracle_name: %{
+            type: "string",
+            description:
+              "오라클 이름. 사용 가능: \"yes_no\", \"npc_motivation\", \"location\", \"atmosphere\", \"plot_twist\""
+          },
+          question: %{
+            type: "string",
+            description: "오라클에 물어보는 질문 또는 결정이 필요한 상황 (선택)"
+          }
+        },
+        required: ["oracle_name"]
+      }
+    }
+  end
+
+  defp list_oracles_def do
+    %{
+      name: "list_oracles",
+      description: "사용 가능한 오라클 목록과 각 오라클의 설명을 반환한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{},
+        required: []
       }
     }
   end
@@ -303,6 +341,39 @@ defmodule TrpgMaster.AI.Tools do
   def execute("lookup_item", input) do
     name = Map.get(input, "name", "")
     lookup_rule(:item, name)
+  end
+
+  def execute("consult_oracle", input) do
+    oracle_name = Map.get(input, "oracle_name", "")
+    question = Map.get(input, "question")
+
+    case OracleLoader.random_result(oracle_name) do
+      {:ok, result} ->
+        response = %{"oracle" => oracle_name, "result" => result}
+        response = if question, do: Map.put(response, "question", question), else: response
+        {:ok, response}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  def execute("list_oracles", _input) do
+    oracles =
+      OracleLoader.list()
+      |> Enum.map(fn oracle ->
+        meta = oracle["metadata"] || %{}
+
+        %{
+          "name" => meta["name"],
+          "name_ko" => meta["name_ko"],
+          "description" => meta["description"],
+          "category" => meta["category"]
+        }
+      end)
+      |> Enum.sort_by(& &1["name"])
+
+    {:ok, %{"oracles" => oracles}}
   end
 
   # State-change tools: return confirmation, actual state update happens in Campaign.Server
