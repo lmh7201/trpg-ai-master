@@ -118,15 +118,72 @@ defmodule TrpgMasterWeb.GameComponents do
     """
   end
 
-  # 텍스트의 줄바꿈을 <br>로 변환
+  # 마크다운을 HTML로 변환
   defp format_text(text) when is_binary(text) do
     text
     |> Phoenix.HTML.html_escape()
     |> Phoenix.HTML.safe_to_string()
-    |> String.replace("\n", "<br>")
+    |> markdown_to_html()
   end
 
   defp format_text(_), do: ""
+
+  defp markdown_to_html(text) do
+    text
+    |> String.split("\n")
+    |> parse_lines()
+    |> Enum.join("\n")
+  end
+
+  defp parse_lines(lines) do
+    {result, acc} = Enum.reduce(lines, {[], nil}, fn line, {result, list_state} ->
+      cond do
+        # 수평선
+        Regex.match?(~r/^(---|\*\*\*|___)$/, line) ->
+          {flush_list(result, list_state) ++ ["<hr>"], nil}
+
+        # 헤더 (## 또는 ###)
+        Regex.match?(~r/^\#{1,6} /, line) ->
+          [hashes | rest] = String.split(line, " ", parts: 2)
+          level = min(String.length(hashes), 6)
+          tag = "h#{level}"
+          content = List.first(rest) |> inline_format()
+          {flush_list(result, list_state) ++ ["<#{tag}>#{content}</#{tag}>"], nil}
+
+        # 불릿 리스트 항목
+        Regex.match?(~r/^[-*] /, line) ->
+          item = String.slice(line, 2..-1//1) |> inline_format()
+          {result, (list_state || []) ++ ["<li>#{item}</li>"]}
+
+        # 빈 줄
+        String.trim(line) == "" ->
+          {flush_list(result, list_state) ++ [""], nil}
+
+        # 일반 텍스트
+        true ->
+          {flush_list(result, list_state) ++ [inline_format(line)], nil}
+      end
+    end)
+
+    flush_list(result, acc)
+  end
+
+  defp flush_list(result, nil), do: result
+  defp flush_list(result, items), do: result ++ ["<ul>" <> Enum.join(items) <> "</ul>"]
+
+  defp inline_format(text) do
+    text
+    # bold + italic: ***text***
+    |> String.replace(~r/\*\*\*(.+?)\*\*\*/, "<strong><em>\\1</em></strong>")
+    # bold: **text**
+    |> String.replace(~r/\*\*(.+?)\*\*/, "<strong>\\1</strong>")
+    # italic: *text* (단어 경계 처리)
+    |> String.replace(~r/\*([^\*]+)\*/, "<em>\\1</em>")
+    # italic: _text_
+    |> String.replace(~r/_([^_]+)_/, "<em>\\1</em>")
+    # 코드: `text`
+    |> String.replace(~r/`([^`]+)`/, "<code>\\1</code>")
+  end
 
   # 주문 슬롯 표시 (예: "1/3")
   defp spell_slots_display(character) do

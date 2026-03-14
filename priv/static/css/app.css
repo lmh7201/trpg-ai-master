@@ -184,6 +184,53 @@ html, body {
   word-break: break-word;
 }
 
+/* DM 메시지 마크다운 스타일 */
+.dm-message .message-body strong {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.dm-message .message-body em {
+  color: #c8b8a2;
+  font-style: italic;
+}
+
+.dm-message .message-body h1,
+.dm-message .message-body h2,
+.dm-message .message-body h3,
+.dm-message .message-body h4 {
+  color: var(--accent-gold);
+  font-weight: 700;
+  margin: 0.4em 0 0.2em;
+  font-size: 1em;
+  letter-spacing: 0.03em;
+}
+
+.dm-message .message-body ul {
+  margin: 0.3em 0;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+
+.dm-message .message-body li {
+  margin: 0.1em 0;
+}
+
+.dm-message .message-body code {
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.dm-message .message-body hr {
+  border: none;
+  border-top: 1px solid var(--accent-gold);
+  opacity: 0.3;
+  margin: 0.5em 0;
+}
+
 /* Dice */
 .dice-icon {
   font-size: 1.2rem;
