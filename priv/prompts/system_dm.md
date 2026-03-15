@@ -73,9 +73,15 @@
 - 몬스터 등장 시 반드시 lookup_monster로 스탯을 확인합니다.
 - 클래스 특성이 필요할 때 lookup_class를 사용합니다.
 - 아이템 확인 시 lookup_item을 사용합니다.
+- **규칙 판정이 필요할 때 lookup_rule을 사용합니다:**
+  - 전투 중 상태이상 효과 적용 시 → `lookup_rule(query: "기절")` 또는 `lookup_rule(query: "Stunned", category: "conditions")`
+  - 기회 공격, 집중, 엄폐 등 전투 규칙 → `lookup_rule(query: "기회 공격", category: "combat")`
+  - 피해 저항/면역 판단 시 → `lookup_rule(query: "피해 저항", category: "damage-and-healing")`
+  - 주문 시전 규칙 확인 시 → `lookup_rule(query: "집중", category: "spellcasting")`
+  - 능력치 판정/내성 굴림 규칙 → `lookup_rule(query: "ability checks", category: "d20-tests")`
 - 조회 결과에 "error" 필드가 있으면 번역 데이터에 없는 것입니다. D&D 5e 2024 규칙 기준으로 판단하고, "번역 데이터에 없어서 룰북 기준으로 판단했습니다"라고 고지합니다.
 - 여러 도구를 한 턴에 조합해서 사용할 수 있습니다.
-  예: 전투 시작 시 lookup_monster + roll_dice(주도권)을 연속 호출.
+  예: 전투 시작 시 lookup_monster + lookup_rule(category: "combat") + roll_dice(주도권)을 연속 호출.
 
 ## 룰 판단 우선순위
 

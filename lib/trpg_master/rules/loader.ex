@@ -49,6 +49,21 @@ defmodule TrpgMaster.Rules.Loader do
     {"adventuringGear.json", :item, :nameKo_name, "gear"}
   ]
 
+  # rules/*.json 파일: 각 파일은 {id, title, intro, sections} 구조의 단일 객체.
+  # :rule 타입으로 ETS에 저장. 문서 전체 + 개별 섹션 모두 키 등록.
+  @rules_file_map [
+    "rules/combat.json",
+    "rules/conditions.json",
+    "rules/actions.json",
+    "rules/damage-and-healing.json",
+    "rules/d20-tests.json",
+    "rules/abilities.json",
+    "rules/exploration.json",
+    "rules/proficiency.json",
+    "rules/social-interaction.json",
+    "rules/spellcasting.json"
+  ]
+
   # ── Public API ─────────────────────────────────────────────────────────────
 
   @doc "정확한 이름으로 조회. Returns {:ok, entry} | :not_found"
@@ -103,7 +118,9 @@ defmodule TrpgMaster.Rules.Loader do
   """
   def status do
     types = @file_type_map |> Enum.map(fn {_, t, _, _} -> t end) |> Enum.uniq()
-    Enum.map(types, fn type -> {type, list(type) |> length()} end)
+    type_counts = Enum.map(types, fn type -> {type, list(type) |> length()} end)
+    rule_count = list(:rule) |> length()
+    type_counts ++ [{:rule, rule_count}]
   end
 
   # ── GenServer callbacks ─────────────────────────────────────────────────────
@@ -160,11 +177,34 @@ defmodule TrpgMaster.Rules.Loader do
           load_local_file(table, filename, type, name_style, list_key)
       end
     end)
+
+    # rules/*.json 로드
+    Enum.each(@rules_file_map, fn filename ->
+      url = "#{@github_raw_base}/#{filename}"
+
+      case fetch_json(url, token) do
+        {:ok, raw} ->
+          count = insert_rule_document(table, raw)
+          Logger.info("Rules.Loader: [GitHub] #{filename} → rule #{count}개")
+
+        {:error, reason} ->
+          Logger.warning(
+            "Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체"
+          )
+
+          load_local_rule_file(table, filename)
+      end
+    end)
   end
 
   defp load_from_local(table) do
     Enum.each(@file_type_map, fn {filename, type, name_style, list_key} ->
       load_local_file(table, filename, type, name_style, list_key)
+    end)
+
+    # rules/*.json 로드
+    Enum.each(@rules_file_map, fn filename ->
+      load_local_rule_file(table, filename)
     end)
   end
 
@@ -294,6 +334,121 @@ defmodule TrpgMaster.Rules.Loader do
       _ -> {nil, nil}
     end
   end
+
+  # ── Rules document loading ──────────────────────────────────────────────────
+
+  defp load_local_rule_file(table, filename) do
+    rules_dir = Application.app_dir(:trpg_master, "priv/rules")
+    path = Path.join(rules_dir, filename)
+
+    if File.exists?(path) do
+      case File.read(path) do
+        {:ok, content} ->
+          case Jason.decode(content) do
+            {:ok, raw} ->
+              count = insert_rule_document(table, raw)
+              Logger.info("Rules.Loader: [로컬] #{filename} → rule #{count}개")
+
+            {:error, reason} ->
+              Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
+          end
+
+        {:error, reason} ->
+          Logger.warning("Rules.Loader: #{path} 읽기 실패 — #{inspect(reason)}")
+      end
+    else
+      Logger.info("Rules.Loader: #{path} 파일 없음. 건너뜁니다.")
+    end
+  end
+
+  # rules/*.json은 {id, title, intro, sections} 구조의 단일 문서.
+  # 문서 전체를 id로 저장하고, 각 section도 section.id로 저장한다.
+  # title의 ko/en 키도 등록하여 한국어/영어 검색을 지원한다.
+  defp insert_rule_document(table, %{"id" => doc_id, "sections" => sections} = doc)
+       when is_binary(doc_id) and is_list(sections) do
+    # 문서 전체를 doc_id로 저장
+    :ets.insert(table, {{:rule, normalize(doc_id)}, doc})
+    count = 1
+
+    # title의 한국어/영어 키 등록
+    title_count = insert_rule_title_keys(table, doc_id, doc)
+
+    # 각 섹션을 section.id로 저장
+    section_count =
+      Enum.reduce(sections, 0, fn section, acc ->
+        acc + insert_rule_section(table, section)
+      end)
+
+    count + title_count + section_count
+  end
+
+  defp insert_rule_document(_table, _doc), do: 0
+
+  defp insert_rule_title_keys(table, doc_id, doc) do
+    title = Map.get(doc, "title", %{})
+    ko = Map.get(title, "ko")
+    en = Map.get(title, "en")
+
+    ko_count =
+      if is_binary(ko) && ko != "" && normalize(ko) != normalize(doc_id) do
+        :ets.insert(table, {{:rule, normalize(ko)}, doc})
+        1
+      else
+        0
+      end
+
+    en_count =
+      if is_binary(en) && en != "" && normalize(en) != normalize(doc_id) do
+        :ets.insert(table, {{:rule, normalize(en)}, doc})
+        1
+      else
+        0
+      end
+
+    ko_count + en_count
+  end
+
+  defp insert_rule_section(table, %{"id" => section_id} = section)
+       when is_binary(section_id) do
+    :ets.insert(table, {{:rule, normalize(section_id)}, section})
+
+    # 섹션 title의 한국어/영어 키 등록
+    title = Map.get(section, "title", %{})
+    ko = Map.get(title, "ko")
+    en = Map.get(title, "en")
+
+    ko_count =
+      if is_binary(ko) && ko != "" && normalize(ko) != normalize(section_id) do
+        :ets.insert(table, {{:rule, normalize(ko)}, section})
+        1
+      else
+        0
+      end
+
+    en_count =
+      if is_binary(en) && en != "" && normalize(en) != normalize(section_id) do
+        :ets.insert(table, {{:rule, normalize(en)}, section})
+        1
+      else
+        0
+      end
+
+    # 재귀: 하위 content 중 subsection이 있으면 처리
+    sub_count =
+      case Map.get(section, "content") do
+        content when is_list(content) ->
+          content
+          |> Enum.filter(fn item -> is_map(item) && Map.get(item, "type") == "subsection" end)
+          |> Enum.reduce(0, fn sub, acc -> acc + insert_rule_section(table, sub) end)
+
+        _ ->
+          0
+      end
+
+    1 + ko_count + en_count + sub_count
+  end
+
+  defp insert_rule_section(_table, _section), do: 0
 
   # ── Helpers ─────────────────────────────────────────────────────────────────
 
