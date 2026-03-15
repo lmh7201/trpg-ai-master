@@ -221,7 +221,7 @@ defmodule TrpgMasterWeb.CampaignLive do
             <% :dm -> %>
               <.dm_message text={msg.text} />
             <% :player -> %>
-              <.player_message text={msg.text} />
+              <.player_message text={msg.text} name={if @character, do: @character["name"] || "플레이어", else: "플레이어"} />
             <% :dice -> %>
               <.dice_result result={msg.result} />
             <% :system -> %>

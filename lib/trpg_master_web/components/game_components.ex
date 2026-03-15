@@ -23,11 +23,12 @@ defmodule TrpgMasterWeb.GameComponents do
   플레이어 메시지 컴포넌트.
   """
   attr :text, :string, required: true
+  attr :name, :string, default: "플레이어"
 
   def player_message(assigns) do
     ~H"""
     <div class="message player-message">
-      <div class="message-header">플레이어</div>
+      <div class="message-header"><%= @name %></div>
       <div class="message-body"><%= @text %></div>
     </div>
     """
