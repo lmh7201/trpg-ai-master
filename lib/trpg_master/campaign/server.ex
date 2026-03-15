@@ -12,6 +12,8 @@ defmodule TrpgMaster.Campaign.Server do
 
   require Logger
 
+  @player_action_timeout 180_000
+
   # ── Public API ──────────────────────────────────────────────────────────────
 
   def start_link(%State{} = state) do
@@ -19,7 +21,7 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   def player_action(campaign_id, message) do
-    GenServer.call(via(campaign_id), {:player_action, message}, 180_000)
+    GenServer.call(via(campaign_id), {:player_action, message}, @player_action_timeout)
   end
 
   def get_state(campaign_id) do
@@ -77,7 +79,7 @@ defmodule TrpgMaster.Campaign.Server do
     case generate_session_summary(state) do
       {:ok, summary_text} ->
         # 세션 로그 저장
-        session_number = div(state.turn_count, 1) |> then(fn _ -> estimate_session_number(state) end)
+        session_number = estimate_session_number(state)
         Persistence.append_session_log(state, session_number, summary_text)
 
         # 대화 히스토리 리셋 (캐릭터/NPC/퀘스트는 유지)
@@ -108,7 +110,14 @@ defmodule TrpgMaster.Campaign.Server do
     # read_journal 도구가 현재 저널 데이터에 접근할 수 있도록 프로세스 딕셔너리에 저장
     Process.put(:journal_entries, state.journal_entries)
 
-    case Client.chat(system_prompt, trimmed_history, tools) do
+    result =
+      try do
+        Client.chat(system_prompt, trimmed_history, tools)
+      after
+        Process.delete(:journal_entries)
+      end
+
+    case result do
       {:ok, result} ->
         state_before = state
         state = apply_tool_results(state, result.tool_results)
@@ -227,6 +236,8 @@ defmodule TrpgMaster.Campaign.Server do
     |> Enum.join("\n")
   end
 
+  # 도구 결과 리스트를 순회하며 캠페인 상태에 반영한다.
+  # 각 도구별로 apply_single_tool_result/2를 호출하여 캐릭터, NPC, 퀘스트, 위치, 전투 상태를 갱신.
   defp apply_tool_results(state, tool_results) do
     Enum.reduce(tool_results, state, fn result, acc ->
       apply_single_tool_result(acc, result)
@@ -302,6 +313,10 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   defp apply_single_tool_result(state, %{tool: "start_combat", input: input}) do
+    if state.combat_state do
+      Logger.warning("[Campaign #{state.id}] 기존 전투가 진행 중인데 새 전투가 시작됨. 기존 전투를 덮어씁니다.")
+    end
+
     participants = input["participants"] || []
     Logger.info("전투 시작: #{Enum.join(participants, ", ")}")
 
@@ -347,6 +362,9 @@ defmodule TrpgMaster.Campaign.Server do
     state
   end
 
+  # 캐릭터 맵에 변경사항을 적용한다.
+  # 지원 필드: hp_current, hp_max, class, level, ac, spell_slots_used, race, inventory
+  # 리스트 필드: inventory_add/remove, conditions_add/remove
   defp apply_character_changes(char, changes) do
     char
     |> maybe_put("hp_current", changes["hp_current"])

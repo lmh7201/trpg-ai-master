@@ -7,6 +7,8 @@ defmodule TrpgMaster.Campaign.Persistence do
 
   require Logger
 
+  @schema_version 1
+
   # ── Public API ──────────────────────────────────────────────────────────────
 
   @doc """
@@ -18,7 +20,8 @@ defmodule TrpgMaster.Campaign.Persistence do
     with :ok <- File.mkdir_p(dir),
          :ok <- File.mkdir_p(Path.join(dir, "characters")),
          :ok <- File.mkdir_p(Path.join(dir, "npcs")),
-         :ok <- write_json(Path.join(dir, "campaign-summary.json"), State.to_summary(state)),
+         summary <- State.to_summary(state) |> Map.put("schema_version", @schema_version),
+         :ok <- write_json(Path.join(dir, "campaign-summary.json"), summary),
          :ok <- save_characters(dir, state.characters),
          :ok <- save_npcs(dir, state.npcs),
          :ok <- write_json(Path.join(dir, "conversation_history.json"), state.conversation_history),
@@ -36,9 +39,15 @@ defmodule TrpgMaster.Campaign.Persistence do
   """
   def save_async(%State{} = state) do
     Task.start(fn ->
-      case save(state) do
-        :ok -> :ok
-        {:error, reason} -> Logger.error("비동기 캠페인 저장 실패: #{inspect(reason)}")
+      try do
+        case save(state) do
+          :ok -> :ok
+          {:error, reason} ->
+            Logger.error("[Persistence] 캠페인 #{state.id} 저장 실패: #{inspect(reason)}")
+        end
+      rescue
+        e ->
+          Logger.error("[Persistence] 캠페인 #{state.id} 저장 중 예외: #{Exception.message(e)}")
       end
     end)
   end
@@ -52,6 +61,7 @@ defmodule TrpgMaster.Campaign.Persistence do
 
     if File.exists?(summary_path) do
       with {:ok, summary} <- read_json(summary_path),
+           :ok <- check_schema_version(summary),
            {:ok, characters} <- load_characters(dir),
            {:ok, npcs} <- load_npcs(dir),
            {:ok, history} <- load_conversation_history(dir),
@@ -156,6 +166,16 @@ defmodule TrpgMaster.Campaign.Persistence do
 
   # ── Private helpers ─────────────────────────────────────────────────────────
 
+  defp check_schema_version(summary) do
+    version = summary["schema_version"] || 0
+
+    if version < @schema_version do
+      Logger.warning("[Persistence] 구버전 세이브 파일 (v#{version}). 현재 v#{@schema_version}.")
+    end
+
+    :ok
+  end
+
   defp data_dir do
     Application.get_env(:trpg_master, :data_dir, "data")
   end
@@ -164,6 +184,7 @@ defmodule TrpgMaster.Campaign.Persistence do
     Path.join([data_dir(), "campaigns", sanitize_filename(campaign_id)])
   end
 
+  # 파일 시스템에 안전하지 않은 문자(/\:*?"<>|)를 _로 치환하고 양쪽 공백을 제거한다.
   defp sanitize_filename(name) do
     name
     |> String.replace(~r/[\/\\:*?"<>|]/, "_")

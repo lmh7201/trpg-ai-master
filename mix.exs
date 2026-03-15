@@ -50,7 +50,10 @@ defmodule TrpgMaster.MixProject do
       {:hpax, github: "elixir-mint/hpax", tag: "v1.0.3", override: true},
       {:mime, github: "elixir-plug/mime", tag: "v2.0.7", override: true},
       {:expo, github: "elixir-gettext/expo", tag: "v1.1.1", override: true},
-      {:file_system, github: "falood/file_system", tag: "v1.1.1", override: true}
+      {:file_system, github: "falood/file_system", tag: "v1.1.1", override: true},
+
+      # Markdown
+      {:earmark, github: "pragdave/earmark", tag: "v1.4.9", override: true}
     ]
   end
 

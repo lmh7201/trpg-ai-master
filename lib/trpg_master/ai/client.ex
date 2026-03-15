@@ -106,15 +106,20 @@ defmodule TrpgMaster.AI.Client do
 
   defp add_cache_control_to_tools(tools) when is_list(tools) do
     {last, rest} = List.pop_at(tools, -1)
-    rest ++ [Map.put(last, :cache_control, %{type: "ephemeral"})]
+
+    if Map.has_key?(last, :cache_control) || Map.has_key?(last, "cache_control") do
+      tools
+    else
+      rest ++ [Map.put(last, :cache_control, %{type: "ephemeral"})]
+    end
   end
 
   # 히스토리를 절반으로 줄이는 공격적 트리밍
   defp aggressive_trim_history(body) do
     messages = body.messages
-    half = max(div(length(messages), 2), 2)
+    take_count = min(max(div(length(messages), 2), 2), length(messages))
     # 최신 메시지의 절반만 유지, user 메시지로 시작해야 함
-    trimmed = Enum.take(messages, -half)
+    trimmed = Enum.take(messages, -take_count)
 
     trimmed =
       case trimmed do
@@ -127,6 +132,8 @@ defmodule TrpgMaster.AI.Client do
   end
 
   # ── Chat loop ───────────────────────────────────────────────────────────────
+  # Claude 응답이 tool_use를 포함하면 도구를 실행하고 결과를 포함하여 재호출한다.
+  # 최대 @max_tool_iterations회 반복 후 중단. stop_reason이 "end_turn"이면 종료.
 
   defp do_chat_loop(_api_key, _body, _tool_results, 0, _usage) do
     Logger.warning("Tool use 최대 반복 횟수 초과")
@@ -301,7 +308,7 @@ defmodule TrpgMaster.AI.Client do
   end
 
   defp ssl_options do
-    ca_cert_file = System.get_env("SSL_CERT_FILE", "/etc/ssl/certs/ca-certificates.crt")
+    ca_cert_file = System.get_env("SSL_CERT_FILE") || find_cacert_file()
 
     if File.exists?(ca_cert_file) do
       [
@@ -315,6 +322,23 @@ defmodule TrpgMaster.AI.Client do
     else
       [verify: :verify_none]
     end
+  end
+
+  defp find_cacert_file do
+    paths = [
+      # Linux (Debian/Ubuntu)
+      "/etc/ssl/certs/ca-certificates.crt",
+      # Linux (RHEL/CentOS/Fedora)
+      "/etc/pki/tls/certs/ca-bundle.crt",
+      # macOS (Homebrew - Apple Silicon)
+      "/opt/homebrew/etc/openssl/cert.pem",
+      # macOS (Homebrew - Intel)
+      "/usr/local/etc/openssl/cert.pem",
+      # macOS (system)
+      "/etc/ssl/cert.pem"
+    ]
+
+    Enum.find(paths, List.first(paths), &File.exists?/1)
   end
 
   defp model do

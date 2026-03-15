@@ -25,8 +25,10 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:current_location, state.current_location)
          |> assign(:phase, state.phase)
          |> assign(:character, List.first(state.characters))
+         |> assign(:characters, state.characters)
          |> assign(:combat_state, state.combat_state)
          |> assign(:mode, state.mode)
+         |> assign(:processing, false)
          |> assign(:ending_session, false)}
 
       {:error, :not_found} ->
@@ -43,7 +45,7 @@ defmodule TrpgMasterWeb.CampaignLive do
   def handle_event("send_message", %{"message" => message}, socket) when message != "" do
     message = String.trim(message)
 
-    if message == "" do
+    if message == "" || socket.assigns.processing do
       {:noreply, socket}
     else
       messages = socket.assigns.messages ++ [%{type: :player, text: message}]
@@ -53,6 +55,7 @@ defmodule TrpgMasterWeb.CampaignLive do
         |> assign(:messages, messages)
         |> assign(:input_text, "")
         |> assign(:loading, true)
+        |> assign(:processing, true)
         |> assign(:error, nil)
         |> assign(:last_player_message, message)
 
@@ -141,9 +144,11 @@ defmodule TrpgMasterWeb.CampaignLive do
          socket
          |> assign(:messages, messages)
          |> assign(:loading, false)
+         |> assign(:processing, false)
          |> assign(:current_location, state.current_location)
          |> assign(:phase, state.phase)
          |> assign(:character, List.first(state.characters))
+         |> assign(:characters, state.characters)
          |> assign(:combat_state, state.combat_state)}
 
       {:error, reason} ->
@@ -152,6 +157,7 @@ defmodule TrpgMasterWeb.CampaignLive do
         {:noreply,
          socket
          |> assign(:loading, false)
+         |> assign(:processing, false)
          |> assign(:error, error_msg)}
     end
   end
@@ -247,20 +253,32 @@ defmodule TrpgMasterWeb.CampaignLive do
         <% end %>
       </div>
 
-      <.status_bar
-        character={@character}
-        location={@current_location}
-        phase={@phase}
-        combat_state={@combat_state}
-        mode={@mode}
-      />
+      <%= if length(@characters) > 1 do %>
+        <%= for char <- @characters do %>
+          <.status_bar
+            character={char}
+            location={@current_location}
+            phase={@phase}
+            combat_state={@combat_state}
+            mode={@mode}
+          />
+        <% end %>
+      <% else %>
+        <.status_bar
+          character={@character}
+          location={@current_location}
+          phase={@phase}
+          combat_state={@combat_state}
+          mode={@mode}
+        />
+      <% end %>
 
       <form class="input-area" phx-submit="send_message" id="message-form">
         <textarea
           name="message"
-          placeholder="무엇을 하시겠습니까? (Shift+Enter로 줄바꿈)"
+          placeholder={if @processing, do: "DM이 응답을 준비하는 중...", else: "무엇을 하시겠습니까? (Shift+Enter로 줄바꿈)"}
           autocomplete="off"
-          disabled={@loading}
+          disabled={@loading || @processing}
           rows="1"
           phx-hook="AutoResize"
           id="message-input"
