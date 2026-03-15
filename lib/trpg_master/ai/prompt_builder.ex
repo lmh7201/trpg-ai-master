@@ -79,9 +79,28 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
   # ── Token estimation ────────────────────────────────────────────────────────
 
-  # 한국어 위주 혼합 텍스트: 보수적으로 1토큰/2문자 추정
+  # 한국어와 영어 비율을 고려한 토큰 추정.
+  # 한글: ~1토큰/2글자, 영어/숫자/기호: ~1토큰/4글자.
+  # 보수적 방향으로 유지 (과소 추정보다 과대 추정이 안전).
   defp estimate_tokens(text) when is_binary(text) do
-    div(String.length(text), 2)
+    total_chars = String.length(text)
+
+    if total_chars == 0 do
+      0
+    else
+      # 성능을 위해 바이트 기준 간이 판별: 한글은 UTF-8에서 3바이트
+      byte_size = byte_size(text)
+      # 멀티바이트 문자 비율로 한글 비중 추정 (정확하진 않지만 Regex.scan보다 빠름)
+      multibyte_chars = byte_size - total_chars
+      korean_ratio = min(multibyte_chars / max(byte_size, 1), 1.0)
+
+      # 가중 평균: 한글 비율만큼 2글자/토큰, 나머지는 4글자/토큰
+      chars_per_token = 2.0 * korean_ratio + 4.0 * (1.0 - korean_ratio)
+      tokens = ceil(total_chars / chars_per_token)
+
+      # 메시지 오버헤드 (role, content 키 등)
+      tokens + 4
+    end
   end
 
   defp estimate_tokens(messages) when is_list(messages) do

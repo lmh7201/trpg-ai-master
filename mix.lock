@@ -2,6 +2,8 @@
   "bandit": {:git, "https://github.com/mtrudel/bandit.git", "8b612e1864d36bc5787c5fe087949b007a5b91ca", [tag: "1.6.10"]},
   "castore": {:git, "https://github.com/elixir-mint/castore.git", "ead2dbdd13a7ded56a9f653d36091f785fe78684", [tag: "v1.0.10"]},
   "dns_cluster": {:git, "https://github.com/phoenixframework/dns_cluster.git", "c93995e5a065910b86c1cec9bc27870ed9f58b90", [tag: "v0.1.3"]},
+  "earmark": {:git, "https://github.com/pragdave/earmark.git", "1cf4b6579121160f61f6e39eb880fe51f8283acc", [tag: "v1.4.9"]},
+  "earmark_parser": {:hex, :earmark_parser, "1.4.44", "f20830dd6b5c77afe2b063777ddbbff09f9759396500cdbe7523efd58d7a339c", [:mix], [], "hexpm", "4778ac752b4701a5599215f7030989c989ffdc4f6df457c5f36938cc2d2a2750"},
   "expo": {:git, "https://github.com/elixir-gettext/expo.git", "3a2b197f8dc4bcaf55a19276fddc3cc3bb973de0", [tag: "v1.1.1"]},
   "file_system": {:git, "https://github.com/falood/file_system.git", "4f2ce2dd6ac52333a5d6171173164957b0d09e65", [tag: "v1.1.1"]},
   "gettext": {:git, "https://github.com/elixir-gettext/gettext.git", "3a6e81ce64ae580af300c2abf825fef310314b2c", [tag: "v0.26.2"]},
