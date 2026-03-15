@@ -18,6 +18,7 @@ defmodule TrpgMaster.AI.Tools do
       roll_dice_def(),
       lookup_spell_def(),
       lookup_monster_def(),
+      search_monsters_def(),
       lookup_class_def(),
       lookup_item_def(),
       consult_oracle_def(),
@@ -94,6 +95,47 @@ defmodule TrpgMaster.AI.Tools do
           }
         },
         required: ["name"]
+      }
+    }
+  end
+
+  defp search_monsters_def do
+    %{
+      name: "search_monsters",
+      description:
+        "조건에 맞는 몬스터 목록을 검색한다. 파티 레벨에 맞는 CR 범위와 환경/역할 태그로 필터링한다. " <>
+        "전투 조우를 구성하거나 즉흥적으로 몬스터를 배치할 때 사용한다. " <>
+        "결과는 이름, CR, 크기, 타입 요약 목록으로 반환되며, 상세 스탯은 lookup_monster로 조회한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          cr_min: %{
+            type: "number",
+            description: "최소 CR (포함). 예: 0, 0.25, 1, 5. 파티 레벨 기준: 레벨 ÷ 4 권장"
+          },
+          cr_max: %{
+            type: "number",
+            description: "최대 CR (포함). 예: 1, 5, 10, 20. 파티 레벨 기준: 레벨 × 1.5 권장"
+          },
+          tags: %{
+            type: "array",
+            items: %{type: "string"},
+            description:
+              "환경/역할 태그 필터 (AND 조건). " <>
+              "환경: forest, dungeon, mountain, swamp, underdark, arctic, desert, coastal, urban, cave, plains, lair. " <>
+              "역할: boss, minion, elite, spellcaster, brute, skirmisher, pack, solitary. " <>
+              "예: [\"forest\", \"pack\"] → 숲에 나타나고 무리를 짓는 몬스터"
+          },
+          type: %{
+            type: "string",
+            description: "몬스터 타입 필터 (부분 일치). 예: \"Dragon\", \"Undead\", \"Beast\", \"Humanoid\""
+          },
+          limit: %{
+            type: "integer",
+            description: "반환할 최대 결과 수 (기본 10, 최대 30)"
+          }
+        },
+        required: []
       }
     }
   end
@@ -479,6 +521,36 @@ defmodule TrpgMaster.AI.Tools do
     lookup_rule(:monster, name)
   end
 
+  def execute("search_monsters", input) do
+    cr_min = Map.get(input, "cr_min")
+    cr_max = Map.get(input, "cr_max")
+    tags = Map.get(input, "tags", [])
+    type_filter = Map.get(input, "type")
+    limit = min(Map.get(input, "limit", 10), 30)
+
+    all_monsters = RulesLoader.list(:monster)
+
+    results =
+      all_monsters
+      |> Enum.filter(fn m -> matches_cr(m, cr_min, cr_max) end)
+      |> Enum.filter(fn m -> matches_tags(m, tags) end)
+      |> Enum.filter(fn m -> matches_type(m, type_filter) end)
+      |> Enum.take(limit)
+      |> Enum.map(fn m ->
+        %{
+          "name" => Map.get(m, "name"),
+          "nameEn" => Map.get(m, "nameEn"),
+          "cr" => Map.get(m, "cr"),
+          "size" => Map.get(m, "sizeKo") || Map.get(m, "size"),
+          "type" => Map.get(m, "typeKo") || Map.get(m, "type"),
+          "tags" => Map.get(m, "tags", [])
+        }
+      end)
+
+    {:ok, %{"count" => length(results), "monsters" => results,
+            "tip" => "상세 스탯은 lookup_monster(name)으로 조회하세요."}}
+  end
+
   def execute("lookup_class", input) do
     name = Map.get(input, "name", "")
     lookup_rule(:class, name)
@@ -687,5 +759,35 @@ defmodule TrpgMaster.AI.Tools do
       if result.disadvantage, do: Map.put(result_map, "disadvantage", true), else: result_map
 
     result_map
+  end
+
+  defp matches_cr(_monster, nil, nil), do: true
+
+  defp matches_cr(monster, cr_min, cr_max) do
+    cr_val = RulesLoader.parse_cr(Map.get(monster, "cr", ""))
+
+    case cr_val do
+      nil -> false
+      val ->
+        above_min = is_nil(cr_min) || val >= cr_min
+        below_max = is_nil(cr_max) || val <= cr_max
+        above_min && below_max
+    end
+  end
+
+  defp matches_tags(_monster, []), do: true
+
+  defp matches_tags(monster, tags) do
+    monster_tags = Map.get(monster, "tags", [])
+    Enum.all?(tags, fn tag ->
+      Enum.member?(monster_tags, String.downcase(tag))
+    end)
+  end
+
+  defp matches_type(_monster, nil), do: true
+
+  defp matches_type(monster, type_filter) do
+    monster_type = Map.get(monster, "type", "") |> String.downcase()
+    String.contains?(monster_type, String.downcase(type_filter))
   end
 end
