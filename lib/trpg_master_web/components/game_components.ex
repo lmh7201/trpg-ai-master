@@ -157,11 +157,11 @@ defmodule TrpgMasterWeb.GameComponents do
 
         # 빈 줄
         String.trim(line) == "" ->
-          {flush_list(result, list_state) ++ [""], nil}
+          {flush_list(result, list_state), nil}
 
         # 일반 텍스트
         true ->
-          {flush_list(result, list_state) ++ [inline_format(line)], nil}
+          {flush_list(result, list_state) ++ ["<p>#{inline_format(line)}</p>"], nil}
       end
     end)
 
