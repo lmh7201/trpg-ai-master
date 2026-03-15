@@ -8,8 +8,9 @@ defmodule TrpgMaster.AI.PromptBuilder do
   @system_prompt_path "priv/prompts/system_dm.md"
 
   # 토큰 예산 (한국어 위주: ~1토큰/2문자 보수적 추정)
-  # Claude Sonnet 기준 200K 컨텍스트에서 응답 4K 예약, 시스템 프롬프트 10K 예약 후 남은 예산
-  @max_history_tokens 40_000
+  # 분당 30K 토큰 rate limit 기준: 시스템 프롬프트(3K) + 도구(8K) + 히스토리 = ~23K 이내 유지
+  # prompt caching 적용 시 시스템+도구는 캐시되므로 추후 상향 가능
+  @max_history_tokens 12_000
 
   require Logger
 
