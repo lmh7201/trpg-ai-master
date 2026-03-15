@@ -11,6 +11,7 @@ defmodule TrpgMaster.Application do
       {DNSCluster, query: Application.get_env(:trpg_master, :dns_cluster_query) || :ignore},
       TrpgMaster.AI.RateLimiter,
       TrpgMaster.Rules.Loader,
+      TrpgMaster.Rules.DC,
       TrpgMaster.Oracle.Loader,
       {Registry, keys: :unique, name: TrpgMaster.Campaign.Registry},
       {DynamicSupervisor, name: TrpgMaster.Campaign.Manager, strategy: :one_for_one},

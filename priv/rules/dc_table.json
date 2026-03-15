@@ -1,0 +1,27 @@
+{
+  "general": {
+    "description": "일반 난이도 등급 (DC) 가이드라인",
+    "table": [
+      {"dc": 0, "difficulty": "일상적", "description": "누구나 할 수 있는 일. 별도의 판정이 필요 없음"},
+      {"dc": 5, "difficulty": "매우 쉬움", "description": "약간의 노력이 필요한 일. 거의 누구나 성공"},
+      {"dc": 10, "difficulty": "쉬움", "description": "평균적인 사람이 절반 정도 성공하는 일"},
+      {"dc": 12, "difficulty": "약간 어려움", "description": "약간의 기술이나 경험이 필요한 일"},
+      {"dc": 15, "difficulty": "보통", "description": "숙련자가 도전할 만한 일. 일반인에겐 어려움"},
+      {"dc": 18, "difficulty": "꽤 어려움", "description": "숙련자도 종종 실패하는 일"},
+      {"dc": 20, "difficulty": "어려움", "description": "상당한 전문성이 필요한 일. 보통 사람은 거의 불가능"},
+      {"dc": 22, "difficulty": "매우 어려움", "description": "전문가급 실력이 필요한 일"},
+      {"dc": 25, "difficulty": "극히 어려움", "description": "달인 수준의 기술이 필요. 전설적 난이도"},
+      {"dc": 28, "difficulty": "거의 불가능", "description": "초자연적 수준의 역량이 필요"},
+      {"dc": 30, "difficulty": "불가능에 가까움", "description": "신의 영역에 가까운 난이도. 극히 드물게만 사용"}
+    ]
+  },
+  "skills": {
+    "STR": {"name": "근력", "skills": ["운동(Athletics)"]},
+    "DEX": {"name": "민첩", "skills": ["곡예(Acrobatics)", "은신(Stealth)", "손재주(Sleight of Hand)"]},
+    "CON": {"name": "건강", "skills": []},
+    "INT": {"name": "지능", "skills": ["비전학(Arcana)", "역사(History)", "조사(Investigation)", "자연(Nature)", "종교(Religion)"]},
+    "WIS": {"name": "지혜", "skills": ["동물 다루기(Animal Handling)", "통찰(Insight)", "의술(Medicine)", "인식(Perception)", "생존(Survival)"]},
+    "CHA": {"name": "매력", "skills": ["속이기(Deception)", "위협(Intimidation)", "공연(Performance)", "설득(Persuasion)"]}
+  },
+  "guidelines": "DC를 정할 때: 1) 캐릭터의 레벨과 능력 수정치를 고려하세요. 2) 불가능해 보이는 일에는 판정을 요구하지 마세요. 3) 사소한 일에도 판정을 요구하지 마세요. 4) 상황과 환경에 따라 DC를 ±2~5 조절할 수 있습니다."
+}
