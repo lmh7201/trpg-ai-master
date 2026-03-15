@@ -5,10 +5,11 @@ defmodule TrpgMaster.AI.Client do
   에러 발생 시 자동 재시도 (토큰 한도, rate limit, 서버 에러).
   """
 
+  alias TrpgMaster.AI.RateLimiter
   require Logger
 
   @api_url "https://api.anthropic.com/v1/messages"
-  @max_tool_iterations 10
+  @max_tool_iterations 5
   @timeout 120_000
 
   @doc """
@@ -32,12 +33,20 @@ defmodule TrpgMaster.AI.Client do
       selected_model = Keyword.get(opts, :model, model())
       max_tokens = Keyword.get(opts, :max_tokens, 4096)
 
+      # 시스템 프롬프트를 캐시 가능한 배열 형태로 변환
+      system_blocks = [
+        %{type: "text", text: system_prompt, cache_control: %{type: "ephemeral"}}
+      ]
+
+      # 도구 정의의 마지막 항목에 cache_control 추가
+      cached_tools = add_cache_control_to_tools(tools)
+
       body = %{
         model: selected_model,
         max_tokens: max_tokens,
-        system: system_prompt,
+        system: system_blocks,
         messages: messages,
-        tools: tools
+        tools: cached_tools
       }
 
       do_chat_with_retry(api_key, body, 0)
@@ -92,6 +101,14 @@ defmodule TrpgMaster.AI.Client do
     {:error, reason}
   end
 
+  # 도구 정의의 마지막 항목에 cache_control을 추가하여 캐싱 활성화
+  defp add_cache_control_to_tools([]), do: []
+
+  defp add_cache_control_to_tools(tools) when is_list(tools) do
+    {last, rest} = List.pop_at(tools, -1)
+    rest ++ [Map.put(last, :cache_control, %{type: "ephemeral"})]
+  end
+
   # 히스토리를 절반으로 줄이는 공격적 트리밍
   defp aggressive_trim_history(body) do
     messages = body.messages
@@ -117,21 +134,37 @@ defmodule TrpgMaster.AI.Client do
   end
 
   defp do_chat_loop(api_key, body, tool_results, iterations_left, usage) do
-    case call_api(api_key, body) do
-      {:ok, response} ->
-        new_usage = %{
-          input_tokens: usage.input_tokens + get_in(response, ["usage", "input_tokens"]) || 0,
-          output_tokens: usage.output_tokens + get_in(response, ["usage", "output_tokens"]) || 0
-        }
+    # Rate limiter: API 호출 전 토큰 사용량 확인 및 대기
+    case RateLimiter.check_and_wait() do
+      :ok ->
+        case call_api(api_key, body) do
+          {:ok, response} ->
+            input_tokens = get_in(response, ["usage", "input_tokens"]) || 0
+            output_tokens = get_in(response, ["usage", "output_tokens"]) || 0
 
-        Logger.info(
-          "Claude API 호출 — 입력: #{get_in(response, ["usage", "input_tokens"])}토큰, 출력: #{get_in(response, ["usage", "output_tokens"])}토큰"
-        )
+            # Rate limiter에 실제 사용량 기록
+            RateLimiter.record_usage(input_tokens)
 
-        handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
+            new_usage = %{
+              input_tokens: usage.input_tokens + input_tokens,
+              output_tokens: usage.output_tokens + output_tokens
+            }
 
-      {:error, reason} ->
-        {:error, reason}
+            cache_read = get_in(response, ["usage", "cache_read_input_tokens"]) || 0
+            cache_create = get_in(response, ["usage", "cache_creation_input_tokens"]) || 0
+
+            Logger.info(
+              "Claude API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시읽기: #{cache_read}토큰, 캐시생성: #{cache_create}토큰"
+            )
+
+            handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
+
+          {:error, reason} ->
+            {:error, reason}
+        end
+
+      {:error, :rate_limited} ->
+        {:error, :rate_limited}
     end
   end
 
@@ -222,6 +255,7 @@ defmodule TrpgMaster.AI.Client do
     headers = [
       {~c"x-api-key", String.to_charlist(api_key)},
       {~c"anthropic-version", ~c"2023-06-01"},
+      {~c"anthropic-beta", ~c"prompt-caching-2024-07-31"},
       {~c"content-type", ~c"application/json"}
     ]
 
@@ -295,6 +329,7 @@ defmodule TrpgMaster.AI.Client do
   def format_error(:timeout), do: "AI 응답이 너무 오래 걸리고 있습니다. 다시 시도해주세요."
   def format_error(:connection_failed), do: "네트워크 연결에 실패했습니다. 인터넷 연결을 확인해주세요."
   def format_error(:max_tool_iterations), do: "도구 실행이 너무 많아 중단되었습니다. 다시 시도해주세요."
+  def format_error(:rate_limited), do: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."
 
   def format_error({:api_error, 400, body}) do
     msg = get_in(body, ["error", "message"]) || ""
