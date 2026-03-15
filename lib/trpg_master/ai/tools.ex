@@ -7,6 +7,7 @@ defmodule TrpgMaster.AI.Tools do
 
   alias TrpgMaster.Dice.Roller
   alias TrpgMaster.Rules.Loader, as: RulesLoader
+  alias TrpgMaster.Rules.DC, as: DCLoader
   alias TrpgMaster.Oracle.Loader, as: OracleLoader
 
   @doc """
@@ -23,7 +24,8 @@ defmodule TrpgMaster.AI.Tools do
       list_oracles_def(),
       combat_prep_checklist_def(),
       combat_round_checklist_def(),
-      combat_end_checklist_def()
+      combat_end_checklist_def(),
+      lookup_dc_def()
     ]
   end
 
@@ -198,6 +200,29 @@ defmodule TrpgMaster.AI.Tools do
         type: "object",
         properties: %{},
         required: []
+      }
+    }
+  end
+
+  defp lookup_dc_def do
+    %{
+      name: "lookup_dc",
+      description:
+        "능력치 판정이나 기술 체크의 난이도 등급(DC)을 결정할 때 참고합니다. DC 테이블과 가이드라인을 반환합니다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          skill_or_attribute: %{
+            type: "string",
+            description:
+              "기술명 또는 능력치. 예: \"은신\", \"Stealth\", \"DEX\", \"민첩\""
+          },
+          context: %{
+            type: "string",
+            description: "판정 상황 설명 (선택)"
+          }
+        },
+        required: ["skill_or_attribute"]
       }
     }
   end
@@ -455,6 +480,14 @@ defmodule TrpgMaster.AI.Tools do
       |> Enum.sort_by(& &1["name"])
 
     {:ok, %{"oracles" => oracles}}
+  end
+
+  def execute("lookup_dc", input) do
+    skill_or_attribute = Map.get(input, "skill_or_attribute", "")
+    result = DCLoader.lookup(skill_or_attribute)
+    context = Map.get(input, "context")
+    result = if context, do: Map.put(result, "context", context), else: result
+    {:ok, result}
   end
 
   # State-change tools: return confirmation, actual state update happens in Campaign.Server
