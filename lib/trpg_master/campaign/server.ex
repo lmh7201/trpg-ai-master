@@ -318,6 +318,7 @@ defmodule TrpgMaster.Campaign.Server do
     end
 
     participants = input["participants"] || []
+    enemies = input["enemies"]
     Logger.info("전투 시작: #{Enum.join(participants, ", ")}")
 
     combat = %{
@@ -325,6 +326,13 @@ defmodule TrpgMaster.Campaign.Server do
       "round" => 1,
       "turn_order" => []
     }
+
+    combat =
+      if is_list(enemies) && enemies != [] do
+        Map.put(combat, "enemies", enemies)
+      else
+        combat
+      end
 
     %{state | phase: :combat, combat_state: combat}
   end

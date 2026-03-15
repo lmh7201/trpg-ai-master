@@ -25,7 +25,8 @@ defmodule TrpgMaster.AI.Tools do
       combat_prep_checklist_def(),
       combat_round_checklist_def(),
       combat_end_checklist_def(),
-      lookup_dc_def()
+      lookup_dc_def(),
+      lookup_rule_def()
     ]
   end
 
@@ -227,6 +228,30 @@ defmodule TrpgMaster.AI.Tools do
     }
   end
 
+  defp lookup_rule_def do
+    %{
+      name: "lookup_rule",
+      description:
+        "D&D 5e 규칙을 조회한다. 전투 규칙, 상태이상 효과, 행동 종류, 피해 유형/저항/면역, 기술 판정, 주문 시전 규칙 등을 확인할 때 사용. 예: \"기절\", \"집중\", \"기회 공격\", \"엄폐\", \"넘어짐\"",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          query: %{
+            type: "string",
+            description:
+              "조회할 규칙 키워드. 예: \"기절(Stunned)\", \"집중(Concentration)\", \"공격 행동\", \"독 저항\""
+          },
+          category: %{
+            type: "string",
+            description:
+              "규칙 카테고리 (선택). 예: \"conditions\", \"combat\", \"actions\", \"damage-and-healing\", \"spellcasting\""
+          }
+        },
+        required: ["query"]
+      }
+    }
+  end
+
   # ── State-change tool definitions ────────────────────────────────────────────
 
   @doc """
@@ -331,7 +356,7 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "start_combat",
       description:
-        "전투를 시작한다. 전투 참가자 목록과 함께 호출한다. 이 도구를 호출한 후 각 참가자의 주도권을 roll_dice로 굴린다.",
+        "전투를 시작한다. 호출 전에 반드시 모든 적에 대해 lookup_monster로 스탯을 조회해야 한다. 전투 참가자 목록과 함께 호출하고, 이후 각 참가자의 주도권을 roll_dice로 굴린다.",
       input_schema: %{
         type: "object",
         properties: %{
@@ -339,6 +364,21 @@ defmodule TrpgMaster.AI.Tools do
             type: "array",
             items: %{type: "string"},
             description: "전투 참가자 이름 목록"
+          },
+          enemies: %{
+            type: "array",
+            items: %{
+              type: "object",
+              properties: %{
+                name: %{type: "string"},
+                hp_max: %{type: "integer"},
+                hp_current: %{type: "integer"},
+                ac: %{type: "integer"},
+                count: %{type: "integer", description: "같은 종류 적 수 (기본 1)"}
+              }
+            },
+            description:
+              "전투에 등장하는 적 목록과 조회된 스탯. lookup_monster 후 이 필드를 채운다."
           }
         },
         required: ["participants"]
@@ -482,6 +522,21 @@ defmodule TrpgMaster.AI.Tools do
     {:ok, %{"oracles" => oracles}}
   end
 
+  def execute("lookup_rule", input) do
+    query = Map.get(input, "query", "")
+    category = Map.get(input, "category")
+
+    # category가 주어지면 해당 카테고리 문서를 먼저 시도
+    if category do
+      case RulesLoader.lookup(:rule, category) do
+        {:ok, entry} -> {:ok, entry}
+        :not_found -> lookup_rule(:rule, query)
+      end
+    else
+      lookup_rule(:rule, query)
+    end
+  end
+
   def execute("lookup_dc", input) do
     skill_or_attribute = Map.get(input, "skill_or_attribute", "")
     result = DCLoader.lookup(skill_or_attribute)
@@ -549,12 +604,15 @@ defmodule TrpgMaster.AI.Tools do
   def execute("combat_prep_checklist", _input) do
     checklist = """
     전투 준비 체크리스트:
+    0. 몬스터 스탯 조회: 등장하는 모든 적에 대해 lookup_monster를 즉시 호출한다.
+       조회한 AC, HP(최대치), 공격 수정치, 피해 주사위, 특수 능력을 기억하고 전투에 사용한다.
+       HP는 조회된 hp 값을 기준으로 실제 HP를 roll_dice로 굴려 결정한다 (또는 평균값 사용).
     1. 몬스터 목표: 각 적은 이 전투에서 무엇을 원하는가? (생존, 약탈, 영역 방어, 복수, 시간 벌기, 보호)
     2. 행동 패턴: 각 적의 전투 성향을 정한다 (매복, 비열한 전투, 리더 보호, 열세 시 도주)
     3. 환경 활용: 최소 2가지 환경 요소를 파악한다 (엄폐물, 위험 지형, 고도차, 어둠, 좁은 통로)
     4. 퇴각 경로: 몬스터가 도망칠 수 있는 경로를 설정한다
     5. 전리품/단서: 적이 소지하거나 떨어뜨릴 수 있는 아이템/정보를 정한다
-    위 항목을 각각 1~2문장으로 계획한 후, roll_dice로 주도권을 굴리고 전투를 시작하세요.
+    위 항목을 각각 1~2문장으로 계획한 후, start_combat의 enemies 필드에 조회된 스탯을 채워 호출하고, roll_dice로 주도권을 굴리세요.
     """
 
     {:ok, %{"checklist" => String.trim(checklist)}}

@@ -207,10 +207,32 @@ defmodule TrpgMaster.AI.PromptBuilder do
     cs = state.combat_state
     participants = (cs["participants"] || []) |> Enum.join(", ")
 
+    enemies_section =
+      case cs["enemies"] do
+        enemies when is_list(enemies) and enemies != [] ->
+          enemy_lines =
+            Enum.map(enemies, fn e ->
+              hp =
+                if e["hp_current"] && e["hp_max"],
+                  do: " HP #{e["hp_current"]}/#{e["hp_max"]}",
+                  else: ""
+
+              ac = if e["ac"], do: " AC #{e["ac"]}", else: ""
+              count = if e["count"] && e["count"] > 1, do: " x#{e["count"]}", else: ""
+              "  - #{e["name"]}#{count}#{hp}#{ac}"
+            end)
+            |> Enum.join("\n")
+
+          "\n- 적 현황:\n#{enemy_lines}"
+
+        _ ->
+          ""
+      end
+
     """
     ## 전투 진행 중
     - 라운드: #{cs["round"] || 1}
-    - 참가자: #{participants}
+    - 참가자: #{participants}#{enemies_section}
     """
   end
 
