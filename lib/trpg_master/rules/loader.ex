@@ -459,6 +459,32 @@ defmodule TrpgMaster.Rules.Loader do
     Logger.info("Rules.Loader: #{type} 컬럼 — [#{keys}]")
   end
 
+  @doc """
+  CR 문자열을 float으로 변환한다.
+  "1/4" → 0.25, "1/2" → 0.5, "1" → 1.0, "24" → 24.0
+  파싱 불가 시 nil 반환.
+  """
+  def parse_cr(cr_string) when is_binary(cr_string) do
+    cr_string = String.trim(cr_string)
+
+    cond do
+      cr_string == "1/8" -> 0.125
+      cr_string == "1/4" -> 0.25
+      cr_string == "1/2" -> 0.5
+      true ->
+        case Float.parse(cr_string) do
+          {val, _} -> val
+          :error ->
+            case Integer.parse(cr_string) do
+              {val, _} -> val * 1.0
+              :error -> nil
+            end
+        end
+    end
+  end
+
+  def parse_cr(_), do: nil
+
   defp normalize(name) when is_binary(name), do: name |> String.downcase() |> String.trim()
   defp normalize(name), do: inspect(name)
 
