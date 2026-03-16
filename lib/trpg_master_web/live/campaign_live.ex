@@ -256,7 +256,7 @@ defmodule TrpgMasterWeb.CampaignLive do
           <button phx-click="toggle_mode" class={"mode-toggle #{if @mode == :debug, do: "mode-debug", else: "mode-adventure"}"} title={if @mode == :adventure, do: "디버그 모드로 전환", else: "모험 모드로 전환"}>
             <%= if @mode == :adventure do %>🎭<% else %>🔧<% end %>
           </button>
-          <a href={"/history/#{@campaign_id}"} class="history-btn" title="모험 기록 보기" target="_blank">
+          <a href={"/history/#{@campaign_id}"} class="history-btn" title="모험 기록 보기">
             📖
           </a>
           <button phx-click="end_session" class="end-session-btn" title="세션 종료" disabled={@loading}>
