@@ -249,7 +249,6 @@ defmodule TrpgMasterWeb.CampaignLive do
           <h1><%= @campaign_name %></h1>
         </div>
         <div class="header-right">
-          <span :if={@current_location} class="location-badge"><%= @current_location %></span>
           <span class="mode-badge"><%= phase_label(@phase) %></span>
           <button phx-click="toggle_model_selector" class="dm-select-btn" title="DM 선택">
             🤖 <%= model_short_name(@ai_model) %>
