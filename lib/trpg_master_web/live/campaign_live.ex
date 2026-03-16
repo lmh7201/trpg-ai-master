@@ -4,7 +4,7 @@ defmodule TrpgMasterWeb.CampaignLive do
   import TrpgMasterWeb.GameComponents
 
   alias TrpgMaster.Campaign.{Manager, Server}
-  alias TrpgMaster.AI.Client
+  alias TrpgMaster.AI.{Client, Models}
 
   @impl true
   def mount(%{"id" => campaign_id}, _session, socket) do
@@ -12,6 +12,7 @@ defmodule TrpgMasterWeb.CampaignLive do
       {:ok, _id} ->
         state = Server.get_state(campaign_id)
         messages = build_display_messages(state.conversation_history)
+        current_model = state.ai_model || Models.default_model()
 
         {:ok,
          socket
@@ -29,7 +30,10 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:combat_state, state.combat_state)
          |> assign(:mode, state.mode)
          |> assign(:processing, false)
-         |> assign(:ending_session, false)}
+         |> assign(:ending_session, false)
+         |> assign(:ai_model, current_model)
+         |> assign(:show_model_selector, false)
+         |> assign(:available_models, Models.list_with_status())}
 
       {:error, :not_found} ->
         {:ok,
@@ -99,6 +103,48 @@ defmodule TrpgMasterWeb.CampaignLive do
     {:noreply, assign(socket, :mode, new_mode)}
   end
 
+  # ── DM 선택 ─────────────────────────────────────────────────────────────────
+
+  @impl true
+  def handle_event("toggle_model_selector", _, socket) do
+    {:noreply, assign(socket, :show_model_selector, !socket.assigns.show_model_selector)}
+  end
+
+  @impl true
+  def handle_event("select_model", %{"model" => model_id}, socket) do
+    campaign_id = socket.assigns.campaign_id
+
+    if Models.api_key_configured?(model_id) do
+      Server.set_model(campaign_id, model_id)
+      model_info = Models.find(model_id)
+      model_name = if model_info, do: model_info.name, else: model_id
+
+      notice_msg = %{type: :system, text: "🤖 DM이 #{model_name}(으)로 변경되었습니다."}
+      messages = socket.assigns.messages ++ [notice_msg]
+
+      {:noreply,
+       socket
+       |> assign(:ai_model, model_id)
+       |> assign(:show_model_selector, false)
+       |> assign(:messages, messages)}
+    else
+      model_info = Models.find(model_id)
+      env_var = if model_info, do: model_info.env, else: "API 키"
+
+      notice_msg = %{
+        type: :system,
+        text: "⚠️ #{env_var} 환경변수가 설정되지 않았습니다. 서버 관리자에게 문의하세요."
+      }
+
+      messages = socket.assigns.messages ++ [notice_msg]
+
+      {:noreply,
+       socket
+       |> assign(:show_model_selector, false)
+       |> assign(:messages, messages)}
+    end
+  end
+
   # ── 세션 종료 ────────────────────────────────────────────────────────────────
 
   @impl true
@@ -125,7 +171,6 @@ defmodule TrpgMasterWeb.CampaignLive do
           Enum.reduce(result.tool_results, socket.assigns.messages, fn tool_result, acc ->
             case tool_result do
               %{result: %{"formatted" => _} = dice_result} ->
-                # 모험 모드에서 hidden 주사위 결과 숨김
                 if socket.assigns.mode == :adventure && Map.get(tool_result.input || %{}, "hidden") do
                   acc
                 else
@@ -206,6 +251,9 @@ defmodule TrpgMasterWeb.CampaignLive do
         <div class="header-right">
           <span :if={@current_location} class="location-badge"><%= @current_location %></span>
           <span class="mode-badge"><%= phase_label(@phase) %></span>
+          <button phx-click="toggle_model_selector" class="dm-select-btn" title="DM 선택">
+            🤖 <%= model_short_name(@ai_model) %>
+          </button>
           <button phx-click="toggle_mode" class={"mode-toggle #{if @mode == :debug, do: "mode-debug", else: "mode-adventure"}"} title={if @mode == :adventure, do: "디버그 모드로 전환", else: "모험 모드로 전환"}>
             <%= if @mode == :adventure do %>🎭<% else %>🔧<% end %>
           </button>
@@ -214,6 +262,39 @@ defmodule TrpgMasterWeb.CampaignLive do
           </button>
         </div>
       </header>
+
+      <%= if @show_model_selector do %>
+        <div class="model-selector-overlay" phx-click="toggle_model_selector"></div>
+        <div class="model-selector-modal">
+          <div class="model-selector-header">
+            <h3>🤖 DM 선택</h3>
+            <button phx-click="toggle_model_selector" class="modal-close-btn">✕</button>
+          </div>
+          <div class="model-selector-list">
+            <%= for provider <- [:anthropic, :openai, :gemini] do %>
+              <div class="model-provider-group">
+                <div class="model-provider-label"><%= Models.provider_label(provider) %></div>
+                <%= for model <- Enum.filter(@available_models, &(&1.provider == provider)) do %>
+                  <button
+                    class={"model-option #{if model.id == @ai_model, do: "model-option-active", else: ""} #{if not model.available, do: "model-option-disabled", else: ""}"}
+                    phx-click="select_model"
+                    phx-value-model={model.id}
+                    title={unless model.available, do: "#{model.env} 환경변수가 설정되지 않았습니다.", else: ""}
+                  >
+                    <span class="model-option-name"><%= model.name %></span>
+                    <%= if model.id == @ai_model do %>
+                      <span class="model-option-badge model-badge-active">사용 중</span>
+                    <% end %>
+                    <%= unless model.available do %>
+                      <span class="model-option-badge model-badge-unavailable">API 키 미설정</span>
+                    <% end %>
+                  </button>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
 
       <div class="chat-area" id="chat-area" phx-hook="ScrollBottom">
         <%= if @messages == [] do %>
@@ -314,4 +395,11 @@ defmodule TrpgMasterWeb.CampaignLive do
   defp phase_label(:dialogue), do: "대화"
   defp phase_label(:rest), do: "휴식"
   defp phase_label(_), do: "모험"
+
+  defp model_short_name(model_id) do
+    case Models.find(model_id) do
+      nil -> model_id || "선택"
+      model -> model.name
+    end
+  end
 end

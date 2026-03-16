@@ -8,7 +8,7 @@ defmodule TrpgMaster.Campaign.Server do
   use GenServer
 
   alias TrpgMaster.Campaign.{State, Persistence}
-  alias TrpgMaster.AI.{Client, PromptBuilder, Tools}
+  alias TrpgMaster.AI.{Client, Models, PromptBuilder, Tools}
 
   require Logger
 
@@ -30,6 +30,10 @@ defmodule TrpgMaster.Campaign.Server do
 
   def set_mode(campaign_id, mode) when mode in [:adventure, :debug] do
     GenServer.call(via(campaign_id), {:set_mode, mode})
+  end
+
+  def set_model(campaign_id, model_id) do
+    GenServer.call(via(campaign_id), {:set_model, model_id})
   end
 
   def end_session(campaign_id) do
@@ -73,6 +77,14 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   @impl true
+  def handle_call({:set_model, model_id}, _from, state) do
+    new_state = %{state | ai_model: model_id}
+    Persistence.save_async(new_state)
+    Logger.info("AI 모델 변경 [#{state.id}]: #{state.ai_model} → #{model_id}")
+    {:reply, :ok, new_state}
+  end
+
+  @impl true
   def handle_call(:end_session, _from, state) do
     Logger.info("세션 종료 처리 시작 [#{state.id}] 턴 #{state.turn_count}")
 
@@ -110,9 +122,15 @@ defmodule TrpgMaster.Campaign.Server do
     # read_journal 도구가 현재 저널 데이터에 접근할 수 있도록 프로세스 딕셔너리에 저장
     Process.put(:journal_entries, state.journal_entries)
 
+    model_opts =
+      case state.ai_model do
+        nil -> []
+        model_id -> [model: model_id]
+      end
+
     result =
       try do
-        Client.chat(system_prompt, trimmed_history, tools)
+        Client.chat(system_prompt, trimmed_history, tools, model_opts)
       after
         Process.delete(:journal_entries)
       end
@@ -160,8 +178,8 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   defp generate_session_summary(state) do
-    # 비용 절약을 위해 Haiku 모델 사용
-    haiku_model = "claude-haiku-4-5-20251001"
+    # 현재 캠페인의 프로바이더와 동일한 저비용 모델 사용
+    haiku_model = summary_model_for(state.ai_model)
 
     summary_prompt = """
     당신은 D&D 세션 서기입니다. 아래 세션 정보를 바탕으로 간결한 세션 요약을 작성해주세요.
@@ -234,6 +252,17 @@ defmodule TrpgMaster.Campaign.Server do
       "- #{q["name"]}#{status}"
     end)
     |> Enum.join("\n")
+  end
+
+  # 현재 선택된 모델의 프로바이더에 맞는 요약 모델 반환
+  defp summary_model_for(nil), do: "claude-haiku-4-5-20251001"
+  defp summary_model_for(model_id) do
+    case Models.provider_for(model_id) do
+      :anthropic -> "claude-haiku-4-5-20251001"
+      :openai -> "gpt-4.1-mini"
+      :gemini -> "gemini-2.5-flash"
+      _ -> "claude-haiku-4-5-20251001"
+    end
   end
 
   # 도구 결과 리스트를 순회하며 캠페인 상태에 반영한다.
