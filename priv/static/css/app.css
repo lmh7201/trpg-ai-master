@@ -1062,6 +1062,57 @@ html, body {
   margin: 0 auto;
 }
 
+.history-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 1rem;
+}
+
+.history-tab {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.history-tab:hover {
+  color: var(--text-primary);
+}
+
+.history-tab-active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+.summary-entry {
+  border-left: 3px solid rgba(52, 152, 219, 0.4);
+  padding-left: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-timestamp {
+  font-size: 0.75rem;
+  color: var(--accent-blue);
+  margin-bottom: 0.3rem;
+  font-family: monospace;
+}
+
+.summary-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.summary-text p {
+  margin: 0 0 0.4em;
+}
+
 .history-header {
   display: flex;
   align-items: center;

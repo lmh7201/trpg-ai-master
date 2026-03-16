@@ -180,6 +180,35 @@ defmodule TrpgMaster.Campaign.Persistence do
   end
 
   @doc """
+  AI 컨텍스트 요약 로그를 summary_log.jsonl에서 로드한다.
+  """
+  def load_summary_log(campaign_id) do
+    path = Path.join(campaign_dir(campaign_id), "summary_log.jsonl")
+
+    case File.read(path) do
+      {:ok, content} ->
+        entries =
+          content
+          |> String.split("\n", trim: true)
+          |> Enum.map(fn line ->
+            case Jason.decode(line) do
+              {:ok, entry} -> entry
+              _ -> nil
+            end
+          end)
+          |> Enum.reject(&is_nil/1)
+
+        {:ok, entries}
+
+      {:error, :enoent} ->
+        {:ok, []}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  @doc """
   컨텍스트 요약 로그를 summary_log.jsonl에 추가한다.
   """
   def append_summary_log(campaign_id, summary_text) do
