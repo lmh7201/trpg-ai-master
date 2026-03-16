@@ -8,13 +8,25 @@ defmodule TrpgMasterWeb.LobbyLive do
   def mount(_params, _session, socket) do
     campaigns = Persistence.list_campaigns()
 
-    {:ok,
-     socket
-     |> assign(:campaigns, campaigns)
-     |> assign(:new_name, "")
-     |> assign(:selected_model, Models.default_model())
-     |> assign(:available_models, Models.list_with_status())
-     |> assign(:error, nil)}
+    socket =
+      socket
+      |> assign(:campaigns, campaigns)
+      |> assign(:new_name, "")
+      |> assign(:selected_model, Models.default_model())
+      |> assign(:available_models, Models.list_with_status())
+      |> assign(:error, nil)
+
+    socket =
+      if connected?(socket) do
+        push_event(socket, "campaigns_loaded", %{
+          campaigns: campaigns,
+          cached_at: DateTime.utc_now() |> DateTime.to_iso8601()
+        })
+      else
+        socket
+      end
+
+    {:ok, socket}
   end
 
   @impl true
@@ -39,7 +51,14 @@ defmodule TrpgMasterWeb.LobbyLive do
   def handle_event("delete_campaign", %{"id" => id}, socket) do
     Manager.delete_campaign(id)
     campaigns = Persistence.list_campaigns()
-    {:noreply, assign(socket, :campaigns, campaigns)}
+
+    {:noreply,
+     socket
+     |> assign(:campaigns, campaigns)
+     |> push_event("campaigns_loaded", %{
+         campaigns: campaigns,
+         cached_at: DateTime.utc_now() |> DateTime.to_iso8601()
+       })}
   end
 
   @impl true
@@ -51,7 +70,7 @@ defmodule TrpgMasterWeb.LobbyLive do
         <p class="lobby-subtitle">D&D 5.5e Solo Play</p>
       </header>
 
-      <div class="lobby-content">
+      <div class="lobby-content" id="lobby-content" phx-hook="CampaignCache">
         <section class="new-campaign">
           <h2>새 캠페인 시작</h2>
           <form phx-submit="create_campaign" class="new-campaign-form">
