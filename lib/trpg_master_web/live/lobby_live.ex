@@ -48,7 +48,7 @@ defmodule TrpgMasterWeb.LobbyLive do
     <div class="lobby-container">
       <header class="lobby-header">
         <h1>AI TRPG Master</h1>
-        <p class="lobby-subtitle">D&D 5e Solo Play</p>
+        <p class="lobby-subtitle">D&D 5.5e Solo Play</p>
       </header>
 
       <div class="lobby-content">

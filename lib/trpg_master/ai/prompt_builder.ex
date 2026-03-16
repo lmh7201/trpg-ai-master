@@ -295,7 +295,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
   defp default_system_prompt do
     """
-    당신은 D&D 5e 솔로 플레이 던전 마스터입니다. 한국어로 진행합니다.
+    당신은 D&D 5.5e 솔로 플레이 던전 마스터입니다. 한국어로 진행합니다.
 
     ## 기본 원칙
     - 모든 서술, 대화, 룰 설명은 한국어로 합니다.

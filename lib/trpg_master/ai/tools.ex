@@ -67,7 +67,7 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "lookup_spell",
       description:
-        "D&D 5e 주문 데이터를 조회한다. 주문 시전, 효과 확인, 규칙 판단 시 사용. 한국어 또는 영어 주문 이름으로 검색 가능. 정확한 이름이 아니어도 부분 검색을 시도한다.",
+        "D&D 5.5e 주문 데이터를 조회한다. 주문 시전, 효과 확인, 규칙 판단 시 사용. 한국어 또는 영어 주문 이름으로 검색 가능. 정확한 이름이 아니어도 부분 검색을 시도한다.",
       input_schema: %{
         type: "object",
         properties: %{
@@ -85,7 +85,7 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "lookup_monster",
       description:
-        "D&D 5e 몬스터/적 데이터를 조회한다. 전투 시작, 적 스탯 확인, 조우 구성 시 사용.",
+        "D&D 5.5e 몬스터/적 데이터를 조회한다. 전투 시작, 적 스탯 확인, 조우 구성 시 사용.",
       input_schema: %{
         type: "object",
         properties: %{
@@ -144,7 +144,7 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "lookup_class",
       description:
-        "D&D 5e 클래스 정보를 조회한다. 클래스 특성, 레벨업 정보, 주문 목록 등 확인 시 사용.",
+        "D&D 5.5e 클래스 정보를 조회한다. 클래스 특성, 레벨업 정보, 주문 목록 등 확인 시 사용.",
       input_schema: %{
         type: "object",
         properties: %{
@@ -162,7 +162,7 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "lookup_item",
       description:
-        "D&D 5e 아이템/장비 데이터를 조회한다. 무기, 방어구, 마법 아이템, 도구 등의 정보를 확인할 때 사용.",
+        "D&D 5.5e 아이템/장비 데이터를 조회한다. 무기, 방어구, 마법 아이템, 도구 등의 정보를 확인할 때 사용.",
       input_schema: %{
         type: "object",
         properties: %{
@@ -274,7 +274,7 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "lookup_rule",
       description:
-        "D&D 5e 규칙을 조회한다. 전투 규칙, 상태이상 효과, 행동 종류, 피해 유형/저항/면역, 기술 판정, 주문 시전 규칙 등을 확인할 때 사용. 예: \"기절\", \"집중\", \"기회 공격\", \"엄폐\", \"넘어짐\"",
+        "D&D 5.5e 규칙을 조회한다. 전투 규칙, 상태이상 효과, 행동 종류, 피해 유형/저항/면역, 기술 판정, 주문 시전 규칙 등을 확인할 때 사용. 예: \"기절\", \"집중\", \"기회 공격\", \"엄폐\", \"넘어짐\"",
       input_schema: %{
         type: "object",
         properties: %{

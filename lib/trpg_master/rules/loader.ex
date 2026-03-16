@@ -1,6 +1,6 @@
 defmodule TrpgMaster.Rules.Loader do
   @moduledoc """
-  D&D 5e 룰 데이터를 ETS 테이블에 로드하고 조회하는 GenServer.
+  D&D 5.5e 룰 데이터를 ETS 테이블에 로드하고 조회하는 GenServer.
 
   DATA_GITHUB_TOKEN 환경변수가 있으면 GitHub(lmh7201/dnd_reference_ko)에서 직접 fetch.
   없으면 priv/rules/*.json 로컬 파일 사용.
