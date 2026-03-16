@@ -29,7 +29,7 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
       body =
         %{
           model: model,
-          max_tokens: max_tokens,
+          max_completion_tokens: max_tokens,
           messages: openai_messages
         }
         |> maybe_add_tools(openai_tools)
