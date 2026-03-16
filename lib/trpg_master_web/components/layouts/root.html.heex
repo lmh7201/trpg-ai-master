@@ -68,6 +68,96 @@
         }
       };
 
+      // 캠페인 목록 localStorage 캐시 (stale-while-revalidate)
+      Hooks.CampaignCache = {
+        CACHE_KEY: "trpg_campaigns_v1",
+        MAX_AGE_MS: 7 * 24 * 60 * 60 * 1000,
+
+        mounted() {
+          this.handleEvent("campaigns_loaded", ({ campaigns, cached_at }) => {
+            this._saveCache({ campaigns, cached_at });
+          });
+
+          // 재방문 시: 서버 렌더 전 캐시 카드 즉시 표시
+          const hasLiveCards = this.el.querySelectorAll(".campaign-card").length > 0;
+          if (!hasLiveCards) {
+            const cache = this._loadCache();
+            if (cache && cache.campaigns.length > 0) {
+              this._renderCached(cache.campaigns);
+            }
+          }
+        },
+
+        updated() {
+          // LiveView 실제 데이터로 패치되면 캐시 카드 제거
+          const cached = this.el.querySelector("[data-cached='true']");
+          if (cached) cached.remove();
+        },
+
+        _saveCache(payload) {
+          try {
+            localStorage.setItem(this.CACHE_KEY, JSON.stringify(payload));
+          } catch (e) {
+            console.warn("[CampaignCache] localStorage 저장 실패:", e);
+          }
+        },
+
+        _loadCache() {
+          try {
+            const raw = localStorage.getItem(this.CACHE_KEY);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!Array.isArray(parsed.campaigns) || !parsed.cached_at) return null;
+            const age = Date.now() - new Date(parsed.cached_at).getTime();
+            if (age > this.MAX_AGE_MS) {
+              localStorage.removeItem(this.CACHE_KEY);
+              return null;
+            }
+            return parsed;
+          } catch (e) {
+            return null;
+          }
+        },
+
+        _renderCached(campaigns) {
+          const newCampaignSection = this.el.querySelector(".new-campaign");
+          if (!newCampaignSection) return;
+
+          const cards = campaigns.map(c => {
+            const name = this._esc(c.name || "");
+            const date = this._fmt(c.updated_at);
+            const id = this._esc(c.id || "");
+            return `<div class="campaign-card">
+              <a href="/play/${id}" class="campaign-link">
+                <span class="campaign-name">${name}</span>
+                <span class="campaign-date">${date}</span>
+              </a>
+              <button class="campaign-delete" disabled style="opacity:0.5;cursor:default">삭제</button>
+            </div>`;
+          }).join("");
+
+          const section = document.createElement("section");
+          section.className = "campaign-list";
+          section.dataset.cached = "true";
+          section.innerHTML = `<h2>저장된 캠페인</h2><div class="campaigns">${cards}</div>`;
+          newCampaignSection.insertAdjacentElement("afterend", section);
+        },
+
+        _fmt(iso) {
+          if (!iso) return "";
+          try {
+            const d = new Date(iso);
+            const pad = n => String(n).padStart(2, "0");
+            return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+          } catch (_) { return iso; }
+        },
+
+        _esc(str) {
+          return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+                    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+        }
+      };
+
       let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
       let liveSocket = new window.LiveView.LiveSocket("/live", window.Phoenix.Socket, {
         hooks: Hooks,
