@@ -186,13 +186,16 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
         input_tokens = get_in(response, ["usage", "prompt_tokens"]) || 0
         output_tokens = get_in(response, ["usage", "completion_tokens"]) || 0
 
+        cached_tokens =
+          get_in(response, ["usage", "prompt_tokens_details", "cached_tokens"]) || 0
+
         new_usage = %{
           input_tokens: usage.input_tokens + input_tokens,
           output_tokens: usage.output_tokens + output_tokens
         }
 
         Logger.info(
-          "OpenAI API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰"
+          "OpenAI API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시: #{cached_tokens}토큰"
         )
 
         handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
