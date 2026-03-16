@@ -177,13 +177,16 @@ defmodule TrpgMaster.AI.Providers.Gemini do
         output_tokens =
           get_in(response, ["usageMetadata", "candidatesTokenCount"]) || 0
 
+        cached_tokens =
+          get_in(response, ["usageMetadata", "cachedContentTokenCount"]) || 0
+
         new_usage = %{
           input_tokens: usage.input_tokens + input_tokens,
           output_tokens: usage.output_tokens + output_tokens
         }
 
         Logger.info(
-          "Gemini API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰"
+          "Gemini API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시: #{cached_tokens}토큰"
         )
 
         handle_response(api_key, model, body, response, tool_results, iterations_left, new_usage)
