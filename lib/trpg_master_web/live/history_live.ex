@@ -7,16 +7,13 @@ defmodule TrpgMasterWeb.HistoryLive do
 
   @impl true
   def mount(%{"id" => campaign_id}, _session, socket) do
-    case Persistence.load(campaign_id) do
-      {:ok, state} ->
-        entries = build_novel_entries(state.conversation_history, state.characters)
-
+    case load_campaign_data(campaign_id) do
+      {:ok, name, sessions} ->
         {:ok,
          socket
          |> assign(:campaign_id, campaign_id)
-         |> assign(:campaign_name, state.name)
-         |> assign(:entries, entries)
-         |> assign(:character_name, extract_character_name(state.characters))}
+         |> assign(:campaign_name, name)
+         |> assign(:sessions, sessions)}
 
       {:error, :not_found} ->
         {:ok,
@@ -42,22 +39,17 @@ defmodule TrpgMasterWeb.HistoryLive do
 
       <div class="history-scroll">
         <div class="novel-content">
-          <%= if @entries == [] do %>
-            <p class="novel-empty">아직 기록된 대화가 없습니다.</p>
+          <%= if @sessions == [] do %>
+            <p class="novel-empty">
+              아직 기록된 세션이 없습니다.<br/>
+              <span style="font-size: 0.85rem;">세션을 종료(📋)하면 요약이 여기에 쌓입니다.</span>
+            </p>
           <% end %>
 
-          <%= for {entry, idx} <- Enum.with_index(@entries) do %>
-            <%= case entry.type do %>
-              <% :dm -> %>
-                <div class="novel-dm" id={"entry-#{idx}"}>
-                  <%= raw(format_markdown(entry.text)) %>
-                </div>
-              <% :player -> %>
-                <div class="novel-player" id={"entry-#{idx}"}>
-                  <span class="novel-player-name"><%= @character_name %></span>
-                  <span class="novel-player-text"><%= entry.text %></span>
-                </div>
-            <% end %>
+          <%= for {session_md, idx} <- Enum.with_index(@sessions) do %>
+            <div class="novel-session" id={"session-#{idx}"}>
+              <%= raw(format_markdown(session_md)) %>
+            </div>
           <% end %>
         </div>
       </div>
@@ -67,24 +59,34 @@ defmodule TrpgMasterWeb.HistoryLive do
 
   # ── Private helpers ──────────────────────────────────────────────────────────
 
-  defp build_novel_entries(conversation_history, _characters) do
-    conversation_history
-    |> Enum.reduce([], fn msg, acc ->
-      case msg do
-        %{"role" => "user", "content" => content} when is_binary(content) ->
-          acc ++ [%{type: :player, text: content}]
+  defp load_campaign_data(campaign_id) do
+    summary_path =
+      Path.join([
+        Application.get_env(:trpg_master, :data_dir, "data"),
+        "campaigns",
+        sanitize(campaign_id),
+        "campaign-summary.json"
+      ])
 
-        %{"role" => "assistant", "content" => content} when is_binary(content) ->
-          acc ++ [%{type: :dm, text: content}]
+    case File.read(summary_path) do
+      {:ok, content} ->
+        case Jason.decode(content) do
+          {:ok, summary} ->
+            {:ok, sessions} = Persistence.load_session_log(campaign_id)
+            {:ok, summary["name"] || campaign_id, sessions}
 
-        _ ->
-          acc
-      end
-    end)
+          _ ->
+            {:error, :not_found}
+        end
+
+      _ ->
+        {:error, :not_found}
+    end
   end
 
-  defp extract_character_name([%{"name" => name} | _]) when is_binary(name), do: name
-  defp extract_character_name(_), do: "플레이어"
+  defp sanitize(name) do
+    name |> String.replace(~r/[\/\\:*?"<>|]/, "_") |> String.trim()
+  end
 
   defp format_markdown(text) when is_binary(text) do
     case Earmark.as_html(text, %Earmark.Options{breaks: true}) do

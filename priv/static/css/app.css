@@ -1095,7 +1095,61 @@ html, body {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 2.5rem;
+}
+
+/* 세션 카드 */
+.novel-session {
+  border-left: 3px solid rgba(212, 168, 71, 0.4);
+  padding-left: 1.25rem;
+}
+
+.novel-session h1 {
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.04em;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.novel-session h2 {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.novel-session p {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-primary);
+  font-family: Georgia, 'Nanum Myeongjo', serif;
+  margin: 0 0 0.6em;
+}
+
+.novel-session ul {
+  margin: 0.3em 0 0.6em;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+
+.novel-session li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0.15em 0;
+  line-height: 1.5;
+}
+
+.novel-session strong {
+  color: var(--accent-gold);
+}
+
+.novel-session hr {
+  display: none;
 }
 
 .novel-empty {
