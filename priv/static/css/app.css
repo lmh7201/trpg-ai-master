@@ -471,6 +471,12 @@ html, body {
 
 .new-campaign-form {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.new-campaign-form-row {
+  display: flex;
   gap: 0.5rem;
 }
 
@@ -802,6 +808,192 @@ html, body {
 
 .login-btn:hover {
   opacity: 0.9;
+}
+
+/* ── DM 선택 버튼 & 모달 ────────────────────────────────────────────── */
+
+.dm-select-btn {
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-select-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--accent-gold);
+}
+
+.model-selector-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+}
+
+.model-selector-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 201;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: min(360px, 90vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.model-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.model-selector-header h3 {
+  color: var(--accent-gold);
+  font-size: 1rem;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.model-selector-list {
+  padding: 0.75rem;
+}
+
+.model-provider-group {
+  margin-bottom: 0.75rem;
+}
+
+.model-provider-label {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.model-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  gap: 0.5rem;
+}
+
+.model-option:hover {
+  background: var(--bg-input);
+  border-color: var(--border-color);
+}
+
+.model-option-active {
+  border-color: var(--accent-gold) !important;
+  background: rgba(212, 168, 71, 0.1) !important;
+}
+
+.model-option-disabled {
+  opacity: 0.5;
+}
+
+.model-option-disabled:hover {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.model-option-name {
+  flex: 1;
+}
+
+.model-option-badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.model-badge-active {
+  background: rgba(212, 168, 71, 0.2);
+  color: var(--accent-gold);
+  border: 1px solid rgba(212, 168, 71, 0.4);
+}
+
+.model-badge-unavailable {
+  background: rgba(231, 76, 60, 0.15);
+  color: var(--accent-red);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+/* ── 로비 DM 선택 ──────────────────────────────────────────────────── */
+
+.dm-select-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dm-select-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.dm-model-select {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.dm-model-select:focus {
+  border-color: var(--accent-gold);
+}
+
+.dm-model-select option:disabled {
+  color: var(--text-secondary);
+  font-style: italic;
 }
 
 /* ── 모바일 조정 ──────────────────────────────────────────────────────── */

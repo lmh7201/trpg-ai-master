@@ -2,6 +2,7 @@ defmodule TrpgMasterWeb.LobbyLive do
   use TrpgMasterWeb, :live_view
 
   alias TrpgMaster.Campaign.{Manager, Persistence}
+  alias TrpgMaster.AI.Models
 
   @impl true
   def mount(_params, _session, socket) do
@@ -11,17 +12,20 @@ defmodule TrpgMasterWeb.LobbyLive do
      socket
      |> assign(:campaigns, campaigns)
      |> assign(:new_name, "")
+     |> assign(:selected_model, Models.default_model())
+     |> assign(:available_models, Models.list_with_status())
      |> assign(:error, nil)}
   end
 
   @impl true
-  def handle_event("create_campaign", %{"name" => name}, socket) do
+  def handle_event("create_campaign", %{"name" => name} = params, socket) do
     name = String.trim(name)
+    model_id = Map.get(params, "model", Models.default_model())
 
     if name == "" do
       {:noreply, assign(socket, :error, "캠페인 이름을 입력하세요.")}
     else
-      case Manager.create_campaign(name) do
+      case Manager.create_campaign(name, model_id) do
         {:ok, id} ->
           {:noreply, push_navigate(socket, to: "/play/#{id}")}
 
@@ -51,14 +55,34 @@ defmodule TrpgMasterWeb.LobbyLive do
         <section class="new-campaign">
           <h2>새 캠페인 시작</h2>
           <form phx-submit="create_campaign" class="new-campaign-form">
-            <input
-              type="text"
-              name="name"
-              value={@new_name}
-              placeholder="캠페인 이름을 입력하세요"
-              autocomplete="off"
-            />
-            <button type="submit">시작</button>
+            <div class="new-campaign-form-row">
+              <input
+                type="text"
+                name="name"
+                value={@new_name}
+                placeholder="캠페인 이름을 입력하세요"
+                autocomplete="off"
+              />
+              <button type="submit">시작</button>
+            </div>
+            <div class="dm-select-group">
+              <label class="dm-select-label">🤖 DM 선택</label>
+              <select name="model" class="dm-model-select">
+                <%= for provider <- [:anthropic, :openai, :gemini] do %>
+                  <optgroup label={Models.provider_label(provider)}>
+                    <%= for model <- Enum.filter(@available_models, &(&1.provider == provider)) do %>
+                      <option
+                        value={model.id}
+                        selected={model.id == @selected_model}
+                        disabled={not model.available}
+                      >
+                        <%= model.name %><%= unless model.available, do: " (API 키 미설정)", else: "" %>
+                      </option>
+                    <% end %>
+                  </optgroup>
+                <% end %>
+              </select>
+            </div>
           </form>
           <%= if @error do %>
             <p class="lobby-error"><%= @error %></p>

@@ -11,12 +11,13 @@ defmodule TrpgMaster.Campaign.Manager do
   @doc """
   새 캠페인을 생성하고 서버를 시작한다.
   """
-  def create_campaign(name) do
+  def create_campaign(name, ai_model \\ nil) do
     id = generate_id()
 
     state = %State{
       id: id,
-      name: name
+      name: name,
+      ai_model: ai_model
     }
 
     case start_server(state) do

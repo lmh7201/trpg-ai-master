@@ -1,0 +1,321 @@
+defmodule TrpgMaster.AI.Providers.Anthropic do
+  @moduledoc """
+  Anthropic Claude API 프로바이더.
+  tool use 루프, 재시도, 프롬프트 캐싱을 포함한다.
+  """
+
+  alias TrpgMaster.AI.RateLimiter
+  require Logger
+
+  @api_url "https://api.anthropic.com/v1/messages"
+  @max_tool_iterations 5
+  @timeout 120_000
+
+  @doc """
+  Claude API에 메시지를 보내고 응답을 받는다.
+  tool use가 발생하면 도구를 실행하고 자동으로 재호출한다.
+  """
+  def chat(system_prompt, messages, tools \\ [], opts \\ []) do
+    api_key = Application.get_env(:trpg_master, :anthropic_api_key)
+
+    if is_nil(api_key) || api_key == "" do
+      {:error, :no_api_key}
+    else
+      selected_model = Keyword.get(opts, :model, default_model())
+      max_tokens = Keyword.get(opts, :max_tokens, 4096)
+
+      system_blocks = [
+        %{type: "text", text: system_prompt, cache_control: %{type: "ephemeral"}}
+      ]
+
+      cached_tools = add_cache_control_to_tools(tools)
+
+      body = %{
+        model: selected_model,
+        max_tokens: max_tokens,
+        system: system_blocks,
+        messages: messages,
+        tools: cached_tools
+      }
+
+      do_chat_with_retry(api_key, body, 0)
+    end
+  end
+
+  # ── 재시도 래퍼 ─────────────────────────────────────────────────────────────
+
+  defp do_chat_with_retry(api_key, body, retry_count) do
+    case do_chat_loop(api_key, body, [], @max_tool_iterations, %{
+           input_tokens: 0,
+           output_tokens: 0
+         }) do
+      {:ok, result} ->
+        {:ok, result}
+
+      {:error, reason} ->
+        handle_api_error(api_key, body, reason, retry_count)
+    end
+  end
+
+  defp handle_api_error(api_key, body, {:api_error, 400, _error_body}, retry_count)
+       when retry_count < 2 do
+    Logger.warning("API 400 오류 — 히스토리 트리밍 후 재시도 (#{retry_count + 1}/2)")
+    trimmed_body = aggressive_trim_history(body)
+    do_chat_with_retry(api_key, trimmed_body, retry_count + 1)
+  end
+
+  defp handle_api_error(api_key, body, {:api_error, 429, _error_body}, retry_count)
+       when retry_count < 3 do
+    wait_ms = 2000 * (retry_count + 1)
+    Logger.warning("Rate limit — #{wait_ms}ms 대기 후 재시도 (#{retry_count + 1}/3)")
+    Process.sleep(wait_ms)
+    do_chat_with_retry(api_key, body, retry_count + 1)
+  end
+
+  defp handle_api_error(api_key, body, {:api_error, status, _error_body}, retry_count)
+       when status in [500, 529] and retry_count < 2 do
+    Logger.warning("서버 에러 #{status} — 3초 대기 후 재시도 (#{retry_count + 1}/2)")
+    Process.sleep(3000)
+    do_chat_with_retry(api_key, body, retry_count + 1)
+  end
+
+  defp handle_api_error(_api_key, _body, {:api_error, 401, _}, _retry_count) do
+    {:error, :invalid_api_key}
+  end
+
+  defp handle_api_error(_api_key, _body, reason, _retry_count) do
+    {:error, reason}
+  end
+
+  defp add_cache_control_to_tools([]), do: []
+
+  defp add_cache_control_to_tools(tools) when is_list(tools) do
+    {last, rest} = List.pop_at(tools, -1)
+
+    if Map.has_key?(last, :cache_control) || Map.has_key?(last, "cache_control") do
+      tools
+    else
+      rest ++ [Map.put(last, :cache_control, %{type: "ephemeral"})]
+    end
+  end
+
+  defp aggressive_trim_history(body) do
+    messages = body.messages
+    take_count = min(max(div(length(messages), 2), 2), length(messages))
+    trimmed = Enum.take(messages, -take_count)
+
+    trimmed =
+      case trimmed do
+        [%{role: "assistant"} | rest] -> rest
+        other -> other
+      end
+
+    Logger.info("공격적 트리밍: #{length(messages)}개 → #{length(trimmed)}개")
+    %{body | messages: trimmed}
+  end
+
+  # ── Chat loop ───────────────────────────────────────────────────────────────
+
+  defp do_chat_loop(_api_key, _body, _tool_results, 0, _usage) do
+    Logger.warning("Tool use 최대 반복 횟수 초과")
+    {:error, :max_tool_iterations}
+  end
+
+  defp do_chat_loop(api_key, body, tool_results, iterations_left, usage) do
+    case RateLimiter.check_and_wait() do
+      :ok ->
+        case call_api(api_key, body) do
+          {:ok, response} ->
+            input_tokens = get_in(response, ["usage", "input_tokens"]) || 0
+            output_tokens = get_in(response, ["usage", "output_tokens"]) || 0
+
+            RateLimiter.record_usage(input_tokens)
+
+            new_usage = %{
+              input_tokens: usage.input_tokens + input_tokens,
+              output_tokens: usage.output_tokens + output_tokens
+            }
+
+            cache_read = get_in(response, ["usage", "cache_read_input_tokens"]) || 0
+            cache_create = get_in(response, ["usage", "cache_creation_input_tokens"]) || 0
+
+            Logger.info(
+              "Claude API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시읽기: #{cache_read}토큰, 캐시생성: #{cache_create}토큰"
+            )
+
+            handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
+
+          {:error, reason} ->
+            {:error, reason}
+        end
+
+      {:error, :rate_limited} ->
+        {:error, :rate_limited}
+    end
+  end
+
+  defp handle_response(api_key, body, response, tool_results, iterations_left, usage) do
+    content = Map.get(response, "content", [])
+    stop_reason = Map.get(response, "stop_reason")
+
+    text_parts =
+      content
+      |> Enum.filter(&(&1["type"] == "text"))
+      |> Enum.map(& &1["text"])
+
+    tool_use_blocks =
+      content
+      |> Enum.filter(&(&1["type"] == "tool_use"))
+
+    if stop_reason == "tool_use" && length(tool_use_blocks) > 0 do
+      {new_tool_results, tool_result_blocks} = execute_tools(tool_use_blocks)
+
+      updated_messages =
+        body.messages ++
+          [
+            %{role: "assistant", content: content},
+            %{role: "user", content: tool_result_blocks}
+          ]
+
+      updated_body = %{body | messages: updated_messages}
+
+      do_chat_loop(
+        api_key,
+        updated_body,
+        tool_results ++ new_tool_results,
+        iterations_left - 1,
+        usage
+      )
+    else
+      final_text = Enum.join(text_parts, "\n")
+
+      {:ok,
+       %{
+         text: final_text,
+         tool_results: tool_results,
+         usage: usage
+       }}
+    end
+  end
+
+  defp execute_tools(tool_use_blocks) do
+    results =
+      Enum.map(tool_use_blocks, fn block ->
+        tool_name = block["name"]
+        tool_input = block["input"]
+        tool_use_id = block["id"]
+
+        Logger.info("도구 실행: #{tool_name} — #{inspect(tool_input)}")
+
+        case TrpgMaster.AI.Tools.execute(tool_name, tool_input) do
+          {:ok, result} ->
+            {%{tool: tool_name, input: tool_input, result: result},
+             %{
+               type: "tool_result",
+               tool_use_id: tool_use_id,
+               content: Jason.encode!(result)
+             }}
+
+          {:error, reason} ->
+            {%{tool: tool_name, input: tool_input, error: reason},
+             %{
+               type: "tool_result",
+               tool_use_id: tool_use_id,
+               is_error: true,
+               content: "오류: #{reason}"
+             }}
+        end
+      end)
+
+    {Enum.map(results, &elem(&1, 0)), Enum.map(results, &elem(&1, 1))}
+  end
+
+  # ── HTTP ────────────────────────────────────────────────────────────────────
+
+  defp call_api(api_key, body) do
+    :ssl.start()
+    :inets.start()
+
+    json_body = Jason.encode!(body)
+
+    headers = [
+      {~c"x-api-key", String.to_charlist(api_key)},
+      {~c"anthropic-version", ~c"2023-06-01"},
+      {~c"anthropic-beta", ~c"prompt-caching-2024-07-31"},
+      {~c"content-type", ~c"application/json"}
+    ]
+
+    ssl_opts = ssl_options()
+
+    http_opts = [
+      timeout: @timeout,
+      connect_timeout: 10_000,
+      ssl: ssl_opts
+    ]
+
+    request = {String.to_charlist(@api_url), headers, ~c"application/json", json_body}
+
+    case :httpc.request(:post, request, http_opts, []) do
+      {:ok, {{_, status, _}, _headers, resp_body}} when status in 200..299 ->
+        case Jason.decode(:erlang.list_to_binary(resp_body)) do
+          {:ok, parsed} -> {:ok, parsed}
+          {:error, reason} -> {:error, {:json_parse_error, reason}}
+        end
+
+      {:ok, {{_, status, _}, _headers, resp_body}} ->
+        body_str = :erlang.list_to_binary(resp_body)
+        Logger.error("Claude API 오류 #{status}: #{body_str}")
+
+        error_body =
+          case Jason.decode(body_str) do
+            {:ok, parsed} -> parsed
+            _ -> %{"raw" => String.slice(body_str, 0, 300)}
+          end
+
+        {:error, {:api_error, status, error_body}}
+
+      {:error, {:failed_connect, _}} ->
+        {:error, :connection_failed}
+
+      {:error, :timeout} ->
+        {:error, :timeout}
+
+      {:error, reason} ->
+        Logger.error("HTTP 요청 실패: #{inspect(reason)}")
+        {:error, {:http_error, reason}}
+    end
+  end
+
+  defp ssl_options do
+    ca_cert_file = System.get_env("SSL_CERT_FILE") || find_cacert_file()
+
+    if File.exists?(ca_cert_file) do
+      [
+        verify: :verify_peer,
+        cacertfile: String.to_charlist(ca_cert_file),
+        depth: 10,
+        customize_hostname_check: [
+          match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+        ]
+      ]
+    else
+      [verify: :verify_none]
+    end
+  end
+
+  defp find_cacert_file do
+    paths = [
+      "/etc/ssl/certs/ca-certificates.crt",
+      "/etc/pki/tls/certs/ca-bundle.crt",
+      "/opt/homebrew/etc/openssl/cert.pem",
+      "/usr/local/etc/openssl/cert.pem",
+      "/etc/ssl/cert.pem"
+    ]
+
+    Enum.find(paths, List.first(paths), &File.exists?/1)
+  end
+
+  defp default_model do
+    Application.get_env(:trpg_master, :ai_model, "claude-sonnet-4-6")
+  end
+end

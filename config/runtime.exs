@@ -2,8 +2,10 @@ import Config
 
 config :trpg_master,
   anthropic_api_key: System.get_env("ANTHROPIC_API_KEY"),
+  openai_api_key: System.get_env("OPENAI_API_KEY"),
+  google_api_key: System.get_env("GOOGLE_API_KEY"),
   data_dir: System.get_env("DATA_DIR", "data"),
-  ai_model: System.get_env("AI_MODEL", "claude-sonnet-4-20250514"),
+  ai_model: System.get_env("AI_MODEL", "claude-sonnet-4-6"),
   auth_password: System.get_env("AUTH_PASSWORD")
 
 if config_env() == :prod do
