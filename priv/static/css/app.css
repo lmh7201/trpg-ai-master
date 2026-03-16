@@ -1014,3 +1014,204 @@ html, body {
     gap: 0.25rem;
   }
 }
+
+/* ── 히스토리 버튼 ───────────────────────────────────────────────────── */
+
+.history-btn {
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.history-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+/* ── 히스토리 (소설 포맷) 페이지 ────────────────────────────────────── */
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.history-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-title-group h1 {
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.history-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.history-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 1.5rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.history-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.history-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+/* 소설 본문 영역 */
+.novel-content {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.novel-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 4rem;
+}
+
+/* DM 서술 — 소설 본문 스타일 */
+.novel-dm {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-primary);
+  font-family: Georgia, 'Nanum Myeongjo', serif;
+  letter-spacing: 0.01em;
+}
+
+.novel-dm p {
+  margin: 0 0 0.6em;
+  text-indent: 0;
+}
+
+.novel-dm p:first-child {
+  margin-top: 0;
+}
+
+.novel-dm strong {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.novel-dm em {
+  color: #c8b8a2;
+  font-style: italic;
+}
+
+.novel-dm h1,
+.novel-dm h2,
+.novel-dm h3,
+.novel-dm h4 {
+  color: var(--accent-gold);
+  font-weight: 700;
+  margin: 0.8em 0 0.3em;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.novel-dm ul {
+  margin: 0.4em 0;
+  padding-left: 1.4em;
+  list-style: disc;
+}
+
+.novel-dm li {
+  margin: 0.15em 0;
+}
+
+.novel-dm hr {
+  border: none;
+  border-top: 1px solid rgba(212, 168, 71, 0.25);
+  margin: 1em 0;
+}
+
+.novel-dm code {
+  background: rgba(255,255,255,0.07);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.88em;
+}
+
+/* 플레이어 행동 — 들여쓰기 이탤릭 */
+.novel-player {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid rgba(52, 152, 219, 0.4);
+  background: rgba(52, 152, 219, 0.05);
+  border-radius: 0 6px 6px 0;
+}
+
+.novel-player-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-blue);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.novel-player-text {
+  font-size: 0.95rem;
+  color: #b0c4d8;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* 모바일 */
+@media (max-width: 600px) {
+  .history-scroll {
+    padding: 1.25rem 1rem;
+  }
+
+  .novel-dm {
+    font-size: 0.95rem;
+  }
+}
