@@ -218,11 +218,10 @@ defmodule TrpgMaster.AI.Providers.Gemini do
         {new_tool_results, function_responses} = execute_tools(function_calls)
 
         # 현재 모델 응답과 함수 결과를 contents에 추가
+        # parts 전체를 그대로 포함해야 thought_signature가 유지된다 (Gemini thinking 모델 필수)
         model_turn = %{
           role: "model",
-          parts: Enum.map(function_calls, fn fc ->
-            %{function_call: fc["functionCall"]}
-          end)
+          parts: parts
         }
 
         user_turn = %{
