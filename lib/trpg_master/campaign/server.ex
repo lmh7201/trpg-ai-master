@@ -259,7 +259,7 @@ defmodule TrpgMaster.Campaign.Server do
   defp summary_model_for(model_id) do
     case Models.provider_for(model_id) do
       :anthropic -> "claude-haiku-4-5-20251001"
-      :openai -> "gpt-4.1-mini"
+      :openai -> "gpt-5-mini"
       :gemini -> "gemini-2.5-flash"
       _ -> "claude-haiku-4-5-20251001"
     end
