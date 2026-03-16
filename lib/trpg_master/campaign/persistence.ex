@@ -151,6 +151,31 @@ defmodule TrpgMaster.Campaign.Persistence do
   end
 
   @doc """
+  campaign-log.md 파일에서 세션 요약 목록을 로드한다.
+  반환: {:ok, [String.t()]} — 각 항목은 세션 하나의 마크다운 텍스트
+  """
+  def load_session_log(campaign_id) do
+    path = Path.join(campaign_dir(campaign_id), "campaign-log.md")
+
+    case File.read(path) do
+      {:ok, content} ->
+        sessions =
+          content
+          |> String.split(~r/\n---\n/, trim: true)
+          |> Enum.map(&String.trim/1)
+          |> Enum.reject(&(&1 == ""))
+
+        {:ok, sessions}
+
+      {:error, :enoent} ->
+        {:ok, []}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  @doc """
   캠페인 데이터를 삭제한다.
   """
   def delete(campaign_id) do
