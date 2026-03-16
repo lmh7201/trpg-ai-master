@@ -25,7 +25,8 @@ defmodule TrpgMaster.Campaign.Persistence do
          :ok <- save_characters(dir, state.characters),
          :ok <- save_npcs(dir, state.npcs),
          :ok <- write_json(Path.join(dir, "conversation_history.json"), state.conversation_history),
-         :ok <- write_json(Path.join(dir, "journal.json"), state.journal_entries) do
+         :ok <- write_json(Path.join(dir, "journal.json"), state.journal_entries),
+         :ok <- save_context_summary(dir, state.context_summary) do
       :ok
     else
       {:error, reason} ->
@@ -66,12 +67,15 @@ defmodule TrpgMaster.Campaign.Persistence do
            {:ok, npcs} <- load_npcs(dir),
            {:ok, history} <- load_conversation_history(dir),
            {:ok, journal} <- load_journal(dir) do
+        context_summary = load_context_summary(dir)
+
         state =
           State.from_summary(summary)
           |> Map.put(:characters, characters)
           |> Map.put(:npcs, npcs)
           |> Map.put(:conversation_history, history)
           |> Map.put(:journal_entries, journal)
+          |> Map.put(:context_summary, context_summary)
 
         {:ok, state}
       end
@@ -171,6 +175,27 @@ defmodule TrpgMaster.Campaign.Persistence do
         {:ok, []}
 
       {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  @doc """
+  컨텍스트 요약 로그를 summary_log.jsonl에 추가한다.
+  """
+  def append_summary_log(campaign_id, summary_text) do
+    dir = campaign_dir(campaign_id)
+    File.mkdir_p(dir)
+    log_path = Path.join(dir, "summary_log.jsonl")
+
+    entry = Jason.encode!(%{
+      "timestamp" => DateTime.utc_now() |> DateTime.to_iso8601(),
+      "summary" => summary_text
+    })
+
+    case File.write(log_path, entry <> "\n", [:append]) do
+      :ok -> :ok
+      {:error, reason} ->
+        Logger.error("요약 로그 저장 실패 [#{campaign_id}]: #{inspect(reason)}")
         {:error, reason}
     end
   end
@@ -339,6 +364,21 @@ defmodule TrpgMaster.Campaign.Persistence do
       read_json(path)
     else
       {:ok, []}
+    end
+  end
+
+  defp save_context_summary(_dir, nil), do: :ok
+
+  defp save_context_summary(dir, summary) do
+    write_json(Path.join(dir, "context_summary.json"), %{"summary" => summary})
+  end
+
+  defp load_context_summary(dir) do
+    path = Path.join(dir, "context_summary.json")
+
+    case read_json(path) do
+      {:ok, %{"summary" => summary}} -> summary
+      _ -> nil
     end
   end
 

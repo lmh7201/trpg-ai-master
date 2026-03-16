@@ -177,6 +177,10 @@ defmodule TrpgMasterWeb.CampaignLive do
                   acc ++ [%{type: :dice, result: dice_result}]
                 end
 
+              %{tool: tool_name, result: %{"status" => "ok", "message" => message}}
+              when tool_name in ~w(register_npc update_quest set_location start_combat end_combat update_character write_journal) ->
+                acc ++ [%{type: :tool_narration, tool_name: tool_name, message: message}]
+
               _ ->
                 acc
             end
@@ -313,6 +317,8 @@ defmodule TrpgMasterWeb.CampaignLive do
               <.player_message text={msg.text} name={if @character, do: @character["name"] || "플레이어", else: "플레이어"} />
             <% :dice -> %>
               <.dice_result result={msg.result} />
+            <% :tool_narration -> %>
+              <.tool_narration tool_name={msg.tool_name} message={msg.message} />
             <% :system -> %>
               <.system_message text={msg.text} />
           <% end %>
