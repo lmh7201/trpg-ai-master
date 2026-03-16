@@ -33,8 +33,8 @@ defmodule TrpgMaster.AI.Models do
       config_key: :openai_api_key
     },
     %{
-      id: "gemini-2.5-pro",
-      name: "Gemini 2.5 Pro",
+      id: "gemini-3.1-pro-preview",
+      name: "Gemini 3.1 Pro Preview",
       provider: :gemini,
       env: "GOOGLE_API_KEY",
       config_key: :google_api_key
