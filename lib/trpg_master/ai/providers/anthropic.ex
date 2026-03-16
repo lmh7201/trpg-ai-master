@@ -128,19 +128,20 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
           {:ok, response} ->
             input_tokens = get_in(response, ["usage", "input_tokens"]) || 0
             output_tokens = get_in(response, ["usage", "output_tokens"]) || 0
+            cache_read = get_in(response, ["usage", "cache_read_input_tokens"]) || 0
+            cache_create = get_in(response, ["usage", "cache_creation_input_tokens"]) || 0
 
-            RateLimiter.record_usage(input_tokens)
+            # ITPM에 카운트되는 토큰: input_tokens + cache_creation (cache_read는 미포함)
+            itpm_tokens = input_tokens + cache_create
+            RateLimiter.record_usage(itpm_tokens)
 
             new_usage = %{
               input_tokens: usage.input_tokens + input_tokens,
               output_tokens: usage.output_tokens + output_tokens
             }
 
-            cache_read = get_in(response, ["usage", "cache_read_input_tokens"]) || 0
-            cache_create = get_in(response, ["usage", "cache_creation_input_tokens"]) || 0
-
             Logger.info(
-              "Claude API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시읽기: #{cache_read}토큰, 캐시생성: #{cache_create}토큰"
+              "Claude API 호출 — ITPM: #{itpm_tokens}토큰 (입력:#{input_tokens} + 캐시생성:#{cache_create}), 출력: #{output_tokens}토큰, 캐시읽기: #{cache_read}토큰"
             )
 
             handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
@@ -209,11 +210,14 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
 
         case TrpgMaster.AI.Tools.execute(tool_name, tool_input) do
           {:ok, result} ->
+            encoded = Jason.encode!(result)
+            truncated = truncate_tool_result(encoded, tool_name)
+
             {%{tool: tool_name, input: tool_input, result: result},
              %{
                type: "tool_result",
                tool_use_id: tool_use_id,
-               content: Jason.encode!(result)
+               content: truncated
              }}
 
           {:error, reason} ->
@@ -229,6 +233,15 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
 
     {Enum.map(results, &elem(&1, 0)), Enum.map(results, &elem(&1, 1))}
   end
+
+  @max_tool_result_chars 3000
+
+  defp truncate_tool_result(encoded, tool_name) when byte_size(encoded) > @max_tool_result_chars do
+    Logger.info("도구 결과 압축: #{tool_name} — #{byte_size(encoded)}자 → #{@max_tool_result_chars}자")
+    String.slice(encoded, 0, @max_tool_result_chars) <> "...(truncated)"
+  end
+
+  defp truncate_tool_result(encoded, _tool_name), do: encoded
 
   # ── HTTP ────────────────────────────────────────────────────────────────────
 

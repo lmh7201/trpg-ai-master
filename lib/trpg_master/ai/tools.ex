@@ -11,9 +11,24 @@ defmodule TrpgMaster.AI.Tools do
   alias TrpgMaster.Oracle.Loader, as: OracleLoader
 
   @doc """
-  사용 가능한 tool 목록을 반환한다.
+  사용 가능한 tool 목록을 반환한다. phase에 따라 필요한 도구만 포함한다.
   """
-  def definitions do
+  def definitions(phase \\ :exploration)
+
+  def definitions(:combat) do
+    [
+      roll_dice_def(),
+      lookup_monster_def(),
+      lookup_spell_def(),
+      lookup_item_def(),
+      lookup_rule_def(),
+      combat_round_checklist_def(),
+      combat_end_checklist_def(),
+      lookup_dc_def()
+    ]
+  end
+
+  def definitions(_phase) do
     [
       roll_dice_def(),
       lookup_spell_def(),
@@ -724,17 +739,78 @@ defmodule TrpgMaster.AI.Tools do
   # ── Private helpers ─────────────────────────────────────────────────────────
 
   defp lookup_rule(type, name) do
-    case RulesLoader.lookup(type, name) do
-      {:ok, entry} ->
-        {:ok, entry}
+    result =
+      case RulesLoader.lookup(type, name) do
+        {:ok, entry} -> {:ok, entry}
+        :not_found ->
+          case RulesLoader.search(type, name) do
+            [first | _] -> {:ok, first}
+            [] -> {:ok, %{"error" => "데이터에서 찾을 수 없습니다", "query" => name}}
+          end
+      end
 
-      :not_found ->
-        case RulesLoader.search(type, name) do
-          [first | _] -> {:ok, first}
-          [] -> {:ok, %{"error" => "데이터에서 찾을 수 없습니다", "query" => name}}
-        end
+    case result do
+      {:ok, entry} when is_map(entry) -> {:ok, compact_entry(type, entry)}
+      other -> other
     end
   end
+
+  # 클래스 데이터는 특히 거대하므로 핵심 필드만 반환
+  defp compact_entry(:class, entry) do
+    Map.take(entry, [
+      "name", "nameEn", "description", "descriptionEn",
+      "primaryAbility", "hitPointDie", "savingThrowProficiencies",
+      "skillProficiencies", "weaponProficiencies", "armorTraining",
+      "startingEquipment", "becomingThisClass",
+      "classTableGroups", "levelFeatures"
+    ])
+  end
+
+  # 몬스터 데이터는 전투에 필요한 필드 위주로 반환
+  defp compact_entry(:monster, entry) do
+    Map.take(entry, [
+      "name", "nameEn", "size", "sizeKo", "type", "typeKo",
+      "ac", "acKo", "hp", "hpKo", "speed", "speedKo",
+      "abilities", "cr", "crKo", "xp",
+      "traits", "actions", "bonusActions", "reactions",
+      "legendaryActions", "legendaryActionsDesc", "legendaryActionsDescKo",
+      "immunities", "immunitiesKo", "resistances", "resistancesKo",
+      "conditionImmunities", "conditionImmunitiesKo",
+      "senses", "sensesKo", "languages", "languagesKo",
+      "skillProficiencies", "skillProficienciesKo"
+    ])
+  end
+
+  # 룰 문서는 sections 안의 content가 매우 클 수 있으므로 상위 구조만 반환
+  defp compact_entry(:rule, %{"sections" => sections} = entry) when is_list(sections) do
+    compact_sections =
+      Enum.map(sections, fn section ->
+        Map.take(section, ["id", "title", "content"])
+        |> Map.update("content", [], fn content ->
+          if is_list(content) do
+            Enum.map(content, fn item ->
+              if is_map(item) do
+                case Map.get(item, "content") do
+                  sub_content when is_list(sub_content) and length(sub_content) > 3 ->
+                    Map.put(item, "content", Enum.take(sub_content, 3) ++ [%{"type" => "text", "text" => "...(이하 생략)"}])
+                  _ ->
+                    item
+                end
+              else
+                item
+              end
+            end)
+          else
+            content
+          end
+        end)
+      end)
+
+    Map.put(entry, "sections", compact_sections)
+  end
+
+  # 기타 타입은 그대로 반환
+  defp compact_entry(_type, entry), do: entry
 
   defp format_tool_result(result) do
     formatted = Roller.format_result(result)

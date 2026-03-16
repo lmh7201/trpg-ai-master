@@ -9,7 +9,7 @@ defmodule TrpgMaster.AI.RateLimiter do
 
   @table :ai_rate_limiter
   @window_ms 60_000
-  @default_token_limit 25_000
+  @default_token_limit 30_000
   @max_wait_ms 30_000
 
   # ── Public API ──────────────────────────────────────────────────────────────

@@ -116,7 +116,7 @@ defmodule TrpgMaster.Campaign.Server do
     )
 
     system_prompt = PromptBuilder.build(state)
-    tools = Tools.definitions() ++ Tools.state_tool_definitions()
+    tools = Tools.definitions(state.phase) ++ Tools.state_tool_definitions()
     trimmed_history = PromptBuilder.build_messages(history)
 
     # read_journal 도구가 현재 저널 데이터에 접근할 수 있도록 프로세스 딕셔너리에 저장
