@@ -73,6 +73,21 @@ defmodule TrpgMaster.AI.PromptBuilder do
   end
 
   @doc """
+  요약 기반 메시지 구성. 전체 히스토리 대신 최신 요약 + 현재 메시지만 전달한다.
+  """
+  def build_messages_with_summary(current_message, nil) do
+    [%{"role" => "user", "content" => current_message}]
+  end
+
+  def build_messages_with_summary(current_message, context_summary) do
+    [
+      %{"role" => "user", "content" => "[이전 상황 요약]\n#{context_summary}"},
+      %{"role" => "assistant", "content" => "네, 이전 상황을 파악했습니다. 계속 진행하겠습니다."},
+      %{"role" => "user", "content" => current_message}
+    ]
+  end
+
+  @doc """
   하위 호환: trim_history/1은 build_messages/1로 대체됨.
   """
   def trim_history(history), do: build_messages(history)

@@ -51,6 +51,22 @@ defmodule TrpgMasterWeb.GameComponents do
   end
 
   @doc """
+  도구 호출 결과 알림 컴포넌트.
+  상태 변경 도구(NPC 등록, 퀘스트 갱신, 위치 변경 등) 실행 시 채팅에 표시.
+  """
+  attr :tool_name, :string, required: true
+  attr :message, :string, required: true
+
+  def tool_narration(assigns) do
+    ~H"""
+    <div class="message tool-narration-message">
+      <span class="tool-icon"><%= tool_icon(@tool_name) %></span>
+      <span class="tool-text"><%= @message %></span>
+    </div>
+    """
+  end
+
+  @doc """
   시스템 메시지 컴포넌트.
   """
   attr :text, :string, required: true
@@ -153,6 +169,15 @@ defmodule TrpgMasterWeb.GameComponents do
       ""
     end
   end
+
+  defp tool_icon("register_npc"), do: "📋"
+  defp tool_icon("update_quest"), do: "📜"
+  defp tool_icon("set_location"), do: "📍"
+  defp tool_icon("start_combat"), do: "⚔️"
+  defp tool_icon("end_combat"), do: "🏁"
+  defp tool_icon("update_character"), do: "👤"
+  defp tool_icon("write_journal"), do: "📝"
+  defp tool_icon(_), do: "🔧"
 
   defp spell_slot_total(character) do
     slots = character["spell_slots"] || %{}

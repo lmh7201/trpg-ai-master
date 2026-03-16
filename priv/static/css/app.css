@@ -144,6 +144,28 @@ html, body {
   flex-wrap: wrap;
 }
 
+.tool-narration-message {
+  background: #1a2a3a;
+  border: 1px solid #2a4a6a;
+  align-self: center;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--accent-blue);
+}
+
+.tool-narration-message .tool-icon {
+  font-size: 1rem;
+}
+
+.tool-narration-message .tool-text {
+  color: var(--text-secondary);
+}
+
 .system-message {
   background: var(--system-bg);
   align-self: center;
