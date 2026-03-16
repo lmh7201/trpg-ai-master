@@ -359,6 +359,9 @@ defmodule TrpgMasterWeb.CampaignLive do
           name="message"
           placeholder={if @processing, do: "DM이 응답을 준비하는 중...", else: "무엇을 하시겠습니까? (Shift+Enter로 줄바꿈)"}
           autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
           disabled={@loading || @processing}
           rows="1"
           phx-hook="AutoResize"
