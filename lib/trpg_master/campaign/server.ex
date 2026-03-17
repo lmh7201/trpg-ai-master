@@ -157,7 +157,7 @@ defmodule TrpgMaster.Campaign.Server do
               state.conversation_history ++ [%{"role" => "assistant", "content" => result.text}]
         }
 
-        # 컨텍스트 요약 생성 — 윈도우 밖 메시지가 있을 때만 갱신
+        # 컨텍스트 요약 생성 — 매 턴 강제 갱신 (이전 요약 + 최근 AI 응답 5개)
         state =
           case generate_context_summary(state) do
             {:ok, new_summary} ->
@@ -169,7 +169,7 @@ defmodule TrpgMaster.Campaign.Server do
               %{state | context_summary: new_summary}
 
             :skip ->
-              Logger.info("컨텍스트 요약 스킵 [#{state.id}] — 윈도우 내 메시지만 존재")
+              Logger.info("컨텍스트 요약 스킵 [#{state.id}] — AI 응답 없음")
               state
 
             {:error, reason} ->
@@ -252,32 +252,34 @@ defmodule TrpgMaster.Campaign.Server do
   defp generate_context_summary(state) do
     history = state.conversation_history
 
-    if length(history) <= @recent_window_size do
-      # 모든 메시지가 윈도우 안에 있으므로 요약 불필요
+    # AI(assistant) 응답만 필터링 — 유저 채팅은 요약에 포함하지 않음
+    ai_messages =
+      Enum.filter(history, fn %{"role" => role} -> role == "assistant" end)
+
+    if ai_messages == [] do
       :skip
     else
       haiku_model = summary_model_for(state.ai_model)
       previous = state.context_summary || "(첫 번째 턴 — 이전 요약 없음)"
 
-      # 윈도우 밖 메시지 중 마지막 2개 (이번 턴에 밀려난 것)를 요약에 흡수
-      overflow = Enum.take(history, length(history) - @recent_window_size)
-      new_messages = Enum.take(overflow, -2)
+      # 최근 AI 응답 5개를 이전 요약과 통합
+      recent_ai = Enum.take(ai_messages, -5)
 
       new_exchange =
-        new_messages
-        |> Enum.map(fn %{"role" => role, "content" => content} ->
-          label = if role == "user", do: "플레이어", else: "DM"
-          "#{label}: #{String.slice(content, 0, 1000)}"
+        recent_ai
+        |> Enum.map(fn %{"content" => content} ->
+          "DM: #{String.slice(content, 0, 1000)}"
         end)
         |> Enum.join("\n")
 
       summary_prompt = """
       당신은 TRPG 세션 기록 요약 도우미입니다.
+      [중요] 반드시 이전 요약의 핵심 정보를 보존하면서 최근 AI 응답 내용을 통합하세요.
 
       ## 이전 요약
       #{previous}
 
-      ## 새로 흡수할 대화
+      ## 최근 AI(DM) 응답 히스토리 (최대 5개)
       #{new_exchange}
 
       ## 지시사항
