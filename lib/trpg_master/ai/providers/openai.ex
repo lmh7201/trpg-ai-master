@@ -7,7 +7,7 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   require Logger
 
   @api_url "https://api.openai.com/v1/chat/completions"
-  @max_tool_iterations 10
+  @max_tool_iterations 20
   @timeout 120_000
 
   @doc """

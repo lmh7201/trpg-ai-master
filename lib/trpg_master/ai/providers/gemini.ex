@@ -7,7 +7,7 @@ defmodule TrpgMaster.AI.Providers.Gemini do
   require Logger
 
   @base_url "https://generativelanguage.googleapis.com/v1beta/models"
-  @max_tool_iterations 10
+  @max_tool_iterations 20
   @timeout 120_000
 
   @doc """
