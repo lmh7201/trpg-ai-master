@@ -382,7 +382,7 @@ defmodule TrpgMaster.Campaign.Server do
       case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
         nil ->
           Logger.info("새 캐릭터 생성: #{char_name}")
-          [Map.merge(%{"name" => char_name}, changes) | state.characters]
+          state.characters ++ [Map.merge(%{"name" => char_name}, changes)]
 
         idx ->
           List.update_at(state.characters, idx, fn char ->
@@ -449,10 +449,13 @@ defmodule TrpgMaster.Campaign.Server do
     enemies = input["enemies"]
     Logger.info("전투 시작: #{Enum.join(participants, ", ")}")
 
+    player_names = Enum.map(state.characters, fn c -> c["name"] end)
+
     combat = %{
       "participants" => participants,
       "round" => 1,
-      "turn_order" => []
+      "turn_order" => [],
+      "player_names" => player_names
     }
 
     combat =
@@ -467,7 +470,16 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp apply_single_tool_result(state, %{tool: "end_combat", input: _input}) do
     Logger.info("전투 종료")
-    %{state | phase: :exploration, combat_state: nil}
+    player_names = get_in(state.combat_state, ["player_names"]) || []
+
+    characters =
+      if player_names != [] do
+        Enum.filter(state.characters, fn c -> c["name"] in player_names end)
+      else
+        state.characters
+      end
+
+    %{state | phase: :exploration, combat_state: nil, characters: characters}
   end
 
   @max_journal_entries 100
