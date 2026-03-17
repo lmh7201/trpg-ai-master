@@ -23,8 +23,21 @@ defmodule TrpgMaster.AI.PromptBuilder do
     context = build_campaign_context(state)
     tools_instruction = state_tools_instruction()
     mode_instruction = mode_instruction(state.mode)
+    summary_section = build_summary_section(state.context_summary)
 
-    "#{base}\n\n#{context}\n\n#{tools_instruction}\n\n#{mode_instruction}"
+    "#{base}\n\n#{context}\n\n#{summary_section}#{tools_instruction}\n\n#{mode_instruction}"
+  end
+
+  defp build_summary_section(nil), do: ""
+
+  defp build_summary_section(summary) do
+    """
+    ## 이전 대화 요약 (참고용 맥락)
+    아래는 슬라이딩 윈도우 밖의 과거 대화를 요약한 것이다. 이미 서술한 내용이므로 반복하지 말고, 맥락 파악용으로만 참고하라.
+
+    #{summary}
+
+    """
   end
 
   @doc """
@@ -79,20 +92,9 @@ defmodule TrpgMaster.AI.PromptBuilder do
   슬라이딩 윈도우 + 요약 기반 메시지 구성.
   최근 N개 실제 메시지를 보존하고, 그 이전은 요약으로 커버한다.
   """
-  def build_messages_with_summary(current_message, context_summary, conversation_history \\ [])
-
-  def build_messages_with_summary(current_message, nil, conversation_history) do
+  def build_messages_with_summary(current_message, _context_summary, conversation_history \\ []) do
     recent = Enum.take(conversation_history, -@recent_window_size)
     ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
-  end
-
-  def build_messages_with_summary(current_message, context_summary, conversation_history) do
-    recent = Enum.take(conversation_history, -@recent_window_size)
-
-    [
-      %{"role" => "user", "content" => "[이전 상황 요약]\n#{context_summary}"},
-      %{"role" => "assistant", "content" => "네, 이전 상황을 파악했습니다. 계속 진행하겠습니다."}
-    ] ++ ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
   end
 
   # 메시지 리스트가 assistant로 시작하면 제거하여 user→assistant 순서를 보장
