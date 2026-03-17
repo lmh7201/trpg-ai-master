@@ -8,7 +8,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   require Logger
 
   @api_url "https://api.anthropic.com/v1/messages"
-  @max_tool_iterations 5
+  @max_tool_iterations 10
   @timeout 120_000
 
   @doc """
