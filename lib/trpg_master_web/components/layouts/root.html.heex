@@ -8,6 +8,16 @@
     <link rel="stylesheet" href={~p"/css/app.css"} />
   </head>
   <body>
+    <div id="loading-screen" aria-hidden="true">
+      <div class="loading-content">
+        <div class="loading-emblem">⚔</div>
+        <h1 class="loading-title">AI TRPG Master</h1>
+        <div class="loading-runes">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="loading-text">세계를 불러오는 중...</p>
+      </div>
+    </div>
     <%= @inner_content %>
     <script src="/assets/phoenix/phoenix.min.js"></script>
     <script src="/assets/phoenix_live_view/phoenix_live_view.min.js"></script>
@@ -165,6 +175,20 @@
       });
       liveSocket.connect();
       window.liveSocket = liveSocket;
+
+      // 로딩 화면 숨기기: LiveView 첫 마운트 완료 시
+      function hideLoading() {
+        const el = document.getElementById("loading-screen");
+        if (el) el.classList.add("hidden");
+      }
+      window.addEventListener("phx:page-loading-stop", hideLoading, { once: true });
+      // LiveView 연결 안 되는 페이지(로그인 등) 대비 fallback
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const el = document.getElementById("loading-screen");
+          if (el && !el.classList.contains("hidden")) hideLoading();
+        }, 1500);
+      });
     </script>
   </body>
 </html>
