@@ -910,18 +910,25 @@ html, body {
 /* ── DM 선택 버튼 & 모달 ────────────────────────────────────────────── */
 
 .dm-select-btn {
-  padding: 0.3rem 0.6rem;
+  padding: 0.25rem;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   border: 1px solid var(--border-color);
   background: transparent;
   color: var(--text-secondary);
-  font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s;
-  white-space: nowrap;
-  max-width: 130px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dm-select-btn svg {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
 .dm-select-btn:hover {

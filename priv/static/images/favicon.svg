@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Parchment background -->
+  <rect width="32" height="32" rx="5" fill="#F5E6B0"/>
+  <rect x="1" y="1" width="30" height="30" rx="4" fill="#F0DC9A" opacity="0.6"/>
+
+  <!-- Parchment text lines -->
+  <line x1="4" y1="22" x2="18" y2="22" stroke="#8B7355" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <line x1="4" y1="25" x2="14" y2="25" stroke="#8B7355" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Quill feather body -->
+  <path d="M28 2 C24 4, 18 8, 14 14 C12 17, 11 20, 11 22 C13 20, 16 17, 19 14 C22 11, 26 7, 28 2Z" fill="#E8D080"/>
+  <path d="M28 2 C25 5, 20 9, 16 15 C14 18, 13 21, 12 23 C14 21, 17 18, 20 15 C23 12, 26 7, 28 2Z" fill="#F0E090" opacity="0.7"/>
+  <path d="M28 2 C26 4, 22 7, 18 12 C16 15, 14 18, 13 20" stroke="#C8A840" stroke-width="0.5" fill="none" opacity="0.8"/>
+
+  <!-- Quill spine -->
+  <path d="M28 2 L12 22" stroke="#B89A30" stroke-width="0.8" stroke-linecap="round"/>
+
+  <!-- Quill nib -->
+  <path d="M12 22 L9 27 L14 24 Z" fill="#2C1A0E"/>
+  <path d="M11 24 L10 27" stroke="#1a0e06" stroke-width="0.8" stroke-linecap="round"/>
+
+  <!-- Animated ink writing -->
+  <g>
+    <!-- First ink stroke -->
+    <path d="M10 27 Q7 26 5 25" stroke="#1A1A3E" stroke-width="1.2" stroke-linecap="round" fill="none"
+      stroke-dasharray="8" stroke-dashoffset="8">
+      <animate attributeName="stroke-dashoffset" values="8;0;0;8" dur="2.5s" repeatCount="indefinite" begin="0s"/>
+    </path>
+    <!-- Second ink stroke -->
+    <path d="M4 22 Q8 22 12 22" stroke="#1A1A3E" stroke-width="1.2" stroke-linecap="round" fill="none"
+      stroke-dasharray="10" stroke-dashoffset="10">
+      <animate attributeName="stroke-dashoffset" values="10;0;0;10" dur="2.5s" repeatCount="indefinite" begin="0.6s"/>
+    </path>
+  </g>
+</svg>
