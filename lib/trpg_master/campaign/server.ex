@@ -161,7 +161,7 @@ defmodule TrpgMaster.Campaign.Server do
         state =
           case generate_context_summary(state) do
             {:ok, new_summary} ->
-              if state.context_summary do
+              if state.context_summary && meaningful_summary?(state.context_summary) do
                 Persistence.append_summary_log(state.id, state.context_summary)
               end
 
@@ -296,6 +296,22 @@ defmodule TrpgMaster.Campaign.Server do
       end
     end
   end
+
+  # 시간/날짜 정보만 있고 실제 내용이 없는 요약을 필터링
+  defp meaningful_summary?(text) when is_binary(text) do
+    stripped =
+      text
+      |> String.replace(~r/\d{4}[-\/]\d{1,2}[-\/]\d{1,2}/, "")
+      |> String.replace(~r/\d{1,2}:\d{2}(:\d{2})?/, "")
+      |> String.replace(~r/[T\-\/:\s.,()]+/, "")
+      |> String.replace(~r/첫\s*번째\s*턴/, "")
+      |> String.replace("이전 요약 없음", "")
+      |> String.trim()
+
+    String.length(stripped) >= 10
+  end
+
+  defp meaningful_summary?(_), do: false
 
   defp format_characters([]), do: "(없음)"
 
