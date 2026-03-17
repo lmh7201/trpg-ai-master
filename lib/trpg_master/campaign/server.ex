@@ -292,7 +292,12 @@ defmodule TrpgMaster.Campaign.Server do
       불필요한 세부사항은 생략하고, 다음 턴에서 DM이 맥락을 파악하는 데 필요한 정보만 남기세요.
       """
 
-      case Client.chat(summary_prompt, [], [], model: haiku_model, max_tokens: 512) do
+      summary_messages = [%{"role" => "user", "content" => summary_prompt}]
+
+      case Client.chat("You are a TRPG session summarizer.", summary_messages, [],
+             model: haiku_model,
+             max_tokens: 512
+           ) do
         {:ok, result} -> {:ok, result.text}
         {:error, reason} -> {:error, reason}
       end
