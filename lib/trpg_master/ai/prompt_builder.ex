@@ -72,20 +72,32 @@ defmodule TrpgMaster.AI.PromptBuilder do
     end
   end
 
+  # 슬라이딩 윈도우 크기: 최근 메시지 N개를 그대로 유지
+  @recent_window_size 5
+
   @doc """
-  요약 기반 메시지 구성. 전체 히스토리 대신 최신 요약 + 현재 메시지만 전달한다.
+  슬라이딩 윈도우 + 요약 기반 메시지 구성.
+  최근 N개 실제 메시지를 보존하고, 그 이전은 요약으로 커버한다.
   """
-  def build_messages_with_summary(current_message, nil) do
-    [%{"role" => "user", "content" => current_message}]
+  def build_messages_with_summary(current_message, context_summary, conversation_history \\ [])
+
+  def build_messages_with_summary(current_message, nil, conversation_history) do
+    recent = Enum.take(conversation_history, -@recent_window_size)
+    ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
   end
 
-  def build_messages_with_summary(current_message, context_summary) do
+  def build_messages_with_summary(current_message, context_summary, conversation_history) do
+    recent = Enum.take(conversation_history, -@recent_window_size)
+
     [
       %{"role" => "user", "content" => "[이전 상황 요약]\n#{context_summary}"},
-      %{"role" => "assistant", "content" => "네, 이전 상황을 파악했습니다. 계속 진행하겠습니다."},
-      %{"role" => "user", "content" => current_message}
-    ]
+      %{"role" => "assistant", "content" => "네, 이전 상황을 파악했습니다. 계속 진행하겠습니다."}
+    ] ++ ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
   end
+
+  # 메시지 리스트가 assistant로 시작하면 제거하여 user→assistant 순서를 보장
+  defp ensure_valid_turn_order([%{"role" => "assistant"} | rest]), do: rest
+  defp ensure_valid_turn_order(messages), do: messages
 
   @doc """
   하위 호환: trim_history/1은 build_messages/1로 대체됨.
