@@ -117,7 +117,12 @@ defmodule TrpgMaster.Campaign.Server do
 
     system_prompt = PromptBuilder.build(state)
     tools = Tools.definitions(state.phase) ++ Tools.state_tool_definitions()
-    trimmed_history = PromptBuilder.build_messages_with_summary(message, state.context_summary)
+    trimmed_history =
+      PromptBuilder.build_messages_with_summary(
+        message,
+        state.context_summary,
+        state.conversation_history
+      )
 
     # read_journal 도구가 현재 저널 데이터에 접근할 수 있도록 프로세스 딕셔너리에 저장
     Process.put(:journal_entries, state.journal_entries)
@@ -152,9 +157,9 @@ defmodule TrpgMaster.Campaign.Server do
               state.conversation_history ++ [%{"role" => "assistant", "content" => result.text}]
         }
 
-        # 컨텍스트 요약 생성 (저비용 모델 사용)
+        # 컨텍스트 요약 생성 — 윈도우 밖 메시지가 있을 때만 갱신
         state =
-          case generate_context_summary(state, message, result.text) do
+          case generate_context_summary(state) do
             {:ok, new_summary} ->
               if state.context_summary do
                 Persistence.append_summary_log(state.id, state.context_summary)
@@ -162,6 +167,10 @@ defmodule TrpgMaster.Campaign.Server do
 
               Logger.info("컨텍스트 요약 갱신 [#{state.id}]")
               %{state | context_summary: new_summary}
+
+            :skip ->
+              Logger.info("컨텍스트 요약 스킵 [#{state.id}] — 윈도우 내 메시지만 존재")
+              state
 
             {:error, reason} ->
               Logger.warning("컨텍스트 요약 생성 실패 [#{state.id}]: #{inspect(reason)}")
@@ -237,35 +246,54 @@ defmodule TrpgMaster.Campaign.Server do
     end
   end
 
-  defp generate_context_summary(state, user_message, ai_response) do
-    haiku_model = summary_model_for(state.ai_model)
+  # 슬라이딩 윈도우 크기 (PromptBuilder와 동일)
+  @recent_window_size 5
 
-    previous = state.context_summary || "(첫 번째 턴 — 이전 요약 없음)"
-    truncated_response = String.slice(ai_response, 0, 2000)
+  defp generate_context_summary(state) do
+    history = state.conversation_history
 
-    summary_prompt = """
-    당신은 TRPG 세션 기록 요약 도우미입니다.
+    if length(history) <= @recent_window_size do
+      # 모든 메시지가 윈도우 안에 있으므로 요약 불필요
+      :skip
+    else
+      haiku_model = summary_model_for(state.ai_model)
+      previous = state.context_summary || "(첫 번째 턴 — 이전 요약 없음)"
 
-    ## 이전 요약
-    #{previous}
+      # 윈도우 밖 메시지 중 마지막 2개 (이번 턴에 밀려난 것)를 요약에 흡수
+      overflow = Enum.take(history, length(history) - @recent_window_size)
+      new_messages = Enum.take(overflow, -2)
 
-    ## 최신 대화
-    플레이어: #{user_message}
-    DM: #{truncated_response}
+      new_exchange =
+        new_messages
+        |> Enum.map(fn %{"role" => role, "content" => content} ->
+          label = if role == "user", do: "플레이어", else: "DM"
+          "#{label}: #{String.slice(content, 0, 1000)}"
+        end)
+        |> Enum.join("\n")
 
-    ## 지시사항
-    위 정보를 하나의 간결한 요약으로 통합하세요 (최대 500자).
-    반드시 포함할 내용:
-    - 등장한 NPC들 (이름과 태도)
-    - 현재 진행 중인 퀘스트와 상태
-    - 현재 위치
-    - 최근 주요 사건이나 결정
-    불필요한 세부사항은 생략하고, 다음 턴에서 DM이 맥락을 파악하는 데 필요한 정보만 남기세요.
-    """
+      summary_prompt = """
+      당신은 TRPG 세션 기록 요약 도우미입니다.
 
-    case Client.chat(summary_prompt, [], [], model: haiku_model, max_tokens: 512) do
-      {:ok, result} -> {:ok, result.text}
-      {:error, reason} -> {:error, reason}
+      ## 이전 요약
+      #{previous}
+
+      ## 새로 흡수할 대화
+      #{new_exchange}
+
+      ## 지시사항
+      위 정보를 하나의 간결한 요약으로 통합하세요 (최대 500자).
+      반드시 포함할 내용:
+      - 등장한 NPC들 (이름과 태도)
+      - 현재 진행 중인 퀘스트와 상태
+      - 현재 위치
+      - 최근 주요 사건이나 결정
+      불필요한 세부사항은 생략하고, 다음 턴에서 DM이 맥락을 파악하는 데 필요한 정보만 남기세요.
+      """
+
+      case Client.chat(summary_prompt, [], [], model: haiku_model, max_tokens: 512) do
+        {:ok, result} -> {:ok, result.text}
+        {:error, reason} -> {:error, reason}
+      end
     end
   end
 
