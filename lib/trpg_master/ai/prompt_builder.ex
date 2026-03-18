@@ -75,7 +75,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
     이번 응답에서는 플레이어의 행동만 서술하세요.
     - 플레이어가 선언한 행동을 처리합니다 (공격, 주문, 이동 등)
     - roll_dice로 공격/피해 굴림을 수행합니다
-    - update_character로 HP 등 상태 변경을 기록합니다
+    - update_character로 HP 등 상태 변경을 기록합니다 (적의 HP 변경도 반드시 update_character로 기록)
     - 적의 반격이나 턴은 서술하지 마세요. 다음 응답에서 처리됩니다.
     - 서술 끝에 "무엇을 하시겠습니까?"를 붙이지 마세요.
 

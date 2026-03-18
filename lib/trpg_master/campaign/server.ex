@@ -241,11 +241,15 @@ defmodule TrpgMaster.Campaign.Server do
     end
   end
 
-  # combat_state["enemies"]에서 적 그룹 이름 목록 추출
+  # combat_state["enemies"]에서 살아있는 적 그룹 이름 목록 추출
   defp extract_enemy_groups(state) do
     case get_in(state.combat_state, ["enemies"]) do
       enemies when is_list(enemies) and enemies != [] ->
         enemies
+        |> Enum.reject(fn e ->
+          hp = e["hp_current"]
+          is_number(hp) and hp <= 0
+        end)
         |> Enum.map(fn e -> e["name"] end)
         |> Enum.reject(&is_nil/1)
         |> Enum.uniq()
@@ -537,6 +541,34 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp meaningful_summary?(_), do: false
 
+  # 전투 참가자 (플레이어 + 적) 상태를 포맷팅
+  defp format_combatants_status(state) do
+    player_names = get_in(state.combat_state, ["player_names"]) || []
+    enemies = get_in(state.combat_state, ["enemies"]) || []
+
+    player_lines =
+      state.characters
+      |> Enum.filter(fn c -> c["name"] in player_names end)
+      |> Enum.map(fn c ->
+        hp = if c["hp_current"] && c["hp_max"], do: " HP #{c["hp_current"]}/#{c["hp_max"]}", else: ""
+        status = if is_number(c["hp_current"]) and c["hp_current"] <= 0, do: " [쓰러짐]", else: ""
+        conditions = case c["conditions"] do
+          list when is_list(list) and list != [] -> " 상태: #{Enum.join(list, ", ")}"
+          _ -> ""
+        end
+        "- [아군] #{c["name"]}#{hp}#{status}#{conditions}"
+      end)
+
+    enemy_lines =
+      Enum.map(enemies, fn e ->
+        hp = if e["hp_current"] && e["hp_max"], do: " HP #{e["hp_current"]}/#{e["hp_max"]}", else: ""
+        status = if is_number(e["hp_current"]) and e["hp_current"] <= 0, do: " [사망]", else: ""
+        "- [적] #{e["name"]}#{hp}#{status}"
+      end)
+
+    Enum.join(player_lines ++ enemy_lines, "\n")
+  end
+
   defp format_characters([]), do: "(없음)"
 
   defp format_characters(characters) do
@@ -644,6 +676,8 @@ defmodule TrpgMaster.Campaign.Server do
         end)
         |> Enum.join("\n")
 
+      combatants_status = format_combatants_status(state)
+
       summary_prompt = """
       당신은 TRPG 전투 기록 요약 도우미입니다.
       [중요] 반드시 이전 요약의 핵심 정보를 보존하면서 최근 전투 내용을 통합하세요.
@@ -654,12 +688,15 @@ defmodule TrpgMaster.Campaign.Server do
       ## 최근 전투 진행 (최대 3건)
       #{new_exchange}
 
+      ## 현재 참가자 상태
+      #{combatants_status}
+
       ## 지시사항
       위 정보를 하나의 간결한 전투 요약으로 통합하세요 (최대 400자).
       반드시 포함할 내용:
       - 각 라운드의 주요 공격/피해
       - 현재 적의 상태 (HP 변화, 사망 여부)
-      - 현재 아군의 상태
+      - 현재 아군의 상태 (HP 변화)
       - 사용된 주요 능력이나 주문
       마크다운 서식을 사용하지 마세요. 순수 텍스트로만 작성하세요.
       """
@@ -692,16 +729,21 @@ defmodule TrpgMaster.Campaign.Server do
         end)
         |> Enum.join("\n")
 
+      combatants_status = format_combatants_status(state)
+
       summary_prompt = """
       당신은 TRPG 전투 기록 요약 도우미입니다. 전투가 끝났습니다.
 
       ## 전투 전체 기록
       #{combat_exchanges}
 
+      ## 전투 종료 시 참가자 상태
+      #{combatants_status}
+
       ## 지시사항
       위 전투 전체를 간결하게 요약하세요 (최대 500자).
       반드시 포함할 내용:
-      - 전투 참가자 (아군, 적)
+      - 전투 참가자 (아군, 적)와 최종 상태 (HP, 사망 여부)
       - 전투의 전개 과정 (주요 전환점)
       - 전투 결과 (승패, 사상자)
       - 획득한 전리품이나 경험치 (언급된 경우)
@@ -746,7 +788,37 @@ defmodule TrpgMaster.Campaign.Server do
           end)
       end
 
-    %{state | characters: characters}
+    state = %{state | characters: characters}
+
+    # 전투 중이면 combat_state["enemies"]의 HP도 동기화
+    sync_enemy_hp_to_combat_state(state, char_name, changes)
+  end
+
+  # update_character 후 combat_state["enemies"]의 HP를 동기화
+  defp sync_enemy_hp_to_combat_state(%{combat_state: nil} = state, _name, _changes), do: state
+
+  defp sync_enemy_hp_to_combat_state(state, char_name, changes) do
+    enemies = get_in(state.combat_state, ["enemies"]) || []
+    hp_current = changes["hp_current"]
+
+    if hp_current && Enum.any?(enemies, fn e -> e["name"] == char_name end) do
+      updated_enemies =
+        Enum.map(enemies, fn e ->
+          if e["name"] == char_name do
+            e
+            |> Map.put("hp_current", hp_current)
+            |> then(fn e2 ->
+              if changes["hp_max"], do: Map.put(e2, "hp_max", changes["hp_max"]), else: e2
+            end)
+          else
+            e
+          end
+        end)
+
+      put_in(state.combat_state["enemies"], updated_enemies)
+    else
+      state
+    end
   end
 
   defp apply_single_tool_result(state, %{tool: "register_npc", input: input}) do
