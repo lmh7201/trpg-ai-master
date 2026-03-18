@@ -69,7 +69,7 @@ defmodule TrpgMasterWeb.HistoryLive do
         </button>
       </div>
 
-      <div class="history-scroll">
+      <div class="history-scroll" id="history-scroll" phx-hook="ScrollBottom">
         <div class="novel-content">
           <%= if @view_mode == :campaign do %>
             <%= if @sessions == [] do %>
