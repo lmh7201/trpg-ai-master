@@ -297,7 +297,7 @@ defmodule TrpgMaster.Campaign.Server do
 
       case Client.chat("You are a TRPG session summarizer.", summary_messages, [],
              model: haiku_model,
-             max_tokens: 512
+             max_tokens: 800
            ) do
         {:ok, result} -> {:ok, result.text}
         {:error, reason} -> {:error, reason}
