@@ -19,15 +19,15 @@ defmodule TrpgMaster.AI.Models do
       config_key: :anthropic_api_key
     },
     %{
-      id: "gpt-5.2",
-      name: "GPT-5.2",
+      id: "gpt-5.4",
+      name: "GPT-5.4",
       provider: :openai,
       env: "OPENAI_API_KEY",
       config_key: :openai_api_key
     },
     %{
-      id: "gpt-5-mini",
-      name: "GPT-5 Mini",
+      id: "gpt-5.4-mini",
+      name: "GPT-5.4 Mini",
       provider: :openai,
       env: "OPENAI_API_KEY",
       config_key: :openai_api_key
