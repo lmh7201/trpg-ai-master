@@ -166,21 +166,21 @@ defmodule TrpgMasterWeb.CampaignLive do
     campaign_id = socket.assigns.campaign_id
 
     case Server.player_action(campaign_id, message) do
-      # 전투 모드: 플레이어 턴 + 적 턴 2개 결과
-      {:ok, [player_result, enemy_result]} ->
+      # 전투 모드: 리스트 반환 [player_result | enemy_results]
+      {:ok, [player_result | enemy_results]} when enemy_results != [] ->
         messages = append_tool_messages(socket, player_result)
         messages = messages ++ [%{type: :dm, text: player_result.text}]
 
-        # 플레이어 턴 결과 즉시 표시, 적 턴은 지연 표시
-        send(self(), {:display_enemy_turn, enemy_result})
+        # 플레이어 턴 결과 즉시 표시, 적 그룹 턴들은 순차 표시
+        send(self(), {:display_enemy_turns, enemy_results})
 
         {:noreply,
          socket
          |> assign(:messages, messages)
          |> assign(:loading, true)}
 
-      # 탐험 모드 또는 단일 결과 (전투 종료 시)
-      {:ok, result} ->
+      # 탐험 모드 또는 단일 결과 (전투 종료 시 등)
+      {:ok, result} when not is_list(result) ->
         messages = append_tool_messages(socket, result)
         messages = messages ++ [%{type: :dm, text: result.text}]
         state = Server.get_state(campaign_id)
@@ -203,19 +203,32 @@ defmodule TrpgMasterWeb.CampaignLive do
     end
   end
 
+  # 적 그룹 턴 순차 표시 — 남은 적 그룹이 있으면 계속 체이닝
   @impl true
-  def handle_info({:display_enemy_turn, result}, socket) do
+  def handle_info({:display_enemy_turns, [result | rest]}, socket) do
     campaign_id = socket.assigns.campaign_id
     messages = append_tool_messages(socket, result)
     messages = messages ++ [%{type: :dm, text: result.text}]
-    state = Server.get_state(campaign_id)
 
-    {:noreply,
-     socket
-     |> assign(:messages, messages)
-     |> assign(:loading, false)
-     |> assign(:processing, false)
-     |> update_state_assigns(state)}
+    if rest == [] do
+      # 마지막 적 그룹 — 로딩 종료
+      state = Server.get_state(campaign_id)
+
+      {:noreply,
+       socket
+       |> assign(:messages, messages)
+       |> assign(:loading, false)
+       |> assign(:processing, false)
+       |> update_state_assigns(state)}
+    else
+      # 다음 적 그룹 표시 예약
+      send(self(), {:display_enemy_turns, rest})
+
+      {:noreply,
+       socket
+       |> assign(:messages, messages)
+       |> assign(:loading, true)}
+    end
   end
 
   @impl true
