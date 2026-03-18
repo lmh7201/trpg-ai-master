@@ -171,9 +171,10 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
   @doc """
   State 기반 턴 메시지 구성.
-  탐험 모드: exploration_history에서 최근 메시지 + 현재 유저 메시지
-  전투 모드: exploration_history에서 최근 메시지 + combat_history 최근 메시지 + 현재 유저 메시지
-  opts: combat_phase: :player_turn | :enemy_turn (전투 모드에서 적 턴일 때 자동 메시지 사용)
+  탐험 모드: 탐험 요약(시스템) + exploration_history 최근 5건 + 현재 유저 메시지
+  전투 모드: 탐험 요약(시스템) + exploration_history 최근 AI 응답 5건
+             + 전투 누적 요약(시스템) + combat_history 최신 1건 + 현재 메시지
+  적 턴 트리거 메시지는 combat_history에 저장하지 않고 current_message로만 전달.
   """
   def build_turn_messages(%State{} = state, current_message, opts \\ []) do
     case state.phase do
@@ -190,14 +191,18 @@ defmodule TrpgMaster.AI.PromptBuilder do
     ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
   end
 
+  # 전투 최신 히스토리 건수 (user+assistant 쌍 기준이 아닌 메시지 단위)
+  @combat_recent_size 2
+
   defp build_combat_turn_messages(state, current_message, _opts) do
-    # 탐험 히스토리에서 최근 AI 응답 (배경 맥락)
+    # 탐험 히스토리에서 최근 AI 응답 5건 (배경 맥락)
     exploration_recent = Enum.take(state.exploration_history, -@recent_window_size)
 
-    # 전투 히스토리에서 최근 메시지 (현재 전투 컨텍스트)
-    combat_recent = Enum.take(state.combat_history, -@recent_window_size)
+    # 전투 히스토리에서 최신 1건 (user+assistant 쌍 = 2 메시지)
+    # 나머지 전투 맥락은 combat_history_summary가 시스템 프롬프트에서 커버
+    combat_recent = Enum.take(state.combat_history, -@combat_recent_size)
 
-    # 탐험 맥락 + 전투 맥락 + 현재 메시지
+    # 탐험 맥락 + 전투 최신 + 현재 메시지 (적 턴 트리거 또는 플레이어 입력)
     messages = ensure_valid_turn_order(exploration_recent) ++ combat_recent
     messages ++ [%{"role" => "user", "content" => current_message}]
   end
