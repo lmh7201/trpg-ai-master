@@ -94,8 +94,14 @@ defmodule TrpgMaster.Campaign.Server do
         session_number = estimate_session_number(state)
         Persistence.append_session_log(state, session_number, summary_text)
 
-        # 대화 히스토리 및 컨텍스트 요약 리셋 (캐릭터/NPC/퀘스트는 유지)
-        new_state = %{state | conversation_history: [], context_summary: nil}
+        # 히스토리 및 요약 리셋 (캐릭터/NPC/퀘스트는 유지)
+        new_state = %{state |
+          exploration_history: [],
+          combat_history: [],
+          combat_history_summary: nil,
+          post_combat_summary: nil,
+          context_summary: nil
+        }
         Persistence.save_async(new_state)
 
         {:reply, {:ok, summary_text}, new_state}
@@ -108,30 +114,33 @@ defmodule TrpgMaster.Campaign.Server do
 
   @impl true
   def handle_call({:player_action, message}, _from, state) do
-    history = state.conversation_history ++ [%{"role" => "user", "content" => message}]
-    state = %{state | conversation_history: history, turn_count: state.turn_count + 1}
+    state = %{state | turn_count: state.turn_count + 1}
+
+    case state.phase do
+      :combat ->
+        handle_combat_action(message, state)
+
+      _ ->
+        handle_exploration_action(message, state)
+    end
+  end
+
+  # ── 탐험 모드 처리 ─────────────────────────────────────────────────────────
+
+  defp handle_exploration_action(message, state) do
+    history = state.exploration_history ++ [%{"role" => "user", "content" => message}]
+    state = %{state | exploration_history: history}
 
     Logger.info(
-      "플레이어 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개"
+      "탐험 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개"
     )
 
     system_prompt = PromptBuilder.build(state)
     tools = Tools.definitions(state.phase) ++ Tools.state_tool_definitions()
-    trimmed_history =
-      PromptBuilder.build_messages_with_summary(
-        message,
-        state.context_summary,
-        state.conversation_history
-      )
+    trimmed_history = PromptBuilder.build_turn_messages(state, message)
 
-    # read_journal 도구가 현재 저널 데이터에 접근할 수 있도록 프로세스 딕셔너리에 저장
+    model_opts = model_opts(state)
     Process.put(:journal_entries, state.journal_entries)
-
-    model_opts =
-      case state.ai_model do
-        nil -> []
-        model_id -> [model: model_id]
-      end
 
     result =
       try do
@@ -144,43 +153,27 @@ defmodule TrpgMaster.Campaign.Server do
       {:ok, result} ->
         state_before = state
         state = apply_tool_results(state, result.tool_results)
-
-        if map_size(state.npcs) != map_size(state_before.npcs) do
-          Logger.info(
-            "NPC 상태 변경 [#{state.id}]: #{map_size(state_before.npcs)}개 → #{map_size(state.npcs)}개"
-          )
-        end
+        log_npc_changes(state, state_before)
 
         state = %{
           state
-          | conversation_history:
-              state.conversation_history ++ [%{"role" => "assistant", "content" => result.text}]
+          | exploration_history:
+              state.exploration_history ++ [%{"role" => "assistant", "content" => result.text}]
         }
 
-        # 컨텍스트 요약 생성 — 매 턴 강제 갱신 (이전 요약 + 최근 AI 응답 5개)
+        # 전투 직후 첫 탐험 턴이면 post_combat_summary 소비
         state =
-          case generate_context_summary(state) do
-            {:ok, new_summary} ->
-              if state.context_summary && meaningful_summary?(state.context_summary) do
-                Persistence.append_summary_log(state.id, state.context_summary)
-              end
-
-              Logger.info("컨텍스트 요약 갱신 [#{state.id}]")
-              %{state | context_summary: new_summary}
-
-            :skip ->
-              Logger.info("컨텍스트 요약 스킵 [#{state.id}] — AI 응답 없음")
-              state
-
-            {:error, reason} ->
-              Logger.warning("컨텍스트 요약 생성 실패 [#{state.id}]: #{inspect(reason)}")
-              state
+          if state.post_combat_summary do
+            %{state | post_combat_summary: nil}
+          else
+            state
           end
 
+        state = update_context_summary(state)
         Persistence.save_async(state)
 
         Logger.info(
-          "턴 #{state.turn_count} 저장 완료 [#{state.id}] — npcs: #{map_size(state.npcs)}개, history: #{length(state.conversation_history)}개"
+          "턴 #{state.turn_count} 저장 완료 [#{state.id}] — npcs: #{map_size(state.npcs)}개, exploration: #{length(state.exploration_history)}개"
         )
 
         {:reply, {:ok, result}, state}
@@ -189,6 +182,147 @@ defmodule TrpgMaster.Campaign.Server do
         Logger.error("AI 호출 실패 [#{state.id}]: #{inspect(reason)}")
         {:reply, {:error, reason}, state}
     end
+  end
+
+  # ── 전투 모드 처리 (2단계 API 호출) ─────────────────────────────────────────
+
+  @enemy_turn_trigger "이제 적의 턴입니다. 적의 행동을 서술해주세요."
+
+  defp handle_combat_action(message, state) do
+    # 1) 플레이어 메시지를 combat_history에 추가
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => message}]}
+
+    Logger.info(
+      "전투 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — combat_history: #{length(state.combat_history)}개"
+    )
+
+    # 2) 플레이어 턴 API 호출
+    system_prompt = PromptBuilder.build(state, combat_phase: :player_turn)
+    tools = Tools.definitions(:combat) ++ Tools.state_tool_definitions()
+    trimmed_history = PromptBuilder.build_turn_messages(state, message, combat_phase: :player_turn)
+    model_opts = model_opts(state)
+
+    Process.put(:journal_entries, state.journal_entries)
+
+    player_result =
+      try do
+        Client.chat(system_prompt, trimmed_history, tools, model_opts)
+      after
+        Process.delete(:journal_entries)
+      end
+
+    case player_result do
+      {:ok, player_result} ->
+        state_before = state
+        state = apply_tool_results(state, player_result.tool_results)
+        log_npc_changes(state, state_before)
+
+        # 플레이어 턴 AI 응답을 combat_history에 추가
+        state = %{
+          state
+          | combat_history:
+              state.combat_history ++ [%{"role" => "assistant", "content" => player_result.text}]
+        }
+
+        # end_combat이 플레이어 턴에서 호출되었는지 확인
+        if state.phase != :combat do
+          # 전투가 종료됨 — 적 턴 스킵, 전투 종료 처리
+          state = finalize_combat(state, player_result.text)
+          state = update_context_summary(state)
+          Persistence.save_async(state)
+          {:reply, {:ok, player_result}, state}
+        else
+          # 3) 적 턴 API 호출
+          handle_enemy_turn(state, player_result, tools, model_opts)
+        end
+
+      {:error, reason} ->
+        Logger.error("AI 호출 실패 (플레이어 턴) [#{state.id}]: #{inspect(reason)}")
+        {:reply, {:error, reason}, state}
+    end
+  end
+
+  defp handle_enemy_turn(state, player_result, tools, model_opts) do
+    # 적 턴 자동 트리거 메시지를 combat_history에 추가
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => @enemy_turn_trigger}]}
+
+    system_prompt = PromptBuilder.build(state, combat_phase: :enemy_turn)
+    trimmed_history = PromptBuilder.build_turn_messages(state, @enemy_turn_trigger, combat_phase: :enemy_turn)
+
+    Process.put(:journal_entries, state.journal_entries)
+
+    enemy_result =
+      try do
+        Client.chat(system_prompt, trimmed_history, tools, model_opts)
+      after
+        Process.delete(:journal_entries)
+      end
+
+    case enemy_result do
+      {:ok, enemy_result} ->
+        state_before = state
+        state = apply_tool_results(state, enemy_result.tool_results)
+        log_npc_changes(state, state_before)
+
+        # 적 턴 AI 응답을 combat_history에 추가
+        state = %{
+          state
+          | combat_history:
+              state.combat_history ++ [%{"role" => "assistant", "content" => enemy_result.text}]
+        }
+
+        # end_combat이 적 턴에서 호출되었는지 확인
+        if state.phase != :combat do
+          state = finalize_combat(state, enemy_result.text)
+          state = update_context_summary(state)
+          Persistence.save_async(state)
+          {:reply, {:ok, [player_result, enemy_result]}, state}
+        else
+          # 전투 계속 — combat_history_summary 갱신
+          state = update_combat_history_summary(state)
+          state = update_context_summary(state)
+          Persistence.save_async(state)
+
+          Logger.info(
+            "전투 턴 #{state.turn_count} 저장 완료 [#{state.id}] — combat_history: #{length(state.combat_history)}개"
+          )
+
+          {:reply, {:ok, [player_result, enemy_result]}, state}
+        end
+
+      {:error, reason} ->
+        Logger.error("AI 호출 실패 (적 턴) [#{state.id}]: #{inspect(reason)}")
+        # 플레이어 턴은 성공했으므로 플레이어 결과만 반환
+        Persistence.save_async(state)
+        {:reply, {:ok, player_result}, state}
+    end
+  end
+
+  # 전투 종료 시 처리: post_combat_summary 생성, combat_history 초기화
+  defp finalize_combat(state, last_response_text) do
+    Logger.info("전투 종료 처리 [#{state.id}] — combat_history: #{length(state.combat_history)}개")
+
+    # 전투 마무리 서술을 exploration_history에 추가
+    state = %{
+      state
+      | exploration_history:
+          state.exploration_history ++ [%{"role" => "assistant", "content" => last_response_text}]
+    }
+
+    # post_combat_summary 생성
+    state =
+      case generate_post_combat_summary(state) do
+        {:ok, summary} ->
+          Logger.info("전투 종료 요약 생성 완료 [#{state.id}]")
+          %{state | post_combat_summary: summary}
+
+        {:error, reason} ->
+          Logger.warning("전투 종료 요약 생성 실패 [#{state.id}]: #{inspect(reason)}")
+          state
+      end
+
+    # combat_history, combat_history_summary 초기화
+    %{state | combat_history: [], combat_history_summary: nil}
   end
 
   # ── Private helpers ─────────────────────────────────────────────────────────
@@ -237,8 +371,9 @@ defmodule TrpgMaster.Campaign.Server do
     (다음 세션에서 할 일이나 남은 미스터리를 1~2문장으로)
     """
 
-    # 최근 대화 히스토리만 포함 (마지막 20개)
-    recent_history = Enum.take(state.conversation_history, -20)
+    # 최근 대화 히스토리만 포함 (마지막 20개, 탐험+전투 통합)
+    all_history = state.exploration_history ++ state.combat_history
+    recent_history = Enum.take(all_history, -20)
 
     case Client.chat(summary_prompt, recent_history, [], model: haiku_model, max_tokens: 1024) do
       {:ok, result} -> {:ok, result.text}
@@ -250,7 +385,7 @@ defmodule TrpgMaster.Campaign.Server do
   @recent_window_size 5
 
   defp generate_context_summary(state) do
-    history = state.conversation_history
+    history = state.exploration_history
 
     # AI(assistant) 응답만 필터링 — 유저 채팅은 요약에 포함하지 않음
     ai_messages =
@@ -362,6 +497,137 @@ defmodule TrpgMaster.Campaign.Server do
       :openai -> "gpt-5-mini"
       :gemini -> "gemini-2.5-flash"
       _ -> "claude-haiku-4-5-20251001"
+    end
+  end
+
+  defp model_opts(%{ai_model: nil}), do: []
+  defp model_opts(%{ai_model: model_id}), do: [model: model_id]
+
+  defp log_npc_changes(state, state_before) do
+    if map_size(state.npcs) != map_size(state_before.npcs) do
+      Logger.info(
+        "NPC 상태 변경 [#{state.id}]: #{map_size(state_before.npcs)}개 → #{map_size(state.npcs)}개"
+      )
+    end
+  end
+
+  defp update_context_summary(state) do
+    case generate_context_summary(state) do
+      {:ok, new_summary} ->
+        if state.context_summary && meaningful_summary?(state.context_summary) do
+          Persistence.append_summary_log(state.id, state.context_summary)
+        end
+
+        Logger.info("컨텍스트 요약 갱신 [#{state.id}]")
+        %{state | context_summary: new_summary}
+
+      :skip ->
+        Logger.info("컨텍스트 요약 스킵 [#{state.id}] — AI 응답 없음")
+        state
+
+      {:error, reason} ->
+        Logger.warning("컨텍스트 요약 생성 실패 [#{state.id}]: #{inspect(reason)}")
+        state
+    end
+  end
+
+  defp update_combat_history_summary(state) do
+    case generate_combat_history_summary(state) do
+      {:ok, summary} ->
+        Logger.info("전투 히스토리 요약 갱신 [#{state.id}]")
+        %{state | combat_history_summary: summary}
+
+      {:error, reason} ->
+        Logger.warning("전투 히스토리 요약 생성 실패 [#{state.id}]: #{inspect(reason)}")
+        state
+    end
+  end
+
+  defp generate_combat_history_summary(state) do
+    ai_messages =
+      Enum.filter(state.combat_history, fn %{"role" => role} -> role == "assistant" end)
+
+    if ai_messages == [] do
+      {:ok, nil}
+    else
+      haiku_model = summary_model_for(state.ai_model)
+
+      combat_exchanges =
+        ai_messages
+        |> Enum.map(fn %{"content" => content} ->
+          "DM: #{String.slice(content, 0, 800)}"
+        end)
+        |> Enum.join("\n")
+
+      summary_prompt = """
+      당신은 TRPG 전투 기록 요약 도우미입니다.
+
+      ## 현재 전투 진행 상황
+      #{combat_exchanges}
+
+      ## 지시사항
+      위 전투 기록을 하나의 간결한 요약으로 작성하세요 (최대 400자).
+      반드시 포함할 내용:
+      - 각 라운드의 주요 공격/피해
+      - 현재 적의 상태 (HP 변화, 사망 여부)
+      - 현재 아군의 상태
+      - 사용된 주요 능력이나 주문
+      마크다운 서식을 사용하지 마세요. 순수 텍스트로만 작성하세요.
+      """
+
+      summary_messages = [%{"role" => "user", "content" => summary_prompt}]
+
+      case Client.chat("You are a TRPG combat summarizer.", summary_messages, [],
+             model: haiku_model,
+             max_tokens: 600
+           ) do
+        {:ok, result} -> {:ok, result.text}
+        {:error, reason} -> {:error, reason}
+      end
+    end
+  end
+
+  defp generate_post_combat_summary(state) do
+    ai_messages =
+      Enum.filter(state.combat_history, fn %{"role" => role} -> role == "assistant" end)
+
+    if ai_messages == [] do
+      {:ok, nil}
+    else
+      haiku_model = summary_model_for(state.ai_model)
+
+      combat_exchanges =
+        ai_messages
+        |> Enum.map(fn %{"content" => content} ->
+          "DM: #{String.slice(content, 0, 800)}"
+        end)
+        |> Enum.join("\n")
+
+      summary_prompt = """
+      당신은 TRPG 전투 기록 요약 도우미입니다. 전투가 끝났습니다.
+
+      ## 전투 전체 기록
+      #{combat_exchanges}
+
+      ## 지시사항
+      위 전투 전체를 간결하게 요약하세요 (최대 500자).
+      반드시 포함할 내용:
+      - 전투 참가자 (아군, 적)
+      - 전투의 전개 과정 (주요 전환점)
+      - 전투 결과 (승패, 사상자)
+      - 획득한 전리품이나 경험치 (언급된 경우)
+      마크다운 서식을 사용하지 마세요. 순수 텍스트로만 작성하세요.
+      """
+
+      summary_messages = [%{"role" => "user", "content" => summary_prompt}]
+
+      case Client.chat("You are a TRPG combat summarizer.", summary_messages, [],
+             model: haiku_model,
+             max_tokens: 800
+           ) do
+        {:ok, result} -> {:ok, result.text}
+        {:error, reason} -> {:error, reason}
+      end
     end
   end
 
