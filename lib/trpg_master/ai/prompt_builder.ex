@@ -16,11 +16,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
 
   @doc """
   Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
-  mode에 따라 디버그/모험 분기를 추가한다.
-  """
-  @doc """
-  Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
-  opts로 전투 턴 페이즈를 지정할 수 있다: combat_phase: :player_turn | :enemy_turn
+  opts로 전투 턴 페이즈를 지정할 수 있다: combat_phase: :player_turn | {:enemy_turn, name, is_last}
   """
   def build(%State{} = state, opts \\ []) do
     base = system_prompt()
@@ -86,17 +82,34 @@ defmodule TrpgMaster.AI.PromptBuilder do
     """
   end
 
-  defp build_combat_phase_instruction(:enemy_turn) do
+  defp build_combat_phase_instruction({:enemy_turn, enemy_name, true}) do
     """
-    ## 전투 턴 진행 — 적 턴
-    이번 응답에서는 적(몬스터/NPC)의 행동만 서술하세요.
-    - 적의 공격, 이동, 특수 능력 사용을 처리합니다
-    - roll_dice로 적의 공격/피해 굴림을 수행합니다
+    ## 전투 턴 진행 — #{enemy_name}의 턴 (마지막 적 그룹)
+    이번 응답에서는 #{enemy_name}의 행동만 서술하세요. 다른 적의 행동은 서술하지 마세요.
+    - #{enemy_name}의 공격, 이동, 특수 능력 사용을 처리합니다
+    - roll_dice로 #{enemy_name}의 공격/피해 굴림을 수행합니다
     - update_character로 플레이어 캐릭터의 HP 변경을 기록합니다
     - 라운드 종료 시 현재 전장 상황을 간단히 요약합니다
     - 서술 끝에 플레이어에게 다음 행동을 묻습니다: "무엇을 하시겠습니까?"
 
     """
+  end
+
+  defp build_combat_phase_instruction({:enemy_turn, enemy_name, false}) do
+    """
+    ## 전투 턴 진행 — #{enemy_name}의 턴
+    이번 응답에서는 #{enemy_name}의 행동만 서술하세요. 다른 적의 행동은 서술하지 마세요.
+    - #{enemy_name}의 공격, 이동, 특수 능력 사용을 처리합니다
+    - roll_dice로 #{enemy_name}의 공격/피해 굴림을 수행합니다
+    - update_character로 플레이어 캐릭터의 HP 변경을 기록합니다
+    - 서술 끝에 "무엇을 하시겠습니까?"를 붙이지 마세요. 아직 다른 적의 턴이 남아있습니다.
+
+    """
+  end
+
+  # 하위호환: 기존 :enemy_turn 심볼 (적 그룹 정보 없을 때 폴백)
+  defp build_combat_phase_instruction(:enemy_turn) do
+    build_combat_phase_instruction({:enemy_turn, "적", true})
   end
 
   @doc """

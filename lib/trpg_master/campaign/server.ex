@@ -186,8 +186,6 @@ defmodule TrpgMaster.Campaign.Server do
 
   # ── 전투 모드 처리 (2단계 API 호출) ─────────────────────────────────────────
 
-  @enemy_turn_trigger "이제 적의 턴입니다. 적의 행동을 서술해주세요."
-
   defp handle_combat_action(message, state) do
     # 1) 플레이어 메시지를 combat_history에 추가
     state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => message}]}
@@ -232,8 +230,9 @@ defmodule TrpgMaster.Campaign.Server do
           Persistence.save_async(state)
           {:reply, {:ok, player_result}, state}
         else
-          # 3) 적 턴 API 호출
-          handle_enemy_turn(state, player_result, tools, model_opts)
+          # 3) 적 그룹별 순차 API 호출
+          enemy_groups = extract_enemy_groups(state)
+          handle_enemy_group_turns(state, [player_result], enemy_groups, tools, model_opts)
         end
 
       {:error, reason} ->
@@ -242,12 +241,45 @@ defmodule TrpgMaster.Campaign.Server do
     end
   end
 
-  defp handle_enemy_turn(state, player_result, tools, model_opts) do
-    # 적 턴 자동 트리거 메시지를 combat_history에 추가
-    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => @enemy_turn_trigger}]}
+  # combat_state["enemies"]에서 적 그룹 이름 목록 추출
+  defp extract_enemy_groups(state) do
+    case get_in(state.combat_state, ["enemies"]) do
+      enemies when is_list(enemies) and enemies != [] ->
+        enemies
+        |> Enum.map(fn e -> e["name"] end)
+        |> Enum.reject(&is_nil/1)
+        |> Enum.uniq()
 
-    system_prompt = PromptBuilder.build(state, combat_phase: :enemy_turn)
-    trimmed_history = PromptBuilder.build_turn_messages(state, @enemy_turn_trigger, combat_phase: :enemy_turn)
+      _ ->
+        # enemies 정보가 없으면 단일 그룹으로 폴백
+        ["적"]
+    end
+  end
+
+  # 적 그룹별 순차 API 호출 — 재귀적으로 그룹 리스트를 소비
+  defp handle_enemy_group_turns(state, results, [], _tools, _model_opts) do
+    # 모든 적 그룹 처리 완료
+    state = update_combat_history_summary(state)
+    state = update_context_summary(state)
+    Persistence.save_async(state)
+
+    Logger.info(
+      "전투 턴 #{state.turn_count} 저장 완료 [#{state.id}] — combat_history: #{length(state.combat_history)}개"
+    )
+
+    {:reply, {:ok, results}, state}
+  end
+
+  defp handle_enemy_group_turns(state, results, [enemy_name | rest], tools, model_opts) do
+    is_last_group = rest == []
+    trigger_msg = "이제 #{enemy_name}의 턴입니다. #{enemy_name}의 행동을 서술해주세요."
+    combat_phase = {:enemy_turn, enemy_name, is_last_group}
+
+    # 적 턴 자동 트리거 메시지를 combat_history에 추가
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => trigger_msg}]}
+
+    system_prompt = PromptBuilder.build(state, combat_phase: combat_phase)
+    trimmed_history = PromptBuilder.build_turn_messages(state, trigger_msg, combat_phase: combat_phase)
 
     Process.put(:journal_entries, state.journal_entries)
 
@@ -271,30 +303,30 @@ defmodule TrpgMaster.Campaign.Server do
               state.combat_history ++ [%{"role" => "assistant", "content" => enemy_result.text}]
         }
 
+        results = results ++ [enemy_result]
+
         # end_combat이 적 턴에서 호출되었는지 확인
         if state.phase != :combat do
           state = finalize_combat(state, enemy_result.text)
           state = update_context_summary(state)
           Persistence.save_async(state)
-          {:reply, {:ok, [player_result, enemy_result]}, state}
+          {:reply, {:ok, results}, state}
         else
-          # 전투 계속 — combat_history_summary 갱신
-          state = update_combat_history_summary(state)
-          state = update_context_summary(state)
-          Persistence.save_async(state)
-
-          Logger.info(
-            "전투 턴 #{state.turn_count} 저장 완료 [#{state.id}] — combat_history: #{length(state.combat_history)}개"
-          )
-
-          {:reply, {:ok, [player_result, enemy_result]}, state}
+          # 다음 적 그룹으로 계속
+          handle_enemy_group_turns(state, results, rest, tools, model_opts)
         end
 
       {:error, reason} ->
-        Logger.error("AI 호출 실패 (적 턴) [#{state.id}]: #{inspect(reason)}")
-        # 플레이어 턴은 성공했으므로 플레이어 결과만 반환
+        Logger.error("AI 호출 실패 (#{enemy_name} 턴) [#{state.id}]: #{inspect(reason)}")
+        # 지금까지 성공한 결과만 반환
         Persistence.save_async(state)
-        {:reply, {:ok, player_result}, state}
+
+        if length(results) == 1 do
+          # 플레이어 결과만 있으면 단일 결과 반환
+          {:reply, {:ok, hd(results)}, state}
+        else
+          {:reply, {:ok, results}, state}
+        end
     end
   end
 
