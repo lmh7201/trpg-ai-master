@@ -275,9 +275,7 @@ defmodule TrpgMaster.Campaign.Server do
     trigger_msg = "이제 #{enemy_name}의 턴입니다. #{enemy_name}의 행동을 서술해주세요."
     combat_phase = {:enemy_turn, enemy_name, is_last_group}
 
-    # 적 턴 자동 트리거 메시지를 combat_history에 추가
-    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => trigger_msg}]}
-
+    # 트리거 메시지는 combat_history에 저장하지 않고, API 호출에만 사용
     system_prompt = PromptBuilder.build(state, combat_phase: combat_phase)
     trimmed_history = PromptBuilder.build_turn_messages(state, trigger_msg, combat_phase: combat_phase)
 
@@ -583,9 +581,13 @@ defmodule TrpgMaster.Campaign.Server do
       {:ok, nil}
     else
       haiku_model = summary_model_for(state.ai_model)
+      previous = state.combat_history_summary || "(전투 시작 — 이전 요약 없음)"
 
-      combat_exchanges =
-        ai_messages
+      # 이전 요약 + 최근 AI 응답만 통합 (누적 방식, 매번 전체를 다시 요약하지 않음)
+      recent_ai = Enum.take(ai_messages, -3)
+
+      new_exchange =
+        recent_ai
         |> Enum.map(fn %{"content" => content} ->
           "DM: #{String.slice(content, 0, 800)}"
         end)
@@ -593,12 +595,16 @@ defmodule TrpgMaster.Campaign.Server do
 
       summary_prompt = """
       당신은 TRPG 전투 기록 요약 도우미입니다.
+      [중요] 반드시 이전 요약의 핵심 정보를 보존하면서 최근 전투 내용을 통합하세요.
 
-      ## 현재 전투 진행 상황
-      #{combat_exchanges}
+      ## 이전 전투 요약
+      #{previous}
+
+      ## 최근 전투 진행 (최대 3건)
+      #{new_exchange}
 
       ## 지시사항
-      위 전투 기록을 하나의 간결한 요약으로 작성하세요 (최대 400자).
+      위 정보를 하나의 간결한 전투 요약으로 통합하세요 (최대 400자).
       반드시 포함할 내용:
       - 각 라운드의 주요 공격/피해
       - 현재 적의 상태 (HP 변화, 사망 여부)
