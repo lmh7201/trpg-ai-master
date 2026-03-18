@@ -179,8 +179,12 @@ defmodule TrpgMasterWeb.CampaignLive do
 
               %{tool: tool_name, input: input, result: %{"status" => "ok"}}
               when tool_name in ~w(register_npc update_quest set_location start_combat end_combat update_character write_journal) ->
-                message = build_tool_narrative(tool_name, input)
-                acc ++ [%{type: :tool_narration, tool_name: tool_name, message: message}]
+                if socket.assigns.mode == :debug do
+                  message = build_tool_narrative(tool_name, input)
+                  acc ++ [%{type: :tool_narration, tool_name: tool_name, message: message}]
+                else
+                  acc
+                end
 
               _ ->
                 acc
