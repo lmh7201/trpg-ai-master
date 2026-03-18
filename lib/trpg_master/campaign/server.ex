@@ -290,6 +290,7 @@ defmodule TrpgMaster.Campaign.Server do
       - 현재 위치
       - 최근 주요 사건이나 결정
       불필요한 세부사항은 생략하고, 다음 턴에서 DM이 맥락을 파악하는 데 필요한 정보만 남기세요.
+      마크다운 서식을 사용하지 마세요. ##, **, *, ` 같은 서식 기호 없이 순수 텍스트로만 작성하세요.
       """
 
       summary_messages = [%{"role" => "user", "content" => summary_prompt}]
