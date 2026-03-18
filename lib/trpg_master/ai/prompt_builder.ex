@@ -18,14 +18,21 @@ defmodule TrpgMaster.AI.PromptBuilder do
   Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
   mode에 따라 디버그/모험 분기를 추가한다.
   """
-  def build(%State{} = state) do
+  @doc """
+  Campaign.State를 받아서 풍부한 시스템 프롬프트를 조립한다.
+  opts로 전투 턴 페이즈를 지정할 수 있다: combat_phase: :player_turn | :enemy_turn
+  """
+  def build(%State{} = state, opts \\ []) do
     base = system_prompt()
     context = build_campaign_context(state)
     tools_instruction = state_tools_instruction()
     mode_instruction = mode_instruction(state.mode)
     summary_section = build_summary_section(state.context_summary)
+    combat_summary_section = build_combat_summary_section(state.combat_history_summary)
+    post_combat_section = build_post_combat_section(state.post_combat_summary)
+    combat_phase_instruction = build_combat_phase_instruction(opts[:combat_phase])
 
-    "#{base}\n\n#{context}\n\n#{summary_section}#{tools_instruction}\n\n#{mode_instruction}"
+    "#{base}\n\n#{context}\n\n#{summary_section}#{combat_summary_section}#{post_combat_section}#{combat_phase_instruction}#{tools_instruction}\n\n#{mode_instruction}"
   end
 
   defp build_summary_section(nil), do: ""
@@ -36,6 +43,58 @@ defmodule TrpgMaster.AI.PromptBuilder do
     아래는 슬라이딩 윈도우 밖의 과거 대화를 요약한 것이다. 이미 서술한 내용이므로 반복하지 말고, 맥락 파악용으로만 참고하라.
 
     #{summary}
+
+    """
+  end
+
+  defp build_combat_summary_section(nil), do: ""
+
+  defp build_combat_summary_section(summary) do
+    """
+    ## 현재 전투 요약
+    아래는 현재 전투의 이전 라운드들을 요약한 것이다. 전투의 흐름을 파악하되, 이미 서술한 내용을 반복하지 마라.
+
+    #{summary}
+
+    """
+  end
+
+  defp build_post_combat_section(nil), do: ""
+
+  defp build_post_combat_section(summary) do
+    """
+    ## 직전 전투 요약
+    아래는 방금 끝난 전투의 요약이다. 전투 결과를 참고하여 탐험 서술에 자연스럽게 반영하라.
+
+    #{summary}
+
+    """
+  end
+
+  defp build_combat_phase_instruction(nil), do: ""
+
+  defp build_combat_phase_instruction(:player_turn) do
+    """
+    ## 전투 턴 진행 — 플레이어 턴
+    이번 응답에서는 플레이어의 행동만 서술하세요.
+    - 플레이어가 선언한 행동을 처리합니다 (공격, 주문, 이동 등)
+    - roll_dice로 공격/피해 굴림을 수행합니다
+    - update_character로 HP 등 상태 변경을 기록합니다
+    - 적의 반격이나 턴은 서술하지 마세요. 다음 응답에서 처리됩니다.
+    - 서술 끝에 "무엇을 하시겠습니까?"를 붙이지 마세요.
+
+    """
+  end
+
+  defp build_combat_phase_instruction(:enemy_turn) do
+    """
+    ## 전투 턴 진행 — 적 턴
+    이번 응답에서는 적(몬스터/NPC)의 행동만 서술하세요.
+    - 적의 공격, 이동, 특수 능력 사용을 처리합니다
+    - roll_dice로 적의 공격/피해 굴림을 수행합니다
+    - update_character로 플레이어 캐릭터의 HP 변경을 기록합니다
+    - 라운드 종료 시 현재 전장 상황을 간단히 요약합니다
+    - 서술 끝에 플레이어에게 다음 행동을 묻습니다: "무엇을 하시겠습니까?"
 
     """
   end
@@ -95,6 +154,39 @@ defmodule TrpgMaster.AI.PromptBuilder do
   def build_messages_with_summary(current_message, _context_summary, conversation_history \\ []) do
     recent = Enum.take(conversation_history, -@recent_window_size)
     ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
+  end
+
+  @doc """
+  State 기반 턴 메시지 구성.
+  탐험 모드: exploration_history에서 최근 메시지 + 현재 유저 메시지
+  전투 모드: exploration_history에서 최근 메시지 + combat_history 최근 메시지 + 현재 유저 메시지
+  opts: combat_phase: :player_turn | :enemy_turn (전투 모드에서 적 턴일 때 자동 메시지 사용)
+  """
+  def build_turn_messages(%State{} = state, current_message, opts \\ []) do
+    case state.phase do
+      :combat ->
+        build_combat_turn_messages(state, current_message, opts)
+
+      _ ->
+        build_exploration_turn_messages(state, current_message)
+    end
+  end
+
+  defp build_exploration_turn_messages(state, current_message) do
+    recent = Enum.take(state.exploration_history, -@recent_window_size)
+    ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
+  end
+
+  defp build_combat_turn_messages(state, current_message, _opts) do
+    # 탐험 히스토리에서 최근 AI 응답 (배경 맥락)
+    exploration_recent = Enum.take(state.exploration_history, -@recent_window_size)
+
+    # 전투 히스토리에서 최근 메시지 (현재 전투 컨텍스트)
+    combat_recent = Enum.take(state.combat_history, -@recent_window_size)
+
+    # 탐험 맥락 + 전투 맥락 + 현재 메시지
+    messages = ensure_valid_turn_order(exploration_recent) ++ combat_recent
+    messages ++ [%{"role" => "user", "content" => current_message}]
   end
 
   # 메시지 리스트가 assistant로 시작하면 제거하여 user→assistant 순서를 보장

@@ -11,7 +11,7 @@ defmodule TrpgMasterWeb.CampaignLive do
     case Manager.start_campaign(campaign_id) do
       {:ok, _id} ->
         state = Server.get_state(campaign_id)
-        messages = build_display_messages(state.conversation_history)
+        messages = build_display_messages(state.exploration_history ++ state.combat_history)
         current_model = state.ai_model || Models.default_model()
 
         {:ok,
@@ -166,31 +166,22 @@ defmodule TrpgMasterWeb.CampaignLive do
     campaign_id = socket.assigns.campaign_id
 
     case Server.player_action(campaign_id, message) do
+      # 전투 모드: 플레이어 턴 + 적 턴 2개 결과
+      {:ok, [player_result, enemy_result]} ->
+        messages = append_tool_messages(socket, player_result)
+        messages = messages ++ [%{type: :dm, text: player_result.text}]
+
+        # 플레이어 턴 결과 즉시 표시, 적 턴은 지연 표시
+        send(self(), {:display_enemy_turn, enemy_result})
+
+        {:noreply,
+         socket
+         |> assign(:messages, messages)
+         |> assign(:loading, true)}
+
+      # 탐험 모드 또는 단일 결과 (전투 종료 시)
       {:ok, result} ->
-        messages =
-          Enum.reduce(result.tool_results, socket.assigns.messages, fn tool_result, acc ->
-            case tool_result do
-              %{result: %{"formatted" => _} = dice_result} ->
-                if socket.assigns.mode == :adventure && Map.get(tool_result.input || %{}, "hidden") do
-                  acc
-                else
-                  acc ++ [%{type: :dice, result: dice_result}]
-                end
-
-              %{tool: tool_name, input: input, result: %{"status" => "ok"}}
-              when tool_name in ~w(register_npc update_quest set_location start_combat end_combat update_character write_journal) ->
-                if socket.assigns.mode == :debug do
-                  message = build_tool_narrative(tool_name, input)
-                  acc ++ [%{type: :tool_narration, tool_name: tool_name, message: message}]
-                else
-                  acc
-                end
-
-              _ ->
-                acc
-            end
-          end)
-
+        messages = append_tool_messages(socket, result)
         messages = messages ++ [%{type: :dm, text: result.text}]
         state = Server.get_state(campaign_id)
 
@@ -199,11 +190,7 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:messages, messages)
          |> assign(:loading, false)
          |> assign(:processing, false)
-         |> assign(:current_location, state.current_location)
-         |> assign(:phase, state.phase)
-         |> assign(:character, List.first(state.characters))
-         |> assign(:characters, state.characters)
-         |> assign(:combat_state, state.combat_state)}
+         |> update_state_assigns(state)}
 
       {:error, reason} ->
         error_msg = Client.format_error(reason)
@@ -214,6 +201,21 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:processing, false)
          |> assign(:error, error_msg)}
     end
+  end
+
+  @impl true
+  def handle_info({:display_enemy_turn, result}, socket) do
+    campaign_id = socket.assigns.campaign_id
+    messages = append_tool_messages(socket, result)
+    messages = messages ++ [%{type: :dm, text: result.text}]
+    state = Server.get_state(campaign_id)
+
+    {:noreply,
+     socket
+     |> assign(:messages, messages)
+     |> assign(:loading, false)
+     |> assign(:processing, false)
+     |> update_state_assigns(state)}
   end
 
   @impl true
@@ -389,6 +391,40 @@ defmodule TrpgMasterWeb.CampaignLive do
   end
 
   # ── Private helpers ──────────────────────────────────────────────────────────
+
+  defp append_tool_messages(socket, result) do
+    Enum.reduce(result.tool_results, socket.assigns.messages, fn tool_result, acc ->
+      case tool_result do
+        %{result: %{"formatted" => _} = dice_result} ->
+          if socket.assigns.mode == :adventure && Map.get(tool_result.input || %{}, "hidden") do
+            acc
+          else
+            acc ++ [%{type: :dice, result: dice_result}]
+          end
+
+        %{tool: tool_name, input: input, result: %{"status" => "ok"}}
+        when tool_name in ~w(register_npc update_quest set_location start_combat end_combat update_character write_journal) ->
+          if socket.assigns.mode == :debug do
+            message = build_tool_narrative(tool_name, input)
+            acc ++ [%{type: :tool_narration, tool_name: tool_name, message: message}]
+          else
+            acc
+          end
+
+        _ ->
+          acc
+      end
+    end)
+  end
+
+  defp update_state_assigns(socket, state) do
+    socket
+    |> assign(:current_location, state.current_location)
+    |> assign(:phase, state.phase)
+    |> assign(:character, List.first(state.characters))
+    |> assign(:characters, state.characters)
+    |> assign(:combat_state, state.combat_state)
+  end
 
   defp build_display_messages(conversation_history) do
     conversation_history

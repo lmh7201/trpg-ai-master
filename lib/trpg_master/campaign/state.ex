@@ -12,7 +12,10 @@ defmodule TrpgMaster.Campaign.State do
     current_location: nil,
     active_quests: [],
     combat_state: nil,
-    conversation_history: [],
+    exploration_history: [],
+    combat_history: [],
+    combat_history_summary: nil,
+    post_combat_summary: nil,
     turn_count: 0,
     mode: :adventure,
     journal_entries: [],
@@ -39,13 +42,15 @@ defmodule TrpgMaster.Campaign.State do
       "npc_names" => Map.keys(state.npcs),
       "journal_count" => length(state.journal_entries),
       "ai_model" => state.ai_model,
-      "context_summary" => state.context_summary
+      "context_summary" => state.context_summary,
+      "combat_history_summary" => state.combat_history_summary,
+      "post_combat_summary" => state.post_combat_summary
     }
   end
 
   @doc """
   summary 맵에서 State 구조체를 복원한다.
-  characters, npcs, conversation_history는 별도로 로드한다.
+  characters, npcs, exploration_history, combat_history는 별도로 로드한다.
   """
   def from_summary(summary) do
     %__MODULE__{
@@ -58,7 +63,9 @@ defmodule TrpgMaster.Campaign.State do
       mode: safe_atom(summary["mode"], :adventure),
       combat_state: summary["combat_state"],
       ai_model: summary["ai_model"],
-      context_summary: summary["context_summary"]
+      context_summary: summary["context_summary"],
+      combat_history_summary: summary["combat_history_summary"],
+      post_combat_summary: summary["post_combat_summary"]
       # journal_entries는 Persistence.load에서 별도로 로드한다
     }
   end

@@ -7,7 +7,7 @@ defmodule TrpgMaster.Campaign.Persistence do
 
   require Logger
 
-  @schema_version 1
+  @schema_version 2
 
   # ── Public API ──────────────────────────────────────────────────────────────
 
@@ -24,7 +24,8 @@ defmodule TrpgMaster.Campaign.Persistence do
          :ok <- write_json(Path.join(dir, "campaign-summary.json"), summary),
          :ok <- save_characters(dir, state.characters),
          :ok <- save_npcs(dir, state.npcs),
-         :ok <- write_json(Path.join(dir, "conversation_history.json"), state.conversation_history),
+         :ok <- write_json(Path.join(dir, "exploration_history.json"), state.exploration_history),
+         :ok <- write_json(Path.join(dir, "combat_history.json"), state.combat_history),
          :ok <- write_json(Path.join(dir, "journal.json"), state.journal_entries),
          :ok <- save_context_summary(dir, state.context_summary) do
       :ok
@@ -65,7 +66,8 @@ defmodule TrpgMaster.Campaign.Persistence do
            :ok <- check_schema_version(summary),
            {:ok, characters} <- load_characters(dir),
            {:ok, npcs} <- load_npcs(dir),
-           {:ok, history} <- load_conversation_history(dir),
+           {:ok, exploration_history} <- load_exploration_history(dir),
+           {:ok, combat_history} <- load_combat_history(dir),
            {:ok, journal} <- load_journal(dir) do
         context_summary = load_context_summary(dir)
 
@@ -73,7 +75,8 @@ defmodule TrpgMaster.Campaign.Persistence do
           State.from_summary(summary)
           |> Map.put(:characters, characters)
           |> Map.put(:npcs, npcs)
-          |> Map.put(:conversation_history, history)
+          |> Map.put(:exploration_history, exploration_history)
+          |> Map.put(:combat_history, combat_history)
           |> Map.put(:journal_entries, journal)
           |> Map.put(:context_summary, context_summary)
 
@@ -386,8 +389,26 @@ defmodule TrpgMaster.Campaign.Persistence do
     """
   end
 
-  defp load_conversation_history(dir) do
-    path = Path.join(dir, "conversation_history.json")
+  defp load_exploration_history(dir) do
+    path = Path.join(dir, "exploration_history.json")
+
+    if File.exists?(path) do
+      read_json(path)
+    else
+      # 하위호환: 기존 conversation_history.json을 exploration_history로 마이그레이션
+      legacy_path = Path.join(dir, "conversation_history.json")
+
+      if File.exists?(legacy_path) do
+        Logger.info("[Persistence] 기존 conversation_history.json → exploration_history로 마이그레이션")
+        read_json(legacy_path)
+      else
+        {:ok, []}
+      end
+    end
+  end
+
+  defp load_combat_history(dir) do
+    path = Path.join(dir, "combat_history.json")
 
     if File.exists?(path) do
       read_json(path)
