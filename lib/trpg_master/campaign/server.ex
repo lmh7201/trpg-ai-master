@@ -222,9 +222,9 @@ defmodule TrpgMaster.Campaign.Server do
               state.combat_history ++ [%{"role" => "assistant", "content" => player_result.text}]
         }
 
-        # end_combat이 플레이어 턴에서 호출되었는지 확인
-        if state.phase != :combat do
-          # 전투가 종료됨 — 적 턴 스킵, 전투 종료 처리
+        # end_combat 호출 또는 전멸 감지 시 전투 종료
+        if state.phase != :combat or combat_should_end?(state) do
+          state = force_end_combat_if_needed(state)
           state = finalize_combat(state, player_result.text)
           state = update_context_summary(state)
           Persistence.save_async(state)
@@ -303,8 +303,9 @@ defmodule TrpgMaster.Campaign.Server do
 
         results = results ++ [enemy_result]
 
-        # end_combat이 적 턴에서 호출되었는지 확인
-        if state.phase != :combat do
+        # end_combat 호출 또는 전멸 감지 시 전투 종료, 나머지 적 그룹 스킵
+        if state.phase != :combat or combat_should_end?(state) do
+          state = force_end_combat_if_needed(state)
           state = finalize_combat(state, enemy_result.text)
           state = update_context_summary(state)
           Persistence.save_async(state)
@@ -327,6 +328,56 @@ defmodule TrpgMaster.Campaign.Server do
         end
     end
   end
+
+  # 플레이어 전멸 또는 적 전멸 시 전투 자동 종료 판단
+  defp combat_should_end?(state) do
+    player_names = get_in(state.combat_state, ["player_names"]) || []
+    enemies = get_in(state.combat_state, ["enemies"]) || []
+
+    all_players_dead?(state.characters, player_names) or
+      all_enemies_dead?(state.characters, player_names, enemies)
+  end
+
+  defp all_players_dead?(characters, player_names) when player_names != [] do
+    players = Enum.filter(characters, fn c -> c["name"] in player_names end)
+
+    players != [] and
+      Enum.all?(players, fn c ->
+        hp = c["hp_current"]
+        is_number(hp) and hp <= 0
+      end)
+  end
+
+  defp all_players_dead?(_, _), do: false
+
+  defp all_enemies_dead?(characters, player_names, _enemies) do
+    # AI가 update_character로 적 HP를 업데이트하면 state.characters에 추가됨
+    # player_names에 속하지 않는 캐릭터가 모두 HP 0 이하이면 적 전멸
+    enemy_chars = Enum.reject(characters, fn c -> c["name"] in player_names end)
+
+    enemy_chars != [] and
+      Enum.all?(enemy_chars, fn c ->
+        hp = c["hp_current"]
+        is_number(hp) and hp <= 0
+      end)
+  end
+
+  # combat_should_end?가 true이지만 아직 phase가 :combat인 경우, 강제 전투 종료 처리
+  defp force_end_combat_if_needed(%{phase: :combat} = state) do
+    Logger.info("전멸 감지로 전투 자동 종료 [#{state.id}]")
+    player_names = get_in(state.combat_state, ["player_names"]) || []
+
+    characters =
+      if player_names != [] do
+        Enum.filter(state.characters, fn c -> c["name"] in player_names end)
+      else
+        state.characters
+      end
+
+    %{state | phase: :exploration, combat_state: nil, characters: characters}
+  end
+
+  defp force_end_combat_if_needed(state), do: state
 
   # 전투 종료 시 처리: post_combat_summary 생성, combat_history 초기화
   defp finalize_combat(state, last_response_text) do
