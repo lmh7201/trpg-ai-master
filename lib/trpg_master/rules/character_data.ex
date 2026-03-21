@@ -1,0 +1,353 @@
+defmodule TrpgMaster.Rules.CharacterData do
+  @moduledoc """
+  캐릭터 생성에 필요한 D&D 5.5e 데이터를 로드하고 제공한다.
+  priv/data/ 디렉토리의 JSON 파일을 앱 시작 시 로드하여 ETS에 캐싱한다.
+  """
+
+  use GenServer
+  require Logger
+
+  @table :character_data
+
+  # ── Public API ──────────────────────────────────────────────────────────────
+
+  def start_link(_opts) do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+  end
+
+  def classes, do: get(:classes, [])
+  def races, do: get(:races, [])
+  def backgrounds, do: get(:backgrounds, [])
+  def feats, do: get(:feats, [])
+  def spells, do: get(:spells, [])
+  def class_features, do: get(:class_features, %{})
+  def subclasses, do: get(:subclasses, [])
+  def subclass_features, do: get(:subclass_features, %{})
+  def weapons, do: get(:weapons, [])
+  def armor, do: get(:armor, [])
+  def adventuring_gear, do: get(:adventuring_gear, [])
+  def tools, do: get(:tools, [])
+
+  @doc "클래스 ID로 단일 클래스 조회"
+  def get_class(id) do
+    Enum.find(classes(), &(&1["id"] == id))
+  end
+
+  @doc "종족 ID로 단일 종족 조회"
+  def get_race(id) do
+    Enum.find(races(), &(&1["id"] == id))
+  end
+
+  @doc "배경 ID로 단일 배경 조회"
+  def get_background(id) do
+    Enum.find(backgrounds(), &(&1["id"] == id))
+  end
+
+  @doc "특기 ID로 단일 특기 조회"
+  def get_feat(id) do
+    Enum.find(feats(), &(&1["id"] == id))
+  end
+
+  @doc "출신 특기(origin feat)만 반환"
+  def origin_feats do
+    Enum.filter(feats(), &(&1["category"] == "origin"))
+  end
+
+  @doc "클래스가 사용 가능한 소마법(cantrip) 목록"
+  def cantrips_for_class(class_name) do
+    spells()
+    |> Enum.filter(fn s ->
+      s["level"] == 0 &&
+        Enum.any?(s["classes"] || [], fn c ->
+          String.downcase(c) == String.downcase(class_name)
+        end)
+    end)
+  end
+
+  @doc "클래스가 사용 가능한 1레벨 주문 목록"
+  def level1_spells_for_class(class_name) do
+    spells()
+    |> Enum.filter(fn s ->
+      s["level"] == 1 &&
+        Enum.any?(s["classes"] || [], fn c ->
+          String.downcase(c) == String.downcase(class_name)
+        end)
+    end)
+  end
+
+  @doc "주어진 카테고리의 장비 목록 (weapons, armor, gear, tools)"
+  def equipment_by_category(category) do
+    case category do
+      :weapons -> weapons()
+      :armor -> armor()
+      :gear -> adventuring_gear()
+      :tools -> tools()
+      _ -> []
+    end
+  end
+
+  @doc """
+  완성된 캐릭터 데이터를 Campaign.State에 저장할 수 있는 맵으로 변환한다.
+  """
+  def build_character_map(params) do
+    class_data = get_class(params.class_id)
+    race_data = get_race(params.race_id)
+    background_data = get_background(params.background_id)
+
+    # 한국어 이름 추출
+    class_name = class_data["name"] || class_data["nameEn"] || params.class_id
+    race_name = extract_race_name(race_data)
+    background_name = background_data["name"] || background_data["nameEn"] || params.background_id
+
+    # HP 계산: 1레벨 = hit die 최대값 + CON 수정치
+    hit_die = parse_hit_die(class_data["hitPointDie"])
+    con_mod = ability_modifier(params.abilities["con"] || 10)
+    hp_max = hit_die + con_mod
+
+    # AC 계산
+    ac = calculate_ac(params)
+
+    # 기술 숙련 목록 조합 (클래스 선택 + 배경)
+    skill_profs = (params[:class_skills] || []) ++ extract_background_skills(background_data)
+
+    %{
+      "name" => params.name,
+      "class" => class_name,
+      "class_id" => params.class_id,
+      "subclass" => nil,
+      "race" => race_name,
+      "race_id" => params.race_id,
+      "background" => background_name,
+      "background_id" => params.background_id,
+      "level" => 1,
+      "xp" => 0,
+      "hp_max" => hp_max,
+      "hp_current" => hp_max,
+      "hit_die" => class_data["hitPointDie"],
+      "ac" => ac,
+      "speed" => extract_speed(race_data),
+      "proficiency_bonus" => 2,
+      "abilities" => params.abilities,
+      "ability_modifiers" => calculate_all_modifiers(params.abilities),
+      "saving_throws" => class_data["savingThrowProficiencies"],
+      "skill_proficiencies" => skill_profs,
+      "weapon_proficiencies" => class_data["weaponProficiencies"],
+      "armor_training" => class_data["armorTraining"],
+      "tool_proficiencies" => extract_tool_prof(background_data),
+      "features" => extract_level1_features(class_data, race_data),
+      "background_feat" => extract_background_feat(background_data),
+      "equipment" => params[:equipment] || [],
+      "inventory" => params[:equipment] || [],
+      "spells_known" => params[:spells] || %{},
+      "conditions" => [],
+      "spell_slots_used" => 0
+    }
+  end
+
+  @doc "캐릭터 정보를 카테고리별로 조회"
+  def get_character_info(character, category) do
+    case category do
+      "full" ->
+        character
+
+      "abilities" ->
+        Map.take(character, [
+          "abilities", "ability_modifiers", "saving_throws",
+          "skill_proficiencies", "proficiency_bonus"
+        ])
+
+      "combat" ->
+        Map.take(character, [
+          "hp_max", "hp_current", "ac", "speed", "hit_die",
+          "weapon_proficiencies", "armor_training", "conditions",
+          "abilities", "ability_modifiers", "proficiency_bonus"
+        ])
+
+      "spells" ->
+        Map.take(character, [
+          "spells_known", "spell_slots_used",
+          "abilities", "ability_modifiers", "proficiency_bonus", "level"
+        ])
+
+      "equipment" ->
+        Map.take(character, ["equipment", "inventory"])
+
+      "features" ->
+        Map.take(character, [
+          "features", "background_feat", "class", "race",
+          "background", "level"
+        ])
+
+      "proficiencies" ->
+        Map.take(character, [
+          "saving_throws", "skill_proficiencies",
+          "weapon_proficiencies", "armor_training",
+          "tool_proficiencies", "proficiency_bonus"
+        ])
+
+      "summary" ->
+        Map.take(character, [
+          "name", "class", "race", "background", "level",
+          "hp_max", "hp_current", "ac", "speed"
+        ])
+
+      _ ->
+        %{"error" => "알 수 없는 카테고리: #{category}"}
+    end
+  end
+
+  # ── GenServer Callbacks ────────────────────────────────────────────────────
+
+  @impl true
+  def init(_) do
+    :ets.new(@table, [:named_table, :set, :public, read_concurrency: true])
+    load_all_data()
+    {:ok, %{}}
+  end
+
+  # ── Private ────────────────────────────────────────────────────────────────
+
+  defp get(key, default) do
+    case :ets.lookup(@table, key) do
+      [{^key, value}] -> value
+      [] -> default
+    end
+  end
+
+  defp load_all_data do
+    mappings = [
+      {:classes, "classes.json"},
+      {:races, "races.json"},
+      {:backgrounds, "backgrounds.json"},
+      {:feats, "feats.json"},
+      {:spells, "spells.json"},
+      {:class_features, "classFeatures.json"},
+      {:subclasses, "subclasses.json"},
+      {:subclass_features, "subclassFeatures.json"},
+      {:weapons, "weapons.json"},
+      {:armor, "armor.json"},
+      {:adventuring_gear, "adventuringGear.json"},
+      {:tools, "tools.json"}
+    ]
+
+    for {key, file} <- mappings do
+      path = Application.app_dir(:trpg_master, Path.join("priv/data", file))
+
+      case File.read(path) do
+        {:ok, content} ->
+          case Jason.decode(content) do
+            {:ok, data} ->
+              :ets.insert(@table, {key, data})
+              Logger.info("CharacterData 로드: #{file} (#{data_count(data)}건)")
+
+            {:error, reason} ->
+              Logger.warning("CharacterData JSON 파싱 실패: #{file} — #{inspect(reason)}")
+          end
+
+        {:error, reason} ->
+          Logger.warning("CharacterData 파일 읽기 실패: #{file} — #{inspect(reason)}")
+      end
+    end
+  end
+
+  defp data_count(data) when is_list(data), do: length(data)
+  defp data_count(data) when is_map(data), do: map_size(data)
+  defp data_count(_), do: 0
+
+  # ── Helper functions ───────────────────────────────────────────────────────
+
+  defp extract_race_name(nil), do: "알 수 없음"
+  defp extract_race_name(%{"name" => %{"ko" => ko}}), do: ko
+  defp extract_race_name(%{"name" => name}) when is_binary(name), do: name
+  defp extract_race_name(_), do: "알 수 없음"
+
+  defp extract_speed(nil), do: 30
+  defp extract_speed(%{"basicTraits" => %{"speed" => %{"value" => v}}}), do: v
+  defp extract_speed(_), do: 30
+
+  defp extract_background_skills(nil), do: []
+  defp extract_background_skills(%{"skillProficiencies" => %{"ko" => skills}}), do: skills
+  defp extract_background_skills(%{"skillProficiencies" => %{"en" => skills}}), do: skills
+  defp extract_background_skills(_), do: []
+
+  defp extract_tool_prof(nil), do: []
+  defp extract_tool_prof(%{"toolProficiency" => %{"ko" => tool}}), do: [tool]
+  defp extract_tool_prof(%{"toolProficiency" => %{"en" => tool}}), do: [tool]
+  defp extract_tool_prof(_), do: []
+
+  defp extract_background_feat(nil), do: nil
+  defp extract_background_feat(%{"feat" => %{"name" => %{"ko" => name}}}), do: name
+  defp extract_background_feat(%{"feat" => %{"name" => %{"en" => name}}}), do: name
+  defp extract_background_feat(_), do: nil
+
+  defp extract_level1_features(class_data, race_data) do
+    class_features =
+      case class_data["features"] do
+        features when is_list(features) ->
+          features
+          |> Enum.find(%{}, &(&1["level"] == 1))
+          |> Map.get("featuresKo", Map.get(%{}, "features", []))
+
+        _ ->
+          []
+      end
+
+    race_features =
+      case race_data do
+        %{"traits" => traits} when is_list(traits) ->
+          Enum.map(traits, fn t ->
+            get_in(t, ["name", "ko"]) || get_in(t, ["name", "en"]) || "특성"
+          end)
+
+        _ ->
+          []
+      end
+
+    class_features ++ race_features
+  end
+
+  defp parse_hit_die(nil), do: 8
+  defp parse_hit_die(str) when is_binary(str) do
+    case Regex.run(~r/[Dd](\d+)/, str) do
+      [_, num] -> String.to_integer(num)
+      _ -> 8
+    end
+  end
+
+  def ability_modifier(score) when is_integer(score) do
+    div(score - 10, 2)
+  end
+  def ability_modifier(_), do: 0
+
+  defp calculate_all_modifiers(abilities) when is_map(abilities) do
+    Map.new(abilities, fn {key, val} -> {key, ability_modifier(val)} end)
+  end
+  defp calculate_all_modifiers(_), do: %{}
+
+  defp calculate_ac(params) do
+    # 기본 AC 계산: 장비에 따라 달라짐. 기본값은 10 + DEX mod
+    dex_mod = ability_modifier(params.abilities["dex"] || 10)
+
+    case params[:armor_choice] do
+      nil -> 10 + dex_mod
+      "none" -> 10 + dex_mod
+      armor_id ->
+        armor_data = Enum.find(armor(), &(&1["id"] == armor_id))
+        if armor_data, do: compute_armor_ac(armor_data, dex_mod), else: 10 + dex_mod
+    end
+  end
+
+  defp compute_armor_ac(%{"ac" => ac_info}, dex_mod) when is_map(ac_info) do
+    base = Map.get(ac_info, "base", 10)
+    add_dex = Map.get(ac_info, "addDex", true)
+    max_dex = Map.get(ac_info, "maxDex")
+
+    cond do
+      not add_dex -> base
+      max_dex -> base + min(dex_mod, max_dex)
+      true -> base + dex_mod
+    end
+  end
+  defp compute_armor_ac(%{"ac" => ac}, _dex_mod) when is_integer(ac), do: ac
+  defp compute_armor_ac(_, dex_mod), do: 10 + dex_mod
+end

@@ -316,6 +316,7 @@ defmodule TrpgMaster.AI.Tools do
   """
   def state_tool_definitions do
     [
+      get_character_info_def(),
       update_character_def(),
       register_npc_def(),
       update_quest_def(),
@@ -325,6 +326,35 @@ defmodule TrpgMaster.AI.Tools do
       write_journal_def(),
       read_journal_def()
     ]
+  end
+
+  defp get_character_info_def do
+    %{
+      name: "get_character_info",
+      description:
+        "플레이어 캐릭터의 상세 정보를 조회합니다. 전투, 판정, 주문 사용, 능력치 확인 등 캐릭터 데이터가 필요할 때 반드시 이 도구를 사용하세요. " <>
+        "카테고리별로 필요한 정보만 조회하면 효율적입니다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          category: %{
+            type: "string",
+            enum: ["full", "abilities", "combat", "spells", "equipment", "features", "proficiencies", "summary"],
+            description:
+              "조회할 카테고리. " <>
+              "full: 전체 캐릭터 시트, " <>
+              "abilities: 능력치/수정치/기술 숙련, " <>
+              "combat: HP/AC/속도/무기 숙련/상태이상, " <>
+              "spells: 알려진 주문/주문 슬롯, " <>
+              "equipment: 장비/인벤토리, " <>
+              "features: 클래스/종족 특성, " <>
+              "proficiencies: 모든 숙련 정보, " <>
+              "summary: 이름/클래스/종족/레벨/HP/AC 요약"
+          }
+        },
+        required: ["category"]
+      }
+    }
   end
 
   defp update_character_def do
@@ -630,6 +660,21 @@ defmodule TrpgMaster.AI.Tools do
     context = Map.get(input, "context")
     result = if context, do: Map.put(result, "context", context), else: result
     {:ok, result}
+  end
+
+  # Character info lookup: reads from process dictionary (set by Campaign.Server before AI call)
+  def execute("get_character_info", input) do
+    category = Map.get(input, "category", "summary")
+    characters = Process.get(:campaign_characters, [])
+
+    case characters do
+      [character | _] ->
+        info = TrpgMaster.Rules.CharacterData.get_character_info(character, category)
+        {:ok, %{"status" => "ok", "character" => info}}
+
+      [] ->
+        {:ok, %{"status" => "error", "message" => "등록된 캐릭터가 없습니다."}}
+    end
   end
 
   # State-change tools: return confirmation, actual state update happens in Campaign.Server

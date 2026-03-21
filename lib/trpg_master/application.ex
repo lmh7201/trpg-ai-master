@@ -13,6 +13,7 @@ defmodule TrpgMaster.Application do
       TrpgMaster.Rules.Loader,
       TrpgMaster.Rules.DC,
       TrpgMaster.Oracle.Loader,
+      TrpgMaster.Rules.CharacterData,
       {Registry, keys: :unique, name: TrpgMaster.Campaign.Registry},
       {DynamicSupervisor, name: TrpgMaster.Campaign.Manager, strategy: :one_for_one},
       TrpgMasterWeb.Endpoint

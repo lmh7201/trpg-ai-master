@@ -28,6 +28,10 @@ RUN mix deps.get --only $MIX_ENV
 COPY config config
 COPY lib lib
 COPY priv priv
+COPY scripts scripts
+
+# Sync D&D reference data from dnd_reference_ko repo
+RUN bash scripts/sync_dnd_data.sh
 
 RUN mix compile
 

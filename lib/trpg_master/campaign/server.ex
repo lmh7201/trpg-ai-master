@@ -69,6 +69,14 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   @impl true
+  def handle_call({:set_character, character}, _from, state) do
+    new_state = %{state | characters: [character]}
+    Persistence.save_async(new_state)
+    Logger.info("캐릭터 등록 [#{state.id}]: #{character["name"]}")
+    {:reply, :ok, new_state}
+  end
+
+  @impl true
   def handle_call({:set_mode, mode}, _from, state) do
     new_state = %{state | mode: mode}
     Persistence.save_async(new_state)
@@ -141,12 +149,14 @@ defmodule TrpgMaster.Campaign.Server do
 
     model_opts = model_opts(state)
     Process.put(:journal_entries, state.journal_entries)
+    Process.put(:campaign_characters, state.characters)
 
     result =
       try do
         Client.chat(system_prompt, trimmed_history, tools, model_opts)
       after
         Process.delete(:journal_entries)
+        Process.delete(:campaign_characters)
       end
 
     case result do
@@ -201,12 +211,14 @@ defmodule TrpgMaster.Campaign.Server do
     model_opts = model_opts(state)
 
     Process.put(:journal_entries, state.journal_entries)
+    Process.put(:campaign_characters, state.characters)
 
     player_result =
       try do
         Client.chat(system_prompt, trimmed_history, tools, model_opts)
       after
         Process.delete(:journal_entries)
+        Process.delete(:campaign_characters)
       end
 
     case player_result do
@@ -284,12 +296,14 @@ defmodule TrpgMaster.Campaign.Server do
     trimmed_history = PromptBuilder.build_turn_messages(state, trigger_msg, combat_phase: combat_phase)
 
     Process.put(:journal_entries, state.journal_entries)
+    Process.put(:campaign_characters, state.characters)
 
     enemy_result =
       try do
         Client.chat(system_prompt, trimmed_history, tools, model_opts)
       after
         Process.delete(:journal_entries)
+        Process.delete(:campaign_characters)
       end
 
     case enemy_result do
