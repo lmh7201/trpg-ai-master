@@ -295,6 +295,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
         ac = if c["ac"], do: " | AC #{c["ac"]}", else: ""
         level = if c["level"], do: " Lv.#{c["level"]}", else: ""
         class = if c["class"], do: " #{c["class"]}", else: ""
+        race = if c["race"], do: " #{c["race"]}", else: ""
 
         conditions =
           case c["conditions"] do
@@ -302,11 +303,18 @@ defmodule TrpgMaster.AI.PromptBuilder do
             _ -> ""
           end
 
-        "- #{c["name"]}#{class}#{level}#{hp}#{ac}#{conditions}"
+        "- #{c["name"]}#{race}#{class}#{level}#{hp}#{ac}#{conditions}"
       end)
       |> Enum.join("\n")
 
-    "## 캐릭터 정보\n#{chars}"
+    """
+    ## 캐릭터 정보
+    #{chars}
+
+    캐릭터의 능력치, 장비, 주문, 특성 등 상세 정보가 필요하면 반드시 get_character_info 도구를 사용하세요.
+    판정(능력치 확인, 내성 굴림 등)이나 전투 시작 전에 항상 먼저 캐릭터 정보를 조회하세요.
+    카테고리: abilities(능력치), combat(전투), spells(주문), equipment(장비), features(특성), proficiencies(숙련), summary(요약), full(전체)
+    """
   end
 
   defp npcs_section(%{npcs: npcs}) when map_size(npcs) == 0, do: nil

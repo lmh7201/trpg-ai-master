@@ -59,7 +59,7 @@ defmodule TrpgMaster.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "cmd bash scripts/sync_dnd_data.sh"]
     ]
   end
 end

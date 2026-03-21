@@ -29,6 +29,7 @@ defmodule TrpgMasterWeb.Router do
 
     live "/", LobbyLive, :index
     live "/play/:id", CampaignLive, :play
+    live "/create/:id", CharacterCreateLive, :create
     live "/history/:id", HistoryLive, :history
   end
 

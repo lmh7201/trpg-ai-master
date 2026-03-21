@@ -39,7 +39,7 @@ defmodule TrpgMasterWeb.LobbyLive do
     else
       case Manager.create_campaign(name, model_id) do
         {:ok, id} ->
-          {:noreply, push_navigate(socket, to: "/play/#{id}")}
+          {:noreply, push_navigate(socket, to: "/create/#{id}")}
 
         {:error, reason} ->
           {:noreply, assign(socket, :error, "생성 실패: #{inspect(reason)}")}
