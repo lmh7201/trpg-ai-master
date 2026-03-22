@@ -83,7 +83,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       |> assign(:class_skill_count, 0)
       # 배경 능력치 배분
       |> assign(:bg_ability_2, nil)
-      |> assign(:bg_ability_1, nil)
+      |> assign(:bg_ability_1, [])
       |> assign(:bg_abilities, [])
       # 능력치
       |> assign(:ability_method, "standard_array")
@@ -117,7 +117,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   def handle_event("select_class", %{"id" => class_id}, socket) do
     class = CharacterData.get_class(class_id)
 
-    skill_opts = get_in(class, ["skillProficiencies", "options"]) || []
+    skill_opts = get_in(class, ["skillProficienciesKo", "options"]) || get_in(class, ["skillProficiencies", "options"]) || []
     skill_count = get_in(class, ["skillProficiencies", "choose"]) || 2
 
     # 주문시전 여부 확인
@@ -175,7 +175,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       |> assign(:selected_background, bg)
       |> assign(:bg_abilities, bg_abilities)
       |> assign(:bg_ability_2, nil)
-      |> assign(:bg_ability_1, nil)
+      |> assign(:bg_ability_1, [])
       |> assign(:detail_panel, nil)
 
     {:noreply, socket}
@@ -184,14 +184,23 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   def handle_event("set_bg_ability", %{"rank" => rank, "key" => key}, socket) do
     case rank do
       "2" ->
-        # +2를 배정, 기존 +1이 같은 곳이면 해제
-        new_1 = if socket.assigns.bg_ability_1 == key, do: nil, else: socket.assigns.bg_ability_1
-        {:noreply, socket |> assign(:bg_ability_2, key) |> assign(:bg_ability_1, new_1)}
+        # +2 하나만 배정 (기존 +1 모두 해제)
+        # 같은 곳 다시 누르면 해제
+        new_2 = if socket.assigns.bg_ability_2 == key, do: nil, else: key
+        {:noreply, socket |> assign(:bg_ability_2, new_2) |> assign(:bg_ability_1, [])}
 
       "1" ->
-        # +1을 배정, 기존 +2가 같은 곳이면 해제
-        new_2 = if socket.assigns.bg_ability_2 == key, do: nil, else: socket.assigns.bg_ability_2
-        {:noreply, socket |> assign(:bg_ability_1, key) |> assign(:bg_ability_2, new_2)}
+        # +1 토글 (최대 2개, +2는 해제)
+        current = socket.assigns.bg_ability_1
+
+        new_1 =
+          if key in current do
+            List.delete(current, key)
+          else
+            if length(current) < 2, do: current ++ [key], else: current
+          end
+
+        {:noreply, socket |> assign(:bg_ability_1, new_1) |> assign(:bg_ability_2, nil)}
 
       _ ->
         {:noreply, socket}
@@ -209,8 +218,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     {:noreply, socket}
   end
 
-  def handle_event("assign_ability", %{"key" => key, "value" => value_str}, socket) do
-    value = String.to_integer(value_str)
+  def handle_event("assign_ability", %{"key" => key, "score" => score_str}, socket) do
+    case Integer.parse(score_str) do
+      {value, _} -> do_assign_ability(key, value, socket)
+      :error -> {:noreply, socket}
+    end
+  end
+
+  defp do_assign_ability(key, value, socket) do
     abilities = socket.assigns.abilities
 
     # 이미 다른 능력치에 같은 값이 배정되어 있으면 그쪽을 해제
@@ -406,8 +421,8 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   defp validate_step(%{step: 3} = assigns) do
     cond do
       is_nil(assigns.selected_background) -> {:error, "배경을 선택하세요."}
-      is_nil(assigns.bg_ability_2) -> {:error, "+2 능력치를 선택하세요."}
-      is_nil(assigns.bg_ability_1) -> {:error, "+1 능력치를 선택하세요."}
+      is_nil(assigns.bg_ability_2) and assigns.bg_ability_1 == [] -> {:error, "능력치 보너스를 배정하세요. (+2 하나 또는 +1 둘)"}
+      assigns.bg_ability_1 != [] and length(assigns.bg_ability_1) < 2 -> {:error, "+1을 하나 더 배정하세요. (총 2곳)"}
       true -> :ok
     end
   end
@@ -537,7 +552,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     |> Map.new(fn key ->
       val = base[key] || 10
       val = if key == bg2, do: val + 2, else: val
-      val = if key == bg1, do: val + 1, else: val
+      val = if key in bg1, do: val + 1, else: val
       {key, val}
     end)
   end
@@ -545,7 +560,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   defp final_ability_score(assigns, key) do
     base = assigns.abilities[key] || 10
     base = if assigns.bg_ability_2 == key, do: base + 2, else: base
-    base = if assigns.bg_ability_1 == key, do: base + 1, else: base
+    base = if key in assigns.bg_ability_1, do: base + 1, else: base
     base
   end
 
@@ -711,7 +726,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             <div class="cc-card-name"><%= class["name"] %></div>
             <div class="cc-card-name-en"><%= class["nameEn"] %></div>
             <div class="cc-card-meta">
-              HP: <%= class["hitPointDie"] %> | 주 능력: <%= class["primaryAbility"] %>
+              HP: <%= class["hitPointDie"] %> | 주 능력: <%= class["primaryAbilityKo"] || class["primaryAbility"] %>
             </div>
           </div>
         <% end %>
@@ -724,9 +739,9 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
           <div class="cc-detail-stats">
             <div><strong>HP 주사위:</strong> <%= @selected_class["hitPointDie"] %></div>
-            <div><strong>내성 굴림:</strong> <%= @selected_class["savingThrowProficiencies"] %></div>
-            <div><strong>무기 숙련:</strong> <%= @selected_class["weaponProficiencies"] %></div>
-            <div><strong>방어구 훈련:</strong> <%= @selected_class["armorTraining"] %></div>
+            <div><strong>내성 굴림:</strong> <%= @selected_class["savingThrowProficienciesKo"] || @selected_class["savingThrowProficiencies"] %></div>
+            <div><strong>무기 숙련:</strong> <%= @selected_class["weaponProficienciesKo"] || @selected_class["weaponProficiencies"] %></div>
+            <div><strong>방어구 훈련:</strong> <%= @selected_class["armorTrainingKo"] || @selected_class["armorTraining"] %></div>
           </div>
 
           <div class="cc-skill-select">
@@ -744,10 +759,10 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             </div>
           </div>
 
-          <%= if @selected_class["startingEquipment"] do %>
+          <%= if @selected_class["startingEquipmentKo"] || @selected_class["startingEquipment"] do %>
             <div class="cc-equip-preview">
               <h4>시작 장비 옵션</h4>
-              <%= for equip_group <- @selected_class["startingEquipment"] do %>
+              <%= for equip_group <- @selected_class["startingEquipmentKo"] || @selected_class["startingEquipment"] do %>
                 <%= for opt <- (equip_group["options"] || []) do %>
                   <div class="cc-equip-option"><%= opt %></div>
                 <% end %>
@@ -858,7 +873,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
           <div class="cc-bg-abilities">
             <h4>능력치 보너스 배분</h4>
-            <p class="cc-hint">아래 3개 능력치 중 하나에 +2, 다른 하나에 +1을 배정하세요.</p>
+            <p class="cc-hint">하나에 +2만 넣거나, 두 곳에 +1씩 배정하세요. (총합 +2)</p>
             <div class="cc-ability-assign">
               <%= for key <- @bg_abilities do %>
                 <% name = @ability_names[key] || key %>
@@ -871,7 +886,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
                     phx-value-key={key}
                   >+2</button>
                   <button
-                    class={"cc-chip #{if @bg_ability_1 == key, do: "selected"}"}
+                    class={"cc-chip #{if key in @bg_ability_1, do: "selected"}"}
                     phx-click="set_bg_ability"
                     phx-value-rank="1"
                     phx-value-key={key}
@@ -927,7 +942,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
           <% base_val = @abilities[key] %>
           <% bg_bonus = cond do
             @bg_ability_2 == key -> 2
-            @bg_ability_1 == key -> 1
+            key in @bg_ability_1 -> 1
             true -> 0
           end %>
           <% final_val = if base_val, do: base_val + bg_bonus, else: nil %>
@@ -950,7 +965,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
               <div class="cc-ability-empty">
                 <div class="cc-score-options">
                   <%= for score <- @available_scores |> Enum.uniq() do %>
-                    <button class="cc-score-btn" phx-click="assign_ability" phx-value-key={key} phx-value-value={score}>
+                    <button class="cc-score-btn" phx-click="assign_ability" phx-value-key={key} phx-value-score={score}>
                       <%= score %>
                     </button>
                   <% end %>
@@ -1094,7 +1109,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
         base = assigns.abilities[key] || 10
         bonus = cond do
           assigns.bg_ability_2 == key -> 2
-          assigns.bg_ability_1 == key -> 1
+          key in assigns.bg_ability_1 -> 1
           true -> 0
         end
         {key, base + bonus}
