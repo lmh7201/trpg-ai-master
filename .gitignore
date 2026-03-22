@@ -7,6 +7,9 @@
 # Generated files
 /priv/static/assets/
 
+# D&D data (private repo — fetched at runtime via DATA_GITHUB_TOKEN)
+/priv/data/*.json
+
 # Data directory (runtime)
 /data/campaigns/
 
