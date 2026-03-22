@@ -271,13 +271,22 @@ defmodule TrpgMaster.AI.PromptBuilder do
   defp campaign_section(state) do
     location = state.current_location || "미정"
 
+    player_name_line =
+      case state.characters do
+        [first | _] when is_map(first) ->
+          name = first["name"] || "(이름 없음)"
+          "\n- **플레이어 캐릭터 이름: #{name}** ← update_character/level_up 호출 시 반드시 이 이름을 그대로 사용하세요."
+        _ ->
+          ""
+      end
+
     """
     ## 현재 캠페인 상황
     - 캠페인: #{state.name}
     - 위치: #{location}
     - 페이즈: #{state.phase}
     - 턴: #{state.turn_count}
-    - 모드: #{state.mode}
+    - 모드: #{state.mode}#{player_name_line}
     """
   end
 
