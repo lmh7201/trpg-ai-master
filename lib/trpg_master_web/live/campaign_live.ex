@@ -26,7 +26,7 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:current_location, state.current_location)
          |> assign(:phase, state.phase)
          |> assign(:character, List.first(state.characters))
-         |> assign(:characters, state.characters)
+         |> assign(:characters, player_characters(state.characters, state.combat_state))
          |> assign(:combat_state, state.combat_state)
          |> assign(:mode, state.mode)
          |> assign(:processing, false)
@@ -595,12 +595,25 @@ defmodule TrpgMasterWeb.CampaignLive do
   end
 
   defp update_state_assigns(socket, state) do
+    player_chars = player_characters(state.characters, state.combat_state)
+
     socket
     |> assign(:current_location, state.current_location)
     |> assign(:phase, state.phase)
-    |> assign(:character, List.first(state.characters))
-    |> assign(:characters, state.characters)
+    |> assign(:character, List.first(player_chars))
+    |> assign(:characters, player_chars)
     |> assign(:combat_state, state.combat_state)
+  end
+
+  # 전투 중에는 combat_state["player_names"]에 있는 캐릭터만 반환한다.
+  # 적(NPC/몬스터)이 update_character로 인해 state.characters에 섞여 있어도 필터링된다.
+  defp player_characters(characters, combat_state) do
+    case get_in(combat_state, ["player_names"]) do
+      names when is_list(names) and names != [] ->
+        Enum.filter(characters, fn c -> c["name"] in names end)
+      _ ->
+        characters
+    end
   end
 
   defp build_display_messages(conversation_history) do

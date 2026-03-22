@@ -793,8 +793,15 @@ defmodule TrpgMaster.Campaign.Server do
     characters =
       case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
         nil ->
-          Logger.info("새 캐릭터 생성: #{char_name}")
-          state.characters ++ [Map.merge(%{"name" => char_name}, changes)]
+          # 전투 중에는 새 캐릭터를 characters에 추가하지 않는다.
+          # 적 HP 변경은 sync_enemy_hp_to_combat_state에서 combat_state["enemies"]로 처리된다.
+          if state.phase == :combat do
+            Logger.info("전투 중 update_character: '#{char_name}' 미등록 — characters에 추가하지 않음")
+            state.characters
+          else
+            Logger.info("새 캐릭터 생성: #{char_name}")
+            state.characters ++ [Map.merge(%{"name" => char_name}, changes)]
+          end
 
         idx ->
           List.update_at(state.characters, idx, fn char ->
