@@ -19,6 +19,73 @@ defmodule TrpgMaster.Rules.CharacterData do
     {17, 225_000},{18, 265_000},{19, 305_000},{20, 355_000}
   ]
 
+  # ASI 레벨: 이 레벨 도달 시 능력치 +2 또는 +1/+1 선택
+  @asi_levels [4, 8, 12, 16, 19]
+
+  # D&D 5e 주문 슬롯 테이블 (완전 주문시전자: bard, cleric, druid, sorcerer, wizard)
+  # 형식: 레벨 → {1슬롯, 2슬롯, 3슬롯, 4슬롯, 5슬롯, 6슬롯, 7슬롯, 8슬롯, 9슬롯}
+  @full_caster_slots %{
+    1  => {2, 0, 0, 0, 0, 0, 0, 0, 0},
+    2  => {3, 0, 0, 0, 0, 0, 0, 0, 0},
+    3  => {4, 2, 0, 0, 0, 0, 0, 0, 0},
+    4  => {4, 3, 0, 0, 0, 0, 0, 0, 0},
+    5  => {4, 3, 2, 0, 0, 0, 0, 0, 0},
+    6  => {4, 3, 3, 0, 0, 0, 0, 0, 0},
+    7  => {4, 3, 3, 1, 0, 0, 0, 0, 0},
+    8  => {4, 3, 3, 2, 0, 0, 0, 0, 0},
+    9  => {4, 3, 3, 3, 1, 0, 0, 0, 0},
+    10 => {4, 3, 3, 3, 2, 0, 0, 0, 0},
+    11 => {4, 3, 3, 3, 2, 1, 0, 0, 0},
+    12 => {4, 3, 3, 3, 2, 1, 0, 0, 0},
+    13 => {4, 3, 3, 3, 2, 1, 1, 0, 0},
+    14 => {4, 3, 3, 3, 2, 1, 1, 0, 0},
+    15 => {4, 3, 3, 3, 2, 1, 1, 1, 0},
+    16 => {4, 3, 3, 3, 2, 1, 1, 1, 0},
+    17 => {4, 3, 3, 3, 2, 1, 1, 1, 1},
+    18 => {4, 3, 3, 3, 3, 1, 1, 1, 1},
+    19 => {4, 3, 3, 3, 3, 2, 1, 1, 1},
+    20 => {4, 3, 3, 3, 3, 2, 2, 1, 1}
+  }
+
+  # 반주문시전자 슬롯 (ranger: 2레벨부터 주문 시작)
+  # 형식: 레벨 → {1슬롯, 2슬롯, 3슬롯, 4슬롯, 5슬롯}
+  @half_caster_slots %{
+    1  => {0, 0, 0, 0, 0},
+    2  => {2, 0, 0, 0, 0},
+    3  => {3, 0, 0, 0, 0},
+    4  => {3, 0, 0, 0, 0},
+    5  => {4, 2, 0, 0, 0},
+    6  => {4, 2, 0, 0, 0},
+    7  => {4, 3, 0, 0, 0},
+    8  => {4, 3, 0, 0, 0},
+    9  => {4, 3, 2, 0, 0},
+    10 => {4, 3, 2, 0, 0},
+    11 => {4, 3, 3, 0, 0},
+    12 => {4, 3, 3, 0, 0},
+    13 => {4, 3, 3, 1, 0},
+    14 => {4, 3, 3, 1, 0},
+    15 => {4, 3, 3, 2, 0},
+    16 => {4, 3, 3, 2, 0},
+    17 => {4, 3, 3, 3, 1},
+    18 => {4, 3, 3, 3, 1},
+    19 => {4, 3, 3, 3, 2},
+    20 => {4, 3, 3, 3, 2}
+  }
+
+  # 워록 계약 마법 슬롯: {슬롯 수, 슬롯 레벨}
+  @warlock_pact_slots %{
+    1  => {1, 1}, 2  => {2, 1},
+    3  => {2, 2}, 4  => {2, 2},
+    5  => {2, 3}, 6  => {2, 3},
+    7  => {2, 4}, 8  => {2, 4},
+    9  => {2, 5}, 10 => {2, 5},
+    11 => {3, 5}, 12 => {3, 5},
+    13 => {3, 5}, 14 => {3, 5},
+    15 => {3, 5}, 16 => {3, 5},
+    17 => {4, 5}, 18 => {4, 5},
+    19 => {4, 5}, 20 => {4, 5}
+  }
+
   @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd-reference/src/data"
   @fetch_timeout 60_000
 
@@ -140,6 +207,33 @@ defmodule TrpgMaster.Rules.CharacterData do
     end
   end
 
+  @doc "현재 레벨이 ASI(능력치 향상) 레벨인지 확인한다"
+  def asi_level?(level), do: level in @asi_levels
+
+  @doc """
+  클래스 ID와 레벨에 맞는 주문 슬롯 맵을 반환한다.
+  반환 형식: %{"1" => 2, "2" => 3, ...} (슬롯 없으면 nil)
+  """
+  def spell_slots_for_class_level(class_id, level) when is_integer(level) do
+    cond do
+      class_id in ["bard", "cleric", "druid", "sorcerer", "wizard"] ->
+        slots_tuple_to_map(@full_caster_slots[level])
+
+      class_id == "ranger" ->
+        slots_tuple_to_map(@half_caster_slots[level])
+
+      class_id == "warlock" ->
+        case @warlock_pact_slots[level] do
+          {count, slot_level} when count > 0 ->
+            %{Integer.to_string(slot_level) => count}
+          _ -> nil
+        end
+
+      true -> nil
+    end
+  end
+  def spell_slots_for_class_level(_, _), do: nil
+
   @doc "주어진 카테고리의 장비 목록 (weapons, armor, gear, tools)"
   def equipment_by_category(category) do
     case category do
@@ -175,6 +269,9 @@ defmodule TrpgMaster.Rules.CharacterData do
     # 기술 숙련 목록 조합 (클래스 선택 + 배경)
     skill_profs = (params[:class_skills] || []) ++ extract_background_skills(background_data)
 
+    # 1레벨 주문 슬롯 초기화
+    spell_slots = spell_slots_for_class_level(params.class_id, 1) || %{}
+
     %{
       "name" => params.name,
       "class" => class_name,
@@ -205,7 +302,8 @@ defmodule TrpgMaster.Rules.CharacterData do
       "inventory" => params[:equipment] || [],
       "spells_known" => params[:spells] || %{},
       "conditions" => [],
-      "spell_slots_used" => 0
+      "spell_slots" => spell_slots,
+      "spell_slots_used" => %{}
     }
   end
 
@@ -452,6 +550,20 @@ defmodule TrpgMaster.Rules.CharacterData do
     Map.new(abilities, fn {key, val} -> {key, ability_modifier(val)} end)
   end
   defp calculate_all_modifiers(_), do: %{}
+
+  # 슬롯 튜플을 %{"1" => n, ...} 맵으로 변환 (0인 슬롯 제외)
+  defp slots_tuple_to_map(nil), do: nil
+  defp slots_tuple_to_map(tuple) do
+    tuple
+    |> Tuple.to_list()
+    |> Enum.with_index(1)
+    |> Enum.reject(fn {count, _} -> count == 0 end)
+    |> Map.new(fn {count, level} -> {Integer.to_string(level), count} end)
+    |> case do
+      m when map_size(m) == 0 -> nil
+      m -> m
+    end
+  end
 
   defp calculate_ac(params) do
     # 기본 AC 계산: 장비에 따라 달라짐. 기본값은 10 + DEX mod

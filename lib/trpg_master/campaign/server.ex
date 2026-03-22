@@ -938,6 +938,7 @@ defmodule TrpgMaster.Campaign.Server do
   defp apply_single_tool_result(state, %{tool: "level_up", input: input}) do
     alias TrpgMaster.Rules.CharacterData
     char_name = input["character_name"]
+    asi = input["asi"]
     Logger.info("레벨업 요청: #{char_name}")
 
     characters =
@@ -957,7 +958,17 @@ defmodule TrpgMaster.Campaign.Server do
 
             if target_level > current_level do
               Logger.info("레벨업 적용: #{char_name} #{current_level} → #{target_level}")
-              apply_level_up(char, current_level, target_level)
+              char
+              |> apply_level_up(current_level, target_level)
+              |> apply_asi(asi)
+              # ASI 레벨인데 선택이 없으면 플래그 설정
+              |> then(fn c ->
+                if CharacterData.asi_level?(target_level) && is_nil(asi) do
+                  Map.put(c, "asi_pending", true)
+                else
+                  Map.delete(c, "asi_pending")
+                end
+              end)
             else
               Logger.info("레벨업 조건 미충족 또는 최대 레벨: #{char_name} (현재 레벨: #{current_level})")
               char
@@ -1010,13 +1021,19 @@ defmodule TrpgMaster.Campaign.Server do
 
     if new_level > current_level do
       Logger.info("레벨업 발생: #{char["name"]} #{current_level} → #{new_level}")
-      apply_level_up(char, current_level, new_level)
+      leveled = apply_level_up(char, current_level, new_level)
+      # ASI 레벨이면 플래그 설정 (AI가 다음 턴에 플레이어에게 선택 요청)
+      if TrpgMaster.Rules.CharacterData.asi_level?(new_level) do
+        Map.put(leveled, "asi_pending", true)
+      else
+        leveled
+      end
     else
       char
     end
   end
 
-  # 레벨업 시 HP(히트다이스 평균 + CON 수정치)와 숙련 보너스를 재계산한다.
+  # 레벨업 시 HP, 숙련 보너스, 주문 슬롯을 재계산한다.
   defp apply_level_up(char, old_level, new_level) do
     alias TrpgMaster.Rules.CharacterData
 
@@ -1031,12 +1048,49 @@ defmodule TrpgMaster.Campaign.Server do
     new_hp_max = (char["hp_max"] || 1) + hp_increase
     new_prof_bonus = CharacterData.proficiency_bonus_for_level(new_level)
 
+    # 주문 슬롯 갱신
+    class_id = char["class_id"]
+    new_spell_slots = CharacterData.spell_slots_for_class_level(class_id, new_level)
+
     char
     |> Map.put("level", new_level)
     |> Map.put("hp_max", new_hp_max)
     |> Map.put("hp_current", (char["hp_current"] || 1) + hp_increase)
     |> Map.put("proficiency_bonus", new_prof_bonus)
+    |> then(fn c ->
+      if new_spell_slots do
+        c
+        |> Map.put("spell_slots", new_spell_slots)
+        |> Map.update("spell_slots_used", %{}, fn used ->
+          # 새로 추가된 슬롯 레벨은 사용량 0으로 초기화, 기존 사용량 유지
+          Map.merge(used, Map.new(new_spell_slots, fn {lvl, _} -> {lvl, Map.get(used, lvl, 0)} end))
+        end)
+      else
+        c
+      end
+    end)
   end
+
+  # ASI(능력치 향상) 적용: 지정된 능력치를 올리되 상한 20 적용
+  defp apply_asi(char, asi) when is_map(asi) do
+    abilities = char["abilities"] || %{}
+
+    new_abilities =
+      Enum.reduce(asi, abilities, fn {stat, amount}, acc ->
+        current = acc[stat] || 10
+        Map.put(acc, stat, min(current + amount, 20))
+      end)
+
+    new_modifiers =
+      Map.new(new_abilities, fn {k, v} ->
+        {k, TrpgMaster.Rules.CharacterData.ability_modifier(v)}
+      end)
+
+    char
+    |> Map.put("abilities", new_abilities)
+    |> Map.put("ability_modifiers", new_modifiers)
+  end
+  defp apply_asi(char, _), do: char
 
   # update_character로 수동 레벨업 시, hp_max가 명시되지 않으면 자동 재계산
   defp maybe_apply_level_up_stats(old_char, new_char, changes) do
@@ -1051,7 +1105,8 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   # 캐릭터 맵에 변경사항을 적용한다.
-  # 지원 필드: hp_current, hp_max, class, level, xp, ac, spell_slots_used, race, inventory, proficiency_bonus
+  # 지원 필드: hp_current, hp_max, class, level, xp, ac, spell_slots, spell_slots_used,
+  #           race, inventory, proficiency_bonus, abilities, ability_modifiers
   # 리스트 필드: inventory_add/remove, conditions_add/remove
   defp apply_character_changes(char, changes) do
     char
@@ -1061,10 +1116,13 @@ defmodule TrpgMaster.Campaign.Server do
     |> maybe_put("level", changes["level"])
     |> maybe_put("xp", changes["xp"])
     |> maybe_put("ac", changes["ac"])
+    |> maybe_put("spell_slots", changes["spell_slots"])
     |> maybe_put("spell_slots_used", changes["spell_slots_used"])
     |> maybe_put("race", changes["race"])
     |> maybe_put("inventory", changes["inventory"])
     |> maybe_put("proficiency_bonus", changes["proficiency_bonus"])
+    |> maybe_put("abilities", changes["abilities"])
+    |> maybe_put("ability_modifiers", changes["ability_modifiers"])
     |> apply_list_change("inventory", changes["inventory_add"], changes["inventory_remove"])
     |> apply_list_change("conditions", changes["conditions_add"], changes["conditions_remove"])
   end
