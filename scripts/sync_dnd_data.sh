@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
 # dnd_reference_ko 저장소에서 캐릭터 생성용 JSON 데이터를 가져온다.
-# 이미 존재하면 pull, 없으면 shallow clone.
+# private 저장소이므로 로컬/CI에서 실행 (Docker 빌드 전에 사용).
+#
+# 사용법:
+#   bash scripts/sync_dnd_data.sh              # 기본 (git clone)
+#   GITHUB_TOKEN=xxx bash scripts/sync_dnd_data.sh  # CI 환경 (토큰 인증)
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 
-REPO_URL="https://github.com/lmh7201/dnd_reference_ko.git"
+REPO="lmh7201/dnd_reference_ko"
 CLONE_DIR="/tmp/dnd_reference_ko"
 SRC_DIR="dnd_korean/dnd-reference/src/data"
 DEST_DIR="priv/data"
@@ -28,20 +32,33 @@ FILES=(
 
 echo "📦 dnd_reference_ko 데이터 동기화 시작..."
 
-# 1) Clone 또는 Pull
+# Clone URL 결정 (GITHUB_TOKEN이 있으면 HTTPS 토큰 인증, 없으면 SSH)
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+  REPO_URL="https://${GITHUB_TOKEN}@github.com/${REPO}.git"
+  echo "  🔑 GITHUB_TOKEN으로 HTTPS 인증"
+else
+  REPO_URL="git@github.com:${REPO}.git"
+  echo "  🔑 SSH 키 인증"
+fi
+
+# Clone 또는 Pull
 if [ -d "$CLONE_DIR/.git" ]; then
   echo "  ↻ 기존 clone 업데이트 중..."
-  git -C "$CLONE_DIR" pull --ff-only --quiet 2>/dev/null || true
+  git -C "$CLONE_DIR" pull --ff-only --quiet 2>/dev/null || {
+    echo "  ⚠ pull 실패, 재clone..."
+    rm -rf "$CLONE_DIR"
+    git clone --depth 1 --quiet "$REPO_URL" "$CLONE_DIR"
+  }
 else
   echo "  ⬇ 저장소 clone 중 (shallow)..."
   rm -rf "$CLONE_DIR"
   git clone --depth 1 --quiet "$REPO_URL" "$CLONE_DIR"
 fi
 
-# 2) 대상 디렉토리 준비
+# 대상 디렉토리 준비
 mkdir -p "$DEST_DIR"
 
-# 3) 파일 복사
+# 파일 복사
 copied=0
 for file in "${FILES[@]}"; do
   src="$CLONE_DIR/$SRC_DIR/$file"

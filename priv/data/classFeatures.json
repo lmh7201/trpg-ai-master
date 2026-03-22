@@ -1,0 +1,1521 @@
+{
+  "barbarian": [
+    {
+      "level": 1,
+      "featureName": "Rage",
+      "featureNameKo": "분노",
+      "description": "You can enter a Rage as a Bonus Action if you aren't wearing Heavy armor. You can enter your Rage the number of times shown for your Barbarian level in the Rages column of the Barbarian Features table. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nWhile active, you gain the following benefits:\n\n**Damage Resistance.** You have Resistance to Bludgeoning, Piercing, and Slashing damage.\n\n**Rage Damage.** When you make an attack using Strength with either a weapon or an Unarmed Strike and deal damage to the target, you gain a bonus to the damage equal to the bonus shown for your Barbarian level in the Rage Damage column of the Barbarian Features table.\n\n**Strength Advantage.** You have Advantage on Strength checks and Strength saving throws.\n\n**No Concentration or Spells.** You can’t maintain Concentration, and you can’t cast spells.\n\nThe Rage lasts until the end of your next turn, and it ends early if you don Heavy armor or have the Incapacitated condition. If your Rage is still active on your next turn, you can extend the Rage for another round by doing one of the following: make an attack roll, force a saving throw, or take a Bonus Action to extend your Rage.\n\nEach time the Rage is extended, it lasts until the end of your next turn. You can maintain a Rage for up to 10 minutes.",
+      "descriptionKo": "중갑을 착용하지 않은 상태에서 보너스 액션으로 분노에 들어갈 수 있습니다. 바바리안 특성 표의 분노 횟수 열에 표시된 횟수만큼 분노를 사용할 수 있습니다. 짧은 휴식을 마치면 소모된 사용 횟수 1회를 회복하고, 긴 휴식을 마치면 모든 소모된 사용 횟수를 회복합니다.\n\n분노가 활성화된 동안 다음 이점을 얻습니다:\n\n**피해 저항.** 타격, 관통, 베기 피해에 대한 저항을 갖습니다.\n\n**분노 피해.** 근력을 사용한 무기 또는 비무장 타격으로 공격해 대상에게 피해를 입힐 때, 바바리안 특성 표의 분노 피해 열에 표시된 보너스만큼 추가 피해를 줍니다.\n\n**근력 이점.** 근력 판정과 근력 내성 굴림에 이점을 갖습니다.\n\n**집중이나 주문 불가.** 집중을 유지하거나 주문을 시전할 수 없습니다.\n\n분노는 다음 턴 종료 시까지 지속되며, 중갑을 착용하거나 행동불능 상태가 되면 일찍 종료됩니다. 다음 턴에도 분노가 활성 상태라면, 다음 중 하나를 수행하여 분노를 한 라운드 더 연장할 수 있습니다: 공격 굴림 수행, 내성 굴림 강요, 또는 분노 연장을 위한 보너스 액션 사용.\n\n매번 분노를 사용하여 다음 턴까지 연장할 수 있지만 최대 10분까지 유지할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Unarmored Defense",
+      "featureNameKo": "비갑옷 방어",
+      "description": "While you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Constitution modifiers. You can use a Shield and still gain this benefit.",
+      "descriptionKo": "갑옷을 착용하지 않은 상태에서 기본 AC는 10 + 민첩 수정치 + 건강 수정치입니다. 방패를 사용하면서도 이 이점을 받을 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Weapon Mastery",
+      "featureNameKo": "무기 숙련",
+      "description": "Your training with weapons allows you to use the mastery properties of two kinds of Simple or Martial Melee weapons of your choice. Whenever you finish a Long Rest, you can practice weapon drills and change one of those weapon choices.\n\nWhen you reach certain Barbarian levels, you gain the ability to use the mastery properties of more kinds of weapons. At level 4 you can use three, and at level 10 you can use four.",
+      "descriptionKo": "무기 훈련을 통해 선택한 단순 또는 군용 근접 무기 2종의 숙련 속성을 사용할 수 있습니다. 긴 휴식을 마칠 때마다 무기 훈련을 하고 무기 선택 하나를 변경할 수 있습니다.\n\n특정 바바리안 레벨에 도달하면 더 많은 종류의 무기 숙련 속성을 사용할 수 있습니다. 4레벨에서 3종, 10레벨에서 4종을 사용할 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Danger Sense",
+      "featureNameKo": "위험 감지",
+      "description": "You gain an uncanny sense of when things aren't as they should be, giving you an edge when you dodge perils. You have Advantage on Dexterity saving throws unless you have the Incapacitated condition.",
+      "descriptionKo": "상황이 정상적이지 않을 때 이를 감지하는 초감각을 얻어 위험을 피할 때 유리합니다. 행동불능 상태가 아닌 한 민첩 내성 굴림에 이점을 갖습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Reckless Attack",
+      "featureNameKo": "무모한 공격",
+      "description": "You can throw aside all concern for defense to attack with increased ferocity. When you make your first attack roll on your turn using Strength, you can decide to attack recklessly. Doing so gives you Advantage on attack rolls using Strength during this turn, but attack rolls against you have Advantage until the start of your next turn.",
+      "descriptionKo": "방어에 대한 모든 걱정을 내려놓고 더욱 맹렬하게 공격할 수 있습니다. 자신의 턴에서 근력을 사용한 첫 공격 굴림 시 무모하게 공격하기로 결정할 수 있습니다. 그렇게 하면 이번 턴 동안 근력을 사용한 공격 굴림에 이점을 얻지만, 다음 턴 시작까지 자신에 대한 공격 굴림도 이점을 갖습니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Barbarian Subclass",
+      "featureNameKo": "바바리안 서브클래스",
+      "description": "You gain a Barbarian subclass of your choice. The Path of the Berserker, Path of the Wild Heart, Path of the World Tree, and Path of the Zealot subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Barbarian levels. For the rest of your career, you gain each of your subclass's features that are unlocked or improved at the Barbarian levels noted in the subclass.\n\nAt level 6, 10, and 14, you gain a feature from your Barbarian subclass.",
+      "descriptionKo": "바바리안 서브클래스를 하나 선택합니다. 광전사의 길, 야생 심장의 길, 세계수의 길, 광신자의 길 서브클래스가 이 클래스 설명 뒤에 상세히 나와 있습니다. 서브클래스는 특정 바바리안 레벨에서 특성을 부여하는 전문화입니다.\n\n6, 10, 14레벨에서 바바리안 서브클래스의 특성을 획득합니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Primal Knowledge",
+      "featureNameKo": "원초적 지식",
+      "description": "You gain proficiency in another skill of your choice from the skill list available to Barbarians at level 1. In addition, while your Rage is active, you can channel primal power when you attempt certain tasks; whenever you make an ability check using one of the following skills, you can make it as a Strength check even if it normally uses a different ability: Acrobatics, Intimidation, Perception, Stealth, or Survival. When you use this ability, your Strength represents primal power coursing through you, honing your agility, bearing, and senses.",
+      "descriptionKo": "당신은 1레벨 바바리안이 선택할 수 있는 기술 목록 중 원하는 기술 하나에 대한 숙련을 추가로 얻습니다. 또한, 당신의 격노(Rage)가 활성화되어 있는 동안, 특정 작업을 시도할 때 원초적인 힘을 끌어다 쓸 수 있습니다. 다음 기술 중 하나를 사용하여 능력 판정을 할 때마다, 해당 기술이 보통 다른 능력을 사용하더라도 당신은 이를 근력 판정으로 수행할 수 있습니다: 곡예(Acrobatics), 위협(Intimidation), 포착(Perception), 은신(Stealth), 또는 생존(Survival). 당신이 이 능력을 사용할 때, 당신의 근력은 몸속에 흐르는 원초적인 힘을 나타내며 당신의 민첩성, 태도, 그리고 감각을 날카롭게 다듬어 줍니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Barbarian levels 8, 12, and 16.",
+      "descriptionKo": "당신은 능력치 상승(Ability Score Improvement) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 당신은 바바리안 8, 12, 16레벨에서 이 특성을 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Extra Attack",
+      "featureNameKo": "추가 공격",
+      "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "자신의 턴에 공격 행동을 취할 때 한 번이 아닌 두 번 공격할 수 있습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Fast Movement",
+      "featureNameKo": "빠른 이동",
+      "description": "Your Speed increases by 10 feet while you aren't wearing Heavy armor.",
+      "descriptionKo": "중갑을 착용하지 않은 상태에서 이동 속도가 10피트 증가합니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Feral Instinct",
+      "featureNameKo": "야성적 본능",
+      "description": "Your instincts are so honed that you have Advantage on Initiative rolls.",
+      "descriptionKo": "당신의 본능이 매우 날카롭게 다듬어져, 우선권(Initiative) 굴림에 이점(Advantage)을 가집니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Instinctive Pounce",
+      "featureNameKo": "본능적 도약",
+      "description": "As part of the Bonus Action you take to enter your Rage, you can move up to half your Speed.",
+      "descriptionKo": "격노(Rage)에 진입하기 위해 사용하는 보너스 행동의 일부로, 당신은 자신의 이동 속도의 절반까지 이동할 수 있습니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Brutal Strike",
+      "featureNameKo": "야만적 타격",
+      "description": "If you use Reckless Attack, you can forgo any Advantage on one Strength-based attack roll of your choice on your turn. The chosen attack roll mustn’t have Disadvantage. If the chosen attack roll hits, the target takes an extra 1d10 damage of the same type dealt by the weapon or Unarmed Strike, and you can cause one Brutal Strike effect of your choice. You have the following effect options.\n\n**Forceful Blow**. The target is pushed 15 feet straight away from you. You can then move up to half your Speed straight toward the target without provoking Opportunity Attacks.\n\n**Hamstring Blow.** The target’s Speed is reduced by 15 feet until the start of your next turn. A target can be affected by only one Hamstring Blow at a time—the most recent one.",
+      "descriptionKo": "만약 당신이 무모한 공격(Reckless Attack)을 사용한다면, 당신의 차례에 선택한 하나의 근력 기반 공격 굴림에서 얻는 모든 이점(Advantage)을 포기할 수 있습니다. 선택한 공격 굴림은 불리(Disadvantage)를 가지고 있어서는 안 됩니다. 만약 선택한 공격이 명중하면, 대상은 해당 무기 또는 비무장 타격(Unarmed Strike)이 입히는 것과 동일한 유형의 피해를 1d10만큼 추가로 입으며, 당신은 당신이 선택한 야만적 타격 효과 중 하나를 일으킬 수 있습니다. 당신은 다음과 같은 효과 옵션을 가집니다.\n\n**강력한 타격(Forceful Blow)**: 대상은 당신으로부터 직선 방향으로 15피트 밀려납니다. 그 후 당신은 기회 공격(Opportunity Attacks)을 유발하지 않고 대상에게 직선 방향으로 당신의 이동 속도의 절반까지 이동할 수 있습니다.\n\n**오금 타격(Hamstring Blow)**: 대상의 이동 속도가 당신의 다음 차례 시작 전까지 15피트 감소합니다. 대상은 한 번에 하나의 오금 타격 효과만 받을 수 있으며, 가장 최근의 효과가 적용됩니다."
+    },
+    {
+      "level": 11,
+      "featureName": "Relentless Rage",
+      "featureNameKo": "끈질긴 격노",
+      "description": "Your Rage can keep you fighting despite grievous wounds. If you drop to 0 Hit Points while your Rage is active and don’t die outright, you can make a DC 10 Constitution saving throw. If you succeed, your Hit Points instead change to a number equal to twice your Barbarian level. Each time you use this feature after the first, the DC increases by 5. When you finish a Short or Long Rest, the DC resets to 10.",
+      "descriptionKo": "당신의 격노는 치명적인 상처에도 불구하고 계속해서 싸울 수 있게 해줍니다. 격노가 활성화되어 있는 동안 생명력(Hit Points)이 0으로 떨어지고 즉사하지 않는다면, 당신은 난이도(DC) 10의 건강 내성 굴림을 할 수 있습니다. 성공하면, 당신의 생명력은 대신 당신의 바바리안 레벨의 두 배와 같은 수치로 변합니다. 이 특성을 처음 사용한 이후 매번 사용할 때마다 난이도가 5씩 증가합니다. 짧은 휴식(Short Rest)이나 긴 휴식(Long Rest)을 마치면 난이도는 다시 10으로 초기화됩니다."
+    },
+    {
+      "level": 13,
+      "featureName": "Improved Brutal Strike",
+      "featureNameKo": "강화된 야만적 타격",
+      "description": "You have honed new ways to attack furiously. The following effects are now among your Brutal Strike options.\n\n**Staggering Blow.** The target has Disadvantage on the next saving throw it makes, and it can’t make Opportunity Attacks until the start of your next turn.\n\n**Sundering Blow.** Before the start of your next turn, the next attack roll made by another creature against the target gains a +5 bonus to the roll. An attack roll can gain only one Sundering Blow bonus.",
+      "descriptionKo": "당신은 맹렬하게 공격하는 새로운 방식들을 연마했습니다. 이제 다음 효과들이 당신의 야만적 타격(Brutal Strike) 옵션에 포함됩니다.\n\n**비틀거리는 타격(Staggering Blow)**: 대상은 다음번에 수행하는 내성 굴림에 불리(Disadvantage)를 받으며, 당신의 다음 차례 시작 전까지 기회 공격(Opportunity Attacks)을 할 수 없습니다.\n\n**분쇄의 타격(Sundering Blow)**: 당신의 다음 차례가 시작되기 전, 다른 생명체가 대상을 상대로 수행하는 다음 공격 굴림은 해당 굴림에 +5 보너스를 얻습니다. 하나의 공격 굴림에는 단 하나의 분쇄의 타격 보너스만 적용될 수 있습니다."
+    },
+    {
+      "level": 15,
+      "featureName": "Persistent Rage",
+      "featureNameKo": "지속되는 격노",
+      "description": "When you roll Initiative, you can regain all expended uses of Rage. After you regain uses of Rage in this way, you can’t do so again until you finish a Long Rest. In addition, your Rage is so fierce that it now lasts for 10 minutes without you needing to do anything to extend it from round to round. Your Rage ends early if you have the Unconscious condition (not just the Incapacitated condition) or don Heavy armor.",
+      "descriptionKo": "우선권(Initiative)을 굴릴 때, 당신은 소모한 모든 격노(Rage) 횟수를 회복할 수 있습니다. 이런 방식으로 격노 횟수를 회복한 후에는 긴 휴식(Long Rest)을 마칠 때까지 다시 회복할 수 없습니다.\n또한, 당신의 격노는 매우 맹렬하여 이제 라운드마다 격노를 연장하기 위해 아무런 행동을 하지 않아도 10분 동안 유지됩니다. 당신이 의식 상실(Unconscious) 상태가 되거나(단순히 무력화(Incapacitated) 상태가 되는 것만이 아님) 중갑(Heavy armor)을 착용하면 격노가 조기에 종료됩니다."
+    },
+    {
+      "level": 17,
+      "featureName": "Improved Brutal Strike",
+      "featureNameKo": "강화된 야만적 타격",
+      "description": "The extra damage of your Brutal Strike increases to 2d10. In addition, you can use two different Brutal Strike effects whenever you use your Brutal Strike feature.",
+      "descriptionKo": "야만적 타격(Brutal Strike)의 추가 피해가 2d10으로 증가합니다. 또한, 야만적 타격 특성을 사용할 때마다 두 가지 서로 다른 야만적 타격 효과를 동시에 사용할 수 있습니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Indomitable Might",
+      "featureNameKo": "굴하지 않는 위력",
+      "description": "If your total for a Strength check or Strength saving throw is less than your Strength score, you can use that score in place of the total.",
+      "descriptionKo": "근력 판정 또는 근력 내성 굴림의 총합이 당신의 근력 능력치(Strength score)보다 낮다면, 총합 대신 해당 능력치 수치를 사용할 수 있습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Irresistible Offense is recommended.",
+      "descriptionKo": "당신은 에픽 분(Epic Boon) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. '저항할 수 없는 공격의 분(Boon of Irresistible Offense)'이 권장됩니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Primal Champion",
+      "featureNameKo": "원초적 챔피언",
+      "description": "You embody primal power. Your Strength and Constitution scores increase by 4, to a maximum of 25.",
+      "descriptionKo": "당신은 원초적인 힘을 체현합니다. 당신의 근력과 건강 능력치가 4씩 증가하며, 최대치는 25가 됩니다."
+    }
+  ],
+  "bard": [
+    {
+      "level": 1,
+      "featureName": "Bardic Inspiration",
+      "featureNameKo": "바드적 영감",
+      "description": "You can supernaturally inspire others through words, music, or dance. This inspiration is represented by your Bardic Inspiration die, which is a d6.\n\n**Using Bardic Inspiration.** As a Bonus Action, you can inspire another creature within 60 feet of yourself who can see or hear you. That creature gains one of your Bardic Inspiration dice. A creature can have only one Bardic Inspiration die at a time.\nOnce within the next hour when the creature fails a D20 Test, the creature can roll the Bardic Inspiration die and add the number rolled to the d20, potentially turning the failure into a success. A Bardic Inspiration die is expended when it’s rolled.\n\n**Number of Uses.** You can confer a Bardic Inspiration die a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.\n\n**At Higher Levels.** Your Bardic Inspiration die changes when you reach certain Bard levels, as shown in the Bardic Die column of the Bard Features table. The die becomes a d8 at level 5, a d10 at level 10, and a d12 at level 15.",
+      "descriptionKo": "당신은 말, 음악, 또는 춤을 통해 타인에게 초자연적인 영감을 줄 수 있습니다. 이 영감은 d6 주사위인 당신의 바드적 영감 주사위로 나타납니다.\n\n**바드적 영감 사용.** 보너스 행동으로, 당신은 자신으로부터 60피트 이내에 있으면서 당신을 보거나 들을 수 있는 다른 생명체 하나에게 영감을 줄 수 있습니다. 해당 생명체는 당신의 바드적 영감 주사위 하나를 얻습니다. 한 생명체는 한 번에 하나의 바드적 영감 주사위만 보유할 수 있습니다.\n이후 1시간 이내에 해당 생명체가 D20 테스트(D20 Test)에 실패할 경우, 그 생명체는 바드적 영감 주사위를 굴려 나온 숫자를 d20 결과에 더할 수 있으며, 이를 통해 실패를 성공으로 바꿀 수도 있습니다. 바드적 영감 주사위는 굴리는 즉시 소모됩니다.\n\n**사용 횟수.** 당신은 자신의 매력 수정치(최소 1회)와 동일한 횟수만큼 바드적 영감 주사위를 부여할 수 있으며, 긴 휴식(Long Rest)을 마치면 소모한 모든 사용 횟수를 회복합니다.\n\n**고레벨에서.** 당신의 바드적 영감 주사위는 바드 특징 표의 바드 주사위(Bardic Die) 열에 명시된 바와 같이 특정 바드 레벨에 도달함에 따라 변화합니다. 주사위는 5레벨에서 d8, 10레벨에서 d10, 15레벨에서 d12가 됩니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문 시전",
+      "description": "You have learned to cast spells through your bardic arts. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Bard spells, which appear in the Bard spell list later in the class’s description.\n\n**Cantrips.** You know two cantrips of your choice from the Bard spell list. Dancing Lights and Vicious Mockery are recommended.\n\nWhenever you gain a Bard level, you can replace one of your cantrips with another cantrip of your choice from the Bard spell list.\n\nWhen you reach Bard levels 4 and 10, you learn another cantrip of your choice from the Bard spell list, as shown in the Cantrips column of the Bard Features table.\n\n**Spell Slots.** The Bard Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Bard spell list. Charm Person, Color Spray, Dissonant Whispers, and Healing Word are recommended.\n\nThe number of spells on your list increases as you gain Bard levels, as shown in the Prepared Spells column of the Bard Features table. Whenever that number increases, choose additional spells from the Bard spell list until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you’re a level 3 Bard, your list of prepared spells can include six spells of levels 1 and 2 in any combination.\n\nIf another Bard feature gives you spells that you always have prepared, those spells don’t count against the number of spells you can prepare with this feature, but those spells otherwise count as Bard spells for you.\n\n**Changing Your Prepared Spells.** Whenever you gain a Bard level, you can replace one spell on your list with another Bard spell for which you have spell slots.\n\n**Spellcasting Ability.** Charisma is your spellcasting ability for your Bard spells.\n\n**Spellcasting Focus.** You can use a Musical Instrument as a Spellcasting Focus for your Bard spells.",
+      "descriptionKo": "당신은 바드의 예술을 통해 주문을 시전하는 법을 배웠습니다. 주문 시전에 관한 규칙은 7장을 참조하십시오. 아래 정보는 해당 규칙을 바드 클래스 설명 뒷부분의 바드 주문 목록에 나오는 바드 주문들과 함께 사용하는 방법을 자세히 설명합니다.\n\n**소마법(Cantrips).** 당신은 바드 주문 목록에서 원하는 두 개의 소마법을 알고 있습니다. 무색의 불빛(Dancing Lights)과 악의적 조롱(Vicious Mockery)이 권장됩니다.\n\n바드 레벨을 얻을 때마다, 당신은 알고 있는 소마법 중 하나를 바드 주문 목록의 다른 소마법으로 교체할 수 있습니다.\n\n바드 4레벨과 10레벨에 도달하면, 바드 특징 표의 소마법(Cantrips) 열에 표시된 대로 바드 주문 목록에서 원하는 소마법 하나를 추가로 배웁니다.\n\n**주문 슬롯(Spell Slots).** 바드 특징 표는 당신이 1레벨 이상의 주문을 시전하기 위해 보유한 레벨별 주문 슬롯의 수를 보여줍니다. 당신은 긴 휴식(Long Rest)을 마치면 소모된 모든 슬롯을 회복합니다.\n\n**준비된 1레벨 이상 주문(Prepared Spells of Level 1+).** 당신은 이 특성을 통해 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작할 때 바드 주문 목록에서 네 개의 1레벨 주문을 선택하십시오. 사람 매혹(Charm Person), 컬러 스프레이(Color Spray), 불협화음의 속삭임(Dissonant Whispers), 치유의 단어(Healing Word)가 권장됩니다.\n\n목록에 준비할 수 있는 주문의 수는 바드 특징 표의 준비된 주문(Prepared Spells) 열에 표시된 대로 바드 레벨이 올라감에 따라 증가합니다. 그 숫자가 증가할 때마다, 당신의 목록에 있는 주문 수가 표의 숫자와 일치할 때까지 바드 주문 목록에서 추가 주문을 선택하십시오. 선택한 주문은 당신이 주문 슬롯을 가지고 있는 레벨의 주문이어야 합니다. 예를 들어, 당신이 3레벨 바드라면, 준비된 주문 목록에는 1레벨과 2레벨 주문을 조합하여 총 6개의 주문이 포함될 수 있습니다.\n\n만약 다른 바드 특성이 당신에게 항상 준비되어 있는 주문을 제공한다면, 해당 주문들은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외의 경우에는 당신에게 바드 주문으로 간주됩니다.\n\n**준비된 주문 변경하기(Changing Your Prepared Spells).** 바드 레벨을 얻을 때마다, 당신은 목록에 있는 주문 중 하나를 당신이 주문 슬롯을 보유한 다른 바드 주문으로 교체할 수 있습니다.\n\n**주문 시전 능력(Spellcasting Ability).** 매력(Charisma)은 바드 주문에 대한 당신의 주문 시전 능력입니다.\n\n**주문 시전 매개체(Spellcasting Focus).** 당신은 악기(Musical Instrument)를 바드 주문의 주문 시전 매개체로 사용할 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Expertise",
+      "featureNameKo": "숙련의 달인",
+      "description": "You gain Expertise (see the rules glossary) in two of your skill proficiencies of your choice. Performance and Persuasion are recommended if you have proficiency in them. At Bard level 9, you gain Expertise in two more of your skill proficiencies of your choice.",
+      "descriptionKo": "당신은 자신이 숙련을 가진 기술 중 원하는 두 가지를 선택하여 숙련의 달인(Expertise, 규칙 용어집 참조)을 얻습니다. 만약 당신이 연기(Performance)와 설득(Persuasion) 기술에 숙련을 가지고 있다면, 이 기술들을 선택하는 것이 권장됩니다. 바드 9레벨에서, 당신은 원하는 두 가지 기술 숙련을 추가로 선택하여 숙련의 달인을 얻습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Jack of All Trades",
+      "featureNameKo": "팔방미인",
+      "description": "You can add half your Proficiency Bonus (round down) to any ability check you make that uses a skill proficiency you lack and that doesn’t otherwise use your Proficiency Bonus. For example, if you make a Strength (Athletics) check and lack Athletics proficiency, you can add half your Proficiency Bonus to the check.",
+      "descriptionKo": "당신은 자신이 숙련을 가지지 않았으며 당신의 숙련 보너스를 별도로 사용하지 않는 모든 능력 판정에 당신의 숙련 보너스의 절반(내림)을 더할 수 있습니다. 예를 들어, 당신이 근력(운동(Athletics)) 판정을 수행할 때 운동 기술 숙련이 없다면, 해당 판정에 당신의 숙련 보너스의 절반을 더할 수 있습니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Bard Subclass",
+      "featureNameKo": "바드 서브클래스",
+      "description": "You gain a Bard subclass of your choice. The College of Dance, College of Glamour, College of Lore, and College of Valor subclasses are detailed after this class’s description. A subclass is a specialization that grants you features at certain Bard levels. For the rest of your career, you gain each of your subclass’s features that are of your Bard level or lower.",
+      "descriptionKo": "당신은 자신이 원하는 바드 서브클래스 하나를 얻습니다. 무용 학파(College of Dance), 매혹 학파(College of Glamour), 지식 학파(College of Lore), 용맹 학파(College of Valor) 서브클래스들이 이 클래스 설명 뒤에 자세히 서술되어 있습니다. 서브클래스는 특정 바드 레벨에서 당신에게 특성들을 부여하는 전문화입니다. 당신의 남은 경력 동안, 당신은 자신의 바드 레벨 이하에 해당하는 서브클래스의 각 특성들을 얻습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Bard levels 8, 12, and 16.",
+      "descriptionKo": "당신은 능력치 상승(Ability Score Improvement) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 당신은 바드 8, 12, 16레벨에서 이 특성을 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Font of Inspiration",
+      "featureNameKo": "영감의 샘",
+      "description": "You now regain all your expended uses of Bardic Inspiration when you finish a Short or Long Rest. \n\nIn addition, you can expend a spell slot (no action required) to regain one expended use of Bardic Inspiration.",
+      "descriptionKo": "당신은 이제 짧은 휴식(Short Rest)이나 긴 휴식(Long Rest)을 마치면 소모한 모든 바드적 영감(Bardic Inspiration) 사용 횟수를 회복합니다. \n\n추가로, 당신은 별도의 행동 소모 없이 주문 슬롯 하나를 소모하여 소모된 바드적 영감 사용 횟수 하나를 회복할 수 있습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Countercharm",
+      "featureNameKo": "대항 매력",
+      "description": "You can use musical notes or words of power to disrupt mind-influencing effects. If you or a creature within 30 feet of you fails a saving throw against an effect that applies the Charmed or Frightened condition, you can take a Reaction to cause the save to be rerolled, and the new roll has Advantage.",
+      "descriptionKo": "당신은 음악적 선율이나 권능의 언어를 사용하여 정신에 영향을 주는 효과를 방해할 수 있습니다. 만약 당신이나 당신으로부터 30피트 이내에 있는 생명체가 매혹됨(Charmed) 또는 공포에 질림(Frightened) 상태를 부여하는 효과에 대한 내성 굴림에 실패한다면, 당신은 반응 행동(Reaction)을 사용하여 해당 내성 굴림을 다시 굴리게 할 수 있으며, 이 새로운 굴림은 이점(Advantage)을 가집니다."
+    },
+    {
+      "level": 10,
+      "featureName": "Magical Secrets",
+      "featureNameKo": "마법의 비법",
+      "description": "You’ve learned secrets from various magical traditions. Whenever you reach a Bard level (including this level) and the Prepared Spells number in the Bard Features table increases, you can choose any of your new prepared spells from the Bard, Cleric, Druid, and Wizard spell lists, and the chosen spells count as Bard spells for you (see a class’s section for its spell list). In addition, whenever you replace a spell prepared for this class, you can replace it with a spell from those lists.",
+      "descriptionKo": "당신은 다양한 마법적 전통에서 비밀들을 배웠습니다. 당신이 (이 레벨을 포함하여) 바드 레벨에 도달하고 바드 특징 표의 준비된 주문(Prepared Spells) 숫자가 증가할 때마다, 당신은 바드, 클레릭, 드루이드, 위저드 주문 목록에서 새로운 준비된 주문을 선택할 수 있으며, 선택한 주문은 당신에게 바드 주문으로 간주됩니다(각 클래스 섹션의 주문 목록을 참조하십시오). 또한, 당신이 이 클래스를 위해 준비된 주문을 교체할 때마다, 해당 목록들의 주문으로 교체할 수 있습니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Superior Inspiration",
+      "featureNameKo": "상급 영감",
+      "description": "When you roll Initiative, you regain expended uses of Bardic Inspiration until you have two if you have fewer than that.",
+      "descriptionKo": "우선권(Initiative)을 굴릴 때, 만약 당신이 보유한 바드적 영감 사용 횟수가 2개 미만이라면 2개가 될 때까지 소모된 횟수를 회복합니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Spell Recall is recommended.",
+      "descriptionKo": "당신은 에픽 분(Epic Boon) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. '주문 회수의 분(Boon of Spell Recall)'이 권장됩니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Words of Creation",
+      "featureNameKo": "창조의 언어",
+      "description": "You have mastered two of the Words of Creation: the words of life and death. You therefore always have the Power Word Heal and Power Word Kill spells prepared. When you cast either spell, you can target a second creature with it if that creature is within 10 feet of the first target.",
+      "descriptionKo": "당신은 창조의 언어 중 생명과 죽음의 언어 두 가지를 통달했습니다. 그러므로 당신은 항상 치유의 권능어(Power Word Heal)와 살해의 권능어(Power Word Kill) 주문을 준비하고 있습니다. 당신이 두 주문 중 하나를 시전할 때, 만약 첫 번째 대상으로부터 10피트 이내에 다른 생명체가 있다면 그 생명체 또한 해당 주문의 대상으로 지정할 수 있습니다."
+    }
+  ],
+  "cleric": [
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문 시전",
+      "description": "You have learned to cast spells through prayer and meditation. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Cleric spells, which appear on the Cleric spell list later in the class’s description.\n\n**Cantrips.** You know three cantrips of your choice from the Cleric spell list. Guidance, Sacred Flame, and Thaumaturgy are recommended.\n\nWhenever you gain a Cleric level, you can replace one of your cantrips with another cantrip of your choice from the Cleric spell list.\n\nWhen you reach Cleric levels 4 and 10, you learn another cantrip of your choice from the Cleric spell list, as shown in the Cantrips column of the Cleric Features table.\n\n**Spell Slots.** The Cleric Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Cleric spell list. Bless, Cure Wounds, Guiding Bolt, and Shield of Faith are recommended.\n\nThe number of spells on your list increases as you gain Cleric levels, as shown in the Prepared Spells column of the Cleric Features table. Whenever that number increases, choose additional spells from the Cleric spell list until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you’re a level 3 Cleric, your list of prepared spells can include six spells of levels 1 and 2 in any combination.\n\nIf another Cleric feature gives you spells that you always have prepared, those spells don’t count against the number of spells you can prepare with this feature, but those spells otherwise count as Cleric spells for you.\n\n**Changing Your Prepared Spells.** Whenever you finish a Long Rest, you can change your list of prepared spells, replacing any of the spells there with other Cleric spells for which you have spell slots.\n\n**Spellcasting Ability.** Wisdom is your spellcasting ability for your Cleric spells.\n\n**Spellcasting Focus.** You can use a Holy Symbol as a Spellcasting Focus for your Cleric spells.",
+      "descriptionKo": "당신은 기도와 명상을 통해 주문을 시전하는 법을 배웠습니다. 주문 시전에 관한 규칙은 7장을 참조하십시오. 아래 정보는 해당 규칙을 클래스 설명 뒷부분의 클레릭 주문 목록에 나오는 클레릭 주문들과 함께 사용하는 방법을 자세히 설명합니다.\n\n**소마법(Cantrips).** 당신은 클레릭 주문 목록에서 원하는 세 개의 소마법을 알고 있습니다. 인도(Guidance), 신성한 불꽃(Sacred Flame), 기적(Thaumaturgy)이 권장됩니다.\n\n클레릭 레벨을 얻을 때마다, 당신은 알고 있는 소마법 중 하나를 클레릭 주문 목록의 다른 소마법으로 교체할 수 있습니다.\n\n클레릭 4레벨과 10레벨에 도달하면, 클레릭 특징 표의 소마법(Cantrips) 열에 표시된 대로 클레릭 주문 목록에서 원하는 소마법 하나를 추가로 배웁니다.\n\n**주문 슬롯(Spell Slots).** 클레릭 특징 표는 당신이 1레벨 이상의 주문을 시전하기 위해 보유한 레벨별 주문 슬롯의 수를 보여줍니다. 당신은 긴 휴식(Long Rest)을 마치면 소모된 모든 슬롯을 회복합니다.\n\n**준비된 1레벨 이상 주문(Prepared Spells of Level 1+).** 당신은 이 특성을 통해 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작할 때 클레릭 주문 목록에서 네 개의 1레벨 주문을 선택하십시오. 축복(Bless), 상처 치유(Cure Wounds), 인도하는 화살(Guiding Bolt), 신앙의 방패(Shield of Faith)가 권장됩니다.\n\n목록에 준비할 수 있는 주문의 수는 클레릭 특징 표의 준비된 주문(Prepared Spells) 열에 표시된 대로 클레릭 레벨이 올라감에 따라 증가합니다. 그 숫자가 증가할 때마다, 당신의 목록에 있는 주문 수가 표의 숫자와 일치할 때까지 클레릭 주문 목록에서 추가 주문을 선택하십시오. 선택한 주문은 당신이 주문 슬롯을 가지고 있는 레벨의 주문이어야 합니다. 예를 들어, 당신이 3레벨 클레릭이라면, 준비된 주문 목록에는 1레벨과 2레벨 주문을 조합하여 총 6개의 주문이 포함될 수 있습니다.\n\n만약 다른 클레릭 특성이 당신에게 항상 준비되어 있는 주문을 제공한다면, 해당 주문들은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외의 경우에는 당신에게 클레릭 주문으로 간주됩니다.\n\n**준비된 주문 변경하기(Changing Your Prepared Spells).** 긴 휴식(Long Rest)을 마칠 때마다, 당신은 준비된 주문 목록을 변경할 수 있으며, 목록의 주문을 당신이 주문 슬롯을 보유한 다른 클레릭 주문으로 교체할 수 있습니다.\n\n**주문 시전 능력(Spellcasting Ability).** 지혜(Wisdom)는 클레릭 주문에 대한 당신의 주문 시전 능력입니다.\n\n**주문 시전 매개체(Spellcasting Focus).** 당신은 성표(Holy Symbol)를 클레릭 주문의 주문 시전 매개체로 사용할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Divine Order",
+      "featureNameKo": "신성한 사명",
+      "description": "You have dedicated yourself to one of the following sacred roles of your choice.\n\n**Protector.** Trained for battle, you gain proficiency with Martial weapons and training with Heavy armor.\n\n**Thaumaturge.** You know one extra cantrip from the Cleric spell list. In addition, your mystical connection to the divine gives you a bonus to your Intelligence (Arcana or Religion) checks. The bonus equals your Wisdom modifier (minimum of +1).",
+      "descriptionKo": "당신은 자신이 선택한 다음의 신성한 역할 중 하나에 자신을 헌신합니다.\n\n**수호자(Protector).** 전투를 위해 훈련받은 당신은 군용 무기(Martial weapons)에 대한 숙련을 얻으며 중갑(Heavy armor) 착용 숙련을 받습니다.\n\n**기적술사(Thaumaturge).** 당신은 클레릭 주문 목록에서 소마법 하나를 추가로 알고 있습니다. 추가로, 신성과의 신비로운 연결을 통해 지능(비전(Arcana) 또는 종교(Religion)) 판정에 보너스를 얻습니다. 이 보너스는 당신의 지혜 수정치(최소 +1)와 같습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Channel Divinity",
+      "featureNameKo": "신성력 채널링",
+      "description": "You can channel divine energy directly from the Outer Planes to fuel magical effects. You start with two such effects: Divine Spark and Turn Undead, each of which is described below. Each time you use this class’s Channel Divinity, choose which Channel Divinity effect from this class to create. You gain additional effect options at higher Cleric levels.\n\nYou can use this class’s Channel Divinity twice. You regain one of its expended uses when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest. You gain additional uses when you reach certain Cleric levels, as shown in the Channel Divinity column of the Cleric Features table.\n\nIf a Channel Divinity effect requires a saving throw, the DC equals the spell save DC from this class’s Spellcasting feature.\n\n**Divine Spark.** As a Magic action, you point your Holy Symbol at another creature you can see within 30 feet of yourself and focus divine energy at it. Roll 1d8 and add your Wisdom modifier. You either restore Hit Points to the creature equal to that total or force the creature to make a Constitution saving throw. On a failed save, the creature takes Necrotic or Radiant damage (your choice) equal to that total. On a successful save, the creature takes half as much damage (round down).\n\nYou roll an additional d8 when you reach Cleric levels 7 (2d8), 13 (3d8), and 18 (4d8).\n\n**Turn Undead.** As a Magic action, you present your Holy Symbol and censure Undead creatures. Each Undead of your choice within 30 feet of you must make a Wisdom saving throw. If the creature fails its save, it has the Frightened and Incapacitated conditions for 1 minute. For that duration, it tries to move as far from you as it can on its turns. This effect ends early on the creature if it takes any damage, if you have the Incapacitated condition, or if you die.",
+      "descriptionKo": "당신은 외부 평면(Outer Planes)으로부터 신성 에너지를 직접 끌어와 마법적 효과를 일으킬 수 있습니다. 당신은 두 가지 효과인 '신성한 불꽃(Divine Spark)'과 '언데드 퇴치(Turn Undead)'를 가지고 시작하며, 각각에 대한 설명은 아래와 같습니다. 이 클래스의 신성력 채널링을 사용할 때마다, 이 클래스의 신성력 채널링 효과 중 어떤 것을 발동할지 선택합니다. 고레벨 클레릭이 되면 추가적인 효과 옵션을 얻습니다.\n\n당신은 이 클래스의 신성력 채널링을 2회 사용할 수 있습니다. 짧은 휴식(Short Rest)을 마치면 소모된 사용 횟수 중 하나를 회복하며, 긴 휴식(Long Rest)을 마치면 소모된 모든 사용 횟수를 회복합니다. 클레릭 특징 표의 신성력 채널링 열에 표시된 대로 특정 클레릭 레벨에 도달하면 추가 사용 횟수를 얻습니다.\n\n신성력 채널링 효과가 내성 굴림을 요구하는 경우, 난이도(DC)는 이 클래스의 주문 시전(Spellcasting) 특성에 의한 주문 내성 난이도와 같습니다.\n\n**신성한 불꽃(Divine Spark).** 마법 행동(Magic action)으로, 당신은 자신으로부터 30피트 이내에 있는 당신이 볼 수 있는 다른 생명체에게 성표(Holy Symbol)를 겨누고 신성 에너지를 집중합니다. 1d8을 굴리고 당신의 지혜 수정치를 더합니다. 당신은 해당 생명체의 생명력을 그 합계만큼 회복시키거나, 해당 생명체가 건강 내성 굴림을 하도록 강제합니다. 내성 굴림에 실패하면, 생명체는 그 합계만큼의 괴사(Necrotic) 또는 광휘(Radiant) 피해(당신의 선택)를 입습니다. 내성 굴림에 성공하면, 생명체는 절반의 피해(내림)만 입습니다.\n\n당신은 클레릭 7레벨(2d8), 13레벨(3d8), 18레벨(4d8)에 도달할 때 d8을 추가로 굴립니다.\n\n**언데드 퇴치(Turn Undead).** 마법 행동으로, 당신은 성표를 제시하며 언데드 생명체들을 문책합니다. 당신으로부터 30피트 이내에 있는 당신이 선택한 각 언데드는 지혜 내성 굴림을 수행해야 합니다. 생명체가 내성 굴림에 실패하면, 1분 동안 공포에 질림(Frightened) 및 무력화(Incapacitated) 상태가 됩니다. 지속 시간 동안, 해당 생명체는 자신의 차례에 당신으로부터 최대한 멀리 떨어지려 노력합니다. 이 효과는 생명체가 피해를 입거나, 당신이 무력화 상태가 되거나, 당신이 죽으면 조기에 종료됩니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Cleric Subclass",
+      "featureNameKo": "클레릭 서브클래스",
+      "description": "You gain a Cleric subclass of your choice. The Life Domain, Light Domain, Trickery Domain, and War Domain subclasses are detailed after this class’s description. A subclass is a specialization that grants you features at certain Cleric levels. For the rest of your career, you gain each of your subclass’s features that are of your Cleric level or lower.",
+      "descriptionKo": "당신은 자신이 원하는 클레릭 서브클래스 하나를 얻습니다. 생명 권역(Life Domain), 빛 권역(Light Domain), 기만 권역(Trickery Domain), 전쟁 권역(War Domain) 서브클래스들이 이 클래스 설명 뒤에 자세히 서술되어 있습니다. 서브클래스는 특정 클레릭 레벨에서 당신에게 특성들을 부여하는 전문화입니다. 당신의 남은 경력 동안, 당신은 자신의 클레릭 레벨 이하에 해당하는 서브클래스의 각 특성들을 얻습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Cleric levels 8, 12, and 16.",
+      "descriptionKo": "당신은 능력치 상승(Ability Score Improvement) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 당신은 클레릭 8, 12, 16레벨에서 이 특성을 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Sear Undead",
+      "featureNameKo": "언데드 소각",
+      "description": "Whenever you use Turn Undead, you can roll a number of d8s equal to your Wisdom modifier (minimum of 1d8) and add the rolls together. Each Undead that fails its saving throw against that use of Turn Undead takes Radiant damage equal to the roll’s total. This damage doesn’t end the turn effect.",
+      "descriptionKo": "당신이 언데드 퇴치(Turn Undead)를 사용할 때마다, 당신의 지혜 수정치와 동일한 개수의 d8(최소 1d8)을 굴려 그 합을 더할 수 있습니다. 해당 언데드 퇴치에 대한 내성 굴림에 실패한 각 언데드는 그 합계만큼의 광휘(Radiant) 피해를 입습니다. 이 피해는 퇴치(Turn) 효과를 종료시키지 않습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Blessed Strikes",
+      "featureNameKo": "축복받은 타격",
+      "description": "Divine power infuses you in battle. You gain one of the following options of your choice (if you get either option from a Cleric subclass in an older book, use only the option you choose for this feature).\n\n**Divine Strike.** Once on each of your turns when you hit a creature with an attack roll using a weapon, you can cause the target to take an extra 1d8 Necrotic or Radiant damage (your choice).\n\n**Potent Spellcasting.** Add your Wisdom modifier to the damage you deal with any Cleric cantrip.",
+      "descriptionKo": "전투 중에 신성한 힘이 당신에게 깃듭니다. 당신은 자신이 원하는 다음 옵션 중 하나를 얻습니다(만약 이전 서적의 클레릭 서브클래스로부터 이 중 하나의 옵션을 받았다면, 이 특성에서 선택한 옵션 하나만 사용하십시오).\n\n**신성한 타격(Divine Strike).** 당신의 각 차례에 한 번, 무기를 사용한 공격 굴림으로 생명체를 명중시켰을 때, 대상에게 1d8의 괴사(Necrotic) 또는 광휘(Radiant) 피해(당신의 선택)를 추가로 입힐 수 있습니다.\n\n**강력한 주문 시전(Potent Spellcasting).** 당신이 모든 클레릭 소마법으로 입히는 피해에 당신의 지혜 수정치를 더합니다."
+    },
+    {
+      "level": 10,
+      "featureName": "Divine Intervention",
+      "featureNameKo": "신성한 개입",
+      "description": "You can call on your deity or pantheon to intervene on your behalf. As a Magic action, choose any Cleric spell of level 5 or lower that doesn’t require a Reaction to cast. As part of the same action, you cast that spell without expending a spell slot or needing Material components. You can’t use this feature again until you finish a Long Rest.",
+      "descriptionKo": "당신은 당신을 대신해 개입하도록 당신의 신이나 만신전에 요청할 수 있습니다. 마법 행동(Magic action)으로, 시전에 반응 행동(Reaction)을 요구하지 않는 5레벨 이하의 클레릭 주문 하나를 선택합니다. 동일한 행동의 일부로, 당신은 주문 슬롯을 소모하거나 재료 성분(Material components)을 필요로 하지 않고 해당 주문을 시전합니다. 당신은 긴 휴식(Long Rest)을 마치기 전까지 이 특성을 다시 사용할 수 없습니다."
+    },
+    {
+      "level": 14,
+      "featureName": "Improved Blessed Strikes",
+      "featureNameKo": "강화된 축복받은 타격",
+      "description": "The option you chose for Blessed Strikes grows more powerful.\n\n**Divine Strike.** The extra damage of your Divine Strike increases to 2d8.\n\n**Potent Spellcasting.** When you cast a Cleric cantrip and deal damage to a creature with it, you can give vitality to yourself or another creature within 60 feet of yourself, granting a number of Temporary Hit Points equal to twice your Wisdom modifier.",
+      "descriptionKo": "당신이 축복받은 타격(Blessed Strikes)을 위해 선택한 옵션이 더욱 강력해집니다.\n\n**신성한 타격(Divine Strike).** 당신의 신성한 타격의 추가 피해가 2d8로 증가합니다.\n\n**강력한 주문 시전(Potent Spellcasting).** 당신이 클레릭 소마법을 시전하여 생명체에게 피해를 입힐 때, 당신 자신 혹은 당신으로부터 60피트 이내에 있는 다른 생명체 하나에게 당신의 지혜 수정치의 두 배와 같은 수치의 임시 생명력(Temporary Hit Points)을 부여하여 활력을 줄 수 있습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Fate is recommended.",
+      "descriptionKo": "당신은 에픽 분(Epic Boon) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 운명의 분(Boon of Fate)이 권장됩니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Greater Divine Intervention",
+      "featureNameKo": "상급 신성한 개입",
+      "description": "You can call on even more powerful divine intervention. When you use your Divine Intervention feature, you can choose Wish when you select a spell. If you do so, you can’t use Divine Intervention again until you finish 2d4 Long Rests.",
+      "descriptionKo": "당신은 더욱 강력한 신성한 개입을 요청할 수 있습니다. 신성한 개입(Divine Intervention) 특성을 사용할 때, 주문을 선택하는 단계에서 소원(Wish) 주문을 선택할 수 있습니다. 그렇게 할 경우, 당신은 2d4회의 긴 휴식(Long Rest)을 마칠 때까지 신성한 개입을 다시 사용할 수 없습니다."
+    }
+  ],
+  "druid": [
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문시전",
+      "description": "You have learned to cast spells through studying the mystical forces of nature. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Druid spells, which appear on the Druid spell list later in the class’s description.\n\n**Cantrips.** You know two cantrips of your choice from the Druid spell list. *Druidcraft* and *Produce Flame* are recommended. Whenever you gain a Druid level, you can replace one of your cantrips with another cantrip of your choice from the Druid spell list. When you reach Druid levels 4 and 10, you learn another cantrip of your choice from the Druid spell list, as shown in the Cantrips column of the Druid Features table.\n\n**Spell Slots.** The Druid Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Druid spell list. *Animal Friendship*, *Cure Wounds*, *Faerie Fire*, and *Thunderwave* are recommended.\nThe number of spells on your list increases as you gain Druid levels, as shown in the Prepared Spells column of the Druid Features table. Whenever that number increases, choose additional spells from the Druid spell list until the number of spells on your list matches the number on the table. The chosen spells must be of a level for which you have spell slots. For example, if you’re a level 3 Druid, your list of prepared spells can include six spells of levels 1 and 2 in any combination.\nIf another Druid feature gives you spells that you always have prepared, those spells don’t count against the number of spells you can prepare with this feature, but those spells otherwise count as Druid spells for you.\n\n**Changing Your Prepared Spells.** Whenever you finish a Long Rest, you can change your list of prepared spells, replacing any of the spells with other Druid spells for which you have spell slots.\n\n**Spellcasting Ability.** Wisdom is your spellcasting ability for your Druid spells.\n\n**Spellcasting Focus.** You can use a Druidic Focus as a Spellcasting Focus for your Druid spells.",
+      "descriptionKo": "당신은 자연의 신비로운 힘을 연구하여 주문을 시전하는 법을 배웠습니다. 주문시전에 관한 규칙은 7장을 참조하십시오. 아래 정보는 드루이드 주문 목록에 나타나는 드루이드 주문에 이 규칙들을 어떻게 적용하는지 자세히 설명합니다.\n\n**소마법(Cantrips).** 당신은 드루이드 주문 목록에서 선택한 두 개의 소마법을 알고 있습니다. *드루이드 공예(Druidcraft)*와 *불길 생성(Produce Flame)*을 추천합니다.\n드루이드 레벨이 오를 때마다, 당신은 자신이 알고 있는 소마법 중 하나를 드루이드 주문 목록의 다른 소마법으로 교체할 수 있습니다.\n드루이드 레벨 4와 10에 도달하면, 드루이드 특성 테이블의 소마법 열에 표시된 대로 드루이드 주문 목록에서 선택한 또 다른 소마법을 배웁니다.\n\n**주문 슬롯(Spell Slots).** 드루이드 특성 테이블은 1레벨 이상의 주문을 시전하기 위해 당신이 가진 주문 슬롯의 수를 보여줍니다. 긴 휴식을 마치면 소모한 모든 슬롯을 회복합니다.\n\n**1레벨 이상의 준비된 주문(Prepared Spells of Level 1+).** 당신은 이 특성으로 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작할 때 드루이드 주문 목록에서 1레벨 주문 4개를 선택하십시오. *동물 우정(Animal Friendship)*, *상처 치유(Cure Wounds)*, *요정의 불꽃(Faerie Fire)*, *천둥파(Thunderwave)*를 추천합니다.\n목록에 올릴 수 있는 주문의 수는 드루이드 특성 테이블의 준비된 주문 열에 표시된 대로 드루이드 레벨이 올라감에 따라 증가합니다. 그 숫자가 증가할 때마다, 목록의 주문 수가 테이블의 숫자와 일치할 때까지 드루이드 주문 목록에서 추가 주문을 선택하십시오. 선택한 주문은 당신이 주문 슬롯을 가진 레벨이어야 합니다. 예를 들어, 당신이 3레벨 드루이드라면 준비된 주문 목록에는 1레벨과 2레벨 주문을 조합하여 총 6개를 포함할 수 있습니다.\n만약 다른 드루이드 특성이 당신에게 항상 준비되어 있는 주문을 제공한다면, 그 주문들은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외에는 당신에게 드루이드 주문으로 간주됩니다.\n\n**준비된 주문 변경하기(Changing Your Prepared Spells).** 긴 휴식을 마칠 때마다, 당신은 준비된 주문 목록을 변경할 수 있으며, 주문 슬롯을 가진 다른 드루이드 주문으로 교체할 수 있습니다.\n\n**주문시전 능력(Spellcasting Ability).** 지혜는 당신의 드루이드 주문에 대한 주문시전 능력치입니다.\n\n**주문시전 매개체(Spellcasting Focus).** 당신은 드루이드 주문에 대한 주문시전 매개체로 드루이드 매개체(Druidic Focus)를 사용할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Druidic",
+      "featureNameKo": "드루이드어",
+      "description": "You know Druidic, the secret language of Druids. While learning this ancient tongue, you also unlocked the magic of communicating with animals; you always have the Speak with Animals spell prepared.\n\nYou can use Druidic to leave hidden messages. You and others who know Druidic automatically spot such a message. Others spot the message’s presence with a successful DC 15 Intelligence (Investigation) check but can’t decipher it without magic.",
+      "descriptionKo": "당신은 드루이드들의 비밀 언어인 드루이드어를 알고 있습니다. 이 고대 언어를 배우는 동안 당신은 동물과 의사소통하는 마법도 터득했습니다. 당신은 항상 *동물 대화(Speak with Animals)* 주문이 준비된 상태입니다.\n\n당신은 드루이드어를 사용하여 숨겨진 메시지를 남길 수 있습니다. 당신과 드루이드어를 아는 다른 이들은 그러한 메시지를 자동으로 발견합니다. 그 외의 사람들은 난이도(DC) 15의 지능(조사) 판정에 성공하면 메시지의 존재를 발견할 수 있지만, 마법 없이는 해독할 수 없습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Primal Order",
+      "featureNameKo": "원초적 질서",
+      "description": "You have dedicated yourself to one of the following sacred roles of your choice.\n\n**Magician.** You know one extra cantrip from the Druid spell list. In addition, your mystical connection to nature gives you a bonus to your Intelligence (Arcana or Nature) checks. The bonus equals your Wisdom modifier (minimum bonus of +1).\n\n**Warden.** Trained for battle, you gain proficiency with Martial weapons and training with Medium armor.",
+      "descriptionKo": "당신은 다음 중 선택한 하나의 신성한 역할에 헌신했습니다.\n\n**마법사(Magician).** 드루이드 주문 목록에서 소마법 하나를 추가로 압니다. 또한, 자연과의 신비로운 연결 덕분에 지능(비전학 또는 자연) 판정에 보너스를 받습니다. 이 보너스는 당신의 지혜 수정치와 같습니다 (최소 +1).\n\n**워든(Warden).** 전투 훈련을 받아, 군용 무기 숙련과 평갑 숙련을 얻습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Wild Shape",
+      "featureNameKo": "야성적 형상",
+      "description": "The power of nature allows you to assume the form of an animal. As a Bonus Action, you shape-shift into a Beast form that you have learned for this feature (see “Known Forms” below). You stay in that form for a number of hours equal to half your Druid level or until you use Wild Shape again, have the Incapacitated condition, or die. You can also leave the form early as a Bonus Action.\n\n**Number of Uses.** You can use Wild Shape twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest. \n\nYou gain additional uses when you reach certain Druid levels, as shown in the Wild Shape column of the Druid Features table.\n\n**Known Forms.** You know four Beast forms for this feature, chosen from among Beast stat blocks that have a maximum Challenge Rating of 1/4 and that lack a Fly Speed (see appendix B for stat block options). The Rat, Riding Horse, Spider, and Wolf are recommended. Whenever you finish a Long Rest, you can replace one of your known forms with another eligible form.\n\nWhen you reach certain Druid levels, your number of known forms and the maximum Challenge Rating for those forms increases, as shown in the Beast Shapes table. In addition, starting at level 8, you can adopt a form that has a Fly Speed. \n\nWhen choosing known forms, you may look in the Monster Manual or elsewhere for eligible Beasts if the Dungeon Master permits you to do so.\n\n**Rules While Shape-Shifted.** While in a form, you retain your personality, memories, and ability to speak, and the following rules apply:\n\n- **Temporary Hit Points.** When you assume a Wild Shape form, you gain a number of Temporary Hit Points equal to your Druid level.\n\n- **Game Statistics.** Your game statistics are replaced by the Beast’s stat block, but you retain your creature type; Hit Points; Hit Point Dice; Intelligence, Wisdom, and Charisma scores; class features; languages; and feats. You also retain your skill and saving throw proficiencies and use your Proficiency Bonus for them, in addition to gaining the proficiencies of the creature. If a skill or saving throw modifier in the Beast’s stat block is higher than yours, use the one in the stat block.\n\n- **No Spellcasting.** You can’t cast spells, but shape-shifting doesn’t break your Concentration or otherwise interfere with a spell you’ve already cast.\n\n- **Objects.** Your ability to handle objects is determined by the form’s limbs rather than your own. In addition, you choose whether your equipment falls in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the DM decides whether it’s practical for the new form to wear a piece of equipment based on the creature’s size and shape. Your equipment doesn’t change size or shape to match the new form, and any equipment that the new form can’t wear must either fall to the ground or merge with the form. Equipment that merges with the form has no effect while you’re in that form.",
+      "descriptionKo": "자연의 힘은 당신이 동물의 형상을 취할 수 있게 해줍니다. 보너스 액션으로서, 당신은 이 특성을 위해 배운 야수 형상 중 하나로 변신합니다 (아래 \"알고 있는 형상\" 참조). 당신은 드루이드 레벨의 절반에 해당하는 시간(시간 단위) 동안 그 형상을 유지하거나, 다시 야성적 형상을 사용하거나, 무력화(Incapacitated) 상태가 되거나, 사망할 때까지 유지됩니다. 또한 보너스 액션으로 형상을 일찍 해제할 수 있습니다.\n\n**사용 횟수(Number of Uses).** 당신은 야성적 형상을 두 번 사용할 수 있습니다. 짧은 휴식을 마치면 소모한 사용 횟수 중 하나를 회복하며, 긴 휴식을 마치면 소모한 모든 사용 횟수를 회복합니다. \n\n드루이드 특성 테이블의 야성적 형상 열에 표시된 대로 특정 드루이드 레벨에 도달하면 추가 사용 횟수를 얻습니다.\n\n**알고 있는 형상(Known Forms).** 당신은 이 특성을 위해 네 가지 야수 형상을 알고 있으며, 이는 최대 위험도(CR)가 1/4 이하이고 비행 속도가 없는 야수 능력치 블록 중에서 선택됩니다 (선택 사항은 부록 B 참조). 쥐(Rat), 승용마(Riding Horse), 거미(Spider), 늑대(Wolf)가 권장됩니다. 긴 휴식을 마칠 때마다, 당신은 알고 있는 형상 중 하나를 다른 적격한 형상으로 교체할 수 있습니다.\n\n야수 형상(Beast Shapes) 테이블에 표시된 대로 특정 드루이드 레벨에 도달하면 알고 있는 형상의 수와 해당 형상의 최대 위험도가 증가합니다. 또한 8레벨부터는 비행 속도가 있는 형상을 취할 수 있습니다. \n\n알고 있는 형상을 선택할 때, 던전 마스터가 허가한다면 몬스터 매뉴얼이나 다른 곳에서 적격한 야수를 찾아볼 수 있습니다.\n\n**변신 중 규칙(Rules While Shape-Shifted).** 형상을 취하고 있는 동안 당신은 인격, 기억, 말하기 능력을 유지하며 다음 규칙이 적용됩니다:\n\n- **임시 HP(Temporary Hit Points).** 야성적 형상을 취할 때, 당신은 드루이드 레벨과 같은 수의 임시 HP를 얻습니다.\n\n- **게임 통계(Game Statistics).** 당신의 게임 통계는 야수의 능력치 블록으로 대체되지만, 생물 유형, HP, HP 주사위, 지능, 지혜, 매력 수치, 클래스 특성, 언어, 피트(Feat)는 유지합니다. 또한 기술 및 내성 굴림 숙련을 유지하고 숙련 보너스를 적용하며, 생물의 숙련도 추가로 얻습니다. 만약 야수의 능력치 블록에 있는 기술이나 내성 굴림 수정치가 당신의 것보다 높다면, 능력치 블록의 것을 사용합니다.\n\n- **주문시전 불가(No Spellcasting).** 당신은 주문을 시전할 수 없지만, 변신이 집중(Concentration)을 깨뜨리거나 이미 시전한 주문을 방해하지는 않습니다.\n\n- **물건(Objects).** 물건을 다루는 능력은 당신의 사지가 아닌 해당 형상의 사지에 의해 결정됩니다. 또한, 당신은 장비가 당신의 공간에 떨어질지, 새로운 형상에 융합될지, 아니면 착용될지를 선택합니다. 착용된 장비는 정상적으로 작동하지만, DM은 생물의 크기와 모양에 따라 해당 형상이 장비를 착용하는 것이 실용적인지 결정합니다. 장비는 새로운 형상에 맞춰 크기나 모양이 변하지 않으며, 새로운 형상이 착용할 수 없는 장비는 바닥에 떨어지거나 형상에 융합되어야 합니다. 형상에 융합된 장비는 그 형상을 유지하는 동안 아무런 효과가 없습니다.",
+      "tables": [
+        {
+          "title": "Beast Shapes",
+          "titleKo": "야수 형상",
+          "columns": [
+            "Druid Level",
+            "Known Forms",
+            "Max CR",
+            "Fly Speed"
+          ],
+          "columnsKo": [
+            "드루이드 레벨",
+            "알고있는 형상",
+            "최대 CR",
+            "비행 속도"
+          ],
+          "rows": [
+            {
+              "level": "2",
+              "knownform": "4",
+              "maxcr": "1/4",
+              "flyspeed": "No",
+              "flyspeedKo": "불가"
+            },
+            {
+              "level": "4",
+              "knownform": "6",
+              "maxcr": "1/2",
+              "flyspeed": "No",
+              "flyspeedKo": "불가"
+            },
+            {
+              "level": "8",
+              "knownform": "8",
+              "maxcr": "1",
+              "flyspeed": "Yes",
+              "flyspeedKo": "가능"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "featureName": "Wild Companion",
+      "featureNameKo": "야생 동료",
+      "description": "You can summon a nature spirit that assumes an animal form to aid you. As a Magic action, you can expend a spell slot or a use of Wild Shape to cast the Find Familiar spell without Material components. \n\nWhen you cast the spell in this way, the familiar is Fey and disappears when you finish a Long Rest.",
+      "descriptionKo": "당신은 당신을 돕기 위해 동물의 형상을 취하는 자연의 정령을 소환할 수 있습니다. 마법 행동(Magic action)으로, 당신은 주문 슬롯 하나 또는 야성적 형상(Wild Shape) 사용 횟수 하나를 소모하여 재료 성분(Material components) 없이 사역마 찾기(Find Familiar) 주문을 시전할 수 있습니다.\n\n이런 방식으로 주문을 시전할 때, 사역마는 요정(Fey)이며 당신이 긴 휴식(Long Rest)을 마치면 사라집니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Druid Subclass",
+      "featureNameKo": "드루이드 서브클래스",
+      "description": "You gain a Druid subclass of your choice. The Circle of the Land, Circle of the Moon, Circle of the Sea, and Circle of the Stars subclasses are detailed after this class’s description. A subclass is a specialization that grants you features at certain Druid levels. For the rest of your career, you gain each of your subclass’s features that are of your Druid level or lower.",
+      "descriptionKo": "당신은 자신이 원하는 드루이드 서브클래스 하나를 얻습니다. 대지의 서클(Circle of the Land), 달의 서클(Circle of the Moon), 바다의 서클(Circle of the Sea), 별의 서클(Circle of the Stars) 서브클래스들이 이 클래스 설명 뒤에 자세히 서술되어 있습니다. 서브클래스는 특정 드루이드 레벨에서 당신에게 특성들을 부여하는 전문화입니다. 당신의 남은 경력 동안, 당신은 자신의 드루이드 레벨 이하에 해당하는 서브클래스의 각 특성들을 얻습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Druid levels 8, 12, and 16.",
+      "descriptionKo": "당신은 능력치 상승(Ability Score Improvement) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 당신은 드루이드 8, 12, 16레벨에서 이 특성을 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Wild Resurgence",
+      "featureNameKo": "야성의 재기",
+      "description": "Once on each of your turns, if you have no uses of Wild Shape left, you can give yourself one use by expending a spell slot (no action required). \n\nIn addition, you can expend one use of Wild Shape (no action required) to give yourself a level 1 spell slot, but you can’t do so again until you finish a Long Rest.",
+      "descriptionKo": "당신의 각 차례에 한 번, 만약 야성적 형상(Wild Shape) 사용 횟수가 남아있지 않다면, 당신은 주문 슬롯 하나를 소모하여(별도의 행동 불필요) 자신에게 1회의 사용 횟수를 부여할 수 있습니다. \n\n추가로, 당신은 야성적 형상 사용 횟수 하나를 소모하여(별도의 행동 불필요) 자신에게 1레벨 주문 슬롯 하나를 부여할 수 있으나, 긴 휴식(Long Rest)을 마치기 전까지는 이를 다시 할 수 없습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Elemental Fury",
+      "featureNameKo": "원소의 분노",
+      "description": "The might of the elements flows through you. You gain one of the following options of your choice. \n\n**Potent Spellcasting.** Add your Wisdom modifier to the damage you deal with any Druid cantrip. \n\n**Primal Strike.** Once on each of your turns when you hit a creature with an attack roll using a weapon or a Beast form’s attack in Wild Shape, you can cause the target to take an extra 1d8 Cold, Fire, Lightning, or Thunder damage (choose when you hit).",
+      "descriptionKo": "원소의 위력이 당신을 통해 흐릅니다. 당신은 자신이 원하는 다음 옵션 중 하나를 얻습니다.\n\n**강력한 주문 시전(Potent Spellcasting)**: 당신이 모든 드루이드 소마법으로 입히는 피해에 당신의 지혜 수정치를 더합니다.\n\n**원시의 강타(Primal Strike)**: 당신의 각 차례에 한 번, 무기를 사용한 공격 굴림이나 야성적 형상 상태에서의 야수 형태 공격으로 생명체를 명중시켰을 때, 대상에게 1d8의 냉기(Cold), 화염(Fire), 번개(Lightning), 또는 천둥(Thunder) 피해(명중 시 선택)를 추가로 입힐 수 있습니다."
+    },
+    {
+      "level": 15,
+      "featureName": "Improved Elemental Fury",
+      "featureNameKo": "강화된 원소의 분노",
+      "description": "The option you chose for Elemental Fury grows more powerful, as detailed below. \n\n**Potent Spellcasting.** When you cast a Druid cantrip with a range of 10 feet or greater, the spell’s range increases by 300 feet. \n\n**Primal Strike.** The extra damage of your Primal Strike increases to 2d8.",
+      "descriptionKo": "당신이 원소의 분노를 위해 선택한 옵션이 아래에 설명된 대로 더욱 강력해집니다.\n\n**강력한 주문 시전(Potent Spellcasting)**: 당신이 사거리 10피트 이상의 드루이드 소마법을 시전할 때, 해당 주문의 사거리가 300피트 증가합니다.\n\n**원시의 강타(Primal Strike)**: 당신의 원시의 강타 추가 피해가 2d8로 증가합니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Beast Spells",
+      "featureNameKo": "야수 주문",
+      "description": "While using Wild Shape, you can cast spells in Beast form, except for any spell that has a Material component with a cost specified or that consumes its Material component.",
+      "descriptionKo": "야성적 형상(Wild Shape)을 사용하는 동안, 당신은 야수 형태에서도 주문을 시전할 수 있습니다. 단, 비용이 명시된 재료 성분이 있거나 재료 성분을 소모하는 주문은 제외됩니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Dimensional Travel is recommended.",
+      "descriptionKo": "당신은 에픽 분(Epic Boon) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 차원 여행의 분(Boon of Dimensional Travel)이 권장됩니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Archdruid",
+      "featureNameKo": "대드루이드",
+      "description": "The vitality of nature constantly blooms within you, granting you the following benefits. \n\n**Evergreen Wild Shape.** Whenever you roll Initiative and have no uses of Wild Shape left, you regain one expended use of it. \n\n**Nature Magician.** You can convert uses of Wild Shape into a spell slot (no action required). Choose a number of your unexpended uses of Wild Shape and convert them into a single spell slot, with each use contributing 2 spell levels. For example, if you convert two uses of Wild Shape, you produce a level 4 spell slot. Once you use this benefit, you can’t do so again until you finish a Long Rest. \n\n**Longevity.** The primal magic that you wield causes you to age more slowly. For every ten years that pass, your body ages only one year.",
+      "descriptionKo": "자연의 활력이 당신 안에서 끊임없이 피어나며 다음 혜택들을 부여합니다.\n\n**에버그린 야성적 형상(Evergreen Wild Shape)**: 우선권(Initiative)을 굴릴 때 야성적 형상 사용 횟수가 남아있지 않다면, 소모된 사용 횟수 중 하나를 회복합니다.\n\n**자연 마법사(Nature Magician)**: 당신은 야성적 형상 사용 횟수를 주문 슬롯으로 변환할 수 있습니다(별도의 행동 불필요). 소모하지 않은 야성적 형상 사용 횟수를 원하는 만큼 선택하여 하나의 주문 슬롯으로 변환하며, 사용 횟수당 2 주문 레벨로 계산합니다. 예를 들어, 야성적 형상 사용 횟수 2개를 변환하면 4레벨 주문 슬롯 하나를 생성합니다. 이 혜택을 한 번 사용하면 긴 휴식(Long Rest)을 마치기 전까지 다시 사용할 수 없습니다.\n\n**장수(Longevity)**: 당신이 휘두르는 원시 마법으로 인해 노화가 느려집니다. 10년이 지날 때마다 당신의 육체는 1년만 노화합니다."
+    }
+  ],
+  "fighter": [
+    {
+      "level": 1,
+      "featureName": "Fighting Style",
+      "featureNameKo": "전투 방식",
+      "description": "You have honed your martial prowess and gain a Fighting Style feat of your choice (see chapter 5). Defense is recommended. \n\nWhenever you gain a Fighter level, you can replace the feat you chose with a different Fighting Style feat.",
+      "descriptionKo": "당신은 무예를 연마하여 당신이 선택한 전투 방식(Fighting Style) 재주 하나를 얻습니다(5장 참조). 방어(Defense)를 권장합니다. \n\n파이터 레벨을 얻을 때마다, 당신은 선택한 재주를 다른 전투 방식 재주로 교체할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Second Wind",
+      "featureNameKo": "재기",
+      "description": "You have a limited well of physical and mental stamina that you can draw on. As a **Bonus Action**, you can use it to regain Hit Points equal to 1d10 plus your Fighter level. \n\nYou can use this feature twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest. \n\nWhen you reach certain Fighter levels, you gain more uses of this feature, as shown in the Second Wind column of the Fighter Features table.",
+      "descriptionKo": "당신은 끌어다 쓸 수 있는 제한된 체력과 정신력을 가지고 있습니다. **보너스 행동**으로, 당신은 이를 사용하여 1d10 + 당신의 파이터 레벨만큼의 생명력을 회복할 수 있습니다. \n\n당신은 이 특성을 두 번 사용할 수 있습니다. 짧은 휴식(Short Rest)을 마치면 소모된 사용 횟수 중 하나를 회복하며, 긴 휴식(Long Rest)을 마치면 소모된 모든 사용 횟수를 회복합니다. \n\n특정 파이터 레벨에 도달하면 파이터 특징 표의 재기(Second Wind) 열에 표시된 대로 이 특성의 사용 횟수가 늘어납니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Weapon Mastery",
+      "featureNameKo": "무기 숙련",
+      "description": "Your training with weapons allows you to use the mastery properties of three kinds of Simple or Martial weapons of your choice. Whenever you finish a Long Rest, you can practice weapon drills and change one of those weapon choices. \n\nWhen you reach certain Fighter levels, you gain the ability to use the mastery properties of more kinds of weapons, as shown in the Weapon Mastery column of the Fighter Features table.",
+      "descriptionKo": "무기에 대한 훈련을 통해 당신은 당신이 선택한 세 종류의 일반(Simple) 또는 군용(Martial) 무기의 숙련(Mastery) 속성을 사용할 수 있게 됩니다. 긴 휴식(Long Rest)을 마칠 때마다 무기 훈련을 통해 선택한 무기 중 하나를 변경할 수 있습니다. \n\n특정 파이터 레벨에 도달하면 파이터 특징 표의 무기 통달(Weapon Mastery) 열에 표시된 대로 더 많은 종류의 무기 통달 속성을 사용할 수 있는 능력을 얻습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Action Surge",
+      "featureNameKo": "행동 폭발",
+      "description": "You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action, except the Magic action. \n\nOnce you use this feature, you can't do so again until you finish a Short or Long Rest. Starting at level 17, you can use it twice before a rest but only once on a turn.",
+      "descriptionKo": "당신은 순간적으로 자신의 한계를 뛰어넘을 수 있습니다. 당신의 차례에, 당신은 마법 행동(Magic action)을 제외한 추가 행동 하나를 더 취할 수 있습니다. \n\n이 특성을 한 번 사용하면 짧은 휴식(Short Rest)이나 긴 휴식(Long Rest)을 마치기 전까지 다시 사용할 수 없습니다. 17레벨부터는 휴식 전까지 두 번 사용할 수 있지만, 한 차례에는 한 번만 사용할 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Tactical Mind",
+      "featureNameKo": "전술적 지력",
+      "description": "You have a mind for tactics on and off the battlefield. When you fail an ability check, you can expend a use of your Second Wind to push yourself toward success. Rather than regaining Hit Points, you roll 1d10 and add the number rolled to the ability check, potentially turning it into a success. If the check still fails, this use of Second Wind isn't expended.",
+      "descriptionKo": "당신은 전장 안팎에서 전술을 구사하는 지력을 갖추고 있습니다. 당신이 능력 판정에 실패했을 때, 당신은 재기(Second Wind) 사용 횟수 하나를 소모하여 성공을 향해 자신을 몰아붙일 수 있습니다. 생명력을 회복하는 대신, 당신은 1d10을 굴려 그 결과를 능력 판정에 더하며, 이를 통해 실패를 성공으로 바꿀 수도 있습니다. 만약 판정에 여전히 실패한다면, 이번 재기 사용 횟수는 소모되지 않습니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Fighter Subclass",
+      "featureNameKo": "파이터 서브클래스",
+      "description": "You gain a Fighter subclass of your choice. The Battle Master, Champion, Eldritch Knight, and Psi Warrior subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Fighter levels. For the rest of your career, you gain each of your subclass's features that are of your Fighter level or lower.",
+      "descriptionKo": "당신은 자신이 원하는 파이터 서브클래스 하나를 얻습니다. 배틀 마스터(Battle Master), 챔피언(Champion), 엘드리치 나이트(Eldritch Knight), 사이 워리어(Psi Warrior) 서브클래스들이 이 클래스 설명 뒤에 자세히 서술되어 있습니다. 서브클래스는 특정 파이터 레벨에서 당신에게 특성들을 부여하는 전문화입니다. 당신의 남은 경력 동안, 당신은 자신의 파이터 레벨 이하에 해당하는 서브클래스의 각 특성들을 얻습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
+      "descriptionKo": "당신은 능력치 상승(Ability Score Improvement) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 당신은 파이터 6, 8, 12, 14, 16레벨에서 이 특성을 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Extra Attack",
+      "featureNameKo": "추가 공격",
+      "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "당신의 차례에 공격(Attack) 행동을 취할 때마다 한 번 대신 두 번 공격할 수 있습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Tactical Shift",
+      "featureNameKo": "전술적 이동",
+      "description": "Whenever you activate your Second Wind with a Bonus Action, you can move up to half your Speed without provoking Opportunity Attacks.",
+      "descriptionKo": "당신이 보너스 행동으로 재기(Second Wind)를 활성화할 때마다, 당신은 기회 공격(Opportunity Attacks)을 유발하지 않고 자신의 이동 속도의 절반까지 이동할 수 있습니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Indomitable",
+      "featureNameKo": "불굴",
+      "description": "If you fail a saving throw, you can reroll it with a bonus equal to your Fighter level. You must use the new roll, and you can't use this feature again until you finish a Long Rest. \n\nYou can use this feature twice before a Long Rest starting at level 13 and three times before a Long Rest starting at level 17.",
+      "descriptionKo": "만약 내성 굴림에 실패한다면, 당신은 당신의 파이터 레벨과 동일한 보너스를 더하여 다시 굴릴 수 있습니다. 당신은 반드시 새로운 굴림 결과를 사용해야 하며, 긴 휴식(Long Rest)을 마치기 전까지 이 특성을 다시 사용할 수 없습니다. \n\n13레벨부터는 긴 휴식 전까지 두 번, 17레벨부터는 긴 휴식 전까지 세 번 사용할 수 있습니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Tactical Master",
+      "featureNameKo": "전술의 거장",
+      "description": "When you attack with a weapon whose mastery property you can use, you can replace that property with the Push, Sap, or Slow property for that attack.",
+      "descriptionKo": "당신이 숙련 속성을 사용할 수 있는 무기로 공격할 때, 해당 공격에 대해 그 속성을 밀치기(Push), 무력화(Sap), 또는 느려짐(Slow) 속성으로 교체할 수 있습니다."
+    },
+    {
+      "level": 11,
+      "featureName": "Two Extra Attacks",
+      "featureNameKo": "두 번의 추가 공격",
+      "description": "You can attack three times instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "당신의 차례에 공격(Attack) 행동을 취할 때마다 한 번 대신 세 번 공격할 수 있습니다."
+    },
+    {
+      "level": 13,
+      "featureName": "Studied Attacks",
+      "featureNameKo": "연구된 공격",
+      "description": "You study your opponents and learn from each attack you make. If you make an attack roll against a creature and miss, you have Advantage on your next attack roll against that creature before the end of your next turn.",
+      "descriptionKo": "당신은 상대를 연구하고 당신이 가하는 각 공격으로부터 배웁니다. 당신이 생명체에 대해 공격 굴림을 하여 빗나갔다면, 당신은 당신의 다음 차례가 끝나기 전까지 해당 생명체에 대한 당신의 다음 공격 굴림에 이점(Advantage)을 가집니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Combat Prowess is recommended.",
+      "descriptionKo": "당신은 에픽 분(Epic Boon) 재주(5장 참조) 또는 당신이 요건을 충족하는 다른 재주 하나를 선택하여 얻습니다. 전투 기량의 분(Boon of Combat Prowess)이 권장됩니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Three Extra Attacks",
+      "featureNameKo": "세 번의 추가 공격",
+      "description": "You can attack four times instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "당신의 차례에 공격(Attack) 행동을 취할 때마다 한 번 대신 네 번 공격할 수 있습니다."
+    }
+  ],
+  "monk": [
+    {
+      "level": 1,
+      "featureName": "Martial Arts",
+      "featureNameKo": "무술",
+      "description": "Your practice of martial arts gives you mastery of combat styles that use your Unarmed Strike and Monk weapons, which are the following:\n\n* Simple Melee weapons\n\n* Martial Melee weapons that have the Light property\n\nYou gain the following benefits while you are unarmed or wielding only Monk weapons and you aren’t wearing armor or wielding a Shield.\n\n**Bonus Unarmed Strike.** You can make an Unarmed Strike as a Bonus Action.\n\n**Martial Arts Die.** You can roll 1d6 in place of the normal damage of your Unarmed Strike or Monk weapons. This die changes as you gain Monk levels, as shown in the Martial Arts column of the Monk Features table.\n\n**Dexterous Attacks.** You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your Unarmed Strikes and Monk weapons. In addition, when you use the Grapple or Shove option of your Unarmed Strike, you can use your Dexterity modifier instead of your Strength modifier to determine the save DC.",
+      "descriptionKo": "무술 수련을 통해 비무장 타격과 몽크 무기를 사용하는 전투 스타일을 숙달하게 됩니다. 몽크 무기는 다음과 같습니다:\n\n* 단순 근접 무기 \n\n* '가벼움(Light)' 속성이 있는 군용 근접 무기\n\n비무장 상태이거나 몽크 무기만을 사용하고 있으며, 갑옷이나 방패를 착용하지 않았을 때 다음 혜택을 얻습니다.\n\n**비무장 타격 보너스.** 보너스 액션으로 비무장 타격을 1회 할 수 있습니다.\n\n**무술 주사위.** 비무장 타격이나 몽크 무기의 일반 피해 대신 1d6을 굴릴 수 있습니다. 이 주사위는 몽크 특성 표의 '무술' 열에 표시된 대로 몽크 레벨이 오름에 따라 변경됩니다.\n\n**민첩한 공격.** 비무장 타격과 몽크 무기의 공격 및 피해 굴림에 근력 수정치 대신 민첩 수정치를 사용할 수 있습니다. 또한 비무장 타격의 '잡기(Grapple)' 또는 '밀치기(Shove)' 옵션을 사용할 때, 내성 DC를 결정하는 데 근력 수정치 대신 민첩 수정치를 사용할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Unarmored Defense",
+      "featureNameKo": "비갑옷 방어",
+      "description": "While you aren’t wearing armor or wielding a Shield, your base Armor Class equals 10 plus your Dexterity and Wisdom modifiers.",
+      "descriptionKo": "갑옷이나 방패를 착용하지 않은 상태일 때, 기본 방어도(AC)는 10 + 민첩 수정치 + 지혜 수정치입니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Monk’s Focus",
+      "featureNameKo": "몽크의 집중",
+      "description": "Your focus and martial training allow you to harness a well of extraordinary energy within yourself. This energy is represented by Focus Points. Your Monk level determines the number of points you have, as shown in the Focus Points column of the Monk Features table.\n\nYou can expend these points to enhance or fuel certain Monk features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind, each of which is detailed below.\n\nWhen you expend a Focus Point, it is unavailable until you finish a Short or Long Rest, at the end of which you regain all your expended points.\n\nSome features that use Focus Points require your target to make a saving throw. The save DC equals 8 plus your Wisdom modifier and Proficiency Bonus.\n\n**Flurry of Blows.** You can expend 1 Focus Point to make two Unarmed Strikes as a Bonus Action.\n\n**Patient Defense.** You can take the Disengage action as a Bonus Action. Alternatively, you can expend 1 Focus Point to take both the Disengage and the Dodge actions as a Bonus Action.\n\n**Step of the Wind.** You can take the Dash action as a Bonus Action. Alternatively, you can expend 1 Focus Point to take both the Disengage and Dash actions as a Bonus Action, and your jump distance is doubled for the turn.",
+      "descriptionKo": "집중력과 무술 훈련을 통해 내면의 비범한 에너지를 활용할 수 있습니다. 이 에너지는 '집중 포인트(Focus Points)'로 표현됩니다. 몽크 레벨에 따라 보유하는 포인트 수가 결정되며, 이는 몽크 특성 표의 '집중 포인트' 열에 표시됩니다.\n\n이 포인트를 소모하여 특정 몽크 특성을 강화하거나 사용할 수 있습니다. 처음에는 '연타', '신중한 방어', '바람의 발걸음' 세 가지 기능을 알고 시작하며, 각각의 설명은 아래와 같습니다.\n\n집중 포인트를 사용하면 짧은 휴식이나 긴 휴식을 마칠 때까지 다시 사용할 수 없으며, 휴식을 마치면 소모된 모든 포인트를 회복합니다.\n\n집중 포인트를 사용하는 일부 특성은 대상에게 내성 굴림을 요구합니다. 내성 DC는 8 + 지혜 수정치 + 숙련 보너스입니다.\n\n**연타(Flurry of Blows).** 1 집중 포인트를 소모하여 보너스 액션으로 2회의 비무장 타격을 할 수 있습니다.\n\n**신중한 방어(Patient Defense).** 보너스 액션으로 이탈(Disengage) 행동을 취할 수 있습니다. 또는 1 집중 포인트를 소모하여 보너스 액션으로 이탈과 회피(Dodge) 행동을 모두 취할 수 있습니다.\n\n**바람의 발걸음(Step of the Wind).** 보너스 액션으로 질주(Dash) 행동을 취할 수 있습니다. 또는 1 집중 포인트를 소모하여 보너스 액션으로 이탈과 질주 행동을 모두 취할 수 있으며, 해당 턴 동안 도약 거리가 두 배가 됩니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Unarmored Movement",
+      "featureNameKo": "비갑옷 이동",
+      "description": "Your speed increases by 10 feet while you aren’t wearing armor or wielding a Shield. This bonus increases when you reach certain Monk levels, as shown on the Monk Features table.",
+      "descriptionKo": "갑옷이나 방패를 착용하지 않았을 때 이동 속도가 10피트 증가합니다. 이 보너스는 몽크 특성 표에 표시된 대로 특정 몽크 레벨에 도달하면 증가합니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Uncanny Metabolism",
+      "featureNameKo": "초인적 신진대사",
+      "description": "When you roll Initiative, you can regain all expended Focus Points. When you do so, roll your Martial Arts die, and regain a number of Hit Points equal to your Monk level plus the number rolled.\n\nOnce you use this feature, you can’t use it again until you finish a Long Rest.",
+      "descriptionKo": "선제권(Initiative)을 굴릴 때, 소모된 모든 집중 포인트를 회복할 수 있습니다. 이때 무술 주사위를 굴려, (몽크 레벨 + 주사위 굴림 값)만큼의 HP를 회복합니다.\n\n이 기능을 사용하면 긴 휴식을 마칠 때까지 다시 사용할 수 없습니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Deflect Attacks",
+      "featureNameKo": "공격 쳐내기",
+      "description": "When an attack roll hits you and its damage includes Bludgeoning, Piercing, or Slashing damage, you can take a Reaction to reduce the attack’s total damage against you. The reduction equals 1d10 plus your Dexterity modifier and Monk level.\n\nIf you reduce the damage to 0, you can expend 1 Focus Point to redirect some of the attack’s force. If you do so, choose a creature you can see within 5 feet of yourself if the attack was a melee attack or a creature you can see within 60 feet of yourself that isn’t behind Total Cover if the attack was a ranged attack. That creature must succeed on a Dexterity saving throw or take damage equal to two rolls of your Martial Arts die plus your Dexterity modifier. The damage is the same type dealt by the attack.",
+      "descriptionKo": "공격 굴림이 당신에게 명중하고 그 피해에 타격(Bludgeoning), 관통(Piercing), 또는 베기(Slashing) 피해가 포함된 경우, 반응(Reaction)을 사용하여 당신이 입는 총 피해를 줄일 수 있습니다. 감소량은 1d10 + 민첩 수정치 + 몽크 레벨입니다.\n\n피해를 0으로 줄였다면, 1 집중 포인트를 소모하여 공격의 힘 일부를 되돌릴 수 있습니다. 근접 공격이었다면 5피트 내의 볼 수 있는 크리처를, 원거리 공격이었다면 60피트 내의 완전 엄폐(Total Cover)되지 않은 볼 수 있는 크리처를 선택합니다. 해당 크리처는 민첩 내성 굴림을 해야 하며, 실패 시 (무술 주사위 2개 + 민첩 수정치)만큼의 피해를 입습니다. 피해 유형은 원래 공격과 동일합니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Monk Subclass",
+      "featureNameKo": "몽크 서브클래스",
+      "description": "You gain a Monk subclass of your choice. The Warrior of Mercy, Warrior of Shadow, Warrior of the Elements, and Warrior of the Open Hand subclasses are detailed after this class’s description. A subclass is a specialization that grants you features at certain Monk levels. For the rest of your career, you gain each of your subclass’s features that are of your Monk level or lower.",
+      "descriptionKo": "몽크 서브클래스를 하나 선택합니다. 자비의 전사, 그림자의 전사, 원소의 전사, 오픈 핸드의 전사 서브클래스가 이 클래스 설명 뒤에 상세히 나와 있습니다. 서브클래스는 특정 몽크 레벨에서 특성을 부여하는 전문화입니다. 이후 경력 동안 자신의 몽크 레벨 이하인 서브클래스 특성을 모두 획득합니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Slow Fall",
+      "featureNameKo": "낙법",
+      "description": "You can take a Reaction when you fall to reduce any damage you take from the fall by an amount equal to five times your Monk level.",
+      "descriptionKo": "추락할 때 반응(Reaction)을 사용하여 추락 피해를 (몽크 레벨의 5배)만큼 줄일 수 있습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Monk levels 8, 12, and 16.",
+      "descriptionKo": "능력치 상승 피트(5장 참조) 또는 자격을 갖춘 다른 피트를 얻습니다. 이 특성은 몽크 8, 12, 16레벨에서 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Extra Attack",
+      "featureNameKo": "추가 공격",
+      "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "자신의 턴에 공격 행동을 취할 때 한 번이 아닌 두 번 공격할 수 있습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Stunning Strike",
+      "featureNameKo": "기절 타격",
+      "description": "Once per turn when you hit a creature with a Monk weapon or an Unarmed Strike, you can expend 1 Focus Point to attempt a stunning strike. The target must make a Constitution saving throw. On a failed save, the target has the Stunned condition until the start of your next turn. On a successful save, the target’s Speed is halved until the start of your next turn, and the next attack roll made against the target before then has Advantage.",
+      "descriptionKo": "턴당 한 번, 몽크 무기나 비무장 타격으로 크리처를 명중시켰을 때 1 집중 포인트를 소모하여 기절 타격을 시도할 수 있습니다. 대상은 건강 내성 굴림을 해야 합니다. 실패 시, 대상은 다음 당신의 턴 시작까지 기절(Stunned) 상태가 됩니다. 성공 시, 다음 당신의 턴 시작까지 대상의 속도가 절반이 되며, 그 전까지 대상에 대해 가해지는 다음 공격 굴림에 이점을 얻습니다."
+    },
+    {
+      "level": 6,
+      "featureName": "Empowered Strikes",
+      "featureNameKo": "강화된 타격",
+      "description": "Whenever you deal damage with your Unarmed Strike, it can deal your choice of Force damage or its normal damage type.",
+      "descriptionKo": "비무장 타격으로 피해를 입힐 때마다, 일반 피해 유형 대신 역장(Force) 피해를 입히도록 선택할 수 있습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Evasion",
+      "featureNameKo": "회피",
+      "description": "When you’re subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw and only half damage if you fail.\n\nYou don’t benefit from this feature if you have the Incapacitated condition.",
+      "descriptionKo": "민첩 내성 굴림을 통해 절반의 피해만 입을 수 있는 효과에 노출되었을 때, 내성 굴림에 성공하면 피해를 전혀 입지 않고 실패하더라도 절반의 피해만 입습니다.\n\n행동불능(Incapacitated) 상태일 때는 이 특성의 혜택을 받을 수 없습니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Acrobatic Movement",
+      "featureNameKo": "곡예 이동",
+      "description": "While you aren’t wearing armor or wielding a Shield, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the movement.",
+      "descriptionKo": "갑옷이나 방패를 착용하지 않았을 때, 자신의 턴 동안 수직 표면이나 액체 위를 이동 중에 떨어지지 않고 움직일 수 있는 능력을 얻습니다."
+    },
+    {
+      "level": 10,
+      "featureName": "Heightened Focus",
+      "featureNameKo": "고조된 집중",
+      "description": "Your Flurry of Blows, Patient Defense, and Step of the Wind gain the following benefits.\n\n**Flurry of Blows.** You can expend 1 Focus Point to use Flurry of Blows and make three Unarmed Strikes with it instead of two.\n\n**Patient Defense.** When you expend a Focus Point to use Patient Defense, you gain a number of Temporary Hit Points equal to two rolls of your Martial Arts die.\n\n**Step of the Wind.** When you expend a Focus Point to use Step of the Wind, you can choose a willing creature within 5 feet of yourself that is Large or smaller. You move the creature with you until the end of your turn. The creature’s movement doesn’t provoke Opportunity Attacks.",
+      "descriptionKo": "연타, 신중한 방어, 바람의 발걸음이 다음과 같은 혜택을 얻습니다.\n\n**연타.** 1 집중 포인트를 소모해 연타를 사용할 때, 2회 대신 3회의 비무장 타격을 할 수 있습니다.\n\n**신중한 방어.** 집중 포인트를 소모해 신중한 방어를 사용할 때, 무술 주사위 2개만큼의 임시 HP를 얻습니다.\n\n**바람의 발걸음.** 집중 포인트를 소모해 바람의 발걸음을 사용할 때, 5피트 내의 대형(Large) 이하인 동의하는 크리처 하나를 선택할 수 있습니다. 턴 종료 시까지 그 크리처를 당신과 함께 이동시킵니다. 그 크리처의 이동은 기회 공격을 유발하지 않습니다."
+    },
+    {
+      "level": 10,
+      "featureName": "Self-Restoration",
+      "featureNameKo": "자가 회복",
+      "description": "Through sheer force of will, you can remove one of the following conditions from yourself at the end of each of your turns: Charmed, Frightened, or Poisoned.\n\nIn addition, forgoing food and drink doesn’t give you levels of Exhaustion.",
+      "descriptionKo": "순수한 의지의 힘으로 매 턴 종료 시 자신에게 걸린 매혹(Charmed), 공포(Frightened), 또는 중독(Poisoned) 상태 중 하나를 제거할 수 있습니다.\n\n또한 음식과 물을 섭취하지 않아도 탈진(Exhaustion) 레벨이 쌓이지 않습니다."
+    },
+    {
+      "level": 13,
+      "featureName": "Deflect Energy",
+      "featureNameKo": "에너지 쳐내기",
+      "description": "You can now use your Deflect Attacks feature against attacks that deal any damage type, not just Bludgeoning, Piercing, or Slashing.",
+      "descriptionKo": "이제 타격, 관통, 베기 피해뿐만 아니라 모든 종류의 피해를 입히는 공격에 대해 '공격 쳐내기' 특성을 사용할 수 있습니다."
+    },
+    {
+      "level": 14,
+      "featureName": "Disciplined Survivor",
+      "featureNameKo": "수양된 생존자",
+      "description": "Your physical and mental discipline grant you proficiency in all saving throws.\n\nAdditionally, whenever you make a saving throw and fail, you can expend 1 Focus Point to reroll it, and you must use the new roll.",
+      "descriptionKo": "육체적, 정신적 수양을 통해 모든 내성 굴림에 대한 숙련을 얻습니다.\n\n또한 내성 굴림에 실패할 때마다 1 집중 포인트를 소모하여 다시 굴릴 수 있으며, 반드시 새로운 굴림 값을 사용해야 합니다."
+    },
+    {
+      "level": 15,
+      "featureName": "Perfect Focus",
+      "featureNameKo": "완벽한 집중",
+      "description": "When you roll Initiative and don’t use Uncanny Metabolism, you regain expended Focus Points until you have 4 if you have 3 or fewer.",
+      "descriptionKo": "선제권을 굴릴 때 '초인적 신진대사'를 사용하지 않았고 보유한 집중 포인트가 3점 이하라면, 4점이 될 때까지 소모된 집중 포인트를 회복합니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Superior Defense",
+      "featureNameKo": "우월한 방어",
+      "description": "At the start of your turn, you can expend 3 Focus Points to bolster yourself against harm for 1 minute or until you have the Incapacitated condition. During that time, you have Resistance to all damage except Force damage.",
+      "descriptionKo": "자신의 턴 시작 시, 3 집중 포인트를 소모하여 1분간 또는 행동불능 상태가 될 때까지 피해로부터 자신을 강화할 수 있습니다. 이 기간 동안 역장(Force) 피해를 제외한 모든 피해에 대한 저항을 얻습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Irresistible Offense is recommended.",
+      "descriptionKo": "에픽 분 피트(5장 참조) 또는 자격을 갖춘 다른 피트를 얻습니다. 저항 불가 공세의 은총(Boon of Irresistible Offense)을 추천합니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Body and Mind",
+      "featureNameKo": "육체와 정신",
+      "description": "You have developed your body and mind to new heights. Your Dexterity and Wisdom scores increase by 4, to a maximum of 25.",
+      "descriptionKo": "육체와 정신을 새로운 경지로 발전시켰습니다. 민첩과 지혜 점수가 4씩 증가하며, 최대 25까지 증가할 수 있습니다."
+    }
+  ],
+  "paladin": [
+    {
+      "level": 1,
+      "featureName": "Lay On Hands",
+      "featureNameKo": "안수 치료",
+      "description": "Your blessed touch can heal wounds. You have a pool of healing power that replenishes when you finish a Long Rest. With that pool, you can restore a total number of Hit Points equal to five times your Paladin level.\n\nAs a Bonus Action, you can touch a creature (which could be yourself) and draw power from the pool of healing to restore a number of Hit Points to that creature, up to the maximum amount remaining in the pool.\n\nYou can also expend 5 Hit Points from the pool of healing power to remove the Poisoned condition from the creature; those points don’t also restore Hit Points to the creature.",
+      "descriptionKo": "당신의 축복받은 손길은 상처를 치유할 수 있습니다. 당신에게는 긴 휴식을 마칠 때 보충되는 치유력 풀이 있습니다. 이 풀로 팔라딘 레벨의 5배에 해당하는 총 히트 포인트를 회복시킬 수 있습니다.\n\n보너스 액션으로, 생명체(자신 포함 가능)를 접촉하여 치유 풀에서 힘을 끌어내 해당 생명체의 히트 포인트를 풀에 남은 최대량까지 회복시킬 수 있습니다.\n\n또한 치유력 풀에서 히트 포인트 5점을 소모하여 해당 생명체의 중독(Poisoned) 상태를 제거할 수 있습니다; 이 점수는 해당 생명체의 히트 포인트를 회복시키지 않습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문시전",
+      "description": "You have learned to cast spells through prayer and meditation. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Paladin spells, which appear in the Paladin spell list later in the class’s description.\n\n**Spell Slots.** The Paladin Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Paladin spells. Heroism and Searing Smite are recommended.\nThe number of spells on your list increases as you gain Paladin levels, as shown in the Prepared Spells column of the Paladin Features table. Whenever that number increases, choose additional Paladin spells until the number of spells on your list matches the number in the Paladin Features table. The chosen spells must be of a level for which you have spell slots. For example, if you’re a level 5 Paladin, your list of prepared spells can include six Paladin spells of level 1 or 2 in any combination.\nIf another Paladin feature gives you spells that you always have prepared, those spells don’t count against the number of spells you can prepare with this feature, but those spells otherwise count as Paladin spells for you.\n\n**Changing Your Prepared Spells.** Whenever you finish a Long Rest, you can replace one spell on your list with another Paladin spell for which you have spell slots.\n\n**Spellcasting Ability.** Charisma is your spellcasting ability for your Paladin spells.\n\n**Spellcasting Focus.** You can use a Holy Symbol as a Spellcasting Focus for your Paladin spells.",
+      "descriptionKo": "당신은 기도와 명상을 통해 주문을 시전하는 법을 배웠습니다. 주문시전 규칙은 7장을 참조하십시오. 아래 정보는 클래스 설명 뒷부분에 나오는 팔라딘 주문 목록의 팔라딘 주문에 해당 규칙을 적용하는 세부 사항입니다.\n\n**주문 슬롯.** 팔라딘 특성 표는 1레벨 이상의 주문을 시전하기 위해 보유한 주문 슬롯의 수를 보여줍니다. 긴 휴식을 마치면 소모한 모든 슬롯을 회복합니다.\n\n**1레벨 이상의 준비된 주문.** 이 특성으로 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작 시, 1레벨 팔라딘 주문 두 개를 선택하십시오. 영웅심(Heroism)과 이글거리는 강타(Searing Smite)를 추천합니다.\n목록의 주문 수는 팔라딘 특성 표의 준비된 주문 열에 표시된 대로 팔라딘 레벨이 올라감에 따라 증가합니다. 그 숫자가 증가할 때마다, 목록의 주문 수가 팔라딘 특성 표의 숫자와 일치할 때까지 추가 팔라딘 주문을 선택하십시오. 선택한 주문은 주문 슬롯을 보유한 레벨의 주문이어야 합니다. 예를 들어, 5레벨 팔라딘이라면 준비된 주문 목록에 1레벨 또는 2레벨 팔라딘 주문 6개를 어떤 조합으로든 포함할 수 있습니다.\n다른 팔라딘 특성이 항상 준비된 주문을 부여하는 경우, 그 주문들은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외에는 팔라딘 주문으로 간주됩니다.\n\n**준비된 주문 변경.** 긴 휴식을 마칠 때마다, 목록의 주문 하나를 주문 슬롯을 보유한 다른 팔라딘 주문으로 교체할 수 있습니다.\n\n**주문시전 능력.** 매력이 팔라딘 주문의 주문시전 능력입니다.\n\n**주문시전 매개체.** 팔라딘 주문의 주문시전 매개체로 성표(Holy Symbol)를 사용할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Weapon Mastery",
+      "featureNameKo": "무기 숙련",
+      "description": "Your training with weapons allows you to use the mastery properties of two kinds of weapons of your choice with which you have proficiency, such as Longswords and Javelins.\n\nWhenever you finish a Long Rest, you can change the kinds of weapons you chose. For example, you could switch to using the mastery properties of Halberds and Flails.",
+      "descriptionKo": "무기 훈련을 통해 숙련을 보유한 두 종류의 무기(예: 롱소드와 자벨린)의 숙련 속성을 사용할 수 있습니다.\n\n긴 휴식을 마칠 때마다 선택한 무기 종류를 변경할 수 있습니다. 예를 들어, 할버드와 플레일의 숙련 속성을 사용하도록 바꿀 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Fighting Style",
+      "featureNameKo": "전투 방식",
+      "description": "You gain a Fighting Style feat of your choice (see chapter 5 for feats). Instead of choosing one of those feats, you can choose the option below.\n\n**Blessed Warrior.** You learn two Cleric cantrips of your choice (see the Cleric class’s section for a list of Cleric spells). Guidance and Sacred Flame are recommended. The chosen cantrips count as Paladin spells for you, and Charisma is your spellcasting ability for them. Whenever you gain a Paladin level, you can replace one of these cantrips with another Cleric cantrip.",
+      "descriptionKo": "선택한 전투 방식 피트 하나를 얻습니다(피트는 5장 참조). 해당 피트 중 하나를 선택하는 대신, 아래 옵션을 선택할 수 있습니다.\n\n**축복받은 전사(Blessed Warrior).** 선택한 클레릭 소마법 두 개를 배웁니다(클레릭 주문 목록은 클레릭 클래스 섹션 참조). 인도(Guidance)와 신성한 불꽃(Sacred Flame)을 추천합니다. 선택한 소마법은 팔라딘 주문으로 간주되며, 매력이 주문시전 능력입니다. 팔라딘 레벨을 얻을 때마다, 이 소마법 중 하나를 다른 클레릭 소마법으로 교체할 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Paladin’s Smite",
+      "featureNameKo": "팔라딘의 강타",
+      "description": "You always have the Divine Smite spell prepared. In addition, you can cast it without expending a spell slot, but you must finish a Long Rest before you can cast it in this way again.",
+      "descriptionKo": "당신은 항상 신성한 강타(Divine Smite) 주문을 준비하고 있습니다. 또한 주문 슬롯을 소모하지 않고 시전할 수 있지만, 이 방식으로 다시 시전하려면 긴 휴식을 마쳐야 합니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Channel Divinity",
+      "featureNameKo": "신성력 전달",
+      "description": "You can channel divine energy directly from the Outer Planes, using it to fuel magical effects. You start with one such effect: Divine Sense, which is described below. Other Paladin features give additional Channel Divinity effect options. Each time you use this class’s Channel Divinity, you choose which effect from this class to create.\n\nYou can use this class’s Channel Divinity twice. You regain one of its expended uses when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest. You gain an additional use when you reach Paladin level 11.\n\nIf a Channel Divinity effect requires a saving throw, the DC equals the spell save DC from this class’s Spellcasting feature.\n\n**Divine Sense.** As a Bonus Action, you can open your awareness to detect Celestials, Fiends, and Undead. For the next 10 minutes or until you have the Incapacitated condition, you know the location of any creature of those types within 60 feet of yourself, and you know its creature type. Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the Hallow spell.",
+      "descriptionKo": "외부 차원(Outer Planes)에서 직접 신성한 에너지를 끌어와 마법적 효과의 연료로 사용할 수 있습니다. 아래에 설명된 신성한 감지(Divine Sense)라는 효과 하나로 시작합니다. 다른 팔라딘 특성이 추가 신성력 전달 효과 옵션을 제공합니다. 이 클래스의 신성력 전달을 사용할 때마다 이 클래스에서 생성할 효과를 선택합니다.\n\n이 클래스의 신성력 전달을 두 번 사용할 수 있습니다. 짧은 휴식을 마치면 소모한 사용 횟수 하나를 회복하고, 긴 휴식을 마치면 소모한 모든 사용 횟수를 회복합니다. 팔라딘 레벨 11에 도달하면 추가 사용 횟수를 얻습니다.\n\n신성력 전달 효과가 내성 굴림을 요구하는 경우, DC는 이 클래스의 주문시전 특성에서 얻는 주문 내성 DC와 같습니다.\n\n**신성한 감지(Divine Sense).** 보너스 액션으로, 천상인(Celestials), 마귀(Fiends), 언데드(Undead)를 탐지하기 위해 감각을 열 수 있습니다. 이후 10분 동안 또는 무력화(Incapacitated) 상태가 될 때까지, 자신으로부터 60피트 이내에 있는 해당 유형의 모든 생명체 위치와 생명체 유형을 알게 됩니다. 같은 반경 내에서, 성역(Hallow) 주문처럼 축성되거나 모독된 장소나 물체의 존재도 탐지합니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Paladin Subclass",
+      "featureNameKo": "팔라딘 서브클래스",
+      "description": "You gain a Paladin subclass of your choice. The Oath of Devotion, Oath of Glory, Oath of the Ancients, and Oath of Vengeance subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Paladin levels. For the rest of your career, you gain each of your subclass's features that are of your Paladin level or lower.\n\n**Breaking Your Oath**\nA Paladin tries to hold to the highest standards of conduct, but even the most dedicated are fallible. Sometimes a Paladin transgresses their oath.\nA Paladin who has broken a vow typically seeks absolution, spending an all-night vigil as a sign of penitence or undertaking a fast. After a rite of forgiveness, the Paladin starts fresh.\nIf your Paladin unrepentantly violates their oath, talk to your DM. Your Paladin should probably take a more appropriate subclass or even abandon the class and adopt another one.",
+      "descriptionKo": "선택한 팔라딘 서브클래스를 얻습니다. 헌신의 맹세(Oath of Devotion), 영광의 맹세(Oath of Glory), 고대의 맹세(Oath of the Ancients), 복수의 맹세(Oath of Vengeance) 서브클래스가 이 클래스 설명 뒤에 상세히 기술되어 있습니다. 서브클래스는 특정 팔라딘 레벨에서 특성을 부여하는 전문 분야입니다. 이후 경력 동안, 자신의 팔라딘 레벨 이하의 모든 서브클래스 특성을 얻습니다.\n\n**맹세 파기**\n팔라딘은 최고 수준의 행동 강령을 지키려 하지만, 가장 헌신적인 자라도 완벽할 수는 없습니다. 때때로 팔라딘은 자신의 맹세를 어기기도 합니다.\n서약을 어긴 팔라딘은 보통 참회의 표시로 밤새 기도하거나 금식을 행하며 사면을 구합니다. 용서의 의식을 마친 후, 팔라딘은 새롭게 시작합니다.\n만약 팔라딘이 회개 없이 맹세를 위반한다면, DM과 상의하십시오. 해당 팔라딘은 더 적절한 서브클래스를 선택하거나, 아예 이 클래스를 버리고 다른 클래스를 채택해야 할 수도 있습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Paladin levels 8, 12, and 16.",
+      "descriptionKo": "능력치 상승 피트(5장 참조) 또는 자격을 갖춘 다른 선택 피트를 얻습니다. 이 특성을 팔라딘 8, 12, 16레벨에서 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Extra Attack",
+      "featureNameKo": "추가 공격",
+      "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "자신의 턴에 공격 행동을 취할 때마다 한 번이 아닌 두 번 공격할 수 있습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Faithful Steed",
+      "featureNameKo": "충직한 군마",
+      "description": "You can call on the aid of an otherworldly steed. You always have the Find Steed spell prepared.\n\nYou can also cast the spell once without expending a spell slot, and you regain the ability to do so when you finish a Long Rest.",
+      "descriptionKo": "이세계의 군마에게 도움을 청할 수 있습니다. 당신은 항상 군마 소환(Find Steed) 주문을 준비하고 있습니다.\n\n또한 주문 슬롯을 소모하지 않고 이 주문을 한 번 시전할 수 있으며, 긴 휴식을 마치면 이 능력을 다시 사용할 수 있습니다."
+    },
+    {
+      "level": 6,
+      "featureName": "Aura of Protection",
+      "featureNameKo": "보호의 오라",
+      "description": "You radiate a protective, unseeable aura in a 10-foot Emanation that originates from you. The aura is inactive while you have the Incapacitated condition.\n\nYou and your allies in the aura gain a bonus to saving throws equal to your Charisma modifier (minimum bonus of +1).\n\nIf another Paladin is present, a creature can benefit from only one Aura of Protection at a time; the creature chooses which aura while in them.",
+      "descriptionKo": "자신으로부터 시작되는 10피트 방사(Emanation) 범위에 보호적이고 보이지 않는 오라를 발산합니다. 무력화(Incapacitated) 상태인 동안 오라는 비활성화됩니다.\n\n당신과 오라 안의 아군은 매력 수정치만큼 내성 굴림에 보너스를 받습니다(최소 보너스 +1).\n\n다른 팔라딘이 함께 있는 경우, 생명체는 한 번에 하나의 보호의 오라 혜택만 받을 수 있으며; 해당 생명체가 오라 안에 있는 동안 어떤 오라를 선택할지 결정합니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Abjure Foes",
+      "featureNameKo": "적 추방",
+      "description": "As a Magic action, you can expend one use of this class’s Channel Divinity to overwhelm foes with awe. As you present your Holy Symbol or weapon, you can target a number of creatures equal to your Charisma modifier (minimum of one creature) that you can see within 60 feet of yourself. Each target must succeed on a Wisdom saving throw or have the Frightened condition for 1 minute or until it takes any damage. While Frightened in this way, a target can do only one of the following on its turns: move, take an action, or take a Bonus Action.",
+      "descriptionKo": "마법 행동으로, 이 클래스의 신성력 전달 사용 횟수 하나를 소모하여 적들을 경외감으로 압도할 수 있습니다. 성표나 무기를 내보이며, 자신으로부터 60피트 이내에 볼 수 있는 생명체를 매력 수정치만큼(최소 1명) 대상으로 지정할 수 있습니다. 각 대상은 지혜 내성 굴림에 성공해야 하며, 실패 시 1분 동안 또는 피해를 입을 때까지 공포(Frightened) 상태가 됩니다. 이 방식으로 공포에 질린 동안, 대상은 자신의 턴에 이동, 행동, 보너스 액션 중 하나만 수행할 수 있습니다."
+    },
+    {
+      "level": 10,
+      "featureName": "Aura of Courage",
+      "featureNameKo": "용기의 오라",
+      "description": "You and your allies have Immunity to the Frightened condition while in your Aura of Protection. If a Frightened ally enters the aura, that condition has no effect on that ally while there.",
+      "descriptionKo": "당신과 아군은 보호의 오라 안에 있는 동안 공포(Frightened) 상태에 면역됩니다. 공포 상태인 아군이 오라에 들어오면, 오라 안에 있는 동안 해당 상태가 그 아군에게 효과를 미치지 않습니다."
+    },
+    {
+      "level": 11,
+      "featureName": "Radiant Strikes",
+      "featureNameKo": "광휘의 타격",
+      "description": "Your strikes now carry supernatural power. When you hit a target with an attack roll using a Melee weapon or an Unarmed Strike, the target takes an extra 1d8 Radiant damage.",
+      "descriptionKo": "이제 당신의 타격에 초자연적인 힘이 실립니다. 근접 무기나 비무장 타격을 사용한 공격 굴림으로 대상을 맞히면, 대상은 추가로 1d8 광휘(Radiant) 피해를 입습니다."
+    },
+    {
+      "level": 14,
+      "featureName": "Restoring Touch",
+      "featureNameKo": "회복의 손길",
+      "description": "When you use Lay On Hands on a creature, you can also remove one or more of the following conditions from the creature: Blinded, Charmed, Deafened, Frightened, Paralyzed, or Stunned. You must expend 5 Hit Points from the healing pool of Lay On Hands for each of these conditions you remove; those points don’t also restore Hit Points to the creature.",
+      "descriptionKo": "생명체에게 안수 치료를 사용할 때, 해당 생명체에게서 다음 상태 중 하나 이상을 추가로 제거할 수 있습니다: 실명(Blinded), 매혹(Charmed), 청각 상실(Deafened), 공포(Frightened), 마비(Paralyzed), 또는 기절(Stunned). 제거하려는 각 상태마다 안수 치료의 치유 풀에서 히트 포인트 5점을 소모해야 하며; 이 점수는 해당 생명체의 히트 포인트를 회복시키지 않습니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Aura Expansion",
+      "featureNameKo": "오라 확장",
+      "description": "Your Aura of Protection is now a 30-foot Emanation.",
+      "descriptionKo": "보호의 오라가 이제 30피트 방사 범위가 됩니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Truesight is recommended.",
+      "descriptionKo": "에픽 분 피트(5장 참조) 또는 자격을 갖춘 다른 선택 피트를 얻습니다. 진시야의 분(Boon of Truesight)을 추천합니다."
+    }
+  ],
+  "ranger": [
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문시전",
+      "description": "You have learned to channel the magical essence of nature to cast spells. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Ranger spells, which appear in the Ranger spell list later in the class’s description.\n\n**Spell Slots.** The Ranger Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Ranger spells. Cure Wounds and Ensnaring Strike are recommended.\nThe number of spells on your list increases as you gain Ranger levels, as shown in the Prepared Spells column of the Ranger Features table. Whenever that number increases, choose additional Ranger spells until the number of spells on your list matches the number in the Ranger Features table. The chosen spells must be of a level for which you have spell slots. For example, if you’re a level 5 Ranger, your list of prepared spells can include six Ranger spells of level 1 or 2 in any combination.\nIf another Ranger feature gives you spells that you always have prepared, those spells don’t count against the number of spells you can prepare with this feature, but those spells otherwise count as Ranger spells for you.\n\n**Changing Your Prepared Spells.** Whenever you finish a Long Rest, you can replace one spell on your list with another Ranger spell for which you have spell slots.\n\n**Spellcasting Ability.** Wisdom is your spellcasting ability for your Ranger spells.\n\n**Spellcasting Focus.** You can use a Druidic Focus as a Spellcasting Focus for your Ranger spells.",
+      "descriptionKo": "당신은 주문을 시전하기 위해 자연의 마법적 정수를 끌어오는 법을 배웠습니다. 주문시전에 관한 규칙은 7장을 참조하십시오. 아래 정보는 클래스 설명 뒷부분에 나오는 레인저 주문 목록의 주문들에 대해 이 규칙을 적용하는 세부 사항입니다.\n\n**주문 슬롯.** 레인저 특성 테이블은 1레벨 이상의 주문을 시전하기 위해 당신이 가진 주문 슬롯의 수를 보여줍니다. 긴 휴식을 마치면 소모한 모든 슬롯을 회복합니다.\n\n**1레벨 이상의 준비된 주문.** 당신은 이 특성으로 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작할 때, 두 개의 1레벨 레인저 주문을 선택하십시오. *상처 치유(Cure Wounds)*와 *올가미 강타(Ensnaring Strike)*를 추천합니다.\n당신의 목록에 있는 주문의 수는 레인저 특성 테이블의 '준비된 주문(Prepared Spells)' 열에 표시된 대로 레인저 레벨이 올라감에 따라 증가합니다. 그 숫자가 늘어날 때마다, 목록의 주문 수가 테이블의 숫자와 일치할 때까지 추가 레인저 주문을 선택하십시오. 선택한 주문은 당신이 주문 슬롯을 가진 레벨의 주문이어야 합니다. 예를 들어, 당신이 5레벨 레인저라면, 준비된 주문 목록에는 1레벨 또는 2레벨 레인저 주문 6개를 어떤 조합으로든 포함할 수 있습니다.\n만약 다른 레인저 특성이 당신에게 항상 준비되어 있는 주문을 제공한다면, 그 주문들은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외에는 당신에게 레인저 주문으로 간주됩니다.\n\n**준비된 주문 변경.** 긴 휴식을 마칠 때마다, 목록에 있는 주문 하나를 당신이 주문 슬롯을 가진 다른 레인저 주문으로 교체할 수 있습니다.\n\n**주문시전 능력.** **지혜**가 레인저 주문에 대한 당신의 주문시전 능력입니다.\n\n**주문시전 매개체.** 당신은 레인저 주문을 위한 주문시전 매개체로 **드루이드 매개체(Druidic Focus)**를 사용할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Favored Enemy",
+      "featureNameKo": "숙적",
+      "description": "You always have the Hunter’s Mark spell prepared. You can cast it twice without expending a spell slot, and you regain all expended uses of this ability when you finish a Long Rest.\nThe number of times you can cast the spell without a spell slot increases when you reach certain Ranger levels, as shown in the Favored Enemy column of the Ranger Features table.",
+      "descriptionKo": "당신은 항상 *사냥꾼의 표식(Hunter’s Mark)* 주문을 준비하고 있습니다. 당신은 주문 슬롯을 소모하지 않고 이 주문을 두 번 시전할 수 있으며, 긴 휴식을 마치면 이 능력의 모든 소모된 횟수를 회복합니다.\n주문 슬롯 없이 이 주문을 시전할 수 있는 횟수는 레인저 특성 테이블의 '숙적(Favored Enemy)' 열에 표시된 대로 특정 레인저 레벨에 도달할 때마다 증가합니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Weapon Mastery",
+      "featureNameKo": "무기 숙련",
+      "description": "Your training with weapons allows you to use the mastery properties of two kinds of weapons of your choice with which you have proficiency, such as Longbows and Shortswords.\nWhenever you finish a Long Rest, you can change the kinds of weapons you chose. For example, you could switch to using the mastery properties of Scimitars and Longswords.",
+      "descriptionKo": "무기 훈련을 통해 당신은 숙련을 가진 두 가지 종류의 무기(예: 롱보우와 쇼트소드)에 대해 마스터리 속성을 사용할 수 있습니다.\n긴 휴식을 마칠 때마다 선택한 무기의 종류를 변경할 수 있습니다. 예를 들어, 시미터와 롱소드의 마스터리 속성을 사용하도록 바꿀 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Deft Explorer",
+      "featureNameKo": "능숙한 탐험가",
+      "description": "Thanks to your travels, you gain the following benefits.\n\n**Expertise.** Choose one of your skill proficiencies with which you lack Expertise. You gain Expertise in that skill.\n\n**Languages.** You know two languages of your choice from the language tables in chapter 2.",
+      "descriptionKo": "여행을 통해 다음의 혜택을 얻습니다.\n\n**전문성(Expertise).** 당신이 숙련을 가졌으나 전문성이 없는 기술 하나를 선택하십시오. 해당 기술에 전문성을 얻습니다.\n\n**언어.** 2장의 언어 테이블에서 원하는 언어 두 가지를 선택하여 배웁니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Fighting Style",
+      "featureNameKo": "전투 방식",
+      "description": "You gain a Fighting Style feat of your choice (see chapter 5). Instead of choosing one of those feats, you can choose the option below.\n\n**Druidic Warrior.** You learn two Druid cantrips of your choice (see the Druid class’s section for a list of Druid spells). Guidance and Starry Wisp are recommended. The chosen cantrips count as Ranger spells for you, and Wisdom is your spellcasting ability for them. Whenever you gain a Ranger level, you can replace one of these cantrips with another Druid cantrip.",
+      "descriptionKo": "선택한 전투 방식 피트(Feat) 하나를 얻습니다(5장 참조). 해당 피트들 중 하나를 선택하는 대신, 아래 옵션을 선택할 수 있습니다.\n\n**드루이드 전사(Druidic Warrior).** 당신이 선택한 두 개의 드루이드 소마법을 배웁니다(드루이드 주문 목록 참조). *인도(Guidance)*와 *별빛 가닥(Starry Wisp)*을 추천합니다. 선택한 소마법은 당신에게 레인저 주문으로 간주되며, 지혜가 주문시전 능력치가 됩니다. 레인저 레벨이 오를 때마다, 이 소마법 중 하나를 다른 드루이드 소마법으로 교체할 수 있습니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Ranger Subclass",
+      "featureNameKo": "레인저 서브클래스",
+      "description": "You gain a Ranger subclass of your choice. The Beast Master, Fey Wanderer, Gloom Stalker, and Hunter subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Ranger levels. For the rest of your career, you gain each of your subclass's features that are of your Ranger level or lower.",
+      "descriptionKo": "당신은 자신이 원하는 레인저 서브클래스 하나를 얻습니다. 비스트 마스터(Beast Master), 페이 방랑자(Fey Wanderer), 글룸 스토커(Gloom Stalker), 사냥꾼(Hunter) 서브클래스가 이 클래스 설명 뒤에 자세히 서술되어 있습니다. 서브클래스는 특정 레인저 레벨에서 당신에게 특성을 부여하는 전문화입니다. 당신의 남은 경력 동안, 당신은 자신의 레인저 레벨 이하에 해당하는 서브클래스의 각 특성을 얻습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Ranger levels 8, 12, and 16.",
+      "descriptionKo": "당신은 능력치 상승(Ability Score Improvement) 피트(5장 참조) 또는 당신이 자격을 갖춘 다른 피트 하나를 얻습니다. 당신은 레인저 8, 12, 16레벨에서 이 특성을 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Extra Attack",
+      "featureNameKo": "추가 공격",
+      "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+      "descriptionKo": "자신의 턴에 공격 행동을 취할 때 한 번이 아닌 두 번 공격할 수 있습니다."
+    },
+    {
+      "level": 6,
+      "featureName": "Roving",
+      "featureNameKo": "방랑",
+      "description": "Your Speed increases by 10 feet while you aren’t wearing Heavy armor. You also have a Climb Speed and a Swim Speed equal to your Speed.",
+      "descriptionKo": "중갑을 착용하지 않은 동안 당신의 이동 속도가 10피트 증가합니다. 또한 당신의 이동 속도와 동일한 등반 속도와 수영 속도를 가집니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Expertise",
+      "featureNameKo": "전문성",
+      "description": "Choose two of your skill proficiencies with which you lack Expertise. You gain Expertise in those skills.",
+      "descriptionKo": "당신이 숙련을 가졌으나 전문성이 없는 기술 두 가지를 선택하십시오. 해당 기술들에 전문성을 얻습니다."
+    },
+    {
+      "level": 10,
+      "featureName": "Tireless",
+      "featureNameKo": "지치지 않음",
+      "description": "Primal forces now help fuel you on your journeys, granting you the following benefits.\n\n**Temporary Hit Points.** As a Magic action, you can give yourself a number of Temporary Hit Points equal to 1d8 plus your Wisdom modifier (minimum of 1). You can use this action a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.\n\n**Decrease Exhaustion.** Whenever you finish a Short Rest, your Exhaustion level, if any, decreases by 1.",
+      "descriptionKo": "원초적인 힘이 이제 당신의 여정에 활력을 불어넣어 다음의 혜택을 제공합니다.\n\n**임시 HP.** **마법 행동(Magic Action)**으로, 당신은 **1d8 + 지혜 수정치**(최소 1)에 해당하는 임시 HP를 자신에게 부여할 수 있습니다. 이 행동은 당신의 **지혜 수정치**만큼(최소 1회) 사용할 수 있으며, 긴 휴식을 마치면 모든 소모된 횟수를 회복합니다.\n\n**탈진 감소.** 짧은 휴식을 마칠 때마다, 당신이 가진 **탈진(Exhaustion)** 레벨이 있다면 1만큼 감소합니다."
+    },
+    {
+      "level": 13,
+      "featureName": "Relentless Hunter",
+      "featureNameKo": "끈질긴 사냥꾼",
+      "description": "Taking damage can’t break your Concentration on Hunter’s Mark.",
+      "descriptionKo": "피해를 입어도 *사냥꾼의 표식(Hunter’s Mark)*에 대한 당신의 **집중(Concentration)**은 깨지지 않습니다."
+    },
+    {
+      "level": 14,
+      "featureName": "Nature’s Veil",
+      "featureNameKo": "자연의 베일",
+      "description": "You invoke spirits of nature to magically hide yourself. As a Bonus Action, you can give yourself the Invisible condition until the end of your next turn.\nYou can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.",
+      "descriptionKo": "당신은 자연의 정령을 불러내어 자신을 마법적으로 숨깁니다. **보너스 액션**으로, 당신은 다음 차례 종료 시까지 자신에게 **투명(Invisible)** 상태를 부여할 수 있습니다.\n이 특성은 당신의 **지혜 수정치**만큼(최소 1회) 사용할 수 있으며, 긴 휴식을 마치면 모든 소모된 횟수를 회복합니다."
+    },
+    {
+      "level": 17,
+      "featureName": "Precise Hunter",
+      "featureNameKo": "정밀한 사냥꾼",
+      "description": "You have Advantage on attack rolls against the creature currently marked by your Hunter’s Mark.",
+      "descriptionKo": "현재 당신의 *사냥꾼의 표식(Hunter’s Mark)*이 찍힌 생명체에 대한 공격 굴림에 **이점(Advantage)**을 가집니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Feral Senses",
+      "featureNameKo": "야성의 감각",
+      "description": "Your connection to the forces of nature grants you Blindsight with a range of 30 feet.",
+      "descriptionKo": "자연의 힘과의 연결을 통해 당신은 30피트 범위의 **눈먼시야(Blindsight)**를 얻습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Dimensional Travel is recommended.",
+      "descriptionKo": "에픽 분 피트(5장 참조) 또는 당신이 자격을 갖춘 다른 피트 하나를 얻습니다. *차원 여행의 분(Boon of Dimensional Travel)*을 추천합니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Foe Slayer",
+      "featureNameKo": "숙적 학살자",
+      "description": "The damage die of your Hunter’s Mark is a d10 rather than a d6.",
+      "descriptionKo": "당신의 *사냥꾼의 표식(Hunter’s Mark)* 피해 주사위가 d6 대신 **d10**이 됩니다."
+    }
+  ],
+  "rogue": [
+    {
+      "level": 1,
+      "featureName": "Expertise",
+      "featureNameKo": "전문성",
+      "description": "You gain Expertise in two of your skill proficiencies of your choice. Sleight of Hand and Stealth are recommended if you have proficiency in them.\nAt Rogue level 6, you gain Expertise in two more of your skill proficiencies of your choice.",
+      "descriptionKo": "당신이 선택한 두 가지 기술 숙련에 **전문성(Expertise)**을 얻습니다. 해당 기술에 숙련이 있다면 *손재주(Sleight of Hand)*와 *은신(Stealth)*을 추천합니다.\n로그 6레벨이 되면, 당신이 선택한 다른 두 가지 기술 숙련에 추가로 전문성을 얻습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Sneak Attack",
+      "featureNameKo": "암습",
+      "description": "You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack roll if you have Advantage on the roll and the attack uses a Finesse or a Ranged weapon. The extra damage’s type is the same as the weapon’s type.\nYou don’t need Advantage on the attack roll if at least one of your allies is within 5 feet of the target, the ally doesn’t have the Incapacitated condition, and you don’t have Disadvantage on the attack roll.\nThe extra damage increases as you gain Rogue levels, as shown in the Sneak Attack column of the Rogue Features table.",
+      "descriptionKo": "당신은 은밀하게 타격하고 적의 방심을 이용하는 법을 압니다. 차례당 한 번, 공격 굴림에 **이점(Advantage)**을 가지고 **기교(Finesse)** 또는 **원거리(Ranged)** 무기를 사용하여 생명체를 맞혔을 때, 해당 대상에게 **1d6**의 추가 피해를 입힐 수 있습니다. 추가 피해의 유형은 사용한 무기의 피해 유형과 동일합니다.\n대상의 5피트 이내에 당신의 아군이 적어도 한 명 있고, 그 아군이 **무력화(Incapacitated)** 상태가 아니며, 당신의 공격 굴림에 **불이점(Disadvantage)**이 없다면 공격 굴림에 이점이 없어도 이 추가 피해를 입힐 수 있습니다.\n추가 피해량은 로그 특성 테이블의 '암습(Sneak Attack)' 열에 표시된 대로 로그 레벨이 올라감에 따라 증가합니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Thieves’ Cant",
+      "featureNameKo": "도둑들의 은어",
+      "description": "You picked up various languages in the communities where you plied your roguish talents. You know Thieves’ Cant and one other language of your choice, which you choose from the language tables in chapter 2.",
+      "descriptionKo": "당신은 로그로서의 재능을 발휘하던 공동체에서 다양한 언어를 익혔습니다. 당신은 **도둑들의 은어(Thieves’ Cant)**와 2장의 언어 테이블에서 선택한 추가 언어 하나를 알고 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Weapon Mastery",
+      "featureNameKo": "무기 숙련",
+      "description": "Your training with weapons allows you to use the mastery properties of two kinds of weapons of your choice with which you have proficiency, such as Daggers and Shortbows.\nWhenever you finish a Long Rest, you can change the kinds of weapons you chose. For example, you could switch to using the mastery properties of Scimitars and Shortswords.",
+      "descriptionKo": "무기 훈련을 통해 당신은 숙련을 가진 두 가지 종류의 무기(예: 단검과 쇼트보우)에 대해 마스터리 속성을 사용할 수 있습니다.\n긴 휴식을 마칠 때마다 선택한 무기의 종류를 변경할 수 있습니다. 예를 들어, 시미터와 쇼트소드의 마스터리 속성을 사용하도록 바꿀 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Cunning Action",
+      "featureNameKo": "교활한 행동",
+      "description": "Your quick thinking and agility allow you to move and act quickly. On your turn, you can take one of the following actions as a Bonus Action: Dash, Disengage, or Hide.",
+      "descriptionKo": "당신의 빠른 판단력과 민첩성은 기민하게 움직이고 행동할 수 있게 해줍니다. 당신의 차례에 **보너스 액션**으로 다음 행동 중 하나를 취할 수 있습니다: **질주(Dash), 이탈(Disengage), 또는 은신(Hide)**."
+    },
+    {
+      "level": 3,
+      "featureName": "Steady Aim",
+      "featureNameKo": "조준 고정",
+      "description": "As a Bonus Action, you give yourself Advantage on your next attack roll on the current turn. You can use this feature only if you haven’t moved during this turn, and after you use it, your Speed is 0 until the end of the current turn.",
+      "descriptionKo": "**보너스 액션**으로, 이번 차례에 행할 다음 공격 굴림에 자신에게 **이점(Advantage)**을 부여합니다. 이 특성은 이번 차례에 아직 이동하지 않았을 때만 사용할 수 있으며, 사용 후에는 이번 차례 종료 시까지 당신의 이동 속도가 0이 됩니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Cunning Strike",
+      "featureNameKo": "교활한 타격",
+      "description": "You've developed cunning ways to use your Sneak Attack. When you deal Sneak Attack damage, you can add one of the following Cunning Strike effects. Each effect has a die cost, which is the number of Sneak Attack damage dice you must forgo to add the effect. You remove the die before rolling, and the effect occurs immediately after the attack's damage is dealt. For example, if you add the Poison effect, remove 1d6 from the Sneak Attack's damage before rolling.\nIf a Cunning Strike effect requires a saving throw, the DC equals 8 plus your Dexterity modifier and Proficiency Bonus.\n\n**Poison (Cost: 1d6).** You add a toxin to your strike, forcing the target to make a Constitution saving throw. On a failed save, the target has the Poisoned condition for 1 minute. At the end of each of its turns, the Poisoned target repeats the save, ending the effect on itself on a success. To use this effect, you must have a Poisoner's Kit on your person.\n\n**Trip (Cost: 1d6).** If the target is Large or smaller, it must succeed on a Dexterity saving throw or have the Prone condition.\n\n**Withdraw (Cost: 1d6).** Immediately after the attack, you move up to half your Speed without provoking Opportunity Attacks.",
+      "descriptionKo": "당신은 암습을 사용하는 교활한 방법들을 개발했습니다. 암습 피해를 입힐 때, 다음 중 하나의 **교활한 타격** 효과를 추가할 수 있습니다. 각 효과에는 '주사위 비용'이 있으며, 이는 효과를 추가하기 위해 포기해야 하는 암습 피해 주사위의 수입니다. 주사위를 굴리기 전에 해당 주사위를 제거하며, 효과는 공격 피해가 적용된 직후에 발생합니다. 예를 들어, 독 효과를 추가하는 경우, 암습 피해에서 1d6을 제거한 후 굴립니다.\n교활한 타격 효과가 내성 굴림을 요구하는 경우, DC는 **8 + 민첩 수정치 + 숙련 보너스**입니다.\n\n**독 (비용: 1d6).** 일격에 독소를 추가하여 대상이 **건강** 내성 굴림을 하도록 강제합니다. 내성 실패 시, 대상은 1분 동안 **중독(Poisoned)** 상태가 됩니다. 중독된 대상은 자신의 각 차례 종료 시마다 내성을 반복하며, 성공 시 효과를 종료합니다. 이 효과를 사용하려면 **독 제작 도구(Poisoner’s Kit)**를 소지하고 있어야 합니다.\n\n**넘어뜨리기 (비용: 1d6).** 대상이 대형(Large) 이하인 경우, 대상은 **민첩** 내성 굴림에 성공해야 하며 실패 시 **넘어짐(Prone)** 상태가 됩니다.\n\n**철수 (비용: 1d6).** 공격 직후, 기회 공격을 유발하지 않고 자신의 이동 속도의 절반까지 이동합니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Uncanny Dodge",
+      "featureNameKo": "신묘한 회피",
+      "description": "When an attacker that you can see hits you with an attack roll, you can take a Reaction to halve the attack’s damage against you (round down).",
+      "descriptionKo": "당신이 볼 수 있는 공격자가 공격 굴림으로 당신을 맞혔을 때, **반응**을 사용하여 자신에게 가해지는 공격 피해를 절반(내림)으로 줄일 수 있습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Evasion",
+      "featureNameKo": "회피",
+      "description": "You can nimbly dodge out of the way of certain dangers. When you’re subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw and only half damage if you fail. You can’t use this feature if you have the Incapacitated condition.",
+      "descriptionKo": "당신은 특정 위험으로부터 민첩하게 몸을 피할 수 있습니다. 성공 시 절반의 피해만 입는 **민첩** 내성 굴림 효과에 노출되었을 때, 내성에 성공하면 피해를 전혀 입지 않고 실패하더라도 절반의 피해만 입습니다. 당신이 **무력화(Incapacitated)** 상태라면 이 특성을 사용할 수 없습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Reliable Talent",
+      "featureNameKo": "믿음직한 재능",
+      "description": "Whenever you make an ability check that uses one of your skill or tool proficiencies, you can treat a d20 roll of 9 or lower as a 10.",
+      "descriptionKo": "당신이 숙련을 가진 기술이나 도구를 사용하여 능력 판정을 할 때마다, d20 굴림값이 9 이하인 경우 이를 10으로 간주할 수 있습니다."
+    },
+    {
+      "level": 11,
+      "featureName": "Improved Cunning Strike",
+      "featureNameKo": "개선된 교활한 타격",
+      "description": "You can use up to two Cunning Strike effects when you deal Sneak Attack damage, paying the die cost for each effect.",
+      "descriptionKo": "암습 피해를 입힐 때 각 효과의 주사위 비용을 지불하고 최대 두 가지의 교활한 타격 효과를 동시에 사용할 수 있습니다."
+    },
+    {
+      "level": 14,
+      "featureName": "Devious Strikes",
+      "featureNameKo": "기만적인 타격",
+      "description": "You’ve practiced new ways to use your Sneak Attack deviously. The following effects are now among your Cunning Strike options.\n\n**Daze (Cost: 2d6).** The target must succeed on a Constitution saving throw, or on its next turn, it can do only one of the following: move or take an action or a Bonus Action.\n\n**Knock Out (Cost: 6d6).** The target must succeed on a Constitution saving throw, or it has the Unconscious condition for 1 minute or until it takes any damage. The Unconscious target repeats the save at the end of each of its turns, ending the effect on itself on a success.\n\n**Obscure (Cost: 3d6).** The target must succeed on a Dexterity saving throw, or it has the Blinded condition until the end of its next turn.",
+      "descriptionKo": "당신은 암습을 기만적으로 사용하는 새로운 방법들을 연습했습니다. 이제 다음 효과들이 당신의 교활한 타격 옵션에 포함됩니다.\n\n**멍하게 만들기 (비용: 2d6).** 대상은 **건강** 내성 굴림에 성공해야 하며, 실패 시 자신의 다음 차례에 다음 중 하나만 수행할 수 있습니다: 이동, 액션 취하기, 또는 보너스 액션 취하기.\n\n**기절시키기 (비용: 6d6).** 대상은 **건강** 내성 굴림에 성공해야 하며, 실패 시 1분 동안 또는 피해를 입을 때까지 **의식 불명(Unconscious)** 상태가 됩니다. 의식 불명 상태의 대상은 자신의 각 차례 종료 시마다 내성을 반복하며, 성공 시 효과를 종료합니다.\n\n**시야 가리기 (비용: 3d6).** 대상은 **민첩** 내성 굴림에 성공해야 하며, 실패 시 자신의 다음 차례 종료 시까지 **눈멂(Blinded)** 상태가 됩니다."
+    },
+    {
+      "level": 15,
+      "featureName": "Slippery Mind",
+      "featureNameKo": "미끄러운 정신",
+      "description": "Your cunning mind is exceptionally difficult to control. You gain proficiency in Wisdom and Charisma saving throws.",
+      "descriptionKo": "당신의 교활한 정신은 통제하기가 매우 어렵습니다. 당신은 **지혜** 및 **매력** 내성 굴림에 숙련을 얻습니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Elusive",
+      "featureNameKo": "신출귀몰",
+      "description": "You’re so evasive that attackers rarely gain the upper hand against you. No attack roll can have Advantage against you unless you have the Incapacitated condition.",
+      "descriptionKo": "당신은 매우 회피적이라 공격자들이 당신을 상대로 우위를 점하기가 힘듭니다. 당신이 **무력화(Incapacitated)** 상태가 아닌 한, 당신을 상대로 하는 어떤 공격 굴림도 **이점(Advantage)**을 가질 수 없습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of the Night Spirit is recommended.",
+      "descriptionKo": "에픽 분 피트(5장 참조) 또는 당신이 자격을 갖춘 다른 피트 하나를 얻습니다. *밤의 정령의 분(Boon of the Night Spirit)*을 추천합니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Stroke of Luck",
+      "featureNameKo": "행운의 일격",
+      "description": "You have a marvelous knack for succeeding when you need to. If you fail a D20 Test, you can turn the roll into a 20.\nOnce you use this feature, you can’t use it again until you finish a Short or Long Rest.",
+      "descriptionKo": "당신은 필요할 때 성공해내는 놀라운 재주가 있습니다. 만약 **D20 테스트**에 실패한다면, 해당 굴림을 20으로 바꿀 수 있습니다.\n이 특성을 한 번 사용하면, 짧은 휴식이나 긴 휴식을 마치기 전까지 다시 사용할 수 없습니다."
+    }
+  ],
+  "sorcerer": [
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문시전",
+      "description": "Drawing from your innate magic, you can cast spells. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Sorcerer spells, which appear in the Sorcerer spell list later in the class's description.\n\n**Cantrips.** You know four Sorcerer cantrips of your choice. Light, Prestidigitation, Shocking Grasp, and Sorcerous Burst are recommended. Whenever you gain a Sorcerer level, you can replace one of your cantrips from this feature with another Sorcerer cantrip of your choice.\n\nWhen you reach Sorcerer levels 4 and 10, you learn another Sorcerer cantrip of your choice, as shown in the Cantrips column of the Sorcerer Features table.\n\n**Spell Slots.** The Sorcerer Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Sorcerer spells. Burning Hands and Detect Magic are recommended.\n\nThe number of spells on your list increases as you gain Sorcerer levels, as shown in the Prepared Spells column of the Sorcerer Features table. Whenever that number increases, choose additional Sorcerer spells until the number of spells on your list matches the number in the Sorcerer Features table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 3 Sorcerer, your list of prepared spells can include six Sorcerer spells of level 1 or 2 in any combination.\n\nIf another Sorcerer feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Sorcerer spells for you.\n\n**Changing Your Prepared Spells.** Whenever you gain a Sorcerer level, you can replace one spell on your list with another Sorcerer spell for which you have spell slots.\n\n**Spellcasting Ability.** Charisma is your spellcasting ability for your Sorcerer spells.\n\n**Spellcasting Focus.** You can use an Arcane Focus as a Spellcasting Focus for your Sorcerer spells.",
+      "descriptionKo": "타고난 마법을 이끌어내어, 당신은 주문을 시전할 수 있습니다. 주문시전에 관한 규칙은 7장을 참조하십시오. 아래 정보는 이 클래스 설명 뒷부분의 소서러 주문 목록에 나오는 소서러 주문에 해당 규칙을 어떻게 적용하는지 상세히 설명합니다.\n\n**소마법.** 당신은 선택한 4개의 소서러 소마법을 알고 있습니다. *빛(Light)*, *요술(Prestidigitation)*, *전격 손아귀(Shocking Grasp)*, *마력 폭발(Sorcerous Burst)*을 추천합니다. 소서러 레벨을 얻을 때마다, 이 특성으로 얻은 소마법 중 하나를 다른 소서러 소마법으로 교체할 수 있습니다.\n\n소서러 레벨 4와 10에 도달하면, 소서러 특성 테이블의 소마법 열에 표시된 대로 선택한 소서러 소마법을 추가로 배웁니다.\n\n**주문 슬롯.** 소서러 특성 테이블은 1레벨 이상의 주문을 시전하기 위해 당신이 가진 주문 슬롯의 수를 보여줍니다. 긴 휴식을 마치면 소모한 모든 슬롯을 회복합니다.\n\n**1레벨 이상의 준비된 주문.** 이 특성으로 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작할 때, 1레벨 소서러 주문 2개를 선택하십시오. *화염 손길(Burning Hands)*과 *마법 감지(Detect Magic)*를 추천합니다.\n\n소서러 특성 테이블의 준비된 주문 열에 표시된 대로, 소서러 레벨이 올라감에 따라 목록의 주문 수가 증가합니다. 이 숫자가 늘어날 때마다, 소서러 특성 테이블의 숫자와 일치할 때까지 추가 소서러 주문을 선택하십시오. 선택하는 주문은 당신이 주문 슬롯을 가진 레벨의 주문이어야 합니다. 예를 들어, 3레벨 소서러라면 준비된 주문 목록에 1레벨 또는 2레벨 소서러 주문을 조합하여 6개까지 포함할 수 있습니다.\n\n만약 다른 소서러 특성으로 인해 항상 준비된 상태의 주문을 얻게 된다면, 그 주문들은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외에는 당신에게 소서러 주문으로 간주됩니다.\n\n**준비된 주문 변경.** 소서러 레벨을 얻을 때마다, 목록에 있는 주문 하나를 당신이 주문 슬롯을 가진 다른 소서러 주문으로 교체할 수 있습니다.\n\n**주문시전 능력.** 매력이 소서러 주문에 대한 당신의 주문시전 능력입니다.\n\n**주문시전 매개체.** 당신은 소서러 주문을 위한 주문시전 매개체로 비전 매개체를 사용할 수 있습니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Innate Sorcery",
+      "featureNameKo": "타고난 마법력",
+      "description": "An event in your past left an indelible mark on you, infusing you with simmering magic. As a Bonus Action, you can unleash that magic for 1 minute, during which you gain the following benefits:\n\n- The spell save DC of your Sorcerer spells increases by 1.\n- You have Advantage on the attack rolls of Sorcerer spells you cast.\n\nYou can use this feature twice, and you regain all expended uses of it when you finish a Long Rest.",
+      "descriptionKo": "당신의 과거에 일어난 사건이 당신에게 지울 수 없는 표식을 남기며, 끓어오르는 마법을 불어넣었습니다. **보너스 액션**으로, 당신은 1분 동안 그 마법을 해방할 수 있으며, 그동안 다음의 이점을 얻습니다:\n\n- 소서러 주문의 주문 내성 DC가 1 증가합니다.\n- 당신이 시전하는 소서러 주문의 공격 굴림에 이점을 가집니다.\n\n이 특성을 2회 사용할 수 있으며, 긴 휴식을 마치면 소모한 모든 사용 횟수를 회복합니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Font of Magic",
+      "featureNameKo": "마법의 샘",
+      "description": "You can tap into the wellspring of magic within yourself. This wellspring is represented by Sorcery Points, which allow you to create a variety of magical effects.\n\nYou have 2 Sorcery Points, and you gain more as you reach higher levels, as shown in the Sorcery Points column of the Sorcerer Features table. You can't have more Sorcery Points than the number shown in the table for your level. You regain all expended Sorcery Points when you finish a Long Rest.\n\nYou can use your Sorcery Points to fuel the options below, along with other features, such as Metamagic, that use those points.\n\n**Converting Spell Slots to Sorcery Points.** You can expend a spell slot to gain a number of Sorcery Points equal to the slot's level (no action required).\n\n**Creating Spell Slots.** As a Bonus Action, you can transform unexpended Sorcery Points into one spell slot. The Creating Spell Slots table shows the cost of creating a spell slot of a given level, and it lists the minimum Sorcerer level you must be to create a slot. You can create a spell slot no higher than level 5.\n\nAny spell slot you create with this feature vanishes when you finish a Long Rest.",
+      "descriptionKo": "당신은 내면에 있는 마법의 샘을 이용할 수 있습니다. 이 샘은 소서리 포인트로 표현되며, 이를 통해 다양한 마법적 효과를 만들어낼 수 있습니다.\n\n당신은 2 소서리 포인트를 가지며, 소서러 특성 테이블의 소서리 포인트 열에 표시된 대로 높은 레벨에 도달함에 따라 더 많은 포인트를 얻습니다. 해당 레벨의 테이블에 표시된 숫자보다 많은 소서리 포인트를 가질 수 없습니다. 긴 휴식을 마치면 소모한 모든 소서리 포인트를 회복합니다.\n\n소서리 포인트를 사용하여 아래 옵션들은 물론, 변형 마법과 같이 이 포인트를 사용하는 다른 특성들을 가동할 수 있습니다.\n\n**주문 슬롯을 소서리 포인트로 전환.** 주문 슬롯을 하나 소모하여 해당 슬롯의 레벨과 동일한 수의 소서리 포인트를 얻을 수 있습니다 (행동 불필요).\n\n**주문 슬롯 생성.** **보너스 액션**으로, 소모하지 않은 소서리 포인트를 주문 슬롯 하나로 변환할 수 있습니다. 주문 슬롯 생성 테이블은 주어진 레벨의 주문 슬롯을 생성하는 비용과, 해당 슬롯을 생성하기 위해 필요한 최소 소서러 레벨을 보여줍니다. 5레벨을 초과하는 주문 슬롯은 생성할 수 없습니다.\n\n이 특성으로 생성한 주문 슬롯은 긴 휴식을 마치면 사라집니다.",
+      "tables": [
+        {
+          "title": "Creating Spell Slots",
+          "titleKo": "주문 슬롯 생성",
+          "columns": ["Spell Slot Level", "Sorcery Point Cost", "Min. Sorcerer Level"],
+          "columnsKo": ["주문 슬롯 레벨", "소서리 포인트 비용", "최소 소서러 레벨"],
+          "rows": [
+            { "roll": "1", "effect": "2", "level": "2" },
+            { "roll": "2", "effect": "3", "level": "3" },
+            { "roll": "3", "effect": "5", "level": "5" },
+            { "roll": "4", "effect": "6", "level": "7" },
+            { "roll": "5", "effect": "7", "level": "9" }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "featureName": "Metamagic",
+      "featureNameKo": "변형 마법",
+      "description": "Because your magic flows from within, you can alter your spells to suit your needs; you gain two Metamagic options of your choice from \"Metamagic Options\" later in this class's description. You use the chosen options to temporarily modify spells you cast. To use an option, you must spend the number of Sorcery Points that it costs.\n\nYou can use only one Metamagic option on a spell when you cast it unless otherwise noted in one of those options.\n\nWhenever you gain a Sorcerer level, you can replace one of your Metamagic options with one you don't know. You gain two more options at Sorcerer level 10 and two more at Sorcerer level 17.",
+      "descriptionKo": "당신의 마법은 내면에서 흘러나오기 때문에, 필요에 맞게 주문을 변경할 수 있습니다; 이 클래스 설명 뒷부분의 \"변형 마법 옵션\"에서 선택한 변형 마법 옵션 2개를 얻습니다. 선택한 옵션을 사용하여 시전하는 주문을 일시적으로 수정합니다. 옵션을 사용하려면 해당하는 소서리 포인트를 소모해야 합니다.\n\n옵션 설명에 별도로 명시되지 않는 한, 주문을 시전할 때 하나의 주문에는 단 하나의 변형 마법 옵션만 적용할 수 있습니다.\n\n소서러 레벨을 얻을 때마다, 알고 있는 변형 마법 옵션 중 하나를 아직 배우지 않은 다른 옵션으로 교체할 수 있습니다. 소서러 레벨 10에 두 가지 옵션을 추가로 얻으며, 레벨 17에 다시 두 가지 옵션을 추가로 얻습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Metamagic Options",
+      "featureNameKo": "변형 마법 옵션",
+      "description": "The following options are available to your Metamagic feature. The options are presented in alphabetical order.\n\n**Careful Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell's full force. To do so, spend 1 Sorcery Point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell, and it takes no damage if it would normally take half damage on a successful save.\n\n**Distant Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you cast a spell that has a range of at least 5 feet, you can spend 1 Sorcery Point to double the spell's range. Or when you cast a spell that has a range of Touch, you can spend 1 Sorcery Point to make the spell's range 30 feet.\n\n**Empowered Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you roll damage for a spell, you can spend 1 Sorcery Point to reroll a number of the damage dice up to your Charisma modifier (minimum of one), and you must use the new rolls.\n\nYou can use Empowered Spell even if you've already used a different Metamagic option during the casting of the spell.\n\n**Extended Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you cast a spell that has a duration of 1 minute or longer, you can spend 1 Sorcery Point to double its duration to a maximum duration of 24 hours.\n\nIf the affected spell requires Concentration, you have Advantage on any saving throw you make to maintain that Concentration.\n\n**Heightened Spell**\n*Cost: 2 Sorcery Points*\n\nWhen you cast a spell that forces a creature to make a saving throw, you can spend 2 Sorcery Points to give one target of the spell Disadvantage on saves against the spell.\n\n**Quickened Spell**\n*Cost: 2 Sorcery Points*\n\nWhen you cast a spell that has a casting time of an action, you can spend 2 Sorcery Points to change the casting time to a Bonus Action for this casting. You can't modify a spell in this way if you've already cast a level 1+ spell on the current turn, nor can you cast a level 1+ spell on this turn after modifying a spell in this way.\n\n**Seeking Spell**\n*Cost: 1 Sorcery Point*\n\nIf you make an attack roll for a spell and miss, you can spend 1 Sorcery Point to reroll the d20, and you must use the new roll.\n\nYou can use Seeking Spell even if you've already used a different Metamagic option during the casting of the spell.\n\n**Subtle Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell.\n\n**Transmuted Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you cast a spell that deals a type of damage from the following list, you can spend 1 Sorcery Point to change that damage type to one of the other listed types: Acid, Cold, Fire, Lightning, Poison, Thunder.\n\n**Twinned Spell**\n*Cost: 1 Sorcery Point*\n\nWhen you cast a spell, such as Charm Person, that can be cast with a higher-level spell slot to target an additional creature, you can spend 1 Sorcery Point to increase the spell's effective level by 1.",
+      "descriptionKo": "다음 옵션들은 변형 마법 특성에서 사용할 수 있습니다. 옵션은 알파벳 순서로 제시됩니다.\n\n**신중한 주문(Careful Spell)**\n*비용: 1 소서리 포인트*\n\n다른 크리처들이 내성 굴림을 해야 하는 주문을 시전할 때, 그 크리처들 중 일부를 주문의 전체 위력으로부터 보호할 수 있습니다. 1 소서리 포인트를 소모하고 그 크리처들 중 매력 수정치까지의 수(최소 1명)를 선택하십시오. 선택된 크리처는 해당 주문에 대한 내성 굴림에 자동으로 성공하며, 성공 시 일반적으로 피해의 절반을 받는 경우에도 피해를 받지 않습니다.\n\n**원거리 주문(Distant Spell)**\n*비용: 1 소서리 포인트*\n\n사거리가 최소 5피트인 주문을 시전할 때, 1 소서리 포인트를 소모하여 주문의 사거리를 두 배로 늘릴 수 있습니다. 또는 사거리가 접촉인 주문을 시전할 때, 1 소서리 포인트를 소모하여 주문의 사거리를 30피트로 만들 수 있습니다.\n\n**강화된 주문(Empowered Spell)**\n*비용: 1 소서리 포인트*\n\n주문의 피해를 굴릴 때, 1 소서리 포인트를 소모하여 피해 주사위 중 매력 수정치까지의 개수(최소 1개)를 다시 굴릴 수 있으며, 새로운 결과를 사용해야 합니다.\n\n강화된 주문은 해당 주문 시전 중에 이미 다른 변형 마법 옵션을 사용했더라도 사용할 수 있습니다.\n\n**연장된 주문(Extended Spell)**\n*비용: 1 소서리 포인트*\n\n지속 시간이 1분 이상인 주문을 시전할 때, 1 소서리 포인트를 소모하여 지속 시간을 두 배로 늘릴 수 있습니다(최대 24시간).\n\n영향을 받는 주문이 집중을 필요로 하는 경우, 그 집중을 유지하기 위한 내성 굴림에 이점을 갖습니다.\n\n**고양된 주문(Heightened Spell)**\n*비용: 2 소서리 포인트*\n\n크리처가 내성 굴림을 해야 하는 주문을 시전할 때, 2 소서리 포인트를 소모하여 해당 주문의 대상 하나에게 그 주문에 대한 내성 굴림에 불이점을 줄 수 있습니다.\n\n**신속한 주문(Quickened Spell)**\n*비용: 2 소서리 포인트*\n\n시전 시간이 1 액션인 주문을 시전할 때, 2 소서리 포인트를 소모하여 이번 시전의 시전 시간을 보너스 액션으로 변경할 수 있습니다. 현재 턴에 이미 1레벨 이상의 주문을 시전했다면 이 방식으로 주문을 수정할 수 없으며, 이 방식으로 주문을 수정한 후에는 이번 턴에 1레벨 이상의 주문을 시전할 수 없습니다.\n\n**추적 주문(Seeking Spell)**\n*비용: 1 소서리 포인트*\n\n주문의 공격 굴림을 해서 빗나갔을 때, 1 소서리 포인트를 소모하여 d20을 다시 굴릴 수 있으며, 새로운 결과를 사용해야 합니다.\n\n추적 주문은 해당 주문 시전 중에 이미 다른 변형 마법 옵션을 사용했더라도 사용할 수 있습니다.\n\n**은밀한 주문(Subtle Spell)**\n*비용: 1 소서리 포인트*\n\n주문을 시전할 때, 1 소서리 포인트를 소모하여 음성, 동작, 물질 구성요소 없이 시전할 수 있습니다. 단, 주문에 의해 소모되거나 주문에 명시된 비용이 있는 물질 구성요소는 제외됩니다.\n\n**변환된 주문(Transmuted Spell)**\n*비용: 1 소서리 포인트*\n\n다음 목록에 있는 유형의 피해를 주는 주문을 시전할 때, 1 소서리 포인트를 소모하여 그 피해 유형을 목록의 다른 유형으로 변경할 수 있습니다: 산성, 냉기, 화염, 번개, 독, 천둥.\n\n**쌍둥이 주문(Twinned Spell)**\n*비용: 1 소서리 포인트*\n\n*인물 매혹(Charm Person)*과 같이 더 높은 레벨의 주문 슬롯으로 시전하여 추가 크리처를 대상으로 할 수 있는 주문을 시전할 때, 1 소서리 포인트를 소모하여 주문의 유효 레벨을 1 증가시킬 수 있습니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Sorcerer Subclass",
+      "featureNameKo": "소서러 서브클래스",
+      "description": "You gain a Sorcerer subclass of your choice. The Aberrant Sorcery, Clockwork Sorcery, Draconic Sorcery, and Wild Magic Sorcery subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Sorcerer levels. For the rest of your career, you gain each of your subclass's features that are of your Sorcerer level or lower.",
+      "descriptionKo": "당신이 선택한 소서러 서브클래스를 얻습니다. 기이한 마법(Aberrant Sorcery), 시계태엽 마법(Clockwork Sorcery), 용족 마법(Draconic Sorcery), 야생 마법(Wild Magic Sorcery) 서브클래스가 이 클래스 설명 뒤에 상세히 나와 있습니다. 서브클래스는 특정 소서러 레벨에서 특성을 부여하는 전문화입니다. 이후 경력 동안, 당신의 소서러 레벨 이하인 서브클래스 특성을 각각 획득합니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 상승",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Sorcerer levels 8, 12, and 16.",
+      "descriptionKo": "능력치 상승 특기(5장 참조) 또는 자격을 갖춘 다른 특기를 하나 획득합니다. 소서러 8, 12, 16레벨에서 이 특성을 다시 획득합니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Sorcerous Restoration",
+      "featureNameKo": "마법력 회복",
+      "description": "When you finish a Short Rest, you can regain expended Sorcery Points, but no more than a number equal to half your Sorcerer level (round down). Once you use this feature, you can't do so again until you finish a Long Rest.",
+      "descriptionKo": "짧은 휴식을 마쳤을 때, 소모한 소서리 포인트를 회복할 수 있지만, 소서러 레벨의 절반(내림)을 초과하는 수를 회복할 수는 없습니다. 이 특성을 한 번 사용하면, 긴 휴식을 마치기 전까지 다시 사용할 수 없습니다."
+    },
+    {
+      "level": 7,
+      "featureName": "Sorcery Incarnate",
+      "featureNameKo": "마법의 화신",
+      "description": "If you have no uses of Innate Sorcery left, you can use it if you spend 2 Sorcery Points when you take the Bonus Action to activate it.\n\nIn addition, while your Innate Sorcery feature is active, you can use up to two of your Metamagic options on each spell you cast.",
+      "descriptionKo": "타고난 마법력의 사용 횟수가 남아 있지 않더라도, 활성화를 위한 보너스 액션을 취할 때 2 소서리 포인트를 소모하면 사용할 수 있습니다.\n\n또한, 타고난 마법력 특성이 활성화되어 있는 동안, 당신이 시전하는 각 주문에 대해 최대 두 개의 변형 마법 옵션을 사용할 수 있습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Dimensional Travel is recommended.",
+      "descriptionKo": "에픽 분 특기(5장 참조) 또는 자격을 갖춘 다른 특기를 하나 획득합니다. 차원 여행의 은총(Boon of Dimensional Travel)을 추천합니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Arcane Apotheosis",
+      "featureNameKo": "비전의 신격화",
+      "description": "While your Innate Sorcery feature is active, you can use one Metamagic option on each of your turns without spending Sorcery Points on it.",
+      "descriptionKo": "타고난 마법력 특성이 활성화되어 있는 동안, 당신은 매 턴마다 변형 마법 옵션 하나를 소서리 포인트를 소모하지 않고 사용할 수 있습니다."
+    }
+  ],
+  "warlock": [
+    {
+      "level": 1,
+      "featureName": "Eldritch Invocations",
+      "featureNameKo": "엘드리치 기원",
+      "description": "You have unearthed Eldritch Invocations, pieces of forbidden knowledge that imbue you with an abiding magical ability or other lessons. You gain one invocation of your choice, such as Pact of the Tome. Invocations are described in the \"Eldritch Invocation Options\" section later in this class's description.\n\n**Prerequisites.** If an invocation has a prerequisite, you must meet it to learn that invocation. For example, if an invocation requires you to be a level 5+ Warlock, you can select the invocation once you reach Warlock level 5.\n\n**Replacing and Gaining Invocations.** Whenever you gain a Warlock level, you can replace one of your invocations with another one for which you qualify. You can't replace an invocation if it's a prerequisite for another invocation that you have.\n\nWhen you gain certain Warlock levels, you gain more invocations of your choice, as shown in the Invocations column of the Warlock Features table.\n\nYou can't pick the same invocation more than once unless its description says otherwise.",
+      "descriptionKo": "당신은 금단의 지식의 조각인 **엘드리치 기원(Eldritch Invocations)**을 발굴했으며, 이를 통해 지속적인 마법 능력이나 다른 교훈을 얻습니다. *계약의 서(Pact of the Tome)*와 같은 기원 하나를 선택하여 얻습니다. 기원은 이 클래스 설명의 뒷부분인 \"엘드리치 기원 옵션\" 항목에 설명되어 있습니다.\n\n**전제 조건.** 기원에 전제 조건이 있다면, 해당 기원을 배우려면 그 조건을 충족해야 합니다. 예를 들어, 기원이 5레벨 이상의 워록이어야 한다면, 워록 5레벨에 도달한 후에야 해당 기원을 선택할 수 있습니다.\n\n**기원 교체 및 획득.** 워록 레벨이 오를 때마다, 기존의 기원 하나를 자격을 갖춘 다른 기원으로 교체할 수 있습니다. 해당 기원이 당신이 가진 다른 기원의 전제 조건인 경우에는 교체할 수 없습니다.\n\n워록 특성 테이블의 '기원' 열에 표시된 대로, 특정 워록 레벨에 도달하면 추가 기원을 선택하여 얻습니다.\n\n기원의 설명에 달리 명시되어 있지 않는 한, 같은 기원을 두 번 이상 선택할 수 없습니다.",
+      "tables": [
+        {
+          "title": "Eldritch Invocation Options",
+          "titleKo": "엘드리치 기원 옵션",
+          "columns": [
+            "Invocation",
+            "Prerequisite",
+            "Description"
+          ],
+          "columnsKo": [
+            "기원",
+            "전제 조건",
+            "설명"
+          ],
+          "rows": [
+            {
+              "name": "Armor of Shadows",
+              "nameKo": "그림자의 갑옷",
+              "prerequisite": "—",
+              "prerequisiteKo": "—",
+              "description": "You can cast Mage Armor on yourself without expending a spell slot.",
+              "descriptionKo": "*마법사의 갑옷(Mage Armor)*을 주문 슬롯을 소모하지 않고 자신에게 시전할 수 있습니다."
+            },
+            {
+              "name": "Eldritch Mind",
+              "nameKo": "엘드리치 정신",
+              "prerequisite": "—",
+              "prerequisiteKo": "—",
+              "description": "You have Advantage on Constitution saving throws that you make to maintain Concentration.",
+              "descriptionKo": "집중을 유지하기 위한 건강 내성 굴림에 이점을 가집니다."
+            },
+            {
+              "name": "Pact of the Blade",
+              "nameKo": "계약의 검",
+              "prerequisite": "—",
+              "prerequisiteKo": "—",
+              "description": "As a Bonus Action, you can conjure a pact weapon in your hand—a Simple or Martial Melee weapon of your choice with which you bond—or create a bond with a magic weapon you touch; you can't bond with a magic weapon if someone else is attuned to it or another Warlock is bonded with it. Until the bond ends, you have proficiency with the weapon, and you can use it as a Spellcasting Focus.\n\nWhenever you attack with the bonded weapon, you can use your Charisma modifier for the attack and damage rolls instead of using Strength or Dexterity; and you can cause the weapon to deal Necrotic, Psychic, or Radiant damage or its normal damage type.\n\nYour bond with the weapon ends if you use this feature's Bonus Action again, if the weapon is more than 5 feet away from you for 1 minute or more, or if you die. A conjured weapon disappears when the bond ends.",
+              "descriptionKo": "추가 행동으로, 손에 계약 무기를 소환할 수 있습니다—유대를 맺는 선택한 단순 또는 군용 근접 무기—또는 만지는 마법 무기와 유대를 형성할 수 있습니다. 다른 누군가가 동조 중이거나 다른 워록이 유대를 맺고 있는 마법 무기와는 유대를 맺을 수 없습니다. 유대가 끝날 때까지, 해당 무기에 대한 숙련을 가지며 주문시전 매개체로 사용할 수 있습니다.\n\n유대를 맺은 무기로 공격할 때마다, 근력이나 민첩 대신 매력 수정치를 공격 및 피해 굴림에 사용할 수 있으며, 무기가 괴사, 정신 또는 광휘 피해를 입히거나 일반 피해 유형을 입히도록 할 수 있습니다.\n\n이 특성의 추가 행동을 다시 사용하거나, 무기가 1분 이상 5피트 이상 떨어지거나, 당신이 사망하면 유대가 끝납니다. 소환된 무기는 유대가 끝나면 사라집니다."
+            },
+            {
+              "name": "Pact of the Chain",
+              "nameKo": "계약의 사슬",
+              "prerequisite": "—",
+              "prerequisiteKo": "—",
+              "description": "You learn the Find Familiar spell and can cast it as a Magic action without expending a spell slot.\n\nWhen you cast the spell, you choose one of the normal forms for your familiar or one of the following special forms: Imp, Pseudodragon, Quasit, Skeleton, Slaad Tadpole, Sphinx of Wonder, Sprite, or Venomous Snake (see appendix B for the familiar's stat block).\n\nAdditionally, when you take the Attack action, you can forgo one of your own attacks to allow your familiar to make one attack of its own with its Reaction.",
+              "descriptionKo": "*사역마 찾기(Find Familiar)* 주문을 배우고 주문 슬롯을 소모하지 않고 마법 행동으로 시전할 수 있습니다.\n\n주문을 시전할 때, 사역마의 일반 형태 중 하나 또는 다음 특수 형태 중 하나를 선택합니다: 임프, 유사용, 콰짓, 스켈레톤, 슬래드 올챙이, 경이의 스핑크스, 스프라이트 또는 독사(사역마의 능력치 블록은 부록 B를 참조).\n\n또한, 공격 행동을 취할 때, 자신의 공격 중 하나를 포기하여 사역마가 자신의 반응으로 공격 하나를 할 수 있도록 합니다."
+            },
+            {
+              "name": "Pact of the Tome",
+              "nameKo": "계약의 서",
+              "prerequisite": "—",
+              "prerequisiteKo": "—",
+              "description": "Stitching together strands of shadow, you conjure forth a book in your hand at the end of a Short or Long Rest. This Book of Shadows (you determine its appearance) contains eldritch magic that only you can access, granting you the benefits below. The book disappears if you conjure another book with this feature or if you die.\n\n**Cantrips and Rituals.** When the book appears, choose three cantrips, and choose two level 1 spells that have the Ritual tag. The spells can be from any class's spell list, and they must be spells you don't already have prepared. While the book is on your person, you have the chosen spells prepared, and they function as Warlock spells for you.\n\n**Spellcasting Focus.** You can use the book as a Spellcasting Focus.",
+              "descriptionKo": "그림자의 가닥을 엮어, 짧은 휴식이나 긴 휴식 끝에 손에 책을 소환합니다. 이 그림자의 서(외형은 당신이 결정)에는 당신만 접근할 수 있는 엘드리치 마법이 담겨 있으며, 아래의 혜택을 부여합니다. 이 특성으로 다른 책을 소환하거나 당신이 사망하면 책은 사라집니다.\n\n**소마법과 의식.** 책이 나타날 때, 소마법 3개와 의식 태그가 있는 1레벨 주문 2개를 선택합니다. 이 주문은 어떤 클래스의 주문 목록에서든 선택할 수 있으며, 이미 준비한 주문이 아니어야 합니다. 책을 소지하는 동안, 선택한 주문은 준비된 상태이며 워록 주문으로 기능합니다.\n\n**주문시전 매개체.** 책을 주문시전 매개체로 사용할 수 있습니다."
+            },
+            {
+              "name": "Agonizing Blast",
+              "nameKo": "고통의 폭발",
+              "prerequisite": "Level 2+ Warlock, a Warlock Cantrip That Deals Damage",
+              "prerequisiteKo": "2레벨 이상 워록, 피해를 주는 워록 소마법",
+              "description": "Choose one of your known Warlock cantrips that deals damage. You can add your Charisma modifier to that spell's damage rolls.\n\n**Repeatable.** You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip.",
+              "descriptionKo": "피해를 주는 당신이 알고 있는 워록 소마법 중 하나를 선택합니다. 해당 주문의 피해 굴림에 매력 수정치를 더할 수 있습니다.\n\n**반복 가능.** 이 기원을 두 번 이상 선택할 수 있습니다. 선택할 때마다 다른 적격한 소마법을 선택합니다."
+            },
+            {
+              "name": "Devil's Sight",
+              "nameKo": "악마의 시야",
+              "prerequisite": "Level 2+ Warlock",
+              "prerequisiteKo": "2레벨 이상 워록",
+              "description": "You can see normally in Dim Light and Darkness—both magical and nonmagical—within 120 feet of yourself.",
+              "descriptionKo": "자신으로부터 120피트 이내의 희미한 빛과 어둠—마법적이든 비마법적이든—에서도 정상적으로 볼 수 있습니다."
+            },
+            {
+              "name": "Eldritch Spear",
+              "nameKo": "엘드리치 창",
+              "prerequisite": "Level 2+ Warlock, a Warlock Cantrip That Deals Damage",
+              "prerequisiteKo": "2레벨 이상 워록, 피해를 주는 워록 소마법",
+              "description": "Choose one of your known Warlock cantrips that deals damage and has a range of 10+ feet. When you cast that spell, its range increases by a number of feet equal to 30 times your Warlock level.\n\n**Repeatable.** You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip.",
+              "descriptionKo": "피해를 주고 사거리가 10피트 이상인 당신이 알고 있는 워록 소마법 중 하나를 선택합니다. 해당 주문을 시전할 때, 사거리가 워록 레벨 × 30피트만큼 증가합니다.\n\n**반복 가능.** 이 기원을 두 번 이상 선택할 수 있습니다. 선택할 때마다 다른 적격한 소마법을 선택합니다."
+            },
+            {
+              "name": "Fiendish Vigor",
+              "nameKo": "악마의 활력",
+              "prerequisite": "Level 2+ Warlock",
+              "prerequisiteKo": "2레벨 이상 워록",
+              "description": "You can cast False Life on yourself without expending a spell slot. When you cast the spell with this feature, you don't roll the die for the Temporary Hit Points; you automatically get the highest number on the die.",
+              "descriptionKo": "*거짓 생명(False Life)*을 주문 슬롯을 소모하지 않고 자신에게 시전할 수 있습니다. 이 특성으로 주문을 시전할 때, 임시 생명력의 주사위를 굴리지 않으며 자동으로 주사위의 최대값을 얻습니다."
+            },
+            {
+              "name": "Lessons of the First Ones",
+              "nameKo": "태초의 교훈",
+              "prerequisite": "Level 2+ Warlock",
+              "prerequisiteKo": "2레벨 이상 워록",
+              "description": "You have received knowledge from an elder entity of the multiverse, allowing you to gain one Origin feat of your choice (see chapter 5).\n\n**Repeatable.** You can gain this invocation more than once. Each time you do so, choose a different Origin feat.",
+              "descriptionKo": "다중우주의 고대 존재로부터 지식을 받아, 원점 피트 하나를 선택하여 얻을 수 있습니다(5장 참조).\n\n**반복 가능.** 이 기원을 두 번 이상 선택할 수 있습니다. 선택할 때마다 다른 원점 피트를 선택합니다."
+            },
+            {
+              "name": "Mask of Many Faces",
+              "nameKo": "천의 가면",
+              "prerequisite": "Level 2+ Warlock",
+              "prerequisiteKo": "2레벨 이상 워록",
+              "description": "You can cast Disguise Self without expending a spell slot.",
+              "descriptionKo": "*변장술(Disguise Self)*을 주문 슬롯을 소모하지 않고 시전할 수 있습니다."
+            },
+            {
+              "name": "Misty Visions",
+              "nameKo": "안개의 환영",
+              "prerequisite": "Level 2+ Warlock",
+              "prerequisiteKo": "2레벨 이상 워록",
+              "description": "You can cast Silent Image without expending a spell slot.",
+              "descriptionKo": "*무성 환영(Silent Image)*을 주문 슬롯을 소모하지 않고 시전할 수 있습니다."
+            },
+            {
+              "name": "Otherworldly Leap",
+              "nameKo": "이계의 도약",
+              "prerequisite": "Level 2+ Warlock",
+              "prerequisiteKo": "2레벨 이상 워록",
+              "description": "You can cast Jump on yourself without expending a spell slot.",
+              "descriptionKo": "*도약(Jump)*을 주문 슬롯을 소모하지 않고 자신에게 시전할 수 있습니다."
+            },
+            {
+              "name": "Repelling Blast",
+              "nameKo": "반발 폭발",
+              "prerequisite": "Level 2+ Warlock, a Warlock Cantrip That Deals Damage via an Attack Roll",
+              "prerequisiteKo": "2레벨 이상 워록, 공격 굴림으로 피해를 주는 워록 소마법",
+              "description": "Choose one of your known Warlock cantrips that requires an attack roll. When you hit a Large or smaller creature with that cantrip, you can push the creature up to 10 feet straight away from you.\n\n**Repeatable.** You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip.",
+              "descriptionKo": "공격 굴림이 필요한 당신이 알고 있는 워록 소마법 중 하나를 선택합니다. 해당 소마법으로 대형 이하 크리처에 명중하면, 크리처를 당신으로부터 최대 10피트 직선으로 밀어낼 수 있습니다.\n\n**반복 가능.** 이 기원을 두 번 이상 선택할 수 있습니다. 선택할 때마다 다른 적격한 소마법을 선택합니다."
+            },
+            {
+              "name": "Ascendant Step",
+              "nameKo": "승천의 발걸음",
+              "prerequisite": "Level 5+ Warlock",
+              "prerequisiteKo": "5레벨 이상 워록",
+              "description": "You can cast Levitate on yourself without expending a spell slot.",
+              "descriptionKo": "*공중 부양(Levitate)*을 주문 슬롯을 소모하지 않고 자신에게 시전할 수 있습니다."
+            },
+            {
+              "name": "Eldritch Smite",
+              "nameKo": "엘드리치 강타",
+              "prerequisite": "Level 5+ Warlock, Pact of the Blade Invocation",
+              "prerequisiteKo": "5레벨 이상 워록, 계약의 검 기원",
+              "description": "Once per turn when you hit a creature with your pact weapon, you can expend a Pact Magic spell slot to deal an extra 1d8 Force damage to the target, plus another 1d8 per level of the spell slot, and you can give the target the Prone condition if it is Huge or smaller.",
+              "descriptionKo": "턴당 한 번, 계약 무기로 크리처에 명중했을 때, 계약 마법 주문 슬롯을 소모하여 대상에게 추가 1d8 힘 피해를 입히고, 주문 슬롯 레벨당 추가 1d8을 더할 수 있으며, 대상이 거대 이하 크기라면 엎드린 상태로 만들 수 있습니다."
+            },
+            {
+              "name": "Gaze of Two Minds",
+              "nameKo": "두 정신의 시선",
+              "prerequisite": "Level 5+ Warlock",
+              "prerequisiteKo": "5레벨 이상 워록",
+              "description": "You can use a Bonus Action to touch a willing creature and perceive through its senses until the end of your next turn. As long as the creature is on the same plane of existence as you, you can take a Bonus Action on subsequent turns to maintain this connection, extending the duration until the end of your next turn. The connection ends if you don't maintain it in this way.\n\nWhile perceiving through the other creature's senses, you benefit from any special senses possessed by that creature, and you can cast spells as if you were in your space or the other creature's space if the two of you are within 60 feet of each other.",
+              "descriptionKo": "추가 행동을 사용하여 동의하는 크리처를 만지고 다음 턴 끝까지 그 크리처의 감각을 통해 인식할 수 있습니다. 그 크리처가 당신과 같은 존재 차원에 있는 한, 후속 턴에 추가 행동을 사용하여 이 연결을 유지할 수 있으며, 지속시간이 다음 턴 끝까지 연장됩니다. 이 방식으로 유지하지 않으면 연결이 끊어집니다.\n\n다른 크리처의 감각을 통해 인식하는 동안, 그 크리처가 가진 특수 감각의 혜택을 받으며, 두 존재가 서로 60피트 이내에 있다면 자신의 위치 또는 다른 크리처의 위치에서 주문을 시전할 수 있습니다."
+            },
+            {
+              "name": "Gift of the Depths",
+              "nameKo": "심해의 선물",
+              "prerequisite": "Level 5+ Warlock",
+              "prerequisiteKo": "5레벨 이상 워록",
+              "description": "You can breathe underwater, and you gain a Swim Speed equal to your Speed.\n\nYou can also cast Water Breathing once without expending a spell slot. You regain the ability to cast it in this way again when you finish a Long Rest.",
+              "descriptionKo": "수중에서 호흡할 수 있으며, 이동 속도와 동일한 수영 속도를 얻습니다.\n\n또한 *수중 호흡(Water Breathing)*을 주문 슬롯을 소모하지 않고 한 번 시전할 수 있습니다. 긴 휴식을 마치면 이 방식으로 다시 시전할 수 있습니다."
+            },
+            {
+              "name": "Investment of the Chain Master",
+              "nameKo": "사슬 대가의 투자",
+              "prerequisite": "Level 5+ Warlock, Pact of the Chain Invocation",
+              "prerequisiteKo": "5레벨 이상 워록, 계약의 사슬 기원",
+              "description": "When you cast Find Familiar, you infuse the summoned familiar with a measure of your eldritch power, granting the creature the following benefits.\n\n**Aerial or Aquatic.** The familiar gains either a Fly Speed or a Swim Speed (your choice) of 40 feet.\n\n**Quick Attack.** As a Bonus Action, you can command the familiar to take the Attack action.\n\n**Necrotic or Radiant Damage.** Whenever the familiar deals Bludgeoning, Piercing, or Slashing damage, you can make it deal Necrotic or Radiant damage instead.\n\n**Your Save DC.** If the familiar forces a creature to make a saving throw, it uses your spell save DC.\n\n**Resistance.** When the familiar takes damage, you can take a Reaction to grant it Resistance against that damage.",
+              "descriptionKo": "*사역마 찾기(Find Familiar)*를 시전할 때, 소환된 사역마에게 엘드리치 힘을 불어넣어 다음의 혜택을 부여합니다.\n\n**공중 또는 수중.** 사역마가 비행 속도 또는 수영 속도(당신이 선택) 40피트를 얻습니다.\n\n**빠른 공격.** 추가 행동으로, 사역마에게 공격 행동을 취하도록 명령할 수 있습니다.\n\n**괴사 또는 광휘 피해.** 사역마가 타격, 관통 또는 참격 피해를 입힐 때마다, 대신 괴사 또는 광휘 피해를 입히도록 할 수 있습니다.\n\n**당신의 내성 DC.** 사역마가 크리처에게 내성 굴림을 강제하는 경우, 당신의 주문 내성 DC를 사용합니다.\n\n**저항.** 사역마가 피해를 받을 때, 반응을 사용하여 해당 피해에 대한 저항을 부여할 수 있습니다."
+            },
+            {
+              "name": "Master of Myriad Forms",
+              "nameKo": "만형의 달인",
+              "prerequisite": "Level 5+ Warlock",
+              "prerequisiteKo": "5레벨 이상 워록",
+              "description": "You can cast Alter Self without expending a spell slot.",
+              "descriptionKo": "*자기 변형(Alter Self)*을 주문 슬롯을 소모하지 않고 시전할 수 있습니다."
+            },
+            {
+              "name": "One with Shadows",
+              "nameKo": "그림자와 하나",
+              "prerequisite": "Level 5+ Warlock",
+              "prerequisiteKo": "5레벨 이상 워록",
+              "description": "While you're in an area of Dim Light or Darkness, you can cast Invisibility on yourself without expending a spell slot.",
+              "descriptionKo": "희미한 빛이나 어둠 영역에 있는 동안, *투명화(Invisibility)*를 주문 슬롯을 소모하지 않고 자신에게 시전할 수 있습니다."
+            },
+            {
+              "name": "Thirsting Blade",
+              "nameKo": "갈증의 칼날",
+              "prerequisite": "Level 5+ Warlock, Pact of the Blade Invocation",
+              "prerequisiteKo": "5레벨 이상 워록, 계약의 검 기원",
+              "description": "You gain the Extra Attack feature for your pact weapon only. With that feature, you can attack twice with the weapon instead of once when you take the Attack action on your turn.",
+              "descriptionKo": "계약 무기에 한해 추가 공격 특성을 얻습니다. 이 특성으로, 당신의 턴에 공격 행동을 취할 때 무기로 한 번 대신 두 번 공격할 수 있습니다."
+            },
+            {
+              "name": "Whispers of the Grave",
+              "nameKo": "무덤의 속삭임",
+              "prerequisite": "Level 7+ Warlock",
+              "prerequisiteKo": "7레벨 이상 워록",
+              "description": "You can cast Speak with Dead without expending a spell slot.",
+              "descriptionKo": "*죽은 자와의 대화(Speak with Dead)*를 주문 슬롯을 소모하지 않고 시전할 수 있습니다."
+            },
+            {
+              "name": "Gift of the Protectors",
+              "nameKo": "수호자의 선물",
+              "prerequisite": "Level 9+ Warlock, Pact of the Tome Invocation",
+              "prerequisiteKo": "9레벨 이상 워록, 계약의 서 기원",
+              "description": "A new page appears in your Book of Shadows when you conjure it. With your permission, a creature can take an action to write its name on that page, which can contain a number of names equal to your Charisma modifier (minimum of one name).\n\nWhen any creature whose name is on the page is reduced to 0 Hit Points but not killed outright, the creature magically drops to 1 Hit Point instead. Once this magic is triggered, no creature can benefit from it until you finish a Long Rest.\n\nAs a Magic action, you can erase a name on the page by touching it.",
+              "descriptionKo": "그림자의 서를 소환할 때 새 페이지가 나타납니다. 당신의 허락 하에, 크리처는 행동을 사용하여 그 페이지에 자신의 이름을 적을 수 있으며, 페이지에는 매력 수정치만큼의 이름을 적을 수 있습니다(최소 1개).\n\n페이지에 이름이 적힌 크리처가 생명력이 0으로 감소하지만 즉사하지 않으면, 마법적으로 생명력 1로 대신 떨어집니다. 이 마법이 발동되면, 긴 휴식을 마치기 전까지 어떤 크리처도 이 혜택을 받을 수 없습니다.\n\n마법 행동으로 페이지의 이름을 만져서 지울 수 있습니다."
+            },
+            {
+              "name": "Lifedrinker",
+              "nameKo": "생명 흡수자",
+              "prerequisite": "Level 9+ Warlock, Pact of the Blade Invocation",
+              "prerequisiteKo": "9레벨 이상 워록, 계약의 검 기원",
+              "description": "Once per turn when you hit a creature with your pact weapon, you can deal an extra 1d6 Necrotic, Psychic, or Radiant damage (your choice) to the creature, and you can expend one of your Hit Point Dice to roll it and regain a number of Hit Points equal to the roll plus your Constitution modifier (minimum of 1 Hit Point).",
+              "descriptionKo": "턴당 한 번, 계약 무기로 크리처에 명중했을 때, 추가로 1d6 괴사, 정신 또는 광휘 피해(선택)를 입힐 수 있으며, 생명력 주사위 하나를 소모하여 굴리고 굴림 결과 + 건강 수정치만큼의 생명력을 회복할 수 있습니다(최소 1)."
+            },
+            {
+              "name": "Visions of Distant Realms",
+              "nameKo": "먼 영역의 환시",
+              "prerequisite": "Level 9+ Warlock",
+              "prerequisiteKo": "9레벨 이상 워록",
+              "description": "You can cast Arcane Eye without expending a spell slot.",
+              "descriptionKo": "*비전의 눈(Arcane Eye)*을 주문 슬롯을 소모하지 않고 시전할 수 있습니다."
+            },
+            {
+              "name": "Devouring Blade",
+              "nameKo": "탐식의 칼날",
+              "prerequisite": "Level 12+ Warlock, Thirsting Blade Invocation",
+              "prerequisiteKo": "12레벨 이상 워록, 갈증의 칼날 기원",
+              "description": "The Extra Attack of your Thirsting Blade invocation confers two extra attacks rather than one.",
+              "descriptionKo": "갈증의 칼날 기원의 추가 공격이 1회가 아닌 2회의 추가 공격을 부여합니다."
+            },
+            {
+              "name": "Witch Sight",
+              "nameKo": "마녀의 시야",
+              "prerequisite": "Level 15+ Warlock",
+              "prerequisiteKo": "15레벨 이상 워록",
+              "description": "You have Truesight with a range of 30 feet.",
+              "descriptionKo": "30피트 범위의 참시야를 가집니다."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "featureName": "Pact Magic",
+      "featureNameKo": "계약 마법",
+      "description": "Through occult ceremony, you have formed a pact with a mysterious entity to gain magical powers. The entity is a voice in the shadows—its identity unclear—but its boon to you is concrete: the ability to cast spells. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Warlock spells, which appear in the Warlock spell list later in the class's description.\n\n**Cantrips.** You know two Warlock cantrips of your choice. Eldritch Blast and Prestidigitation are recommended. Whenever you gain a Warlock level, you can replace one of your cantrips from this feature with another Warlock cantrip of your choice.\n\nWhen you reach Warlock levels 4 and 10, you learn another Warlock cantrip of your choice, as shown in the Cantrips column of the Warlock Features table.\n\n**Spell Slots.** The Warlock Features table shows how many spell slots you have to cast your Warlock spells of levels 1–5. The table also shows the level of those slots, all of which are the same level. You regain all expended Pact Magic spell slots when you finish a Short or Long Rest.\n\nFor example, when you're a level 5 Warlock, you have two level 3 spell slots. To cast the level 1 spell Witch Bolt, you must spend one of those slots, and you cast it as a level 3 spell.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 Warlock spells. Charm Person and Hex are recommended.\n\nThe number of spells on your list increases as you gain Warlock levels, as shown in the Prepared Spells column of the Warlock Features table. Whenever that number increases, choose additional Warlock spells until the number of spells on your list matches the number in the table. The chosen spells must be of a level no higher than what's shown in the table's Slot Level column for your level. When you reach level 6, for example, you learn a new Warlock spell, which can be of levels 1–3.\n\nIf another Warlock feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Warlock spells for you.\n\n**Changing Your Prepared Spells.** Whenever you gain a Warlock level, you can replace one spell on your list with another Warlock spell of an eligible level.\n\n**Spellcasting Ability.** Charisma is the spellcasting ability for your Warlock spells.\n\n**Spellcasting Focus.** You can use an Arcane Focus as a Spellcasting Focus for your Warlock spells.",
+      "descriptionKo": "오컬트 의식을 통해, 당신은 마법의 힘을 얻기 위해 신비로운 존재와 계약을 맺었습니다. 그 존재는 그림자 속의 목소리로—정체는 불분명하지만—당신에게 주는 은혜는 확실합니다: 주문을 시전하는 능력. 주문시전에 관한 규칙은 7장을 참조하십시오. 아래의 정보는 이 클래스 설명 뒷부분에 있는 워록 주문 목록에 나오는 워록 주문을 사용하여 해당 규칙을 어떻게 적용하는지 설명합니다.\n\n**소마법.** 당신은 원하는 워록 소마법 2개를 알고 있습니다. *마력 폭발(Eldritch Blast)*과 *마술(Prestidigitation)*을 추천합니다. 워록 레벨이 오를 때마다, 이 특성에서 얻은 소마법 중 하나를 다른 워록 소마법으로 교체할 수 있습니다.\n\n워록 특성 테이블의 '소마법' 열에 표시된 대로, 워록 4레벨과 10레벨에 도달하면 워록 소마법 하나를 추가로 배웁니다.\n\n**주문 슬롯.** 워록 특성 테이블은 1~5레벨 워록 주문을 시전하기 위한 주문 슬롯의 수를 보여줍니다. 테이블은 또한 해당 슬롯의 레벨을 보여주며, 모든 슬롯은 동일한 레벨입니다. 짧은 휴식이나 긴 휴식을 마치면 소모한 모든 계약 마법 주문 슬롯을 회복합니다.\n\n예를 들어, 당신이 5레벨 워록이라면 3레벨 주문 슬롯 2개를 가집니다. 1레벨 주문인 *마녀의 화살(Witch Bolt)*을 시전하려면 이 슬롯 중 하나를 소모해야 하며, 3레벨 주문으로 시전됩니다.\n\n**1레벨 이상의 준비된 주문.** 이 특성으로 시전할 수 있는 1레벨 이상의 주문 목록을 준비합니다. 시작할 때 2개의 1레벨 워록 주문을 선택하십시오. *인간형 매혹(Charm Person)*과 *저주(Hex)*를 추천합니다.\n\n준비할 수 있는 주문의 수는 워록 특성 테이블의 '준비된 주문' 열에 표시된 대로 워록 레벨이 올라감에 따라 증가합니다. 그 수가 증가할 때마다, 당신의 목록에 있는 주문 수가 테이블의 수와 일치할 때까지 추가 워록 주문을 선택합니다. 선택하는 주문은 당신의 레벨에 해당하는 테이블의 '슬롯 레벨' 열에 표시된 레벨 이하여야 합니다. 예를 들어, 6레벨에 도달하면 새로운 워록 주문을 배우며, 이는 1~3레벨 주문이 될 수 있습니다.\n\n다른 워록 특성이 항상 준비된 상태인 주문을 제공하는 경우, 그 주문은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외에는 워록 주문으로 간주됩니다.\n\n**준비된 주문 변경.** 워록 레벨이 오를 때마다, 목록에 있는 주문 하나를 적격한 레벨의 다른 워록 주문으로 교체할 수 있습니다.\n\n**주문시전 능력.** **매력**이 워록 주문에 대한 당신의 주문시전 능력입니다.\n\n**주문시전 매개체.** 당신은 워록 주문을 위한 주문시전 매개체로 **비전 매개체(Arcane Focus)**를 사용할 수 있습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Magical Cunning",
+      "featureNameKo": "마법적 교활함",
+      "description": "You can perform an esoteric rite for 1 minute. At the end of it, you regain expended Pact Magic spell slots but no more than a number equal to half your maximum (round up). Once you use this feature, you can't do so again until you finish a Long Rest.",
+      "descriptionKo": "1분 동안 비밀스러운 의식을 수행할 수 있습니다. 의식이 끝나면, 소모된 계약 마법 주문 슬롯을 회복하지만 최대치의 절반(올림)을 초과하여 회복할 수 없습니다. 이 특성을 한 번 사용하면, 긴 휴식을 마치기 전까지 다시 사용할 수 없습니다."
+    },
+    {
+      "level": 9,
+      "featureName": "Contact Patron",
+      "featureNameKo": "후원자 접촉",
+      "description": "In the past, you usually contacted your patron through intermediaries. Now you can communicate directly; you always have the Contact Other Plane spell prepared. With this feature, you can cast the spell without expending a spell slot to contact your patron, and you automatically succeed on the spell's saving throw.\n\nOnce you cast the spell with this feature, you can't do so in this way again until you finish a Long Rest.",
+      "descriptionKo": "과거에는 보통 중개자를 통해 후원자에게 연락했습니다. 이제 당신은 직접 소통할 수 있습니다. 당신은 항상 *다른 차원 접촉(Contact Other Plane)* 주문을 준비한 상태입니다. 이 특성을 사용하면, 주문 슬롯을 소모하지 않고 후원자에게 연락하기 위해 이 주문을 시전할 수 있으며, 주문의 내성 굴림에 자동으로 성공합니다.\n\n이 특성으로 주문을 한 번 시전하면, 긴 휴식을 마치기 전까지 이 방식으로 다시 시전할 수 없습니다."
+    },
+    {
+      "level": 11,
+      "featureName": "Mystic Arcanum",
+      "featureNameKo": "신비한 비전",
+      "description": "Your patron grants you a magical secret called an arcanum. Choose one level 6 Warlock spell as this arcanum.\n\nYou can cast your arcanum spell once without expending a spell slot, and you must finish a Long Rest before you can cast it in this way again.\n\nAs shown in the Warlock Features table, you gain another Warlock spell of your choice that can be cast in this way when you reach Warlock levels 13 (level 7 spell), 15 (level 8 spell), and 17 (level 9 spell). You regain all uses of your Mystic Arcanum when you finish a Long Rest.\n\nWhenever you gain a Warlock level, you can replace one of your arcanum spells with another Warlock spell of the same level.",
+      "descriptionKo": "당신의 후원자가 비전(arcanum)이라 불리는 마법의 비밀을 부여합니다. 6레벨 워록 주문 하나를 이 비전으로 선택하십시오.\n\n비전 주문을 주문 슬롯을 소모하지 않고 한 번 시전할 수 있으며, 이 방식으로 다시 시전하려면 긴 휴식을 마쳐야 합니다.\n\n워록 특성 테이블에 표시된 대로, 워록 13레벨(7레벨 주문), 15레벨(8레벨 주문), 17레벨(9레벨 주문)에 도달하면 이 방식으로 시전할 수 있는 워록 주문을 추가로 하나씩 선택하여 얻습니다. 긴 휴식을 마치면 신비한 비전의 모든 사용 횟수를 회복합니다.\n\n워록 레벨이 오를 때마다, 비전 주문 중 하나를 같은 레벨의 다른 워록 주문으로 교체할 수 있습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 분",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Fate is recommended.",
+      "descriptionKo": "에픽 분 피트(5장 참조) 또는 당신이 자격을 갖춘 다른 피트 하나를 얻습니다. *운명의 분(Boon of Fate)*을 추천합니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Eldritch Master",
+      "featureNameKo": "엘드리치 마스터",
+      "description": "When you use your Magical Cunning feature, you regain all your expended Pact Magic spell slots.",
+      "descriptionKo": "마법적 교활함 특성을 사용할 때, 소모된 모든 계약 마법 주문 슬롯을 회복합니다."
+    }
+  ],
+  "wizard": [
+    {
+      "level": 1,
+      "featureName": "Spellcasting",
+      "featureNameKo": "주문시전",
+      "description": "As a student of arcane magic, you have learned to cast spells. See chapter 7 for the rules on spellcasting. The information below details how you use those rules with Wizard spells, which appear in the Wizard spell list later in the class's description.\n\n**Cantrips.** You know three Wizard cantrips of your choice. *Light*, *Mage Hand*, and *Ray of Frost* are recommended. Whenever you finish a Long Rest, you can replace one of your cantrips from this feature with another Wizard cantrip of your choice.\n\nWhen you reach Wizard levels 4 and 10, you learn another Wizard cantrip of your choice, as shown in the Cantrips column of the Wizard Features table.\n\n**Spellbook.** Your wizardly apprenticeship culminated in the creation of a unique book: your spellbook. It is a Tiny object that weighs 3 pounds, contains 100 pages, and can be read only by you or someone casting *Identify*. You determine the book's appearance and materials, such as a gilt-edged tome or a collection of vellum bound with twine.\n\nThe book contains the level 1+ spells you know. It starts with six level 1 Wizard spells of your choice. *Detect Magic*, *Feather Fall*, *Mage Armor*, *Magic Missile*, *Sleep*, and *Thunderwave* are recommended.\n\nWhenever you gain a Wizard level after 1, add two Wizard spells of your choice to your spellbook. Each of these spells must be of a level for which you have spell slots, as shown in the Wizard Features table. The spells are the culmination of arcane research you do regularly.\n\n**Spell Slots.** The Wizard Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.\n\n**Prepared Spells of Level 1+.** You prepare the list of level 1+ spells that are available for you to cast with this feature. To do so, choose four spells from your spellbook. The chosen spells must be of a level for which you have spell slots.\n\nThe number of spells on your list increases as you gain Wizard levels, as shown in the Prepared Spells column of the Wizard Features table. Whenever that number increases, choose additional Wizard spells until the number of spells on your list matches the number in the table. The chosen spells must be of a level for which you have spell slots. For example, if you're a level 3 Wizard, your list of prepared spells can include six spells of levels 1 and 2 in any combination, chosen from your spellbook.\n\nIf another Wizard feature gives you spells that you always have prepared, those spells don't count against the number of spells you can prepare with this feature, but those spells otherwise count as Wizard spells for you.\n\n**Changing Your Prepared Spells.** Whenever you finish a Long Rest, you can change your list of prepared spells, replacing any of the spells there with spells from your spellbook.\n\n**Spellcasting Ability.** Intelligence is your spellcasting ability for your Wizard spells.\n\n**Spellcasting Focus.** You can use an Arcane Focus or your spellbook as a Spellcasting Focus for your Wizard spells.\n\n### Expanding and Replacing a Spellbook\n\nThe spells you add to your spellbook as you gain levels reflect your ongoing magical research, but you might find other spells during your adventures that you can add to the book. You could discover a Wizard spell on a Spell Scroll, for example, and then copy it into your spellbook.\n\n**Copying a Spell into the Book.** When you find a level 1+ Wizard spell, you can copy it into your spellbook if it's of a level you can prepare and if you have time to copy it. For each level of the spell, the transcription takes 2 hours and costs 50 GP. Afterward you can prepare the spell like the other spells in your spellbook.\n\n**Copying the Book.** You can copy a spell from your spellbook into another book. This is like copying a new spell into your spellbook but faster, since you already know how to cast the spell. You need spend only 1 hour and 10 GP for each level of the copied spell.\n\nIf you lose your spellbook, you can use the same procedure to transcribe the Wizard spells that you have prepared into a new spellbook. Filling out the remainder of the new book requires you to find new spells to do so. For this reason, many wizards keep a backup spellbook.",
+      "descriptionKo": "비전 마법의 학도로서, 당신은 주문을 시전하는 법을 배웠습니다. 주문시전 규칙은 7장을 참조하십시오. 아래 정보는 이 클래스 설명 뒷부분에 나오는 위자드 주문 목록의 위자드 주문에 해당 규칙을 어떻게 적용하는지 자세히 설명합니다.\n\n**소마법.** 원하는 위자드 소마법 3개를 알고 있습니다. *빛(Light)*, *마법사의 손(Mage Hand)*, *냉기 광선(Ray of Frost)*이 추천됩니다. 긴 휴식을 마칠 때마다, 이 특성에서 얻은 소마법 하나를 원하는 다른 위자드 소마법으로 교체할 수 있습니다.\n\n위자드 4레벨과 10레벨에 도달하면, 위자드 특성 테이블의 소마법 열에 표시된 대로 원하는 위자드 소마법을 하나 더 배웁니다.\n\n**주문서.** 위자드 수습 과정의 정점으로 독특한 책, 바로 주문서를 만들었습니다. 이것은 3파운드의 초소형(Tiny) 물체로, 100페이지를 포함하며 당신 또는 *감정(Identify)*을 시전하는 누군가만 읽을 수 있습니다. 금박 장정 서적이나 끈으로 묶은 양피지 모음 등, 책의 외형과 재료는 당신이 결정합니다.\n\n이 책에는 당신이 아는 1레벨 이상 주문이 담겨 있습니다. 처음에는 선택한 1레벨 위자드 주문 6개가 들어 있습니다. *마법 감지(Detect Magic)*, *깃털 낙하(Feather Fall)*, *마법사 갑옷(Mage Armor)*, *마법 미사일(Magic Missile)*, *수면(Sleep)*, *천둥파(Thunderwave)*가 추천됩니다.\n\n1레벨 이후 위자드 레벨이 오를 때마다, 원하는 위자드 주문 2개를 주문서에 추가합니다. 이 주문들은 위자드 특성 테이블에 표시된 대로 주문 슬롯이 있는 레벨이어야 합니다. 이 주문들은 당신이 정기적으로 수행하는 비전 연구의 결실입니다.\n\n**주문 슬롯.** 위자드 특성 테이블은 1레벨 이상 주문을 시전하기 위한 주문 슬롯 수를 보여줍니다. 긴 휴식을 마치면 소모된 모든 슬롯을 회복합니다.\n\n**1레벨 이상 준비 주문.** 이 특성으로 시전할 수 있는 1레벨 이상 주문 목록을 준비합니다. 이를 위해, 주문서에서 주문 4개를 선택합니다. 선택한 주문은 주문 슬롯이 있는 레벨이어야 합니다.\n\n위자드 특성 테이블의 준비 주문 열에 표시된 대로, 위자드 레벨이 오르면 목록의 주문 수가 증가합니다. 그 수가 증가할 때마다, 목록의 주문 수가 테이블의 수와 일치할 때까지 추가 위자드 주문을 선택합니다. 선택한 주문은 주문 슬롯이 있는 레벨이어야 합니다. 예를 들어, 3레벨 위자드라면 준비 주문 목록에 주문서에서 선택한 1레벨과 2레벨 주문을 조합하여 6개까지 포함할 수 있습니다.\n\n다른 위자드 특성이 항상 준비된 주문을 부여하는 경우, 해당 주문은 이 특성으로 준비할 수 있는 주문 수에 포함되지 않지만, 그 외에는 위자드 주문으로 간주됩니다.\n\n**준비 주문 변경.** 긴 휴식을 마칠 때마다, 준비 주문 목록을 변경하여 그중 어떤 주문이든 주문서의 주문으로 교체할 수 있습니다.\n\n**주문시전 능력치.** 지능이 위자드 주문의 주문시전 능력치입니다.\n\n**주문시전 매개체.** 비전 초점구 또는 주문서를 위자드 주문의 주문시전 매개체로 사용할 수 있습니다.\n\n### 주문서 확장 및 교체\n\n레벨이 오르면서 주문서에 추가하는 주문은 지속적인 마법 연구를 반영하지만, 모험 중에 책에 추가할 수 있는 다른 주문을 발견할 수도 있습니다. 예를 들어, 주문 두루마리에서 위자드 주문을 발견한 다음 주문서에 필사할 수 있습니다.\n\n**책에 주문 필사.** 1레벨 이상의 위자드 주문을 발견하면, 준비할 수 있는 레벨이고 필사할 시간이 있다면 주문서에 필사할 수 있습니다. 주문의 각 레벨당 필사에 2시간이 걸리며 50 GP가 소요됩니다. 이후 주문서의 다른 주문처럼 해당 주문을 준비할 수 있습니다.\n\n**책 복사.** 주문서의 주문을 다른 책에 복사할 수 있습니다. 이것은 주문서에 새 주문을 필사하는 것과 비슷하지만, 이미 주문을 시전하는 방법을 알고 있으므로 더 빠릅니다. 복사하는 주문의 각 레벨당 1시간과 10 GP만 소비하면 됩니다.\n\n주문서를 잃어버리면, 같은 절차로 준비한 위자드 주문을 새 주문서에 필사할 수 있습니다. 새 책의 나머지를 채우려면 새로운 주문을 찾아야 합니다. 이러한 이유로, 많은 위자드들은 예비 주문서를 보관합니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Ritual Adept",
+      "featureNameKo": "의식 전문가",
+      "description": "You can cast any spell as a Ritual if that spell has the Ritual tag and the spell is in your spellbook. You needn't have the spell prepared, but you must read from the book to cast a spell in this way.",
+      "descriptionKo": "의식(Ritual) 태그가 있고 주문서에 있는 주문이라면, 해당 주문을 의식으로 시전할 수 있습니다. 주문을 준비할 필요는 없지만, 이런 방식으로 주문을 시전하려면 주문서를 읽어야 합니다."
+    },
+    {
+      "level": 1,
+      "featureName": "Arcane Recovery",
+      "featureNameKo": "비전 회복",
+      "description": "You can regain some of your magical energy by studying your spellbook. When you finish a Short Rest, you can choose expended spell slots to recover. The spell slots can have a combined level equal to no more than half your Wizard level (round up), and none of the slots can be level 6 or higher. For example, if you're a level 4 Wizard, you can recover up to two levels' worth of spell slots, regaining either one level 2 spell slot or two level 1 spell slots.\n\nOnce you use this feature, you can't do so again until you finish a Long Rest.",
+      "descriptionKo": "주문서를 연구하여 마법 에너지 일부를 회복할 수 있습니다. 짧은 휴식을 마칠 때, 소모된 주문 슬롯을 선택하여 회복할 수 있습니다. 주문 슬롯의 합산 레벨은 위자드 레벨의 절반(올림) 이하여야 하며, 6레벨 이상의 슬롯은 선택할 수 없습니다. 예를 들어, 4레벨 위자드라면 최대 2레벨 분량의 주문 슬롯을 회복할 수 있으며, 2레벨 슬롯 하나 또는 1레벨 슬롯 두 개를 회복합니다.\n\n이 특성을 사용하면, 긴 휴식을 마칠 때까지 다시 사용할 수 없습니다."
+    },
+    {
+      "level": 2,
+      "featureName": "Scholar",
+      "featureNameKo": "학자",
+      "description": "While studying magic, you also specialized in another field of study. Choose one of the following skills in which you have proficiency: Arcana, History, Investigation, Medicine, Nature, or Religion. You have Expertise in the chosen skill.",
+      "descriptionKo": "마법을 공부하면서, 다른 분야에서도 전문성을 갖추었습니다. 숙련된 기술 중 다음 중 하나를 선택합니다: 비전학, 역사, 조사, 의학, 자연 또는 종교. 선택한 기술에 전문성(Expertise)을 가집니다."
+    },
+    {
+      "level": 3,
+      "featureName": "Wizard Subclass",
+      "featureNameKo": "위자드 서브클래스",
+      "description": "You gain a Wizard subclass of your choice. The Abjurer, Diviner, Evoker, and Illusionist subclasses are detailed after this class's description. A subclass is a specialization that grants you features at certain Wizard levels. For the rest of your career, you gain each of your subclass's features that are of your Wizard level or lower.",
+      "descriptionKo": "원하는 위자드 서브클래스를 얻습니다. 방호술사, 예언술사, 발현술사, 환영술사 서브클래스가 이 클래스 설명 뒤에 자세히 나와 있습니다. 서브클래스는 특정 위자드 레벨에서 특성을 부여하는 전문 분야입니다. 이후 경력 동안, 자신의 위자드 레벨 이하인 서브클래스 특성을 모두 얻습니다."
+    },
+    {
+      "level": 4,
+      "featureName": "Ability Score Improvement",
+      "featureNameKo": "능력치 향상",
+      "description": "You gain the Ability Score Improvement feat (see chapter 5) or another feat of your choice for which you qualify. You gain this feature again at Wizard levels 8, 12, and 16.",
+      "descriptionKo": "능력치 향상 특기(5장 참조) 또는 자격을 갖춘 다른 특기 하나를 얻습니다. 이 특성은 위자드 8, 12, 16레벨에 다시 얻습니다."
+    },
+    {
+      "level": 5,
+      "featureName": "Memorize Spell",
+      "featureNameKo": "주문 암기",
+      "description": "Whenever you finish a Short Rest, you can study your spellbook and replace one of the level 1+ Wizard spells you have prepared for your Spellcasting feature with another level 1+ spell from the book.",
+      "descriptionKo": "짧은 휴식을 마칠 때마다, 주문서를 연구하여 주문시전 특성으로 준비한 1레벨 이상 위자드 주문 하나를 주문서의 다른 1레벨 이상 주문으로 교체할 수 있습니다."
+    },
+    {
+      "level": 18,
+      "featureName": "Spell Mastery",
+      "featureNameKo": "주문 숙달",
+      "description": "You have achieved such mastery over certain spells that you can cast them at will. Choose a level 1 and a level 2 spell in your spellbook that have a casting time of an action. You always have those spells prepared, and you can cast them at their lowest level without expending a spell slot. To cast either spell at a higher level, you must expend a spell slot.\n\nWhenever you finish a Long Rest, you can study your spellbook and replace one of those spells with an eligible spell of the same level from the book.",
+      "descriptionKo": "특정 주문에 대한 숙달을 이루어 자유자재로 시전할 수 있게 되었습니다. 주문서에서 시전 시간이 행동인 1레벨 주문 하나와 2레벨 주문 하나를 선택합니다. 해당 주문은 항상 준비된 상태이며, 주문 슬롯을 소모하지 않고 최저 레벨로 시전할 수 있습니다. 더 높은 레벨로 시전하려면 주문 슬롯을 소모해야 합니다.\n\n긴 휴식을 마칠 때마다, 주문서를 연구하여 해당 주문 중 하나를 같은 레벨의 적격한 주문으로 교체할 수 있습니다."
+    },
+    {
+      "level": 19,
+      "featureName": "Epic Boon",
+      "featureNameKo": "에픽 은총",
+      "description": "You gain an Epic Boon feat (see chapter 5) or another feat of your choice for which you qualify. Boon of Spell Recall is recommended.",
+      "descriptionKo": "에픽 은총 특기(5장 참조) 또는 자격을 갖춘 다른 특기 하나를 얻습니다. *주문 회상의 은총(Boon of Spell Recall)*이 추천됩니다."
+    },
+    {
+      "level": 20,
+      "featureName": "Signature Spells",
+      "featureNameKo": "대표 주문",
+      "description": "Choose two level 3 spells in your spellbook as your signature spells. You always have these spells prepared, and you can cast each of them once at level 3 without expending a spell slot. When you do so, you can't cast them in this way again until you finish a Short or Long Rest. To cast either spell at a higher level, you must expend a spell slot.",
+      "descriptionKo": "주문서에서 3레벨 주문 2개를 대표 주문으로 선택합니다. 해당 주문은 항상 준비된 상태이며, 각각 주문 슬롯을 소모하지 않고 3레벨로 한 번씩 시전할 수 있습니다. 이렇게 시전한 후에는 짧은 휴식 또는 긴 휴식을 마칠 때까지 이런 방식으로 다시 시전할 수 없습니다. 더 높은 레벨로 시전하려면 주문 슬롯을 소모해야 합니다."
+    }
+  ]
+}

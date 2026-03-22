@@ -1,0 +1,610 @@
+[
+  {
+    "id": "acolyte",
+    "name": "수행사제",
+    "nameEn": "Acolyte",
+    "abilityScores": {
+      "en": ["Intelligence", "Wisdom", "Charisma"],
+      "ko": ["지능", "지혜", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Magic Initiate (Cleric)",
+        "ko": "마법 입문자 (클레릭)"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Insight", "Religion"],
+      "ko": ["통찰", "종교"]
+    },
+    "toolProficiency": {
+      "en": "Calligrapher's Supplies",
+      "ko": "서예 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP",
+        "ko": "서예 도구, 책 (기도문), 성물, 양피지 (10장), 로브, 8 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You devoted yourself to service in a temple, either nestled in a town or secluded in a sacred grove. There you performed hallowed rites in honor of a god or pantheon. You served under a priest and studied religion. Thanks to your priest's instruction and your own devotion, you also learned how to channel a modicum of divine power in service to your place of worship and the people who prayed there.",
+      "ko": "당신은 마을에 자리 잡은 사원이나 신성한 숲에 은둔한 성소에서 봉사하는 삶에 헌신했습니다. 그곳에서 당신은 신이나 신들의 판테온을 기리는 신성한 의식을 거행했습니다. 사제 밑에서 봉사하며 종교를 공부했습니다. 사제의 가르침과 당신 자신의 헌신 덕분에, 당신은 예배 장소와 그곳에서 기도하는 사람들을 위해 약간의 신성한 힘을 사용하는 방법도 배웠습니다."
+    }
+  },
+  {
+    "id": "artisan",
+    "name": "장인",
+    "nameEn": "Artisan",
+    "abilityScores": {
+      "en": ["Strength", "Dexterity", "Intelligence"],
+      "ko": ["근력", "민첩", "지능"]
+    },
+    "feat": {
+      "name": {
+        "en": "Crafter",
+        "ko": "제작자"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Investigation", "Persuasion"],
+      "ko": ["조사", "설득"]
+    },
+    "toolProficiency": {
+      "en": "Choose one kind of Artisan's Tools",
+      "ko": "장인의 도구 중 1종 선택"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Artisan's Tools (same as above), 2 Pouches, Traveler's Clothes, 32 GP",
+        "ko": "장인의 도구 (위와 동일), 주머니 2개, 여행자의 옷, 32 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You began mopping floors and scrubbing counters in an artisan's workshop for a few coppers per day as soon as you were strong enough to carry a bucket. When you were finally old enough to apprentice, you learned to create basic crafts of your own. After years of googly-eyed work on your master's projects, you eventually struck out on your own to sell your wares.",
+      "ko": "당신은 양동이를 들 수 있을 만큼 힘이 생기자마자 하루에 동전 몇 닢을 받고 장인의 작업장에서 바닥을 닦고 카운터를 청소하기 시작했습니다. 마침내 도제가 될 나이가 되었을 때, 당신은 기본적인 공예품을 직접 만드는 법을 배웠습니다. 스승의 프로젝트를 눈을 크게 뜨고 수년간 작업한 후, 마침내 당신은 독립하여 자신의 물건을 판매하게 되었습니다."
+    }
+  },
+  {
+    "id": "charlatan",
+    "name": "사기꾼",
+    "nameEn": "Charlatan",
+    "abilityScores": {
+      "en": ["Dexterity", "Constitution", "Charisma"],
+      "ko": ["민첩", "건강", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Skilled",
+        "ko": "숙련자"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Deception", "Sleight of Hand"],
+      "ko": ["기만", "손재주"]
+    },
+    "toolProficiency": {
+      "en": "Forgery Kit",
+      "ko": "위조 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Forgery Kit, Costume, Fine Clothes, 15 GP",
+        "ko": "위조 도구, 의상, 고급 옷, 15 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "Once you were old enough to order an ale in a tavern, you soon learned that people believe almost anything if you say it with confidence. You traded on that gift, selling bogus potions and cures, forging documents, and bilking the easily fooled. Your game was fun until you fleeced the wrong person. Now you're on the run, looking for an opportunity to turn things around.",
+      "ko": "선술집에서 맥주를 주문할 나이가 되자마자, 당신은 자신감 있게 말하면 사람들이 거의 모든 것을 믿는다는 것을 곧 알게 되었습니다. 당신은 그 재능을 활용하여 가짜 물약과 치료제를 팔고, 문서를 위조하고, 쉽게 속는 사람들을 사취했습니다. 잘못된 사람을 속이기 전까지는 재미있는 게임이었습니다. 이제 당신은 도망 중이며, 상황을 반전시킬 기회를 찾고 있습니다."
+    }
+  },
+  {
+    "id": "criminal",
+    "name": "범죄자",
+    "nameEn": "Criminal",
+    "abilityScores": {
+      "en": ["Dexterity", "Constitution", "Intelligence"],
+      "ko": ["민첩", "건강", "지능"]
+    },
+    "feat": {
+      "name": {
+        "en": "Alert",
+        "ko": "경계"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Sleight of Hand", "Stealth"],
+      "ko": ["손재주", "은신"]
+    },
+    "toolProficiency": {
+      "en": "Thieves' Tools",
+      "ko": "도둑 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes, 16 GP",
+        "ko": "단검 2개, 도둑 도구, 쇠지렛대, 주머니 2개, 여행자의 옷, 16 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You eked out a living in dark alleyways, cutting purses or burgling shops. Perhaps you were part of a small gang of like-minded criminals who looked out for each other. Or maybe you were a lone wolf, fending for yourself against the local thieves' guild and more fearsome predators of the city's seedy underbelly.",
+      "ko": "당신은 어두운 골목에서 지갑을 털거나 가게에 침입하며 근근이 생계를 유지했습니다. 어쩌면 당신은 서로를 돌봐주는 비슷한 성향의 범죄자들로 이루어진 작은 갱단의 일원이었을 수도 있습니다. 아니면 외로운 늑대처럼 혼자서 지역 도둑 길드와 도시 뒷골목의 더 무서운 포식자들에 맞서 살아남았을 수도 있습니다."
+    }
+  },
+  {
+    "id": "entertainer",
+    "name": "연예인",
+    "nameEn": "Entertainer",
+    "abilityScores": {
+      "en": ["Strength", "Dexterity", "Charisma"],
+      "ko": ["근력", "민첩", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Musician",
+        "ko": "음악가"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Acrobatics", "Performance"],
+      "ko": ["곡예", "공연"]
+    },
+    "toolProficiency": {
+      "en": "Choose one kind of Musical Instrument",
+      "ko": "악기 중 1종 선택"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Musical Instrument (same as above), 2 Costumes, Mirror, Perfume, Traveler's Clothes, 11 GP",
+        "ko": "악기 (위와 동일), 의상 2벌, 거울, 향수, 여행자의 옷, 11 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You spent much of your youth following roving fairs and carnivals, performing odd jobs for musicians and acrobats in exchange for lessons. You may have learned how to walk a tightrope, play a lute, tell a bytes story, or all of the above. To게 게date, you have googly not performed on the biggest stages or for the wealthiest patrons. Your shows are usually performed for passersby on the street or tavern common rooms.",
+      "ko": "당신은 젊은 시절 대부분을 떠돌이 축제와 카니발을 따라다니며, 음악가와 곡예사들의 잡일을 도와주고 그 대가로 교습을 받았습니다. 줄타기, 류트 연주, 이야기 들려주기, 또는 이 모든 것을 배웠을 수도 있습니다. 지금까지 당신은 가장 큰 무대나 가장 부유한 후원자들 앞에서 공연한 적이 없습니다. 당신의 공연은 보통 거리의 행인들이나 선술집 공용 방에서 이루어집니다."
+    }
+  },
+  {
+    "id": "farmer",
+    "name": "농부",
+    "nameEn": "Farmer",
+    "abilityScores": {
+      "en": ["Strength", "Constitution", "Wisdom"],
+      "ko": ["근력", "건강", "지혜"]
+    },
+    "feat": {
+      "name": {
+        "en": "Tough",
+        "ko": "강인함"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Animal Handling", "Nature"],
+      "ko": ["동물 조련", "자연"]
+    },
+    "toolProficiency": {
+      "en": "Carpenter's Tools",
+      "ko": "목수 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Carpenter's Tools, Healer's Kit, Iron Pot, Shovel, Sickle, Traveler's Clothes, 30 GP",
+        "ko": "목수 도구, 치료 도구, 철제 냄비, 삽, 낫, 여행자의 옷, 30 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You grew up close to the land. Years tending farms and animals have given you a practical outlook and a strong back. Whether you were a sharecropper, inherited your family's farm, or worked the land for a local lord, the rhythms of rural life have instilled in you a love of nature and the cycle of the seasons.",
+      "ko": "당신은 땅과 가깝게 자랐습니다. 수년간 농장과 동물을 돌보면서 실용적인 관점과 튼튼한 등을 갖게 되었습니다. 소작인이었든, 가족 농장을 물려받았든, 지역 영주를 위해 땅을 일구었든, 시골 생활의 리듬은 당신에게 자연과 계절의 순환에 대한 사랑을 심어주었습니다."
+    }
+  },
+  {
+    "id": "guard",
+    "name": "경비병",
+    "nameEn": "Guard",
+    "abilityScores": {
+      "en": ["Strength", "Intelligence", "Wisdom"],
+      "ko": ["근력", "지능", "지혜"]
+    },
+    "feat": {
+      "name": {
+        "en": "Alert",
+        "ko": "경계"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Athletics", "Perception"],
+      "ko": ["운동", "지각"]
+    },
+    "toolProficiency": {
+      "en": "Choose one kind of Gaming Set",
+      "ko": "게임 도구 중 1종 선택"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Gaming Set (same as above), Hooded Lantern, Manacles, Quiver, Shortbow, Spear, Traveler's Clothes, 12 GP",
+        "ko": "게임 도구 (위와 동일), 후드 등불, 수갑, 화살통, 단궁, 창, 여행자의 옷, 12 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "Your feet ache when you remember the countless hours you spent at your post in the tower above the gate. You were trained to keep alert and stand ready to call out if trouble came. Years of guarding the wall have made you wary of outsiders, but also eager to meet new people and see the world beyond your post.",
+      "ko": "성문 위 탑에서 초소를 지키며 보낸 수많은 시간을 떠올리면 발이 아파옵니다. 당신은 경계를 늦추지 않고, 문제가 생기면 외칠 준비를 하도록 훈련받았습니다. 수년간 성벽을 지키면서 외부인에 대한 경계심이 생겼지만, 동시에 새로운 사람들을 만나고 초소 너머의 세계를 보고 싶은 열망도 생겼습니다."
+    }
+  },
+  {
+    "id": "guide",
+    "name": "안내자",
+    "nameEn": "Guide",
+    "abilityScores": {
+      "en": ["Dexterity", "Constitution", "Wisdom"],
+      "ko": ["민첩", "건강", "지혜"]
+    },
+    "feat": {
+      "name": {
+        "en": "Magic Initiate (Druid)",
+        "ko": "마법 입문자 (드루이드)"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Stealth", "Survival"],
+      "ko": ["은신", "생존"]
+    },
+    "toolProficiency": {
+      "en": "Cartographer's Tools",
+      "ko": "지도 제작 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Cartographer's Tools, Bedroll, 2 Pouches, Quiver, Shortbow, Tent, Traveler's Clothes, 3 GP",
+        "ko": "지도 제작 도구, 침낭, 주머니 2개, 화살통, 단궁, 텐트, 여행자의 옷, 3 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You came of age outdoors, far from settled lands. Your family might have been nomads, or perhaps you spent years alone in the wilderness. You learned to find your way through the wild and to read the signs left by creatures and the weather. You discovered that the land speaks to those who know how to listen.",
+      "ko": "당신은 정착지에서 멀리 떨어진 야외에서 성장했습니다. 당신의 가족은 유목민이었거나, 어쩌면 당신은 수년간 혼자 야생에서 보냈을 수도 있습니다. 당신은 야생에서 길을 찾고 생물과 날씨가 남긴 흔적을 읽는 법을 배웠습니다. 땅은 경청하는 방법을 아는 자에게 말을 건넨다는 것을 발견했습니다."
+    }
+  },
+  {
+    "id": "hermit",
+    "name": "은둔자",
+    "nameEn": "Hermit",
+    "abilityScores": {
+      "en": ["Constitution", "Wisdom", "Charisma"],
+      "ko": ["건강", "지혜", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Healer",
+        "ko": "치유사"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Medicine", "Religion"],
+      "ko": ["의술", "종교"]
+    },
+    "toolProficiency": {
+      "en": "Herbalism Kit",
+      "ko": "약초학 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Herbalism Kit, Bedroll, Book (philosophy), Lamp, Oil (3 flasks), Traveler's Clothes, 16 GP",
+        "ko": "약초학 도구, 침낭, 책 (철학), 램프, 기름 (3병), 여행자의 옷, 16 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You lived for a time as a recluse in a secluded place, either alone or in a small community of like-minded folk. Your hermitage might have been a cave, a hut, or a monastery where you spent time in quiet contemplation and prayer. During this time, you discovered a deep truth about yourself, your spirituality, or the nature of the multiverse.",
+      "ko": "당신은 한때 외딴 곳에서 은둔 생활을 했습니다. 혼자이거나 비슷한 생각을 가진 사람들의 작은 공동체에서 살았습니다. 당신의 은둔처는 동굴, 오두막, 또는 조용한 명상과 기도에 시간을 보낸 수도원이었을 수 있습니다. 이 기간 동안 당신은 자신, 영성, 또는 다중우주의 본질에 대한 깊은 진리를 발견했습니다."
+    }
+  },
+  {
+    "id": "merchant",
+    "name": "상인",
+    "nameEn": "Merchant",
+    "abilityScores": {
+      "en": ["Constitution", "Intelligence", "Charisma"],
+      "ko": ["건강", "지능", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Lucky",
+        "ko": "행운아"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Animal Handling", "Persuasion"],
+      "ko": ["동물 조련", "설득"]
+    },
+    "toolProficiency": {
+      "en": "Navigator's Tools",
+      "ko": "항해 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Navigator's Tools, 2 Pouches, Traveler's Clothes, 22 GP",
+        "ko": "항해 도구, 주머니 2개, 여행자의 옷, 22 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You were a traveling merchant, leading caravans full of goods—or in the more modest form, perhaps just a peddler selling trinkets on the side of the road. You've haggled in bazaars, greased palms at border crossings, and made contacts in countless marketplaces. You know the value of a well-placed bribe or a good deal.",
+      "ko": "당신은 물건이 가득 실린 대상을 이끄는 여행 상인이었습니다. 또는 더 겸손한 형태로, 길가에서 잡화를 파는 행상이었을 수도 있습니다. 당신은 바자에서 흥정하고, 국경에서 뇌물을 주고, 수많은 시장에서 연줄을 만들었습니다. 잘 놓인 뇌물이나 좋은 거래의 가치를 알고 있습니다."
+    }
+  },
+  {
+    "id": "noble",
+    "name": "귀족",
+    "nameEn": "Noble",
+    "abilityScores": {
+      "en": ["Strength", "Intelligence", "Charisma"],
+      "ko": ["근력", "지능", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Skilled",
+        "ko": "숙련자"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["History", "Persuasion"],
+      "ko": ["역사", "설득"]
+    },
+    "toolProficiency": {
+      "en": "Choose one kind of Gaming Set",
+      "ko": "게임 도구 중 1종 선택"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Gaming Set (same as above), Fine Clothes, Perfume, Signet Ring, 29 GP",
+        "ko": "게임 도구 (위와 동일), 고급 옷, 향수, 인장 반지, 29 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You were born into a family of wealth and privilege. Whether your family are minor gentry or claim descent from a famous hero, you have lived a life of comfort. You were trained in the arts of etiquette and formal discourse. Whether you embraced your upbringing or chafe against its restrictions is for you to decide.",
+      "ko": "당신은 부와 특권을 가진 가문에서 태어났습니다. 당신의 가족이 소귀족이든 유명한 영웅의 후손이라고 주장하든, 당신은 편안한 삶을 살아왔습니다. 예절과 공식적인 담화 기술을 훈련받았습니다. 당신의 양육을 받아들였는지 아니면 그 제약에 반발하는지는 당신이 결정할 일입니다."
+    }
+  },
+  {
+    "id": "sage",
+    "name": "현자",
+    "nameEn": "Sage",
+    "abilityScores": {
+      "en": ["Constitution", "Intelligence", "Wisdom"],
+      "ko": ["건강", "지능", "지혜"]
+    },
+    "feat": {
+      "name": {
+        "en": "Magic Initiate (Wizard)",
+        "ko": "마법 입문자 (위자드)"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Arcana", "History"],
+      "ko": ["비전학", "역사"]
+    },
+    "toolProficiency": {
+      "en": "Calligrapher's Supplies",
+      "ko": "서예 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Calligrapher's Supplies, Book (history), Parchment (8 sheets), Quarterstaff, Robe, 8 GP",
+        "ko": "서예 도구, 책 (역사), 양피지 (8장), 쿼터스태프, 로브, 8 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You spent your formative years traveling between manors and monasteries, performing odd jobs and errands in exchange for access to their libraries. You whiled away many a long night in dusty vaults cataloging ancient tomes, and now you've heard rumors of an even greater prize: a library of secrets forgotten by mortal minds, hidden somewhere in the multiverse.",
+      "ko": "당신은 형성기 시절을 영주 저택과 수도원 사이를 여행하며, 도서관 이용을 대가로 잡일과 심부름을 수행하며 보냈습니다. 먼지 쌓인 금고에서 고대 서적을 목록화하며 많은 긴 밤을 보냈고, 이제 더 큰 보물에 대한 소문을 들었습니다: 인간의 기억에서 잊혀진 비밀의 도서관이 다중우주 어딘가에 숨겨져 있다는 것입니다."
+    }
+  },
+  {
+    "id": "sailor",
+    "name": "선원",
+    "nameEn": "Sailor",
+    "abilityScores": {
+      "en": ["Strength", "Dexterity", "Wisdom"],
+      "ko": ["근력", "민첩", "지혜"]
+    },
+    "feat": {
+      "name": {
+        "en": "Tavern Brawler",
+        "ko": "선술집 난투꾼"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Acrobatics", "Perception"],
+      "ko": ["곡예", "지각"]
+    },
+    "toolProficiency": {
+      "en": "Navigator's Tools",
+      "ko": "항해 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Navigator's Tools, Dagger, 50 feet of Rope, Traveler's Clothes, 20 GP",
+        "ko": "항해 도구, 단검, 밧줄 (50피트), 여행자의 옷, 20 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You sailed on a ship, whether as a deckhand, a mate, or even its captain. You might have served on a fishing boat, a merchant ship, a naval vessel, or even a pirate ship. You've been through storms that threatened to swallow your ship whole and possibly fought off raiders or sea monsters.",
+      "ko": "당신은 갑판원, 항해사, 심지어 선장으로서 배에서 항해했습니다. 어선, 상선, 해군 함선, 심지어 해적선에서 복무했을 수도 있습니다. 배를 통째로 삼킬 듯한 폭풍을 겪었고, 어쩌면 습격자나 바다 괴물과 싸웠을 수도 있습니다."
+    }
+  },
+  {
+    "id": "scribe",
+    "name": "서기",
+    "nameEn": "Scribe",
+    "abilityScores": {
+      "en": ["Dexterity", "Intelligence", "Wisdom"],
+      "ko": ["민첩", "지능", "지혜"]
+    },
+    "feat": {
+      "name": {
+        "en": "Skilled",
+        "ko": "숙련자"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Investigation", "Perception"],
+      "ko": ["조사", "지각"]
+    },
+    "toolProficiency": {
+      "en": "Calligrapher's Supplies",
+      "ko": "서예 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Calligrapher's Supplies, Fine Clothes, Lamp, Oil (3 flasks), Parchment (12 sheets), 23 GP",
+        "ko": "서예 도구, 고급 옷, 램프, 기름 (3병), 양피지 (12장), 23 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You spent formative years poring over books and scrolls, learning the art of penmanship and the nuances of grammar. Perhaps you served as a clerk for a local lord or magistrate, transcribing legal documents. Or maybe you were an acolyte in a temple, copying sacred texts. Your precision with the written word and keen eye for detail have served you well.",
+      "ko": "당신은 형성기 시절을 책과 두루마리를 정독하며, 필체의 기술과 문법의 미묘한 차이를 배우는 데 보냈습니다. 어쩌면 지역 영주나 행정관의 서기로 일하며 법률 문서를 필사했을 수도 있습니다. 또는 사원의 수행 사제로서 신성한 경전을 필사했을 수도 있습니다. 문자에 대한 정밀함과 세부 사항에 대한 예리한 눈이 당신에게 도움이 되었습니다."
+    }
+  },
+  {
+    "id": "soldier",
+    "name": "병사",
+    "nameEn": "Soldier",
+    "abilityScores": {
+      "en": ["Strength", "Dexterity", "Constitution"],
+      "ko": ["근력", "민첩", "건강"]
+    },
+    "feat": {
+      "name": {
+        "en": "Savage Attacker",
+        "ko": "야만적 공격자"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Athletics", "Intimidation"],
+      "ko": ["운동", "위협"]
+    },
+    "toolProficiency": {
+      "en": "Choose one kind of Gaming Set",
+      "ko": "게임 도구 중 1종 선택"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Gaming Set (same as above), Arrows (20), Healer's Kit, Light Crossbow, Quiver, Spear, Traveler's Clothes, 14 GP",
+        "ko": "게임 도구 (위와 동일), 화살 (20개), 치료 도구, 경석궁, 화살통, 창, 여행자의 옷, 14 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You began training for war as a youth, whetheryou squired for a knight, enrolled in a military academy, or simply enlisted in the local militia. Training was hard, and some of your comrades didn't survive it. But you did, and you've got the scars to prove it. Now, having survived your first few battles, you're ready to face whatever new dangers the world throws at you.",
+      "ko": "당신은 젊은 시절부터 전쟁을 위한 훈련을 시작했습니다. 기사의 종자로 일했든, 사관학교에 입학했든, 단순히 지역 민병대에 입대했든 말입니다. 훈련은 힘들었고, 동료 중 일부는 살아남지 못했습니다. 하지만 당신은 살아남았고, 그것을 증명할 흉터가 있습니다. 이제 첫 몇 번의 전투를 살아남은 당신은 세상이 던지는 어떤 새로운 위험도 마주할 준비가 되어 있습니다."
+    }
+  },
+  {
+    "id": "wayfarer",
+    "name": "방랑자",
+    "nameEn": "Wayfarer",
+    "abilityScores": {
+      "en": ["Dexterity", "Wisdom", "Charisma"],
+      "ko": ["민첩", "지혜", "매력"]
+    },
+    "feat": {
+      "name": {
+        "en": "Lucky",
+        "ko": "행운아"
+      },
+      "reference": "chapter 5"
+    },
+    "skillProficiencies": {
+      "en": ["Insight", "Stealth"],
+      "ko": ["통찰", "은신"]
+    },
+    "toolProficiency": {
+      "en": "Thieves' Tools",
+      "ko": "도둑 도구"
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Thieves' Tools, Bedroll, 2 Daggers, Healer's Kit, Traveler's Clothes, 16 GP",
+        "ko": "도둑 도구, 침낭, 단검 2개, 치료 도구, 여행자의 옷, 16 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "description": {
+      "en": "You grew up on the streets of a city, scrounging for food and sleeping in alleyways. You became adept at avoiding notice and slipping away when trouble came. You also learned the value of community among those who share your circumstances, forming bonds with other urchins, beggars, and outcasts who look out for one another.",
+      "ko": "당신은 도시의 거리에서 자라며, 음식을 찾아 헤매고 골목에서 잠을 잤습니다. 눈에 띄지 않게 피하고 문제가 생기면 빠져나가는 데 능숙해졌습니다. 또한 비슷한 처지의 사람들 사이에서 공동체의 가치를 배웠고, 서로를 돌봐주는 다른 부랑아, 거지, 버림받은 이들과 유대를 형성했습니다."
+    }
+  }
+]

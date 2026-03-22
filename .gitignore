@@ -10,9 +10,6 @@
 # Data directory (runtime)
 /data/campaigns/
 
-# D&D reference data (scripts/sync_dnd_data.sh로 생성됨)
-/priv/data/*.json
-
 # Environment
 .env
 *.env.local
