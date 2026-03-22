@@ -939,6 +939,7 @@ defmodule TrpgMaster.Campaign.Server do
     alias TrpgMaster.Rules.CharacterData
     char_name = input["character_name"]
     asi = input["asi"]
+    new_spells = input["new_spells"]
     Logger.info("레벨업 요청: #{char_name}")
 
     characters =
@@ -961,6 +962,7 @@ defmodule TrpgMaster.Campaign.Server do
               char
               |> apply_level_up(current_level, target_level)
               |> apply_asi(asi)
+              |> apply_new_spells(new_spells)
               # ASI 레벨인데 선택이 없으면 플래그 설정
               |> then(fn c ->
                 if CharacterData.asi_level?(target_level, char["class_id"]) && is_nil(asi) do
@@ -1052,6 +1054,10 @@ defmodule TrpgMaster.Campaign.Server do
     class_id = char["class_id"]
     new_spell_slots = CharacterData.spell_slots_for_class_level(class_id, new_level)
 
+    # 소마법/주문 습득 가능 수 갱신 (AI가 new_spells 선택 시 참고)
+    new_cantrips_count = CharacterData.cantrips_known_for_class_level(class_id, new_level)
+    new_spells_count = CharacterData.spells_known_for_class_level(class_id, new_level)
+
     char
     |> Map.put("level", new_level)
     |> Map.put("hp_max", new_hp_max)
@@ -1068,6 +1074,10 @@ defmodule TrpgMaster.Campaign.Server do
       else
         c
       end
+    end)
+    |> then(fn c ->
+      c = if new_cantrips_count, do: Map.put(c, "cantrips_known_count", new_cantrips_count), else: c
+      if new_spells_count, do: Map.put(c, "spells_known_count", new_spells_count), else: c
     end)
   end
 
@@ -1091,6 +1101,33 @@ defmodule TrpgMaster.Campaign.Server do
     |> Map.put("ability_modifiers", new_modifiers)
   end
   defp apply_asi(char, _), do: char
+
+  # 새 주문 습득: level_up의 new_spells 파라미터로 전달된 주문을 spells_known에 추가한다.
+  # 주문은 %{"name" => "...", "level" => 0~9} 형태의 맵 목록.
+  # spells_known 구조: %{"cantrips" => [...], "1" => [...], "2" => [...], ...}
+  defp apply_new_spells(char, nil), do: char
+  defp apply_new_spells(char, []), do: char
+
+  defp apply_new_spells(char, new_spells) when is_list(new_spells) do
+    Enum.reduce(new_spells, char, fn spell, acc ->
+      spell_name = spell["name"] || inspect(spell)
+
+      level_key =
+        case spell["level"] do
+          0 -> "cantrips"
+          n when is_integer(n) and n >= 1 -> Integer.to_string(n)
+          _ -> "1"
+        end
+
+      Map.update(acc, "spells_known", %{}, fn known ->
+        Map.update(known, level_key, [spell_name], fn existing ->
+          if spell_name in existing, do: existing, else: existing ++ [spell_name]
+        end)
+      end)
+    end)
+  end
+
+  defp apply_new_spells(char, _), do: char
 
   # update_character로 수동 레벨업 시, hp_max가 명시되지 않으면 자동 재계산
   defp maybe_apply_level_up_stats(old_char, new_char, changes) do

@@ -77,6 +77,27 @@ defmodule TrpgMaster.Rules.CharacterData do
     20 => {4, 3, 3, 3, 2}
   }
 
+  # 소마법(cantrip) 습득 수 테이블 (5.5e 2024 기준, 클래스별 레벨에 따른 알려진 소마법 수)
+  # 형식: 레벨 → 소마법 수
+  @cantrips_known %{
+    "bard"     => {2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4},
+    "cleric"   => {3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5},
+    "druid"    => {2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4},
+    "sorcerer" => {4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6},
+    "warlock"  => {2,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4},
+    "wizard"   => {3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5}
+  }
+
+  # 알려진 주문 수 테이블 (5.5e 2024 기준, known-spell 캐스터만)
+  # 준비형 캐스터(cleric/druid/wizard/paladin)는 별도 계산이므로 포함하지 않음
+  # 형식: 레벨 → 알려진 주문 수
+  @spells_known %{
+    "bard"     => {4,5,6,7,9,10,11,12,14,15,16,16,17,17,18,18,19,20,22,22},
+    "ranger"   => {2,3,4,5,6,6,7,7,9,9,10,10,11,11,12,12,13,13,14,14},
+    "sorcerer" => {2,4,6,7,9,10,11,12,14,15,16,16,17,17,18,18,19,20,21,22},
+    "warlock"  => {2,3,4,5,6,7,8,9,10,10,11,11,12,12,13,13,14,14,15,15}
+  }
+
   # 워록 계약 마법 슬롯: {슬롯 수, 슬롯 레벨}
   @warlock_pact_slots %{
     1  => {1, 1}, 2  => {2, 1},
@@ -244,6 +265,33 @@ defmodule TrpgMaster.Rules.CharacterData do
     end
   end
   def spell_slots_for_class_level(_, _), do: nil
+
+  @doc """
+  클래스와 레벨에 맞는 소마법(cantrip) 습득 수를 반환한다.
+  반환값: 정수 (해당 레벨에서 알 수 있는 소마법 총 수), 해당 클래스 데이터 없으면 nil
+  """
+  def cantrips_known_for_class_level(class_id, level)
+      when is_binary(class_id) and is_integer(level) and level in 1..20 do
+    case @cantrips_known[class_id] do
+      nil -> nil
+      tuple -> elem(tuple, level - 1)
+    end
+  end
+  def cantrips_known_for_class_level(_, _), do: nil
+
+  @doc """
+  클래스와 레벨에 맞는 알려진 주문 수(spells known)를 반환한다.
+  알려진 주문 방식 캐스터(bard/sorcerer/ranger/warlock)만 정수를 반환한다.
+  준비형 캐스터(cleric/druid/wizard 등)는 nil을 반환 — 주문 준비 수 = 레벨 + 능력치 수정치로 계산.
+  """
+  def spells_known_for_class_level(class_id, level)
+      when is_binary(class_id) and is_integer(level) and level in 1..20 do
+    case @spells_known[class_id] do
+      nil -> nil
+      tuple -> elem(tuple, level - 1)
+    end
+  end
+  def spells_known_for_class_level(_, _), do: nil
 
   @doc "주어진 카테고리의 장비 목록 (weapons, armor, gear, tools)"
   def equipment_by_category(category) do
