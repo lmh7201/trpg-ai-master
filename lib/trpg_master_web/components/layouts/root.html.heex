@@ -41,8 +41,21 @@
           });
           this.observer.observe(this.el, { childList: true, subtree: true });
         },
+        // DOM 패치 직전에 스크롤 위치를 저장
+        beforeUpdate() {
+          this.savedScrollTop = this.el.scrollTop;
+          this.savedScrollHeight = this.el.scrollHeight;
+        },
         updated() {
-          if (!this.userScrolled) this.scrollToBottom();
+          if (!this.userScrolled) {
+            this.scrollToBottom();
+          } else {
+            // 사용자가 위로 스크롤한 상태: DOM 패치(모달 열기/닫기 등)로 인해
+            // 브라우저가 scrollTop을 리셋하더라도 저장된 위치로 복구.
+            // 새 메시지가 추가된 경우(scrollHeight 증가)에는 상대 위치를 유지.
+            const heightDelta = this.el.scrollHeight - this.savedScrollHeight;
+            this.el.scrollTop = this.savedScrollTop + heightDelta;
+          }
         },
         destroyed() {
           if (this.observer) this.observer.disconnect();
