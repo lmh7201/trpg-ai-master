@@ -791,17 +791,12 @@ defmodule TrpgMaster.Campaign.Server do
     Logger.info("캐릭터 업데이트: #{char_name} — #{inspect(changes)}")
 
     characters =
-      case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
+      case find_character_index(state.characters, char_name) do
         nil ->
-          # 전투 중에는 새 캐릭터를 characters에 추가하지 않는다.
-          # 적 HP 변경은 sync_enemy_hp_to_combat_state에서 combat_state["enemies"]로 처리된다.
-          if state.phase == :combat do
-            Logger.info("전투 중 update_character: '#{char_name}' 미등록 — characters에 추가하지 않음")
-            state.characters
-          else
-            Logger.info("새 캐릭터 생성: #{char_name}")
-            state.characters ++ [Map.merge(%{"name" => char_name}, changes)]
-          end
+          # 캐릭터는 반드시 위자드(character_create_live)를 통해서만 생성된다.
+          # AI가 update_character로 새 캐릭터를 만드는 것은 허용하지 않는다.
+          Logger.warning("update_character: '#{char_name}' 캐릭터 없음 — 무시 (위자드로만 캐릭터 생성 가능)")
+          state.characters
 
         idx ->
           List.update_at(state.characters, idx, fn char ->
@@ -950,7 +945,7 @@ defmodule TrpgMaster.Campaign.Server do
     Logger.info("레벨업 요청: #{char_name}")
 
     characters =
-      case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
+      case find_character_index(state.characters, char_name) do
         nil ->
           Logger.warning("레벨업 대상 캐릭터 없음: #{char_name}")
           state.characters
@@ -1147,6 +1142,15 @@ defmodule TrpgMaster.Campaign.Server do
       new_char
     end
   end
+
+  # 이름으로 캐릭터 인덱스를 찾는다. trim + downcase로 유연하게 매칭한다.
+  defp find_character_index(characters, name) when is_binary(name) do
+    normalized = name |> String.trim() |> String.downcase()
+    Enum.find_index(characters, fn c ->
+      (c["name"] || "") |> String.trim() |> String.downcase() == normalized
+    end)
+  end
+  defp find_character_index(_characters, _name), do: nil
 
   # 캐릭터 맵에 변경사항을 적용한다.
   # 지원 필드: hp_current, hp_max, class, level, xp, ac, spell_slots, spell_slots_used,
