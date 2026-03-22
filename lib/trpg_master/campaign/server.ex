@@ -963,7 +963,7 @@ defmodule TrpgMaster.Campaign.Server do
               |> apply_asi(asi)
               # ASI 레벨인데 선택이 없으면 플래그 설정
               |> then(fn c ->
-                if CharacterData.asi_level?(target_level) && is_nil(asi) do
+                if CharacterData.asi_level?(target_level, char["class_id"]) && is_nil(asi) do
                   Map.put(c, "asi_pending", true)
                 else
                   Map.delete(c, "asi_pending")
@@ -1023,7 +1023,7 @@ defmodule TrpgMaster.Campaign.Server do
       Logger.info("레벨업 발생: #{char["name"]} #{current_level} → #{new_level}")
       leveled = apply_level_up(char, current_level, new_level)
       # ASI 레벨이면 플래그 설정 (AI가 다음 턴에 플레이어에게 선택 요청)
-      if TrpgMaster.Rules.CharacterData.asi_level?(new_level) do
+      if TrpgMaster.Rules.CharacterData.asi_level?(new_level, char["class_id"]) do
         Map.put(leveled, "asi_pending", true)
       else
         leveled

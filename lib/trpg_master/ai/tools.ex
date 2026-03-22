@@ -501,7 +501,7 @@ defmodule TrpgMaster.AI.Tools do
       description:
         "캐릭터를 레벨업시킨다. HP(히트다이스 평균 + CON 수정치), 숙련 보너스, 주문 슬롯이 자동으로 재계산된다. " <>
         "end_combat 후 누적 XP가 다음 레벨 임계값을 초과했거나, 마일스톤 레벨업이 적절할 때 호출한다. " <>
-        "4/8/12/16/19레벨(ASI 레벨)에는 플레이어에게 능력치 선택을 묻고 asi 파라미터로 함께 전달한다.",
+        "ASI 레벨(기본: 4/8/12/16/19, 파이터: +6/14, 로그: +10)에는 플레이어에게 능력치 선택을 묻고 asi 파라미터로 함께 전달한다.",
       input_schema: %{
         type: "object",
         properties: %{
@@ -512,7 +512,7 @@ defmodule TrpgMaster.AI.Tools do
           asi: %{
             type: "object",
             description:
-              "능력치 향상(ASI) 선택. 4/8/12/16/19레벨에만 적용. " <>
+              "능력치 향상(ASI) 선택. 기본 ASI 레벨: 4/8/12/16/19 (파이터 추가: 6/14, 로그 추가: 10). " <>
               "+2 배분 예: {\"str\": 2} / +1+1 배분 예: {\"str\": 1, \"dex\": 1}. " <>
               "능력치 키: str, dex, con, int, wis, cha. 각 능력치 상한은 20.",
             additionalProperties: %{type: "integer"}

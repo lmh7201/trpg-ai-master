@@ -19,8 +19,13 @@ defmodule TrpgMaster.Rules.CharacterData do
     {17, 225_000},{18, 265_000},{19, 305_000},{20, 355_000}
   ]
 
-  # ASI 레벨: 이 레벨 도달 시 능력치 +2 또는 +1/+1 선택
-  @asi_levels [4, 8, 12, 16, 19]
+  # ASI 레벨: 이 레벨 도달 시 능력치 +2 또는 +1/+1 선택 (5.5e 2024 기준)
+  # 파이터: 6/14레벨 추가 ASI, 로그: 10레벨 추가 ASI
+  @asi_levels %{
+    "default" => [4, 8, 12, 16, 19],
+    "fighter" => [4, 6, 8, 12, 14, 16, 19],
+    "rogue"   => [4, 8, 10, 12, 16, 19]
+  }
 
   # D&D 5e 주문 슬롯 테이블 (완전 주문시전자: bard, cleric, druid, sorcerer, wizard)
   # 형식: 레벨 → {1슬롯, 2슬롯, 3슬롯, 4슬롯, 5슬롯, 6슬롯, 7슬롯, 8슬롯, 9슬롯}
@@ -47,10 +52,10 @@ defmodule TrpgMaster.Rules.CharacterData do
     20 => {4, 3, 3, 3, 3, 2, 2, 1, 1}
   }
 
-  # 반주문시전자 슬롯 (ranger: 2레벨부터 주문 시작)
+  # 반주문시전자 슬롯 (ranger: 5.5e 2024 기준, 1레벨부터 주문 시작)
   # 형식: 레벨 → {1슬롯, 2슬롯, 3슬롯, 4슬롯, 5슬롯}
   @half_caster_slots %{
-    1  => {0, 0, 0, 0, 0},
+    1  => {2, 0, 0, 0, 0},
     2  => {2, 0, 0, 0, 0},
     3  => {3, 0, 0, 0, 0},
     4  => {3, 0, 0, 0, 0},
@@ -207,8 +212,14 @@ defmodule TrpgMaster.Rules.CharacterData do
     end
   end
 
-  @doc "현재 레벨이 ASI(능력치 향상) 레벨인지 확인한다"
-  def asi_level?(level), do: level in @asi_levels
+  @doc """
+  현재 레벨이 ASI(능력치 향상) 레벨인지 확인한다.
+  class_id를 전달하면 클래스별 ASI 레벨을 적용한다 (파이터/로그 추가 ASI).
+  """
+  def asi_level?(level, class_id \\ nil) do
+    levels = Map.get(@asi_levels, class_id, @asi_levels["default"])
+    level in levels
+  end
 
   @doc """
   클래스 ID와 레벨에 맞는 주문 슬롯 맵을 반환한다.
