@@ -28,10 +28,8 @@ RUN mix deps.get --only $MIX_ENV
 COPY config config
 COPY lib lib
 COPY priv priv
-COPY scripts scripts
-
-# Sync D&D reference data from dnd_reference_ko repo
-RUN bash scripts/sync_dnd_data.sh
+# priv/data/*.json은 빌드 전에 scripts/sync_dnd_data.sh로 미리 생성해야 함
+# (private 저장소이므로 Docker 빌드 중 clone 불가)
 
 RUN mix compile
 

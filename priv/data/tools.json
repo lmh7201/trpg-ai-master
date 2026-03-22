@@ -1,0 +1,636 @@
+{
+  "artisanTools": [
+    {
+      "id": "alchemists-supplies",
+      "name": "Alchemist's Supplies",
+      "nameKo": "연금술사 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "8 lb.",
+      "cost": "50 GP",
+      "utilize": [
+        {
+          "action": "Identify a substance",
+          "actionKo": "물질 식별",
+          "dc": 15
+        },
+        {
+          "action": "Start a fire",
+          "actionKo": "불 피우기",
+          "dc": 15
+        }
+      ],
+      "craft": ["Acid", "Alchemist's Fire", "Component Pouch", "Oil", "Paper", "Perfume"],
+      "craftKo": ["산", "연금술사의 불", "구성 요소 주머니", "기름", "종이", "향수"]
+    },
+    {
+      "id": "brewers-supplies",
+      "name": "Brewer's Supplies",
+      "nameKo": "양조업자 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "9 lb.",
+      "cost": "20 GP",
+      "utilize": [
+        {
+          "action": "Detect poisoned drink",
+          "actionKo": "독이 든 음료 감지",
+          "dc": 15
+        },
+        {
+          "action": "Identify alcohol",
+          "actionKo": "술 식별",
+          "dc": 10
+        }
+      ],
+      "craft": ["Antitoxin"],
+      "craftKo": ["해독제"]
+    },
+    {
+      "id": "calligraphers-supplies",
+      "name": "Calligrapher's Supplies",
+      "nameKo": "서예가 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "5 lb.",
+      "cost": "10 GP",
+      "utilize": [
+        {
+          "action": "Write text with impressive flourishes",
+          "actionKo": "인상적인 장식으로 글 쓰기",
+          "dc": 15
+        }
+      ],
+      "craft": ["Ink", "Spell Scroll"],
+      "craftKo": ["잉크", "주문 두루마리"]
+    },
+    {
+      "id": "carpenters-tools",
+      "name": "Carpenter's Tools",
+      "nameKo": "목수 도구",
+      "ability": "Strength",
+      "abilityKo": "근력",
+      "weight": "6 lb.",
+      "cost": "8 GP",
+      "utilize": [
+        {
+          "action": "Seal or pry open a door or container",
+          "actionKo": "문이나 용기 봉인 또는 열기",
+          "dc": 20
+        },
+        {
+          "action": "Temporarily repair a damaged wooden object",
+          "actionKo": "손상된 나무 물체 임시 수리",
+          "dc": 10
+        }
+      ],
+      "craft": ["Club", "Greatclub", "Quarterstaff", "Barrel", "Chest", "Ladder", "Pole", "Portable Ram", "Torch"],
+      "craftKo": ["곤봉", "대곤봉", "육척봉", "통", "상자", "사다리", "장대", "휴대용 파쇄 망치", "횃불"]
+    },
+    {
+      "id": "cartographers-tools",
+      "name": "Cartographer's Tools",
+      "nameKo": "지도 제작자 도구",
+      "ability": "Wisdom",
+      "abilityKo": "지혜",
+      "weight": "6 lb.",
+      "cost": "15 GP",
+      "utilize": [
+        {
+          "action": "Determine which way is north",
+          "actionKo": "북쪽 방향 결정",
+          "dc": 10
+        },
+        {
+          "action": "Estimate distance to a landmark",
+          "actionKo": "랜드마크까지 거리 추정",
+          "dc": 15
+        }
+      ],
+      "craft": ["Map"],
+      "craftKo": ["지도"]
+    },
+    {
+      "id": "cobblers-tools",
+      "name": "Cobbler's Tools",
+      "nameKo": "제화공 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "5 lb.",
+      "cost": "5 GP",
+      "utilize": [
+        {
+          "action": "Repair damaged footwear",
+          "actionKo": "손상된 신발 수리",
+          "dc": 10
+        }
+      ],
+      "craft": ["Climber's Kit"],
+      "craftKo": ["등반 도구"]
+    },
+    {
+      "id": "cooks-utensils",
+      "name": "Cook's Utensils",
+      "nameKo": "요리사 도구",
+      "ability": "Wisdom",
+      "abilityKo": "지혜",
+      "weight": "8 lb.",
+      "cost": "1 GP",
+      "utilize": [
+        {
+          "action": "Improve a meal's flavor",
+          "actionKo": "음식 맛 개선",
+          "dc": 10
+        },
+        {
+          "action": "Detect spoiled or poisoned food",
+          "actionKo": "상하거나 독이 든 음식 감지",
+          "dc": 15
+        }
+      ],
+      "craft": ["Rations"],
+      "craftKo": ["식량"]
+    },
+    {
+      "id": "glassblowers-tools",
+      "name": "Glassblower's Tools",
+      "nameKo": "유리 세공사 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "5 lb.",
+      "cost": "30 GP",
+      "utilize": [
+        {
+          "action": "Discern what a glass object held in the past 24 hours",
+          "actionKo": "유리 물체에 담겼던 것 식별 (24시간 내)",
+          "dc": 15
+        }
+      ],
+      "craft": ["Glass Bottle", "Magnifying Glass", "Spyglass", "Vial"],
+      "craftKo": ["유리병", "돋보기", "망원경", "유리병"]
+    },
+    {
+      "id": "jewelers-tools",
+      "name": "Jeweler's Tools",
+      "nameKo": "보석 세공인 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "2 lb.",
+      "cost": "25 GP",
+      "utilize": [
+        {
+          "action": "Determine a gem's value",
+          "actionKo": "보석 가치 판별",
+          "dc": 15
+        }
+      ],
+      "craft": ["Arcane Focus", "Holy Symbol"],
+      "craftKo": ["비전 매개체", "성스러운 상징"]
+    },
+    {
+      "id": "leatherworkers-tools",
+      "name": "Leatherworker's Tools",
+      "nameKo": "가죽 세공인 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "5 lb.",
+      "cost": "5 GP",
+      "utilize": [
+        {
+          "action": "Add a design to a leather item",
+          "actionKo": "가죽 아이템에 디자인 추가",
+          "dc": 10
+        }
+      ],
+      "craft": ["Leather Armor", "Studded Leather Armor", "Sling", "Backpack", "Crossbow Bolt Case", "Map or Scroll Case", "Parchment", "Pouch", "Quiver", "Waterskin"],
+      "craftKo": ["가죽 갑옷", "스터드 가죽 갑옷", "투석구", "배낭", "석궁 볼트 케이스", "지도 또는 두루마리 케이스", "양피지", "주머니", "화살통", "물주머니"]
+    },
+    {
+      "id": "masons-tools",
+      "name": "Mason's Tools",
+      "nameKo": "석공 도구",
+      "ability": "Strength",
+      "abilityKo": "근력",
+      "weight": "8 lb.",
+      "cost": "10 GP",
+      "utilize": [
+        {
+          "action": "Chisel a symbol or hole in stone",
+          "actionKo": "돌에 상징이나 구멍 새기기",
+          "dc": 10
+        }
+      ],
+      "craft": ["Block and Tackle"],
+      "craftKo": ["도르래"]
+    },
+    {
+      "id": "painters-supplies",
+      "name": "Painter's Supplies",
+      "nameKo": "화가 도구",
+      "ability": "Wisdom",
+      "abilityKo": "지혜",
+      "weight": "5 lb.",
+      "cost": "10 GP",
+      "utilize": [
+        {
+          "action": "Paint an accurate portrait",
+          "actionKo": "정확한 초상화 그리기",
+          "dc": 10
+        },
+        {
+          "action": "Create a painting with a hidden message",
+          "actionKo": "숨겨진 메시지가 있는 그림 만들기",
+          "dc": 20
+        }
+      ],
+      "craft": ["Druidic Focus", "Holy Symbol"],
+      "craftKo": ["드루이드 매개체", "성스러운 상징"]
+    },
+    {
+      "id": "potters-tools",
+      "name": "Potter's Tools",
+      "nameKo": "도공 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "3 lb.",
+      "cost": "10 GP",
+      "utilize": [
+        {
+          "action": "Determine what a vessel once held",
+          "actionKo": "용기에 담겨 있던 것 판별",
+          "dc": 15
+        }
+      ],
+      "craft": ["Jug", "Lamp"],
+      "craftKo": ["주전자", "램프"]
+    },
+    {
+      "id": "smiths-tools",
+      "name": "Smith's Tools",
+      "nameKo": "대장장이 도구",
+      "ability": "Strength",
+      "abilityKo": "근력",
+      "weight": "8 lb.",
+      "cost": "20 GP",
+      "utilize": [
+        {
+          "action": "Sharpen a blade",
+          "actionKo": "칼날 갈기",
+          "dc": 15
+        },
+        {
+          "action": "Repair damaged metal object",
+          "actionKo": "손상된 금속 물체 수리",
+          "dc": 15
+        }
+      ],
+      "craft": ["Any metal armor or weapon", "Ball Bearings", "Bucket", "Caltrops", "Chain", "Crowbar", "Firearm", "Flask", "Grappling Hook", "Iron Pot", "Iron Spikes", "Lock"],
+      "craftKo": ["모든 금속 갑옷 또는 무기", "쇠구슬", "양동이", "마름쇠", "쇠사슬", "쇠지렛대", "화기", "플라스크", "갈고리", "철 냄비", "쇠 대못", "자물쇠"]
+    },
+    {
+      "id": "tinkers-tools",
+      "name": "Tinker's Tools",
+      "nameKo": "땜장이 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "10 lb.",
+      "cost": "50 GP",
+      "utilize": [
+        {
+          "action": "Repair a Tiny clockwork device",
+          "actionKo": "초소형 태엽 장치 수리",
+          "dc": 10
+        }
+      ],
+      "craft": ["Bell", "Bullseye Lantern", "Flask", "Hooded Lantern", "Hunting Trap", "Lock", "Manacles", "Mirror", "Shovel", "Signal Whistle", "Tinderbox"],
+      "craftKo": ["종", "집중 등불", "플라스크", "덮개 등불", "사냥용 덫", "자물쇠", "수갑", "거울", "삽", "신호 호루라기", "부싯돌 상자"]
+    },
+    {
+      "id": "weavers-tools",
+      "name": "Weaver's Tools",
+      "nameKo": "직조공 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "5 lb.",
+      "cost": "1 GP",
+      "utilize": [
+        {
+          "action": "Mend a tear in clothing",
+          "actionKo": "옷의 찢어진 부분 수선",
+          "dc": 10
+        },
+        {
+          "action": "Sew a hidden pocket",
+          "actionKo": "숨겨진 주머니 만들기",
+          "dc": 15
+        }
+      ],
+      "craft": ["Basket", "Blanket", "Fine Clothes", "Net", "Robe", "Rope", "Sack", "String", "Tent", "Traveler's Clothes"],
+      "craftKo": ["바구니", "담요", "고급 의복", "그물", "로브", "밧줄", "자루", "끈", "텐트", "여행자 의복"]
+    },
+    {
+      "id": "woodcarvers-tools",
+      "name": "Woodcarver's Tools",
+      "nameKo": "목각사 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "5 lb.",
+      "cost": "1 GP",
+      "utilize": [
+        {
+          "action": "Carve an intricate pattern in wood",
+          "actionKo": "나무에 복잡한 무늬 새기기",
+          "dc": 15
+        }
+      ],
+      "craft": ["Arrows", "Bolts", "Club", "Druidic Focus", "Greatclub", "Quarterstaff", "Arcane Focus (staff or wand)"],
+      "craftKo": ["화살", "석궁 볼트", "곤봉", "드루이드 매개체", "대곤봉", "육척봉", "비전 매개체 (지팡이 또는 완드)"]
+    }
+  ],
+  "otherTools": [
+    {
+      "id": "disguise-kit",
+      "name": "Disguise Kit",
+      "nameKo": "변장 도구",
+      "ability": "Charisma",
+      "abilityKo": "매력",
+      "weight": "3 lb.",
+      "cost": "25 GP",
+      "utilize": [
+        {
+          "action": "Apply makeup",
+          "actionKo": "화장하기",
+          "dc": 10
+        },
+        {
+          "action": "Disguise self",
+          "actionKo": "변장하기",
+          "dc": 15
+        }
+      ],
+      "craft": ["Costume"],
+      "craftKo": ["의상"]
+    },
+    {
+      "id": "forgery-kit",
+      "name": "Forgery Kit",
+      "nameKo": "위조 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "5 lb.",
+      "cost": "15 GP",
+      "utilize": [
+        {
+          "action": "Forge a document",
+          "actionKo": "문서 위조",
+          "dc": 15
+        },
+        {
+          "action": "Detect a forgery",
+          "actionKo": "위조 문서 탐지",
+          "dc": 15
+        }
+      ],
+      "craft": [],
+      "craftKo": []
+    },
+    {
+      "id": "herbalism-kit",
+      "name": "Herbalism Kit",
+      "nameKo": "약초학 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "3 lb.",
+      "cost": "5 GP",
+      "utilize": [
+        {
+          "action": "Identify a plant",
+          "actionKo": "식물 식별",
+          "dc": 10
+        },
+        {
+          "action": "Create an herbal remedy",
+          "actionKo": "약초 치료제 만들기",
+          "dc": 15
+        }
+      ],
+      "craft": ["Antitoxin", "Candle", "Healer's Kit", "Potion of Healing"],
+      "craftKo": ["해독제", "양초", "치료사 도구", "치유 물약"]
+    },
+    {
+      "id": "navigators-tools",
+      "name": "Navigator's Tools",
+      "nameKo": "항해사 도구",
+      "ability": "Wisdom",
+      "abilityKo": "지혜",
+      "weight": "2 lb.",
+      "cost": "25 GP",
+      "utilize": [
+        {
+          "action": "Plot a course",
+          "actionKo": "항로 계획",
+          "dc": 10
+        },
+        {
+          "action": "Determine position by the stars",
+          "actionKo": "별을 보고 위치 파악",
+          "dc": 15
+        }
+      ],
+      "craft": [],
+      "craftKo": []
+    },
+    {
+      "id": "poisoners-kit",
+      "name": "Poisoner's Kit",
+      "nameKo": "독 제조 도구",
+      "ability": "Intelligence",
+      "abilityKo": "지능",
+      "weight": "2 lb.",
+      "cost": "50 GP",
+      "utilize": [
+        {
+          "action": "Detect a poisoned object",
+          "actionKo": "독이 묻은 물체 감지",
+          "dc": 10
+        },
+        {
+          "action": "Identify a poison",
+          "actionKo": "독 식별",
+          "dc": 20
+        }
+      ],
+      "craft": ["Antitoxin", "Basic Poison"],
+      "craftKo": ["해독제", "기본 독"]
+    },
+    {
+      "id": "thieves-tools",
+      "name": "Thieves' Tools",
+      "nameKo": "도둑 도구",
+      "ability": "Dexterity",
+      "abilityKo": "민첩",
+      "weight": "1 lb.",
+      "cost": "25 GP",
+      "utilize": [
+        {
+          "action": "Pick a lock",
+          "actionKo": "자물쇠 따기",
+          "dc": "Lock's DC"
+        },
+        {
+          "action": "Disarm a trap",
+          "actionKo": "덫 해제",
+          "dc": "Trap's DC"
+        }
+      ],
+      "craft": [],
+      "craftKo": []
+    }
+  ],
+  "gamingSets": [
+    {
+      "id": "dice",
+      "name": "Dice",
+      "nameKo": "주사위",
+      "cost": "1 SP",
+      "weight": "—",
+      "ability": "Wisdom",
+      "abilityKo": "지혜"
+    },
+    {
+      "id": "dragonchess",
+      "name": "Dragonchess Set",
+      "nameKo": "드래곤체스 세트",
+      "cost": "1 GP",
+      "weight": "½ lb.",
+      "ability": "Intelligence",
+      "abilityKo": "지능"
+    },
+    {
+      "id": "playing-cards",
+      "name": "Playing Card Set",
+      "nameKo": "트럼프 카드 세트",
+      "cost": "5 SP",
+      "weight": "—",
+      "ability": "Wisdom",
+      "abilityKo": "지혜"
+    },
+    {
+      "id": "three-dragon-ante",
+      "name": "Three-Dragon Ante Set",
+      "nameKo": "삼룡 안테 세트",
+      "cost": "1 GP",
+      "weight": "—",
+      "ability": "Wisdom",
+      "abilityKo": "지혜"
+    }
+  ],
+  "musicalInstruments": [
+    {
+      "id": "bagpipes",
+      "name": "Bagpipes",
+      "nameKo": "백파이프",
+      "weight": "6 lb.",
+      "cost": "30 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "drum",
+      "name": "Drum",
+      "nameKo": "드럼",
+      "weight": "3 lb.",
+      "cost": "6 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "dulcimer",
+      "name": "Dulcimer",
+      "nameKo": "덜시머",
+      "weight": "10 lb.",
+      "cost": "25 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "flute",
+      "name": "Flute",
+      "nameKo": "플루트",
+      "weight": "1 lb.",
+      "cost": "2 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "horn",
+      "name": "Horn",
+      "nameKo": "호른",
+      "weight": "2 lb.",
+      "cost": "3 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "lute",
+      "name": "Lute",
+      "nameKo": "류트",
+      "weight": "2 lb.",
+      "cost": "35 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "lyre",
+      "name": "Lyre",
+      "nameKo": "리라",
+      "weight": "2 lb.",
+      "cost": "30 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "pan-flute",
+      "name": "Pan Flute",
+      "nameKo": "팬플루트",
+      "weight": "2 lb.",
+      "cost": "12 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "shawm",
+      "name": "Shawm",
+      "nameKo": "숌",
+      "weight": "1 lb.",
+      "cost": "2 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    },
+    {
+      "id": "viol",
+      "name": "Viol",
+      "nameKo": "비올",
+      "weight": "1 lb.",
+      "cost": "30 GP",
+      "ability": "Charisma",
+      "abilityKo": "매력"
+    }
+  ],
+  "toolRules": [
+    {
+      "id": "tool-proficiency",
+      "title": "Tool Proficiency",
+      "titleKo": "도구 숙련",
+      "description": "If you have proficiency with a tool, add your Proficiency Bonus to any ability check you make that uses that tool. If you have proficiency in a skill that's also used with that check, you have Advantage on the check too.",
+      "descriptionKo": "도구에 숙련되어 있다면, 해당 도구를 사용하는 모든 능력 판정에 숙련 보너스를 더합니다. 해당 판정에 사용되는 기술에도 숙련되어 있다면, 판정에 유리도 받습니다."
+    },
+    {
+      "id": "crafting",
+      "title": "Crafting",
+      "titleKo": "제작",
+      "description": "Using a tool to craft an item requires raw materials worth half the item's cost. The crafting time depends on the item's value: for every 50 GP of value (minimum 1 day), you need one day of work during a Long Rest. Complex items may also require proficiency in specific tools.",
+      "descriptionKo": "도구를 사용하여 아이템을 제작하려면 아이템 가격의 절반에 해당하는 원재료가 필요합니다. 제작 시간은 아이템 가치에 따라 다릅니다: 가치 50 GP당 (최소 1일) 대휴식 동안 하루의 작업이 필요합니다. 복잡한 아이템은 특정 도구의 숙련도 필요할 수 있습니다."
+    }
+  ]
+}
