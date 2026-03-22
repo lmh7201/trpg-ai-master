@@ -24,7 +24,8 @@ defmodule TrpgMaster.AI.Tools do
       lookup_rule_def(),
       combat_round_checklist_def(),
       combat_end_checklist_def(),
-      lookup_dc_def()
+      lookup_dc_def(),
+      level_up_def()
     ]
   end
 
@@ -42,7 +43,8 @@ defmodule TrpgMaster.AI.Tools do
       combat_round_checklist_def(),
       combat_end_checklist_def(),
       lookup_dc_def(),
-      lookup_rule_def()
+      lookup_rule_def(),
+      level_up_def()
     ]
   end
 
@@ -493,6 +495,25 @@ defmodule TrpgMaster.AI.Tools do
     }
   end
 
+  defp level_up_def do
+    %{
+      name: "level_up",
+      description:
+        "캐릭터를 레벨업시킨다. HP(히트다이스 평균 + CON 수정치)와 숙련 보너스를 자동으로 재계산한다. " <>
+        "end_combat 후 캐릭터의 누적 XP가 다음 레벨 임계값을 초과했거나, 마일스톤 레벨업이 적절할 때 호출한다.",
+      input_schema: %{
+        type: "object",
+        properties: %{
+          character_name: %{
+            type: "string",
+            description: "레벨업할 캐릭터 이름"
+          }
+        },
+        required: ["character_name"]
+      }
+    }
+  end
+
   defp write_journal_def do
     %{
       name: "write_journal",
@@ -710,7 +731,15 @@ defmodule TrpgMaster.AI.Tools do
   end
 
   def execute("end_combat", _input) do
-    {:ok, %{"status" => "ok", "message" => "전투가 종료되었습니다."}}
+    {:ok, %{"status" => "ok", "message" => "전투가 종료되었습니다. XP가 지급되었으며 레벨업 조건이 충족되면 자동으로 처리됩니다."}}
+  end
+
+  def execute("level_up", input) do
+    {:ok,
+     %{
+       "status" => "ok",
+       "message" => "#{input["character_name"]} 레벨업이 처리되었습니다. HP와 숙련 보너스가 자동으로 재계산됩니다."
+     }}
   end
 
   # Journal tools: write_journal state update happens in Campaign.Server

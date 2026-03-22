@@ -10,6 +10,15 @@ defmodule TrpgMaster.Rules.CharacterData do
 
   @table :character_data
 
+  # D&D 5e XP 임계값 (레벨별 누적 XP, PHB 기준)
+  @xp_thresholds [
+    {1, 0},       {2, 300},     {3, 900},     {4, 2_700},
+    {5, 6_500},   {6, 14_000},  {7, 23_000},  {8, 34_000},
+    {9, 48_000},  {10, 64_000}, {11, 85_000}, {12, 100_000},
+    {13, 120_000},{14, 140_000},{15, 165_000},{16, 195_000},
+    {17, 225_000},{18, 265_000},{19, 305_000},{20, 355_000}
+  ]
+
   @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd-reference/src/data"
   @fetch_timeout 60_000
 
@@ -92,6 +101,43 @@ defmodule TrpgMaster.Rules.CharacterData do
           String.downcase(c) == String.downcase(class_name)
         end)
     end)
+  end
+
+  @doc "XP로 캐릭터 레벨을 계산한다 (최대 20)"
+  def level_for_xp(xp) when is_integer(xp) do
+    @xp_thresholds
+    |> Enum.filter(fn {_level, required} -> xp >= required end)
+    |> List.last()
+    |> elem(0)
+  end
+  def level_for_xp(_), do: 1
+
+  @doc "레벨에 필요한 총 XP를 반환한다"
+  def xp_for_level(level) when level in 1..20 do
+    {^level, xp} = List.keyfind!(@xp_thresholds, level, 0)
+    xp
+  end
+  def xp_for_level(_), do: 0
+
+  @doc "레벨에 따른 숙련 보너스를 반환한다"
+  def proficiency_bonus_for_level(level) when is_integer(level) do
+    cond do
+      level >= 17 -> 6
+      level >= 13 -> 5
+      level >= 9  -> 4
+      level >= 5  -> 3
+      true        -> 2
+    end
+  end
+  def proficiency_bonus_for_level(_), do: 2
+
+  @doc "히트다이스 문자열을 파싱하여 숫자를 반환한다 (예: 'd8' → 8)"
+  def parse_hit_die(nil), do: 8
+  def parse_hit_die(str) when is_binary(str) do
+    case Regex.run(~r/[Dd](\d+)/, str) do
+      [_, num] -> String.to_integer(num)
+      _ -> 8
+    end
   end
 
   @doc "주어진 카테고리의 장비 목록 (weapons, armor, gear, tools)"
@@ -395,14 +441,6 @@ defmodule TrpgMaster.Rules.CharacterData do
       end
 
     class_features ++ race_features
-  end
-
-  defp parse_hit_die(nil), do: 8
-  defp parse_hit_die(str) when is_binary(str) do
-    case Regex.run(~r/[Dd](\d+)/, str) do
-      [_, num] -> String.to_integer(num)
-      _ -> 8
-    end
   end
 
   def ability_modifier(score) when is_integer(score) do

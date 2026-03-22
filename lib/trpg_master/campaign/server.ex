@@ -798,7 +798,9 @@ defmodule TrpgMaster.Campaign.Server do
 
         idx ->
           List.update_at(state.characters, idx, fn char ->
-            apply_character_changes(char, changes)
+            updated = apply_character_changes(char, changes)
+            # 레벨이 증가했고 hp_max가 명시되지 않은 경우 자동으로 HP/숙련보너스 재계산
+            maybe_apply_level_up_stats(char, updated, changes)
           end)
       end
 
@@ -910,7 +912,7 @@ defmodule TrpgMaster.Campaign.Server do
     %{state | phase: :combat, combat_state: combat}
   end
 
-  defp apply_single_tool_result(state, %{tool: "end_combat", input: _input}) do
+  defp apply_single_tool_result(state, %{tool: "end_combat", input: input}) do
     Logger.info("전투 종료")
     player_names = get_in(state.combat_state, ["player_names"]) || []
 
@@ -921,7 +923,49 @@ defmodule TrpgMaster.Campaign.Server do
         state.characters
       end
 
+    xp_gained = input["xp"] || 0
+
+    characters =
+      if xp_gained > 0 do
+        Enum.map(characters, fn char -> apply_xp_gain(char, xp_gained) end)
+      else
+        characters
+      end
+
     %{state | phase: :exploration, combat_state: nil, characters: characters}
+  end
+
+  defp apply_single_tool_result(state, %{tool: "level_up", input: input}) do
+    alias TrpgMaster.Rules.CharacterData
+    char_name = input["character_name"]
+    Logger.info("레벨업 요청: #{char_name}")
+
+    characters =
+      case Enum.find_index(state.characters, &(&1["name"] == char_name)) do
+        nil ->
+          Logger.warning("레벨업 대상 캐릭터 없음: #{char_name}")
+          state.characters
+
+        idx ->
+          List.update_at(state.characters, idx, fn char ->
+            current_level = char["level"] || 1
+            current_xp = char["xp"] || 0
+            xp_based_level = min(CharacterData.level_for_xp(current_xp), 20)
+            # XP 기반 레벨이 더 높으면 그것을 사용, 아니면 1레벨 강제 상승
+            target_level = if xp_based_level > current_level, do: xp_based_level, else: current_level + 1
+            target_level = min(target_level, 20)
+
+            if target_level > current_level do
+              Logger.info("레벨업 적용: #{char_name} #{current_level} → #{target_level}")
+              apply_level_up(char, current_level, target_level)
+            else
+              Logger.info("레벨업 조건 미충족 또는 최대 레벨: #{char_name} (현재 레벨: #{current_level})")
+              char
+            end
+          end)
+      end
+
+    %{state | characters: characters}
   end
 
   @max_journal_entries 100
@@ -952,8 +996,62 @@ defmodule TrpgMaster.Campaign.Server do
     state
   end
 
+  # XP 획득 및 레벨업 처리
+  defp apply_xp_gain(char, xp_gained) do
+    alias TrpgMaster.Rules.CharacterData
+
+    current_xp = char["xp"] || 0
+    current_level = char["level"] || 1
+    new_xp = current_xp + xp_gained
+    new_level = min(CharacterData.level_for_xp(new_xp), 20)
+
+    char = Map.put(char, "xp", new_xp)
+    Logger.info("XP 획득: #{char["name"]} #{current_xp} → #{new_xp} XP")
+
+    if new_level > current_level do
+      Logger.info("레벨업 발생: #{char["name"]} #{current_level} → #{new_level}")
+      apply_level_up(char, current_level, new_level)
+    else
+      char
+    end
+  end
+
+  # 레벨업 시 HP(히트다이스 평균 + CON 수정치)와 숙련 보너스를 재계산한다.
+  defp apply_level_up(char, old_level, new_level) do
+    alias TrpgMaster.Rules.CharacterData
+
+    con_mod = get_in(char, ["ability_modifiers", "con"]) || 0
+    hit_die = CharacterData.parse_hit_die(char["hit_die"])
+
+    levels_gained = new_level - old_level
+    # D&D 5e 평균 규칙: floor(hit_die / 2) + 1 + CON 수정치, 최소 1
+    hp_per_level = max(div(hit_die, 2) + 1 + con_mod, 1)
+    hp_increase = hp_per_level * levels_gained
+
+    new_hp_max = (char["hp_max"] || 1) + hp_increase
+    new_prof_bonus = CharacterData.proficiency_bonus_for_level(new_level)
+
+    char
+    |> Map.put("level", new_level)
+    |> Map.put("hp_max", new_hp_max)
+    |> Map.put("hp_current", (char["hp_current"] || 1) + hp_increase)
+    |> Map.put("proficiency_bonus", new_prof_bonus)
+  end
+
+  # update_character로 수동 레벨업 시, hp_max가 명시되지 않으면 자동 재계산
+  defp maybe_apply_level_up_stats(old_char, new_char, changes) do
+    old_level = old_char["level"] || 1
+    new_level = new_char["level"] || 1
+
+    if new_level > old_level && is_nil(changes["hp_max"]) do
+      apply_level_up(new_char, old_level, new_level)
+    else
+      new_char
+    end
+  end
+
   # 캐릭터 맵에 변경사항을 적용한다.
-  # 지원 필드: hp_current, hp_max, class, level, ac, spell_slots_used, race, inventory
+  # 지원 필드: hp_current, hp_max, class, level, xp, ac, spell_slots_used, race, inventory, proficiency_bonus
   # 리스트 필드: inventory_add/remove, conditions_add/remove
   defp apply_character_changes(char, changes) do
     char
@@ -961,10 +1059,12 @@ defmodule TrpgMaster.Campaign.Server do
     |> maybe_put("hp_max", changes["hp_max"])
     |> maybe_put("class", changes["class"])
     |> maybe_put("level", changes["level"])
+    |> maybe_put("xp", changes["xp"])
     |> maybe_put("ac", changes["ac"])
     |> maybe_put("spell_slots_used", changes["spell_slots_used"])
     |> maybe_put("race", changes["race"])
     |> maybe_put("inventory", changes["inventory"])
+    |> maybe_put("proficiency_bonus", changes["proficiency_bonus"])
     |> apply_list_change("inventory", changes["inventory_add"], changes["inventory_remove"])
     |> apply_list_change("conditions", changes["conditions_add"], changes["conditions_remove"])
   end
