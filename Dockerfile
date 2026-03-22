@@ -28,8 +28,8 @@ RUN mix deps.get --only $MIX_ENV
 COPY config config
 COPY lib lib
 COPY priv priv
-# priv/data/*.json은 빌드 전에 scripts/sync_dnd_data.sh로 미리 생성해야 함
-# (private 저장소이므로 Docker 빌드 중 clone 불가)
+# priv/data/*.json은 런타임에 DATA_GITHUB_TOKEN으로 GitHub에서 fetch됨
+# (private 저장소이므로 빌드 시에는 포함되지 않음)
 
 RUN mix compile
 

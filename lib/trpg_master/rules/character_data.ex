@@ -1,13 +1,32 @@
 defmodule TrpgMaster.Rules.CharacterData do
   @moduledoc """
   캐릭터 생성에 필요한 D&D 5.5e 데이터를 로드하고 제공한다.
-  priv/data/ 디렉토리의 JSON 파일을 앱 시작 시 로드하여 ETS에 캐싱한다.
+  DATA_GITHUB_TOKEN이 있으면 GitHub에서 직접 fetch하고,
+  없으면 로컬 priv/data/ 파일을 사용한다. ETS에 캐싱한다.
   """
 
   use GenServer
   require Logger
 
   @table :character_data
+
+  @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd-reference/src/data"
+  @fetch_timeout 60_000
+
+  @data_mappings [
+    {:classes, "classes.json"},
+    {:races, "races.json"},
+    {:backgrounds, "backgrounds.json"},
+    {:feats, "feats.json"},
+    {:spells, "spells.json"},
+    {:class_features, "classFeatures.json"},
+    {:subclasses, "subclasses.json"},
+    {:subclass_features, "subclassFeatures.json"},
+    {:weapons, "weapons.json"},
+    {:armor, "armor.json"},
+    {:adventuring_gear, "adventuringGear.json"},
+    {:tools, "tools.json"}
+  ]
 
   # ── Public API ──────────────────────────────────────────────────────────────
 
@@ -200,12 +219,24 @@ defmodule TrpgMaster.Rules.CharacterData do
 
   @impl true
   def init(_) do
+    :ssl.start()
+    :inets.start()
+
     :ets.new(@table, [:named_table, :set, :public, read_concurrency: true])
-    load_all_data()
+
+    token = System.get_env("DATA_GITHUB_TOKEN")
+
+    if is_binary(token) && token != "" do
+      load_from_github(token)
+    else
+      Logger.info("CharacterData: DATA_GITHUB_TOKEN 없음 → 로컬 priv/data/ 파일 사용")
+      load_from_local()
+    end
+
     {:ok, %{}}
   end
 
-  # ── Private ────────────────────────────────────────────────────────────────
+  # ── Private: Load strategies ─────────────────────────────────────────────
 
   defp get(key, default) do
     case :ets.lookup(@table, key) do
@@ -214,39 +245,99 @@ defmodule TrpgMaster.Rules.CharacterData do
     end
   end
 
-  defp load_all_data do
-    mappings = [
-      {:classes, "classes.json"},
-      {:races, "races.json"},
-      {:backgrounds, "backgrounds.json"},
-      {:feats, "feats.json"},
-      {:spells, "spells.json"},
-      {:class_features, "classFeatures.json"},
-      {:subclasses, "subclasses.json"},
-      {:subclass_features, "subclassFeatures.json"},
-      {:weapons, "weapons.json"},
-      {:armor, "armor.json"},
-      {:adventuring_gear, "adventuringGear.json"},
-      {:tools, "tools.json"}
-    ]
+  defp load_from_github(token) do
+    Logger.info("CharacterData: DATA_GITHUB_TOKEN 감지됨 → GitHub에서 데이터 fetch 시작")
 
-    for {key, file} <- mappings do
-      path = Application.app_dir(:trpg_master, Path.join("priv/data", file))
+    for {key, file} <- @data_mappings do
+      url = "#{@github_raw_base}/#{file}"
 
-      case File.read(path) do
-        {:ok, content} ->
-          case Jason.decode(content) do
-            {:ok, data} ->
-              :ets.insert(@table, {key, data})
-              Logger.info("CharacterData 로드: #{file} (#{data_count(data)}건)")
-
-            {:error, reason} ->
-              Logger.warning("CharacterData JSON 파싱 실패: #{file} — #{inspect(reason)}")
-          end
+      case fetch_json(url, token) do
+        {:ok, data} ->
+          :ets.insert(@table, {key, data})
+          Logger.info("CharacterData: [GitHub] #{file} → #{data_count(data)}건")
 
         {:error, reason} ->
-          Logger.warning("CharacterData 파일 읽기 실패: #{file} — #{inspect(reason)}")
+          Logger.warning(
+            "CharacterData: [GitHub] #{file} fetch 실패 (#{reason}) → 로컬 파일로 대체"
+          )
+
+          load_local_file(key, file)
       end
+    end
+  end
+
+  defp load_from_local do
+    for {key, file} <- @data_mappings do
+      load_local_file(key, file)
+    end
+  end
+
+  defp load_local_file(key, file) do
+    path = Application.app_dir(:trpg_master, Path.join("priv/data", file))
+
+    case File.read(path) do
+      {:ok, content} ->
+        case Jason.decode(content) do
+          {:ok, data} ->
+            :ets.insert(@table, {key, data})
+            Logger.info("CharacterData: [로컬] #{file} → #{data_count(data)}건")
+
+          {:error, reason} ->
+            Logger.warning("CharacterData: JSON 파싱 실패 — #{file}: #{inspect(reason)}")
+        end
+
+      {:error, reason} ->
+        Logger.warning("CharacterData: 파일 읽기 실패 — #{file}: #{inspect(reason)}")
+    end
+  end
+
+  # ── GitHub HTTP fetch ──────────────────────────────────────────────────────
+
+  defp fetch_json(url, token) do
+    headers = [
+      {~c"Authorization", String.to_charlist("token #{token}")},
+      {~c"User-Agent", ~c"trpg-ai-master/1.0"}
+    ]
+
+    ssl_opts = build_ssl_opts()
+    http_opts = [timeout: @fetch_timeout, connect_timeout: 15_000, ssl: ssl_opts]
+
+    case :httpc.request(:get, {String.to_charlist(url), headers}, http_opts, []) do
+      {:ok, {{_, 200, _}, _headers, body}} ->
+        case Jason.decode(:erlang.list_to_binary(body)) do
+          {:ok, data} -> {:ok, data}
+          {:error, reason} -> {:error, "JSON 파싱 오류: #{inspect(reason)}"}
+        end
+
+      {:ok, {{_, 401, _}, _, _}} ->
+        {:error, "인증 실패 (401) — DATA_GITHUB_TOKEN을 확인하세요"}
+
+      {:ok, {{_, 404, _}, _, _}} ->
+        {:error, "파일 없음 (404)"}
+
+      {:ok, {{_, status, _}, _, body}} ->
+        body_str = :erlang.list_to_binary(body) |> String.slice(0, 200)
+        {:error, "HTTP #{status}: #{body_str}"}
+
+      {:error, reason} ->
+        {:error, "HTTP 요청 실패: #{inspect(reason)}"}
+    end
+  end
+
+  defp build_ssl_opts do
+    ca_cert_file = System.get_env("SSL_CERT_FILE", "/etc/ssl/certs/ca-certificates.crt")
+
+    if File.exists?(ca_cert_file) do
+      [
+        verify: :verify_peer,
+        cacertfile: String.to_charlist(ca_cert_file),
+        depth: 10,
+        customize_hostname_check: [
+          match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+        ]
+      ]
+    else
+      [verify: :verify_none]
     end
   end
 
