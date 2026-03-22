@@ -101,9 +101,11 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       |> assign(:selected_spells, [])
       |> assign(:available_cantrips, [])
       |> assign(:available_spells, [])
-      # 캐릭터 이름
+      # 캐릭터 이름 및 스토리
       |> assign(:character_name, "")
       |> assign(:alignment, "중립")
+      |> assign(:appearance, "")
+      |> assign(:backstory, "")
       |> assign(:error, nil)
       # 상세 패널
       |> assign(:detail_panel, nil)
@@ -351,6 +353,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     {:noreply, assign(socket, :alignment, alignment)}
   end
 
+  def handle_event("set_appearance", %{"value" => val}, socket) do
+    {:noreply, assign(socket, :appearance, val)}
+  end
+
+  def handle_event("set_backstory", %{"value" => val}, socket) do
+    {:noreply, assign(socket, :backstory, val)}
+  end
+
   def handle_event("show_detail", %{"type" => type, "id" => id}, socket) do
     {:noreply, assign(socket, :detail_panel, %{type: type, id: id})}
   end
@@ -541,6 +551,8 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       armor_choice: find_armor_in_equipment(equipment)
     })
     |> Map.put("alignment", assigns.alignment)
+    |> Map.put("appearance", assigns.appearance)
+    |> Map.put("backstory", assigns.backstory)
   end
 
   defp final_abilities_map(assigns) do
@@ -1141,6 +1153,26 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             <option value={al} selected={al == @alignment}><%= al %></option>
           <% end %>
         </select>
+      </div>
+
+      <div class="cc-textarea-field">
+        <label>외모 <span class="cc-optional">(선택)</span></label>
+        <textarea
+          placeholder="키, 체형, 머리카락 색, 눈 색, 눈에 띄는 특징 등을 자유롭게 적어주세요."
+          phx-keyup="set_appearance"
+          phx-debounce="400"
+          rows="3"
+        ><%= @appearance %></textarea>
+      </div>
+
+      <div class="cc-textarea-field">
+        <label>배경 스토리 <span class="cc-optional">(선택)</span></label>
+        <textarea
+          placeholder="모험을 떠나게 된 계기, 과거 이야기, 목표, 두려움 등을 자유롭게 적어주세요."
+          phx-keyup="set_backstory"
+          phx-debounce="400"
+          rows="5"
+        ><%= @backstory %></textarea>
       </div>
 
       <div class="cc-summary-sheet">

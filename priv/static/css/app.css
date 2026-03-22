@@ -2060,6 +2060,47 @@ html, body {
   margin-bottom: 0.3rem;
 }
 
+.cc-textarea-field {
+  margin-bottom: 1rem;
+}
+
+.cc-textarea-field label {
+  display: block;
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 0.3rem;
+}
+
+.cc-optional {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.cc-textarea-field textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.cc-textarea-field textarea:focus {
+  border-color: var(--accent-gold, #d4a847);
+}
+
+.cc-textarea-field textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.55;
+}
+
 .cc-alignment-select select {
   padding: 0.5rem 0.8rem;
   background: rgba(255, 255, 255, 0.06);
@@ -2435,6 +2476,14 @@ html, body {
   color: var(--text-secondary);
   opacity: 0.55;
   font-style: italic;
+}
+
+.char-prose {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-wrap;
 }
 
 /* 상태이상 */

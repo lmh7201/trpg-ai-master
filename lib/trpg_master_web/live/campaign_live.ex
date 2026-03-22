@@ -368,6 +368,22 @@ defmodule TrpgMasterWeb.CampaignLive do
               </div>
             </div>
 
+            <%!-- 외모 --%>
+            <%= if @character["appearance"] && @character["appearance"] != "" do %>
+              <div class="char-section">
+                <div class="char-section-title">외모</div>
+                <p class="char-prose"><%= @character["appearance"] %></p>
+              </div>
+            <% end %>
+
+            <%!-- 배경 스토리 --%>
+            <%= if @character["backstory"] && @character["backstory"] != "" do %>
+              <div class="char-section">
+                <div class="char-section-title">배경 스토리</div>
+                <p class="char-prose"><%= @character["backstory"] %></p>
+              </div>
+            <% end %>
+
             <%!-- 능력치 --%>
             <% abilities = @character["abilities"] || %{} %>
             <div class="char-section">
