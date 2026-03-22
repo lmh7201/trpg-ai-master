@@ -423,11 +423,45 @@ defmodule TrpgMaster.Rules.CharacterData do
       nil -> 10 + dex_mod
       "none" -> 10 + dex_mod
       armor_id ->
-        armor_data = Enum.find(armor(), &(&1["id"] == armor_id))
+        armor_data = Enum.find(flat_armor_list(), &(&1["id"] == armor_id))
         if armor_data, do: compute_armor_ac(armor_data, dex_mod), else: 10 + dex_mod
     end
   end
 
+  defp flat_armor_list do
+    data = armor()
+
+    cond do
+      is_map(data) -> Map.get(data, "armor", []) ++ Map.get(data, "shields", [])
+      is_list(data) -> data
+      true -> []
+    end
+  end
+
+  # AC가 문자열인 경우 파싱: "11 + Dex modifier", "14 + Dex modifier (max 2)", "18" 등
+  defp compute_armor_ac(%{"ac" => ac_str}, dex_mod) when is_binary(ac_str) do
+    cond do
+      # "14 + Dex modifier (max 2)" 같은 패턴
+      match = Regex.run(~r/^(\d+)\s*\+\s*Dex modifier\s*\(max\s*(\d+)\)/i, ac_str) ->
+        [_, base_str, max_str] = match
+        base = String.to_integer(base_str)
+        max_dex = String.to_integer(max_str)
+        base + min(dex_mod, max_dex)
+
+      # "11 + Dex modifier" 같은 패턴
+      match = Regex.run(~r/^(\d+)\s*\+\s*Dex modifier/i, ac_str) ->
+        [_, base_str] = match
+        String.to_integer(base_str) + dex_mod
+
+      # 숫자만 있는 경우 "18"
+      match = Regex.run(~r/^(\d+)$/, String.trim(ac_str)) ->
+        [_, base_str] = match
+        String.to_integer(base_str)
+
+      true ->
+        10 + dex_mod
+    end
+  end
   defp compute_armor_ac(%{"ac" => ac_info}, dex_mod) when is_map(ac_info) do
     base = Map.get(ac_info, "base", 10)
     add_dex = Map.get(ac_info, "addDex", true)

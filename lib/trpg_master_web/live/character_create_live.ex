@@ -1174,9 +1174,24 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             <span class="cc-stat-label">HP</span>
             <span class="cc-stat-value"><%= hp %></span>
           </div>
+          <% dex_mod = CharacterData.ability_modifier(@final_abilities["dex"]) %>
+          <% equipment = collect_equipment(assigns) %>
+          <% armor_id = find_armor_in_equipment(equipment) %>
+          <% ac = if armor_id do
+            armor_data = CharacterData.armor()
+            flat_list = cond do
+              is_map(armor_data) -> Map.get(armor_data, "armor", []) ++ Map.get(armor_data, "shields", [])
+              is_list(armor_data) -> armor_data
+              true -> []
+            end
+            a = Enum.find(flat_list, &(&1["id"] == armor_id))
+            if a, do: compute_summary_ac(a["ac"], dex_mod), else: 10 + dex_mod
+          else
+            10 + dex_mod
+          end %>
           <div class="cc-summary-stat">
             <span class="cc-stat-label">AC</span>
-            <span class="cc-stat-value">—</span>
+            <span class="cc-stat-value"><%= ac %></span>
           </div>
           <div class="cc-summary-stat">
             <span class="cc-stat-label">이동속도</span>
@@ -1223,6 +1238,26 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       spell -> spell["nameKo"] || spell["name"]
     end
   end
+
+  defp compute_summary_ac(ac_str, dex_mod) when is_binary(ac_str) do
+    cond do
+      match = Regex.run(~r/^(\d+)\s*\+\s*Dex modifier\s*\(max\s*(\d+)\)/i, ac_str) ->
+        [_, base_str, max_str] = match
+        String.to_integer(base_str) + min(dex_mod, String.to_integer(max_str))
+
+      match = Regex.run(~r/^(\d+)\s*\+\s*Dex modifier/i, ac_str) ->
+        [_, base_str] = match
+        String.to_integer(base_str) + dex_mod
+
+      match = Regex.run(~r/^(\d+)$/, String.trim(ac_str)) ->
+        [_, base_str] = match
+        String.to_integer(base_str)
+
+      true ->
+        10 + dex_mod
+    end
+  end
+  defp compute_summary_ac(_, dex_mod), do: 10 + dex_mod
 
   defp parse_hit_die_val(nil), do: 8
   defp parse_hit_die_val(str) do
