@@ -102,13 +102,15 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "lookup_monster",
       description:
-        "D&D 5.5e 몬스터/적 데이터를 조회한다. 전투 시작, 적 스탯 확인, 조우 구성 시 사용.",
+        "D&D 5.5e 몬스터/적 데이터를 조회한다. 이름에 해당 단어가 포함된 모든 몬스터를 리스트로 반환한다. " <>
+        "예: \"red dragon\" → wyrmling/young/adult/ancient red dragon 전부 반환. " <>
+        "한국어/영어 모두 지원. 전투 시작, 적 스탯 확인, 조우 구성 시 사용.",
       input_schema: %{
         type: "object",
         properties: %{
           name: %{
             type: "string",
-            description: "몬스터 이름 (한국어 또는 영어). 예: \"고블린\", \"Goblin\""
+            description: "몬스터 이름 (한국어 또는 영어, 부분 검색 가능). 예: \"고블린\", \"Goblin\", \"red dragon\", \"드래곤\""
           }
         },
         required: ["name"]
@@ -593,7 +595,7 @@ defmodule TrpgMaster.AI.Tools do
 
   def execute("lookup_monster", input) do
     name = Map.get(input, "name", "")
-    lookup_rule(:monster, name)
+    lookup_monsters_list(name)
   end
 
   def execute("search_monsters", input) do
@@ -844,6 +846,25 @@ defmodule TrpgMaster.AI.Tools do
     case result do
       {:ok, entry} when is_map(entry) -> {:ok, compact_entry(type, entry)}
       other -> other
+    end
+  end
+
+  # 몬스터 부분 검색: 이름에 query가 포함된 모든 몬스터를 리스트로 반환
+  defp lookup_monsters_list(name) do
+    case RulesLoader.lookup(:monster, name) do
+      {:ok, entry} ->
+        # 정확히 일치하는 경우도 리스트로 반환
+        {:ok, %{"count" => 1, "monsters" => [compact_entry(:monster, entry)]}}
+
+      :not_found ->
+        case RulesLoader.search(:monster, name) do
+          [] ->
+            {:ok, %{"error" => "데이터에서 찾을 수 없습니다", "query" => name}}
+
+          entries ->
+            compacted = Enum.map(entries, &compact_entry(:monster, &1))
+            {:ok, %{"count" => length(compacted), "monsters" => compacted}}
+        end
     end
   end
 
