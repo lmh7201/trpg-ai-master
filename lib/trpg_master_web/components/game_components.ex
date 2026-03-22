@@ -93,6 +93,9 @@ defmodule TrpgMasterWeb.GameComponents do
     ~H"""
     <div class="status-bar">
       <%= if @character do %>
+        <button phx-click="open_character_modal" class="char-sheet-btn" title="캐릭터 시트 열기">
+          📜 <strong><%= @character["name"] || "캐릭터" %></strong>
+        </button>
         <span class="status-item">
           ❤️ <strong><%= @character["hp_current"] || "?" %>/<%= @character["hp_max"] || "?" %></strong>
         </span>

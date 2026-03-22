@@ -2176,6 +2176,325 @@ html, body {
   line-height: 1.4;
 }
 
+/* ── 캐릭터 정보 모달 ─────────────────────────────────────────────────────── */
+
+.character-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+}
+
+.character-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 201;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: min(480px, 92vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(212, 168, 71, 0.12);
+}
+
+/* 헤더 */
+.char-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem 0.85rem;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(180deg, rgba(212, 168, 71, 0.07) 0%, transparent 100%);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.char-modal-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.char-modal-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.04em;
+}
+
+.char-modal-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+/* 바디 */
+.char-modal-body {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* 섹션 공통 */
+.char-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.char-section-title {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  opacity: 0.75;
+  border-bottom: 1px solid rgba(212, 168, 71, 0.18);
+  padding-bottom: 0.3rem;
+}
+
+/* 기본 정보 행 */
+.char-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+}
+
+.char-info-item {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.char-info-item strong {
+  color: var(--text-primary);
+}
+
+/* 능력치 6칸 그리드 */
+.char-ability-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+}
+
+.char-ability-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 0.2rem;
+}
+
+.char-ability-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.char-ability-score {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.char-ability-mod {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+/* 전투 스탯 */
+.char-combat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.char-combat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  min-width: 64px;
+}
+
+.char-combat-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.char-combat-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.char-combat-hp {
+  color: var(--accent-green);
+}
+
+.char-combat-ac {
+  color: var(--accent-blue);
+}
+
+/* 주문 슬롯 */
+.char-spell-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.char-spell-slot-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.char-spell-slot-level {
+  color: var(--text-secondary);
+  width: 2.6rem;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+}
+
+.char-spell-slot-pips {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.spell-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.spell-pip.available {
+  background: var(--accent-gold);
+}
+
+.spell-pip.used {
+  background: transparent;
+  opacity: 0.3;
+}
+
+.char-spell-slot-count {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  margin-left: 0.1rem;
+}
+
+/* 소지품 */
+.char-inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.char-inventory-item {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.char-inventory-item::before {
+  content: "•";
+  color: var(--accent-gold);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.char-empty-note {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0.55;
+  font-style: italic;
+}
+
+/* 상태이상 */
+.char-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.char-condition-badge {
+  font-size: 0.73rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+  background: rgba(231, 76, 60, 0.18);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+  color: #e06c75;
+}
+
+/* status_bar 내 트리거 버튼 */
+.char-sheet-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.char-sheet-btn:hover {
+  background: rgba(212, 168, 71, 0.1);
+  border-color: rgba(212, 168, 71, 0.3);
+  color: var(--accent-gold);
+}
+
+.char-sheet-btn strong {
+  color: inherit;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 600px) {
+  .char-ability-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .char-ability-cell {
+    padding: 0.5rem 0.3rem;
+  }
+
+  .character-modal {
+    max-height: 90vh;
+  }
+}
+
 /* 모바일 반응형 — 캐릭터 생성 */
 @media (max-width: 600px) {
   .cc-body {

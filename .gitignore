@@ -30,3 +30,6 @@ erl_crash.dump
 
 # Mix lock (not needed for git deps)
 # /mix.lock
+
+# Save backup folder
+save backup/

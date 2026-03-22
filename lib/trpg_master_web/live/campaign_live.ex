@@ -33,6 +33,7 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:ending_session, false)
          |> assign(:ai_model, current_model)
          |> assign(:show_model_selector, false)
+         |> assign(:show_character_modal, false)
          |> assign(:available_models, Models.list_with_status())}
 
       {:error, :not_found} ->
@@ -101,6 +102,18 @@ defmodule TrpgMasterWeb.CampaignLive do
     Server.set_mode(campaign_id, new_mode)
 
     {:noreply, assign(socket, :mode, new_mode)}
+  end
+
+  # ── 캐릭터 정보 모달 ──────────────────────────────────────────────────────────
+
+  @impl true
+  def handle_event("open_character_modal", _, socket) do
+    {:noreply, assign(socket, :show_character_modal, true)}
+  end
+
+  @impl true
+  def handle_event("close_character_modal", _, socket) do
+    {:noreply, assign(socket, :show_character_modal, false)}
   end
 
   # ── DM 선택 ─────────────────────────────────────────────────────────────────
@@ -322,6 +335,141 @@ defmodule TrpgMasterWeb.CampaignLive do
         </div>
       <% end %>
 
+      <%= if @show_character_modal && @character do %>
+        <div class="character-modal-overlay" phx-click="close_character_modal"></div>
+        <div class="character-modal">
+          <%!-- 헤더 --%>
+          <div class="char-modal-header">
+            <div class="char-modal-title">
+              <span class="char-modal-name"><%= @character["name"] || "캐릭터" %></span>
+              <span class="char-modal-subtitle">
+                <%= @character["class"] || "" %><%= if @character["level"], do: " · #{@character["level"]}레벨", else: "" %>
+              </span>
+            </div>
+            <button phx-click="close_character_modal" class="modal-close-btn">✕</button>
+          </div>
+
+          <%!-- 바디 --%>
+          <div class="char-modal-body">
+
+            <%!-- 기본 정보 --%>
+            <div class="char-section">
+              <div class="char-section-title">기본 정보</div>
+              <div class="char-info-row">
+                <%= if @character["race"] do %>
+                  <span class="char-info-item">종족 <strong><%= @character["race"] %></strong></span>
+                <% end %>
+                <%= if @character["background"] do %>
+                  <span class="char-info-item">배경 <strong><%= @character["background"] %></strong></span>
+                <% end %>
+                <%= if @character["alignment"] do %>
+                  <span class="char-info-item">성향 <strong><%= @character["alignment"] %></strong></span>
+                <% end %>
+              </div>
+            </div>
+
+            <%!-- 능력치 --%>
+            <% abilities = @character["abilities"] || %{} %>
+            <div class="char-section">
+              <div class="char-section-title">능력치</div>
+              <div class="char-ability-grid">
+                <%= for {key, label} <- [{"str", "근력"}, {"dex", "민첩"}, {"con", "건강"}, {"int", "지능"}, {"wis", "지혜"}, {"cha", "매력"}] do %>
+                  <% score = abilities[key] %>
+                  <div class="char-ability-cell">
+                    <span class="char-ability-label"><%= label %></span>
+                    <span class="char-ability-score"><%= score || "—" %></span>
+                    <span class="char-ability-mod"><%= ability_modifier(score) %></span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <%!-- 전투 스탯 --%>
+            <div class="char-section">
+              <div class="char-section-title">전투</div>
+              <div class="char-combat-grid">
+                <div class="char-combat-item">
+                  <span class="char-combat-label">HP</span>
+                  <span class="char-combat-value char-combat-hp">
+                    <%= @character["hp_current"] || "?" %>/<%= @character["hp_max"] || "?" %>
+                  </span>
+                </div>
+                <div class="char-combat-item">
+                  <span class="char-combat-label">AC</span>
+                  <span class="char-combat-value char-combat-ac"><%= @character["ac"] || "?" %></span>
+                </div>
+                <%= if @character["speed"] do %>
+                  <div class="char-combat-item">
+                    <span class="char-combat-label">이동</span>
+                    <span class="char-combat-value"><%= @character["speed"] %>ft</span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <%!-- 주문 슬롯 (해당 클래스만) --%>
+            <% slots = @character["spell_slots"] || %{} %>
+            <% has_spells = Enum.any?(slots, fn {_, v} -> is_integer(v) && v > 0 end) %>
+            <%= if has_spells do %>
+              <% used = @character["spell_slots_used"] || %{} %>
+              <div class="char-section">
+                <div class="char-section-title">주문 슬롯</div>
+                <div class="char-spell-slots">
+                  <%= for {level, total} <- Enum.sort(slots), is_integer(total) && total > 0 do %>
+                    <% raw_used = used[level] %>
+                    <% used_count = if is_integer(raw_used), do: raw_used, else: 0 %>
+                    <div class="char-spell-slot-row">
+                      <span class="char-spell-slot-level">Lv.<%= level %></span>
+                      <div class="char-spell-slot-pips">
+                        <%= for i <- 1..total do %>
+                          <span class={"spell-pip #{if i <= used_count, do: "used", else: "available"}"}></span>
+                        <% end %>
+                      </div>
+                      <span class="char-spell-slot-count"><%= total - used_count %>/<%= total %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <%!-- 소지품 --%>
+            <% inventory = @character["inventory"] || [] %>
+            <div class="char-section">
+              <div class="char-section-title">소지품</div>
+              <%= if inventory != [] do %>
+                <div class="char-inventory-list">
+                  <%= for item <- inventory do %>
+                    <div class="char-inventory-item">
+                      <%= cond do
+                        is_binary(item) -> item
+                        is_map(item) -> item["name"] || "?"
+                        true -> inspect(item)
+                      end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <span class="char-empty-note">소지품 없음</span>
+              <% end %>
+            </div>
+
+            <%!-- 상태이상 (있을 때만) --%>
+            <% conditions = @character["conditions"] || [] %>
+            <%= if conditions != [] do %>
+              <div class="char-section">
+                <div class="char-section-title">상태이상</div>
+                <div class="char-conditions">
+                  <%= for cond_name <- conditions do %>
+                    <span class="char-condition-badge"><%= cond_name %></span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+      <% end %>
+
       <div class="chat-area" id="chat-area" phx-hook="ScrollBottom">
         <%= if @messages == [] do %>
           <div class="welcome-message">
@@ -532,6 +680,15 @@ defmodule TrpgMasterWeb.CampaignLive do
   end
 
   defp build_tool_narrative(_tool, _input), do: "완료"
+
+  defp ability_modifier(nil), do: "+0"
+
+  defp ability_modifier(score) when is_integer(score) do
+    mod = Integer.floor_div(score - 10, 2)
+    if mod >= 0, do: "+#{mod}", else: "#{mod}"
+  end
+
+  defp ability_modifier(_), do: "+0"
 
   defp phase_label(:exploration), do: "탐험"
   defp phase_label(:combat), do: "전투"
