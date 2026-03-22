@@ -585,12 +585,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     class = assigns.selected_class
     bg = assigns.selected_background
 
-    class_equip =
-      case assigns.class_equip_choice do
-        "A" -> get_equip_option_text(class, "A")
-        "B" -> get_equip_option_text(class, "B")
-        _ -> ""
-      end
+    class_equip = get_equip_option_text(class, assigns.class_equip_choice)
 
     bg_equip =
       case assigns.bg_equip_choice do
@@ -605,11 +600,13 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   end
 
   defp get_equip_option_text(class, choice) do
-    case class["startingEquipment"] do
+    equip = class["startingEquipmentKo"] || class["startingEquipment"]
+
+    case equip do
       [%{"options" => options} | _] ->
         target = "(#{choice})"
         Enum.find(options, "", fn opt -> String.starts_with?(opt, target) end)
-        |> String.replace(~r/^\([AB]\)\s*/, "")
+        |> String.replace(~r/^\([A-Z]\)\s*/, "")
 
       _ -> ""
     end
@@ -624,12 +621,19 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   defp parse_equipment_string(_), do: []
 
   defp find_armor_in_equipment(equipment) do
-    armor_list = CharacterData.armor()
+    armor_data = CharacterData.armor()
+
+    armor_list =
+      cond do
+        is_map(armor_data) -> Map.get(armor_data, "armor", []) ++ Map.get(armor_data, "shields", [])
+        is_list(armor_data) -> armor_data
+        true -> []
+      end
 
     Enum.find_value(equipment, nil, fn item ->
       Enum.find_value(armor_list, nil, fn a ->
-        name_ko = a["name"] || a["nameKo"] || ""
-        name_en = a["nameEn"] || ""
+        name_ko = a["nameKo"] || a["name"] || ""
+        name_en = a["nameEn"] || a["name"] || ""
         if String.contains?(item, name_ko) or String.contains?(item, name_en), do: a["id"]
       end)
     end)
@@ -994,9 +998,12 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
         <div class="cc-equip-section">
           <h3>클래스 시작 장비</h3>
           <div class="cc-equip-choices">
-            <%= for equip_group <- (@selected_class["startingEquipment"] || []) do %>
+            <%= for equip_group <- (@selected_class["startingEquipmentKo"] || @selected_class["startingEquipment"] || []) do %>
               <%= for opt <- (equip_group["options"] || []) do %>
-                <% choice = if String.starts_with?(opt, "(A)"), do: "A", else: "B" %>
+                <% choice = case Regex.run(~r/^\(([A-Z])\)/, opt) do
+                  [_, letter] -> letter
+                  _ -> opt
+                end %>
                 <button
                   class={"cc-equip-btn #{if @class_equip_choice == choice, do: "selected"}"}
                   phx-click="set_class_equip"
