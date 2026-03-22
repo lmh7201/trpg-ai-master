@@ -1443,10 +1443,28 @@ html, body {
   border-bottom: 1px solid rgba(212, 168, 71, 0.2);
 }
 
+.cc-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
 .cc-header h1 {
   font-size: 1.4rem;
   color: var(--accent-gold, #d4a847);
-  margin: 0 0 0.75rem;
+  margin: 0;
+}
+
+.cc-skip-link {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.cc-skip-link:hover {
+  color: var(--accent-gold, #d4a847);
 }
 
 .cc-steps {

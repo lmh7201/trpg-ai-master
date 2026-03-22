@@ -1,6 +1,8 @@
 defmodule TrpgMasterWeb.CharacterCreateLive do
   use TrpgMasterWeb, :live_view
 
+  require Logger
+
   alias TrpgMaster.Campaign.{Manager, Server}
   alias TrpgMaster.Rules.CharacterData
 
@@ -49,6 +51,18 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       end
     end
 
+    # 데이터가 로드되지 않았으면 AI 캐릭터 생성으로 바로 이동
+    classes = CharacterData.classes()
+
+    if classes == [] do
+      Logger.warning("CharacterCreateLive: 캐릭터 데이터 없음 → AI 캐릭터 생성으로 이동")
+      {:ok, push_navigate(socket, to: "/play/#{id}")}
+    else
+      mount_with_data(id, classes, socket)
+    end
+  end
+
+  defp mount_with_data(id, classes, socket) do
     socket =
       socket
       |> assign(:campaign_id, id)
@@ -57,7 +71,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       |> assign(:ability_keys, @ability_keys)
       |> assign(:ability_names, @ability_names)
       # 선택 데이터
-      |> assign(:classes, CharacterData.classes())
+      |> assign(:classes, classes)
       |> assign(:races, CharacterData.races())
       |> assign(:backgrounds, CharacterData.backgrounds())
       # 선택 상태
@@ -625,7 +639,10 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     ~H"""
     <div class="cc-container">
       <header class="cc-header">
-        <h1>캐릭터 생성</h1>
+        <div class="cc-header-top">
+          <h1>캐릭터 생성</h1>
+          <a href={"/play/#{@campaign_id}"} class="cc-skip-link">AI에게 맡기기 →</a>
+        </div>
         <div class="cc-steps">
           <%= for {num, label, _key} <- @steps do %>
             <div class={"cc-step-dot #{if num == @step, do: "active"} #{if num < @step, do: "done"}"}>
