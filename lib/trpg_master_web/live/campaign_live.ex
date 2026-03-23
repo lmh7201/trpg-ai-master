@@ -469,6 +469,19 @@ defmodule TrpgMasterWeb.CampaignLive do
               <% end %>
             </div>
 
+            <%!-- 특기 (있을 때만) --%>
+            <% feats = (@character["feats"] || []) ++ (if @character["background_feat"], do: [@character["background_feat"]], else: []) %>
+            <%= if feats != [] do %>
+              <div class="char-section">
+                <div class="char-section-title">특기</div>
+                <div class="char-features-list">
+                  <%= for feat_name <- feats do %>
+                    <span class="char-feature-badge"><%= feat_name %></span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
             <%!-- 상태이상 (있을 때만) --%>
             <% conditions = @character["conditions"] || [] %>
             <%= if conditions != [] do %>

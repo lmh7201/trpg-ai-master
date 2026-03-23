@@ -503,7 +503,7 @@ defmodule TrpgMaster.AI.Tools do
       description:
         "캐릭터를 레벨업시킨다. HP(히트다이스 평균 + CON 수정치), 숙련 보너스, 주문 슬롯이 자동으로 재계산된다. " <>
         "end_combat 후 누적 XP가 다음 레벨 임계값을 초과했거나, 마일스톤 레벨업이 적절할 때 호출한다. " <>
-        "ASI 레벨(기본: 4/8/12/16/19, 파이터: +6/14, 로그: +10)에는 플레이어에게 능력치 선택을 묻고 asi 파라미터로 함께 전달한다. " <>
+        "ASI 레벨(기본: 4/8/12/16/19, 파이터: +6/14, 로그: +10)에는 플레이어에게 능력치 향상(ASI) 또는 특기(Feat) 중 하나를 선택하도록 안내하고 asi 또는 feat 파라미터로 전달한다. asi와 feat은 동시에 사용할 수 없다. " <>
         "주문시전 클래스(바드/소서러/레인저/워록/위자드/클레릭/드루이드)는 레벨업 시 새 주문을 배울 수 있다. " <>
         "플레이어에게 배울 주문을 선택하도록 안내하고 new_spells 파라미터로 전달한다.",
       input_schema: %{
@@ -518,8 +518,14 @@ defmodule TrpgMaster.AI.Tools do
             description:
               "능력치 향상(ASI) 선택. 기본 ASI 레벨: 4/8/12/16/19 (파이터 추가: 6/14, 로그 추가: 10). " <>
               "+2 배분 예: {\"str\": 2} / +1+1 배분 예: {\"str\": 1, \"dex\": 1}. " <>
-              "능력치 키: str, dex, con, int, wis, cha. 각 능력치 상한은 20.",
+              "능력치 키: str, dex, con, int, wis, cha. 각 능력치 상한은 20. feat과 동시 사용 불가.",
             additionalProperties: %{type: "integer"}
+          },
+          feat: %{
+            type: "string",
+            description:
+              "특기(Feat) 선택. ASI 대신 선택 가능. 특기 이름(한국어 또는 영어)을 전달한다. " <>
+              "예: \"경계심\", \"Alert\", \"마법 시전\", \"Magic Initiate\". asi와 동시 사용 불가."
           },
           new_spells: %{
             type: "array",
@@ -771,6 +777,13 @@ defmodule TrpgMaster.AI.Tools do
           " ASI 적용: #{Enum.join(parts, ", ")}."
       end
 
+    feat_msg =
+      case input["feat"] do
+        nil -> ""
+        "" -> ""
+        feat_name when is_binary(feat_name) -> " 특기 습득: #{feat_name}."
+      end
+
     spells_msg =
       case input["new_spells"] do
         nil -> ""
@@ -784,7 +797,7 @@ defmodule TrpgMaster.AI.Tools do
      %{
        "status" => "ok",
        "message" =>
-         "#{input["character_name"]} 레벨업이 처리되었습니다. HP, 숙련 보너스, 주문 슬롯이 자동으로 재계산됩니다.#{asi_msg}#{spells_msg}"
+         "#{input["character_name"]} 레벨업이 처리되었습니다. HP, 숙련 보너스, 주문 슬롯이 자동으로 재계산됩니다.#{asi_msg}#{feat_msg}#{spells_msg}"
      }}
   end
 
@@ -833,6 +846,9 @@ defmodule TrpgMaster.AI.Tools do
     3. 상태이상: 진행 중인 상태이상 효과 처리 (독, 기절, 공포 등)
     4. 환경 변화: 전투 중 환경이 변하는 요소가 있는지 확인
     5. 사기 확인: HP가 50% 이하인 적은 도주를 고려
+    6. HP 즉시 기록: 이번 라운드에서 발생한 모든 피해/치유를 update_character로 즉시 기록하세요.
+       피해를 받은 캐릭터(플레이어 또는 적)마다 update_character를 호출해야 합니다.
+       다음 라운드로 넘어가기 전에 반드시 처리해야 합니다.
     """
 
     {:ok, %{"checklist" => String.trim(checklist)}}
@@ -846,7 +862,8 @@ defmodule TrpgMaster.AI.Tools do
     3. HP/자원 확인: 파티원의 현재 HP와 소모된 자원(주문 슬롯, 아이템) 정리
     4. 도주한 적: 도망친 적이 있다면 기록 (나중에 재등장 가능)
     5. 스토리 영향: 이 전투가 스토리에 미치는 영향을 정리
-    확인 후 update_character로 캐릭터 상태를 업데이트하고, write_journal로 전투 결과를 기록하세요.
+    HP는 각 라운드에서 이미 update_character로 실시간 기록되었어야 합니다. 여기서는 누락된 항목만 최종 확인하세요.
+    확인 후 write_journal로 전투 결과를 기록하세요.
     """
 
     {:ok, %{"checklist" => String.trim(checklist)}}

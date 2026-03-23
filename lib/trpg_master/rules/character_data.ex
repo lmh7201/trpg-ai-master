@@ -362,7 +362,8 @@ defmodule TrpgMaster.Rules.CharacterData do
       "spells_known" => params[:spells] || %{},
       "conditions" => [],
       "spell_slots" => spell_slots,
-      "spell_slots_used" => %{}
+      "spell_slots_used" => %{},
+      "feats" => []
     }
   end
 

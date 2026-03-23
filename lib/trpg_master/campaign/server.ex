@@ -368,17 +368,16 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp all_players_dead?(_, _), do: false
 
-  defp all_enemies_dead?(characters, player_names, _enemies) do
-    # AI가 update_character로 적 HP를 업데이트하면 state.characters에 추가됨
-    # player_names에 속하지 않는 캐릭터가 모두 HP 0 이하이면 적 전멸
-    enemy_chars = Enum.reject(characters, fn c -> c["name"] in player_names end)
-
-    enemy_chars != [] and
-      Enum.all?(enemy_chars, fn c ->
-        hp = c["hp_current"]
-        is_number(hp) and hp <= 0
-      end)
+  defp all_enemies_dead?(_characters, _player_names, enemies) when is_list(enemies) and enemies != [] do
+    # combat_state["enemies"]의 HP를 기준으로 적 전멸 판단
+    # (적은 state.characters에 추가되지 않으므로 enemies 목록을 직접 사용)
+    Enum.all?(enemies, fn e ->
+      hp = e["hp_current"]
+      is_number(hp) and hp <= 0
+    end)
   end
+
+  defp all_enemies_dead?(_, _, _), do: false
 
   # combat_should_end?가 true이지만 아직 phase가 :combat인 경우, 강제 전투 종료 처리
   defp force_end_combat_if_needed(%{phase: :combat} = state) do
@@ -818,11 +817,14 @@ defmodule TrpgMaster.Campaign.Server do
   defp sync_enemy_hp_to_combat_state(state, char_name, changes) do
     enemies = get_in(state.combat_state, ["enemies"]) || []
     hp_current = changes["hp_current"]
+    normalized = char_name |> String.trim() |> String.downcase()
 
-    if hp_current && Enum.any?(enemies, fn e -> e["name"] == char_name end) do
+    match? = fn e -> (e["name"] || "") |> String.trim() |> String.downcase() == normalized end
+
+    if hp_current && Enum.any?(enemies, match?) do
       updated_enemies =
         Enum.map(enemies, fn e ->
-          if e["name"] == char_name do
+          if match?.(e) do
             e
             |> Map.put("hp_current", hp_current)
             |> then(fn e2 ->
@@ -941,6 +943,7 @@ defmodule TrpgMaster.Campaign.Server do
     alias TrpgMaster.Rules.CharacterData
     char_name = input["character_name"]
     asi = input["asi"]
+    feat = input["feat"]
     new_spells = input["new_spells"]
     Logger.info("레벨업 요청: #{char_name}")
 
@@ -964,10 +967,11 @@ defmodule TrpgMaster.Campaign.Server do
               char
               |> apply_level_up(current_level, target_level)
               |> apply_asi(asi)
+              |> apply_feat(feat)
               |> apply_new_spells(new_spells)
-              # ASI 레벨인데 선택이 없으면 플래그 설정
+              # ASI 레벨인데 ASI/feat 선택이 없으면 대기 플래그 설정
               |> then(fn c ->
-                if CharacterData.asi_level?(target_level, char["class_id"]) && is_nil(asi) do
+                if CharacterData.asi_level?(target_level, char["class_id"]) && is_nil(asi) && is_nil(feat) do
                   Map.put(c, "asi_pending", true)
                 else
                   Map.delete(c, "asi_pending")
@@ -1103,6 +1107,33 @@ defmodule TrpgMaster.Campaign.Server do
     |> Map.put("ability_modifiers", new_modifiers)
   end
   defp apply_asi(char, _), do: char
+
+  # 특기(Feat) 습득: level_up의 feat 파라미터로 전달된 특기 이름을 feats 목록에 추가한다.
+  # dnd_reference_ko feats 데이터에서 매칭을 시도하고, 없으면 이름 그대로 추가한다.
+  defp apply_feat(char, feat_name) when is_binary(feat_name) and feat_name != "" do
+    alias TrpgMaster.Rules.CharacterData
+    name_lower = String.downcase(feat_name)
+
+    resolved_name =
+      CharacterData.feats()
+      |> Enum.find(fn f ->
+        ko = get_in(f, ["name", "ko"]) || ""
+        en = get_in(f, ["name", "en"]) || ""
+        String.downcase(ko) == name_lower || String.downcase(en) == name_lower
+      end)
+      |> case do
+        nil -> feat_name
+        f -> get_in(f, ["name", "ko"]) || get_in(f, ["name", "en"]) || feat_name
+      end
+
+    existing = char["feats"] || []
+    if resolved_name in existing do
+      char
+    else
+      Map.put(char, "feats", existing ++ [resolved_name])
+    end
+  end
+  defp apply_feat(char, _), do: char
 
   # 새 주문 습득: level_up의 new_spells 파라미터로 전달된 주문을 spells_known에 추가한다.
   # 주문은 %{"name" => "...", "level" => 0~9} 형태의 맵 목록.
