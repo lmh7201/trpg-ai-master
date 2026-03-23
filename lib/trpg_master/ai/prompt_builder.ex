@@ -60,14 +60,24 @@ defmodule TrpgMaster.AI.PromptBuilder do
   defp build_post_combat_section(summary) do
     """
     ## 직전 전투 요약
-    아래는 방금 끝난 전투의 요약이다. 전투 결과를 참고하여 탐험 서술에 자연스럽게 반영하라.
+    아래는 방금 끝난 전투의 요약이다. 전투는 이미 완전히 종료되었다.
+    - 전투 결과를 참고하여 탐험 서술에 자연스럽게 반영하라.
+    - 전투 묘사를 계속하거나 추가 전투 라운드를 진행하지 마라.
+    - 전투 후 상황(부상 치료, 전리품 확인, 다음 행동 등)을 서술하라.
 
     #{summary}
 
     """
   end
 
-  defp build_combat_phase_instruction(nil), do: ""
+  defp build_combat_phase_instruction(nil) do
+    """
+    ## 현재 모드: 탐험
+    현재 전투 중이 아닙니다. 전투 행동(공격 굴림, 피해 적용, 전투 라운드 진행)을 서술하지 마세요.
+    전투가 필요한 상황이 발생하면 반드시 start_combat을 먼저 호출하세요.
+
+    """
+  end
 
   defp build_combat_phase_instruction(:player_turn) do
     """
@@ -319,7 +329,9 @@ defmodule TrpgMaster.AI.PromptBuilder do
             _ -> ""
           end
 
-        "- #{c["name"]}#{race}#{class}#{level}#{hp}#{ac}#{conditions}"
+        spell_info = format_spell_slots(c["spell_slots"], c["spell_slots_used"])
+
+        "- #{c["name"]}#{race}#{class}#{level}#{hp}#{ac}#{conditions}#{spell_info}"
       end)
       |> Enum.join("\n")
 
@@ -463,6 +475,22 @@ defmodule TrpgMaster.AI.PromptBuilder do
   end
 
   defp mode_instruction(_), do: mode_instruction(:adventure)
+
+  defp format_spell_slots(slots, _used) when not is_map(slots) or map_size(slots) == 0, do: ""
+
+  defp format_spell_slots(slots, used) do
+    slot_parts =
+      slots
+      |> Enum.sort_by(fn {k, _} -> String.to_integer(k) end)
+      |> Enum.map(fn {level, total} ->
+        used_count = (used || %{})[level] || 0
+        remaining = max(total - used_count, 0)
+        "Lv.#{level}: #{remaining}/#{total}"
+      end)
+      |> Enum.join(", ")
+
+    " | 주문 슬롯: #{slot_parts}"
+  end
 
   defp default_system_prompt do
     """
