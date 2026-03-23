@@ -388,8 +388,8 @@ defmodule TrpgMaster.Rules.CharacterData do
 
       "spells" ->
         Map.take(character, [
-          "spells_known", "spell_slots_used",
-          "abilities", "ability_modifiers", "proficiency_bonus", "level"
+          "spells_known", "spell_slots", "spell_slots_used",
+          "abilities", "ability_modifiers", "proficiency_bonus", "level", "class_id"
         ])
 
       "equipment" ->
