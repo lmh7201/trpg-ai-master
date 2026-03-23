@@ -2445,6 +2445,42 @@ html, body {
   margin-left: 0.1rem;
 }
 
+/* 알고 있는 주문 목록 */
+.char-spells-known {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.char-spell-level-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.char-spell-level-label {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  width: 3rem;
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+}
+
+.char-spell-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.char-spell-badge {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  color: var(--text-primary);
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.78rem;
+}
+
 /* 소지품 */
 .char-inventory-list {
   display: flex;
