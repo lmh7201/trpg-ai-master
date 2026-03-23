@@ -33,7 +33,6 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:ending_session, false)
          |> assign(:ai_model, current_model)
          |> assign(:show_model_selector, false)
-         |> assign(:show_character_modal, false)
          |> assign(:available_models, Models.list_with_status())}
 
       {:error, :not_found} ->
@@ -102,18 +101,6 @@ defmodule TrpgMasterWeb.CampaignLive do
     Server.set_mode(campaign_id, new_mode)
 
     {:noreply, assign(socket, :mode, new_mode)}
-  end
-
-  # ── 캐릭터 정보 모달 ──────────────────────────────────────────────────────────
-
-  @impl true
-  def handle_event("open_character_modal", _, socket) do
-    {:noreply, assign(socket, :show_character_modal, true)}
-  end
-
-  @impl true
-  def handle_event("close_character_modal", _, socket) do
-    {:noreply, assign(socket, :show_character_modal, false)}
   end
 
   # ── DM 선택 ─────────────────────────────────────────────────────────────────
@@ -339,8 +326,9 @@ defmodule TrpgMasterWeb.CampaignLive do
         </div>
       <% end %>
 
-      <%= if @show_character_modal && @character do %>
-        <div class="character-modal-overlay" phx-click="close_character_modal"></div>
+      <%= if @character do %>
+        <div id="character-modal" style="display:none">
+        <div class="character-modal-overlay" phx-click={JS.hide(to: "#character-modal")}></div>
         <div class="character-modal">
           <%!-- 헤더 --%>
           <div class="char-modal-header">
@@ -350,7 +338,7 @@ defmodule TrpgMasterWeb.CampaignLive do
                 <%= @character["class"] || "" %><%= if @character["level"], do: " · #{@character["level"]}레벨", else: "" %>
               </span>
             </div>
-            <button phx-click="close_character_modal" class="modal-close-btn">✕</button>
+            <button phx-click={JS.hide(to: "#character-modal")} class="modal-close-btn">✕</button>
           </div>
 
           <%!-- 바디 --%>
@@ -452,6 +440,41 @@ defmodule TrpgMasterWeb.CampaignLive do
               </div>
             <% end %>
 
+            <%!-- 알고 있는 주문 --%>
+            <% spells_known = @character["spells_known"] || %{} %>
+            <% has_known_spells = Enum.any?(spells_known, fn {_, v} -> is_list(v) && v != [] end) %>
+            <%= if has_known_spells do %>
+              <div class="char-section">
+                <div class="char-section-title">알고 있는 주문</div>
+                <div class="char-spells-known">
+                  <% cantrips = spells_known["cantrips"] || [] %>
+                  <%= if cantrips != [] do %>
+                    <div class="char-spell-level-group">
+                      <span class="char-spell-level-label">소마법</span>
+                      <div class="char-spell-names">
+                        <%= for spell <- cantrips do %>
+                          <span class="char-spell-badge"><%= spell %></span>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <%= for level_key <- ["1", "2", "3", "4", "5", "6", "7", "8", "9"] do %>
+                    <% level_spells = spells_known[level_key] || [] %>
+                    <%= if level_spells != [] do %>
+                      <div class="char-spell-level-group">
+                        <span class="char-spell-level-label"><%= level_key %>레벨</span>
+                        <div class="char-spell-names">
+                          <%= for spell <- level_spells do %>
+                            <span class="char-spell-badge"><%= spell %></span>
+                          <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
             <%!-- 소지품 --%>
             <% inventory = @character["inventory"] || [] %>
             <div class="char-section">
@@ -500,6 +523,7 @@ defmodule TrpgMasterWeb.CampaignLive do
             <% end %>
 
           </div>
+        </div>
         </div>
       <% end %>
 
