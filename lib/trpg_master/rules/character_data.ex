@@ -46,19 +46,20 @@ defmodule TrpgMaster.Rules.CharacterData do
   }
 
   # SRD 기본 서브클래스 목록 (dnd_reference_ko 데이터 없을 때 폴백)
+  # 데이터 구조는 dnd_reference_ko 포맷과 동일: "name" (한국어), "nameEn" (영어)
   @srd_subclasses %{
-    "barbarian" => [%{"id" => "berserker",         "name" => %{"ko" => "광전사의 길",    "en" => "Path of the Berserker"}}],
-    "bard"      => [%{"id" => "lore",              "name" => %{"ko" => "지식의 학원",    "en" => "College of Lore"}}],
-    "cleric"    => [%{"id" => "life",              "name" => %{"ko" => "생명 권능",      "en" => "Life Domain"}}],
-    "druid"     => [%{"id" => "moon",              "name" => %{"ko" => "달의 원환",      "en" => "Circle of the Moon"}}],
-    "fighter"   => [%{"id" => "champion",          "name" => %{"ko" => "용사",           "en" => "Champion"}}],
-    "monk"      => [%{"id" => "open_hand",         "name" => %{"ko" => "열린 손의 전사", "en" => "Warrior of the Open Hand"}}],
-    "paladin"   => [%{"id" => "devotion",          "name" => %{"ko" => "헌신의 맹세",   "en" => "Oath of Devotion"}}],
-    "ranger"    => [%{"id" => "hunter",            "name" => %{"ko" => "사냥꾼",        "en" => "Hunter"}}],
-    "rogue"     => [%{"id" => "thief",             "name" => %{"ko" => "도둑",          "en" => "Thief"}}],
-    "sorcerer"  => [%{"id" => "draconic_sorcery",  "name" => %{"ko" => "용혈 마법사",   "en" => "Draconic Sorcery"}}],
-    "warlock"   => [%{"id" => "fiend",             "name" => %{"ko" => "악마 계약자",   "en" => "The Fiend"}}],
-    "wizard"    => [%{"id" => "abjurer",           "name" => %{"ko" => "방호마법사",    "en" => "Abjurer"}}]
+    "barbarian" => [%{"id" => "berserker",        "classId" => "barbarian", "name" => "광전사의 길",    "nameEn" => "Path of the Berserker"}],
+    "bard"      => [%{"id" => "lore",             "classId" => "bard",      "name" => "지식의 학원",    "nameEn" => "College of Lore"}],
+    "cleric"    => [%{"id" => "life",             "classId" => "cleric",    "name" => "생명 권능",      "nameEn" => "Life Domain"}],
+    "druid"     => [%{"id" => "moon",             "classId" => "druid",     "name" => "달의 원환",      "nameEn" => "Circle of the Moon"}],
+    "fighter"   => [%{"id" => "champion",         "classId" => "fighter",   "name" => "용사",           "nameEn" => "Champion"}],
+    "monk"      => [%{"id" => "open-hand",        "classId" => "monk",      "name" => "열린 손의 전사", "nameEn" => "Warrior of the Open Hand"}],
+    "paladin"   => [%{"id" => "devotion",         "classId" => "paladin",   "name" => "헌신의 맹세",   "nameEn" => "Oath of Devotion"}],
+    "ranger"    => [%{"id" => "hunter",           "classId" => "ranger",    "name" => "사냥꾼",         "nameEn" => "Hunter"}],
+    "rogue"     => [%{"id" => "thief",            "classId" => "rogue",     "name" => "도둑",           "nameEn" => "Thief"}],
+    "sorcerer"  => [%{"id" => "draconic-sorcery", "classId" => "sorcerer",  "name" => "용혈 마법사",   "nameEn" => "Draconic Sorcery"}],
+    "warlock"   => [%{"id" => "fiend",            "classId" => "warlock",   "name" => "악마 계약자",   "nameEn" => "The Fiend"}],
+    "wizard"    => [%{"id" => "abjurer",          "classId" => "wizard",    "name" => "방호마법사",    "nameEn" => "Abjurer"}]
   }
 
   # D&D 5e 주문 슬롯 테이블 (완전 주문시전자: bard, cleric, druid, sorcerer, wizard)
@@ -313,13 +314,13 @@ defmodule TrpgMaster.Rules.CharacterData do
 
     subclasses_for_class(class_id)
     |> Enum.find(fn sc ->
-      ko = get_in(sc, ["name", "ko"]) || ""
-      en = get_in(sc, ["name", "en"]) || sc["name"] || ""
+      ko = sc["name"] || ""
+      en = sc["nameEn"] || ""
       String.downcase(ko) == name_lower || String.downcase(en) == name_lower
     end)
     |> case do
       nil -> subclass_name
-      sc  -> get_in(sc, ["name", "ko"]) || get_in(sc, ["name", "en"]) || subclass_name
+      sc  -> sc["name"] || sc["nameEn"] || subclass_name
     end
   end
   def resolve_subclass_name(_, name), do: name
