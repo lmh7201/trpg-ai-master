@@ -1248,7 +1248,7 @@ defmodule TrpgMaster.Campaign.Server do
     |> maybe_put("xp", changes["xp"])
     |> maybe_put("ac", changes["ac"])
     |> maybe_put("spell_slots", changes["spell_slots"])
-    |> maybe_put("spell_slots_used", changes["spell_slots_used"])
+    |> merge_spell_slots_used(changes["spell_slots_used"])
     |> maybe_put("race", changes["race"])
     |> maybe_put("inventory", changes["inventory"])
     |> maybe_put("proficiency_bonus", changes["proficiency_bonus"])
@@ -1266,5 +1266,29 @@ defmodule TrpgMaster.Campaign.Server do
     current = if is_list(add), do: current ++ add, else: current
     current = if is_list(remove), do: current -- remove, else: current
     Map.put(map, key, current)
+  end
+
+  # spell_slots_used를 단순 교체 대신 머지 방식으로 갱신하고, 슬롯 초과 사용을 검증한다.
+  defp merge_spell_slots_used(char, nil), do: char
+
+  defp merge_spell_slots_used(char, new_used) when is_map(new_used) do
+    current = char["spell_slots_used"] || %{}
+    merged = Map.merge(current, new_used)
+    char = Map.put(char, "spell_slots_used", merged)
+    validate_spell_slots_used(char)
+  end
+
+  # spell_slots_used 값이 spell_slots 최대치를 초과하지 않도록 검증한다.
+  defp validate_spell_slots_used(char) do
+    slots = char["spell_slots"] || %{}
+    used = char["spell_slots_used"] || %{}
+
+    validated =
+      Map.new(used, fn {level, count} ->
+        max_slots = slots[level] || 0
+        {level, min(count, max_slots)}
+      end)
+
+    Map.put(char, "spell_slots_used", validated)
   end
 end
