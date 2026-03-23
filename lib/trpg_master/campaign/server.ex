@@ -452,11 +452,12 @@ defmodule TrpgMaster.Campaign.Server do
   defp finalize_combat(state, last_response_text) do
     Logger.info("전투 종료 처리 [#{state.id}] — combat_history: #{length(state.combat_history)}개")
 
-    # 전투 마무리 서술을 exploration_history에 추가
+    # 전투 마무리 서술을 exploration_history에 추가 (전투 종료 마커로 AI가 전투를 계속하지 않도록 함)
+    transition_text = "[전투 종료] " <> last_response_text
     state = %{
       state
       | exploration_history:
-          state.exploration_history ++ [%{"role" => "assistant", "content" => last_response_text}]
+          state.exploration_history ++ [%{"role" => "assistant", "content" => transition_text}]
     }
 
     # post_combat_summary 생성

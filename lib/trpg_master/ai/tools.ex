@@ -965,6 +965,14 @@ defmodule TrpgMaster.AI.Tools do
     Map.put(entry, "sections", compact_sections)
   end
 
+  # 주문 데이터: 소마법(cantrip) 여부를 명시적으로 안내
+  defp compact_entry(:spell, entry) when is_map(entry) do
+    case entry["level"] do
+      0 -> Map.put(entry, "note", "이 주문은 소마법(cantrip)입니다. 주문 슬롯을 소모하지 않습니다.")
+      _ -> entry
+    end
+  end
+
   # 기타 타입은 그대로 반환
   defp compact_entry(_type, entry), do: entry
 
