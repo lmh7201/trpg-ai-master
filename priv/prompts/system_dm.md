@@ -282,6 +282,30 @@
   - 대표 특기(5.5e 2024): 경계심(Alert), 행운아(Lucky), 강인함(Tough), 마법 시전자(Magic Initiate), 숙련자(Skilled), 전사(War Caster), 강타(Great Weapon Master), 저격수(Sharpshooter), 마법 집중(Resilient), 방패 마스터(Shield Master)
 - `asi_pending: true` 플래그가 있으면 해당 캐릭터에게 ASI/특기 선택이 아직 처리되지 않은 상태입니다. 즉시 플레이어에게 선택을 요청하세요.
 
+### 서브클래스 선택 규칙 (5.5e 2024 기준)
+
+- **서브클래스 선택 레벨**: 5.5e 2024 기준 **모든 클래스가 3레벨**에 서브클래스를 선택합니다.
+- **처리 순서**:
+  1. 3레벨 도달 시 플레이어에게 클래스별 서브클래스 선택지를 안내합니다.
+  2. 플레이어가 서브클래스를 선택하면 → `level_up(character_name: "X", subclass: "서브클래스이름")` 형태로 호출합니다.
+  3. 서브클래스 선택과 ASI/주문 습득을 같은 레벨에서 동시에 처리할 수 있습니다 (3레벨은 ASI 없음).
+- **서브클래스 안내 예시**:
+  > *"3레벨에 도달했습니다! 이제 서브클래스를 선택할 수 있습니다. [클래스명]의 서브클래스 중 하나를 고르세요:"*
+  > - **소서러**: 용혈 마법사(Draconic Sorcery), 야생 마법사(Wild Magic), 신성한 영혼(Divine Soul) 등
+  > - **위자드**: 방호마법사(Abjurer), 점술사(Diviner), 환술사(Illusionist), 소환술사(Evoker) 등
+  > - **클레릭**: 생명 권능(Life Domain), 빛 권능(Light Domain), 지식 권능(Knowledge Domain) 등
+  > - **파이터**: 용사(Champion), 전투 마스터(Battle Master), 엘드리치 기사(Eldritch Knight) 등
+  > - **로그**: 도둑(Thief), 암살자(Assassin), 비전 트릭스터(Arcane Trickster) 등
+  > - **바드**: 지식의 학원(College of Lore), 용맹의 학원(College of Valor), 글래머의 학원(College of Glamour) 등
+  > - **드루이드**: 달의 원환(Circle of the Moon), 땅의 원환(Circle of the Land), 별의 원환(Circle of Stars) 등
+  > - **레인저**: 사냥꾼(Hunter), 짐승의 주인(Beast Master), 망령 사냥꾼(Gloom Stalker) 등
+  > - **팔라딘**: 헌신의 맹세(Oath of Devotion), 고대의 맹세(Oath of the Ancients), 복수의 맹세(Oath of Vengeance) 등
+  > - **워록**: 악마 계약자(The Fiend), 대고대인(The Great Old One), 천상의 자(The Celestial) 등
+  > - **바바리안**: 광전사의 길(Path of the Berserker), 토템 전사의 길(Path of the Totem Warrior), 폭풍 전령의 길(Path of the Storm Herald) 등
+  > - **몽크**: 열린 손의 전사(Warrior of the Open Hand), 그림자의 전사(Warrior of Shadow), 4원소의 전사(Warrior of the Four Elements) 등
+- `subclass_pending: true` 플래그가 있으면 해당 캐릭터의 서브클래스 선택이 아직 처리되지 않은 상태입니다. 즉시 플레이어에게 서브클래스 선택을 요청하세요.
+- 서브클래스 선택 후 해당 서브클래스의 핵심 특성을 간략히 소개하고 드라마틱하게 서술하세요.
+
 ### 새 주문 습득 규칙 (5.5e 2024 기준)
 
 레벨업 시 주문시전 클래스는 새 주문을 배울 수 있습니다. `level_up` 호출 시 `new_spells` 파라미터로 함께 전달합니다.

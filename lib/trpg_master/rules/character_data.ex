@@ -27,6 +27,40 @@ defmodule TrpgMaster.Rules.CharacterData do
     "rogue"   => [4, 8, 10, 12, 16, 19]
   }
 
+  # 서브클래스 선택 레벨 (5.5e 2024 기준)
+  # 5.5e에서는 모든 클래스가 3레벨에 서브클래스를 선택한다
+  @subclass_levels %{
+    "default"   => [3],
+    "barbarian" => [3],
+    "bard"      => [3],
+    "cleric"    => [3],
+    "druid"     => [3],
+    "fighter"   => [3],
+    "monk"      => [3],
+    "paladin"   => [3],
+    "ranger"    => [3],
+    "rogue"     => [3],
+    "sorcerer"  => [3],
+    "warlock"   => [3],
+    "wizard"    => [3]
+  }
+
+  # SRD 기본 서브클래스 목록 (dnd_reference_ko 데이터 없을 때 폴백)
+  @srd_subclasses %{
+    "barbarian" => [%{"id" => "berserker",         "name" => %{"ko" => "광전사의 길",    "en" => "Path of the Berserker"}}],
+    "bard"      => [%{"id" => "lore",              "name" => %{"ko" => "지식의 학원",    "en" => "College of Lore"}}],
+    "cleric"    => [%{"id" => "life",              "name" => %{"ko" => "생명 권능",      "en" => "Life Domain"}}],
+    "druid"     => [%{"id" => "moon",              "name" => %{"ko" => "달의 원환",      "en" => "Circle of the Moon"}}],
+    "fighter"   => [%{"id" => "champion",          "name" => %{"ko" => "용사",           "en" => "Champion"}}],
+    "monk"      => [%{"id" => "open_hand",         "name" => %{"ko" => "열린 손의 전사", "en" => "Warrior of the Open Hand"}}],
+    "paladin"   => [%{"id" => "devotion",          "name" => %{"ko" => "헌신의 맹세",   "en" => "Oath of Devotion"}}],
+    "ranger"    => [%{"id" => "hunter",            "name" => %{"ko" => "사냥꾼",        "en" => "Hunter"}}],
+    "rogue"     => [%{"id" => "thief",             "name" => %{"ko" => "도둑",          "en" => "Thief"}}],
+    "sorcerer"  => [%{"id" => "draconic_sorcery",  "name" => %{"ko" => "용혈 마법사",   "en" => "Draconic Sorcery"}}],
+    "warlock"   => [%{"id" => "fiend",             "name" => %{"ko" => "악마 계약자",   "en" => "The Fiend"}}],
+    "wizard"    => [%{"id" => "abjurer",           "name" => %{"ko" => "방호마법사",    "en" => "Abjurer"}}]
+  }
+
   # D&D 5e 주문 슬롯 테이블 (완전 주문시전자: bard, cleric, druid, sorcerer, wizard)
   # 형식: 레벨 → {1슬롯, 2슬롯, 3슬롯, 4슬롯, 5슬롯, 6슬롯, 7슬롯, 8슬롯, 9슬롯}
   @full_caster_slots %{
@@ -241,6 +275,54 @@ defmodule TrpgMaster.Rules.CharacterData do
     levels = Map.get(@asi_levels, class_id, @asi_levels["default"])
     level in levels
   end
+
+  @doc """
+  현재 레벨이 서브클래스 선택 레벨인지 확인한다. (5.5e 2024: 모든 클래스 3레벨)
+  """
+  def subclass_level?(level, class_id \\ nil) do
+    levels = Map.get(@subclass_levels, class_id, @subclass_levels["default"])
+    level in levels
+  end
+
+  @doc """
+  클래스 ID에 해당하는 서브클래스 목록을 반환한다.
+  dnd_reference_ko 데이터를 우선 사용하고, 없으면 SRD 폴백을 반환한다.
+  서브클래스 데이터 구조: [%{"id" => "...", "classId" => "...", "name" => %{"ko" => "...", "en" => "..."}, ...}]
+  """
+  def subclasses_for_class(class_id) when is_binary(class_id) do
+    from_data =
+      subclasses()
+      |> Enum.filter(fn sc ->
+        (sc["classId"] || sc["class_id"] || "") == class_id
+      end)
+
+    if from_data != [] do
+      from_data
+    else
+      Map.get(@srd_subclasses, class_id, [])
+    end
+  end
+  def subclasses_for_class(_), do: []
+
+  @doc """
+  클래스 ID와 서브클래스 이름(한/영)으로 서브클래스 데이터를 찾아 한국어 이름을 반환한다.
+  매칭되지 않으면 입력 이름을 그대로 반환한다.
+  """
+  def resolve_subclass_name(class_id, subclass_name) when is_binary(subclass_name) and subclass_name != "" do
+    name_lower = String.downcase(subclass_name)
+
+    subclasses_for_class(class_id)
+    |> Enum.find(fn sc ->
+      ko = get_in(sc, ["name", "ko"]) || ""
+      en = get_in(sc, ["name", "en"]) || sc["name"] || ""
+      String.downcase(ko) == name_lower || String.downcase(en) == name_lower
+    end)
+    |> case do
+      nil -> subclass_name
+      sc  -> get_in(sc, ["name", "ko"]) || get_in(sc, ["name", "en"]) || subclass_name
+    end
+  end
+  def resolve_subclass_name(_, name), do: name
 
   @doc """
   클래스 ID와 레벨에 맞는 주문 슬롯 맵을 반환한다.

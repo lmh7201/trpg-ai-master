@@ -997,6 +997,7 @@ defmodule TrpgMaster.Campaign.Server do
     char_name = input["character_name"]
     asi = input["asi"]
     feat = input["feat"]
+    subclass = input["subclass"]
     new_spells = input["new_spells"]
     Logger.info("레벨업 요청: #{char_name}")
 
@@ -1021,6 +1022,7 @@ defmodule TrpgMaster.Campaign.Server do
               |> apply_level_up(current_level, target_level)
               |> apply_asi(asi)
               |> apply_feat(feat)
+              |> apply_subclass(subclass)
               |> apply_new_spells(new_spells)
               # ASI 레벨인데 ASI/feat 선택이 없으면 대기 플래그 설정
               |> then(fn c ->
@@ -1028,6 +1030,15 @@ defmodule TrpgMaster.Campaign.Server do
                   Map.put(c, "asi_pending", true)
                 else
                   Map.delete(c, "asi_pending")
+                end
+              end)
+              # 서브클래스 선택 레벨인데 아직 서브클래스가 없으면 대기 플래그 설정
+              |> then(fn c ->
+                if CharacterData.subclass_level?(target_level, char["class_id"]) &&
+                     is_nil(subclass) && is_nil(c["subclass"]) do
+                  Map.put(c, "subclass_pending", true)
+                else
+                  Map.delete(c, "subclass_pending")
                 end
               end)
             else
@@ -1084,8 +1095,16 @@ defmodule TrpgMaster.Campaign.Server do
       Logger.info("레벨업 발생: #{char["name"]} #{current_level} → #{new_level}")
       leveled = apply_level_up(char, current_level, new_level)
       # ASI 레벨이면 플래그 설정 (AI가 다음 턴에 플레이어에게 선택 요청)
-      if TrpgMaster.Rules.CharacterData.asi_level?(new_level, char["class_id"]) do
-        Map.put(leveled, "asi_pending", true)
+      leveled =
+        if TrpgMaster.Rules.CharacterData.asi_level?(new_level, char["class_id"]) do
+          Map.put(leveled, "asi_pending", true)
+        else
+          leveled
+        end
+      # 서브클래스 선택 레벨이고 아직 서브클래스가 없으면 플래그 설정
+      if TrpgMaster.Rules.CharacterData.subclass_level?(new_level, char["class_id"]) &&
+           is_nil(char["subclass"]) do
+        Map.put(leveled, "subclass_pending", true)
       else
         leveled
       end
@@ -1187,6 +1206,17 @@ defmodule TrpgMaster.Campaign.Server do
     end
   end
   defp apply_feat(char, _), do: char
+
+  # 서브클래스 선택: level_up의 subclass 파라미터로 전달된 서브클래스를 캐릭터에 저장한다.
+  # dnd_reference_ko 서브클래스 데이터에서 이름 매칭 후 한국어 이름으로 저장한다.
+  defp apply_subclass(char, subclass_name) when is_binary(subclass_name) and subclass_name != "" do
+    alias TrpgMaster.Rules.CharacterData
+    class_id = char["class_id"]
+    resolved = CharacterData.resolve_subclass_name(class_id, subclass_name)
+    Logger.info("서브클래스 선택: #{char["name"]} → #{resolved}")
+    Map.put(char, "subclass", resolved)
+  end
+  defp apply_subclass(char, _), do: char
 
   # 새 주문 습득: level_up의 new_spells 파라미터로 전달된 주문을 spells_known에 추가한다.
   # 주문은 %{"name" => "...", "level" => 0~9} 형태의 맵 목록.

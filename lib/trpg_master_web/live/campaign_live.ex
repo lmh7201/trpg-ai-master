@@ -335,7 +335,7 @@ defmodule TrpgMasterWeb.CampaignLive do
             <div class="char-modal-title">
               <span class="char-modal-name"><%= @character["name"] || "캐릭터" %></span>
               <span class="char-modal-subtitle">
-                <%= @character["class"] || "" %><%= if @character["level"], do: " · #{@character["level"]}레벨", else: "" %>
+                <%= @character["class"] || "" %><%= if @character["subclass"], do: " (#{@character["subclass"]})", else: "" %><%= if @character["level"], do: " · #{@character["level"]}레벨", else: "" %>
               </span>
             </div>
             <button phx-click={JS.hide(to: "#character-modal")} class="modal-close-btn">✕</button>
@@ -350,6 +350,9 @@ defmodule TrpgMasterWeb.CampaignLive do
               <div class="char-info-row">
                 <%= if @character["race"] do %>
                   <span class="char-info-item">종족 <strong><%= @character["race"] %></strong></span>
+                <% end %>
+                <%= if @character["subclass"] do %>
+                  <span class="char-info-item">서브클래스 <strong><%= @character["subclass"] %></strong></span>
                 <% end %>
                 <%= if @character["background"] do %>
                   <span class="char-info-item">배경 <strong><%= @character["background"] %></strong></span>
