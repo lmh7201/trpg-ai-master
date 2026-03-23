@@ -107,8 +107,8 @@ defmodule TrpgMaster.AI.Providers.Gemini do
         description = tool[:description] || tool["description"]
         input_schema = tool[:input_schema] || tool["input_schema"] || %{}
 
-        # Gemini는 additionalProperties를 지원하지 않으므로 제거
-        parameters = Map.drop(input_schema, ["additionalProperties", :additionalProperties])
+        # Gemini는 additionalProperties를 지원하지 않으므로 재귀적으로 제거
+        parameters = sanitize_schema(input_schema)
 
         %{
           name: name,
@@ -119,6 +119,18 @@ defmodule TrpgMaster.AI.Providers.Gemini do
 
     [%{function_declarations: function_declarations}]
   end
+
+  defp sanitize_schema(schema) when is_map(schema) do
+    schema
+    |> Map.drop(["additionalProperties", :additionalProperties])
+    |> Map.new(fn {k, v} -> {k, sanitize_schema(v)} end)
+  end
+
+  defp sanitize_schema(schema) when is_list(schema) do
+    Enum.map(schema, &sanitize_schema/1)
+  end
+
+  defp sanitize_schema(other), do: other
 
   defp maybe_add_tools(body, []), do: body
   defp maybe_add_tools(body, tools), do: Map.put(body, :tools, tools)
