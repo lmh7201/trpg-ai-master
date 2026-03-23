@@ -89,8 +89,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
     - #{enemy_name}의 공격, 이동, 특수 능력 사용을 처리합니다
     - roll_dice로 #{enemy_name}의 공격/피해 굴림을 수행합니다
     - update_character로 플레이어 캐릭터의 HP 변경을 기록합니다
-    - 라운드 종료 시 현재 전장 상황을 간단히 요약합니다
-    - 서술 끝에 플레이어에게 다음 행동을 묻습니다: "무엇을 하시겠습니까?"
+    - 서술 끝에 "무엇을 하시겠습니까?"를 붙이지 마세요. 라운드 정리 단계에서 플레이어에게 묻습니다.
 
     """
   end
@@ -103,6 +102,17 @@ defmodule TrpgMaster.AI.PromptBuilder do
     - roll_dice로 #{enemy_name}의 공격/피해 굴림을 수행합니다
     - update_character로 플레이어 캐릭터의 HP 변경을 기록합니다
     - 서술 끝에 "무엇을 하시겠습니까?"를 붙이지 마세요. 아직 다른 적의 턴이 남아있습니다.
+
+    """
+  end
+
+  defp build_combat_phase_instruction(:round_summary) do
+    """
+    ## 전투 라운드 정리
+    이번 라운드의 모든 턴이 끝났습니다. 다음을 순서대로 수행하세요:
+    - 이번 라운드의 전투 결과를 간결하게 정리합니다 (각 전투원의 행동, 주사위 결과, 피해량)
+    - 현재 전장 상황을 요약합니다 (생존 중인 전투원 HP, 전반적인 전황)
+    - 서술 끝에 플레이어에게 다음 행동을 묻습니다: "무엇을 하시겠습니까?"
 
     """
   end
@@ -172,9 +182,10 @@ defmodule TrpgMaster.AI.PromptBuilder do
   @doc """
   State 기반 턴 메시지 구성.
   탐험 모드: 탐험 요약(시스템) + exploration_history 최근 5건 + 현재 유저 메시지
-  전투 모드: 탐험 요약(시스템) + exploration_history 최근 AI 응답 5건
-             + 전투 누적 요약(시스템) + combat_history 최신 1건 + 현재 메시지
-  적 턴 트리거 메시지는 combat_history에 저장하지 않고 current_message로만 전달.
+  전투 모드: 탐험 요약(시스템) + exploration_history 최근 5건
+             + 전투 누적 요약(시스템) + combat_history[current_round_start_index..]
+  전투 모드에서는 current_message를 무시하고 combat_history에서 현재 라운드 전체를 사용.
+  (플레이어 액션, 적 턴 트리거, 라운드 정리 트리거 모두 combat_history에 저장됨)
   """
   def build_turn_messages(%State{} = state, current_message, opts \\ []) do
     case state.phase do
@@ -191,20 +202,16 @@ defmodule TrpgMaster.AI.PromptBuilder do
     ensure_valid_turn_order(recent) ++ [%{"role" => "user", "content" => current_message}]
   end
 
-  # 전투 최신 히스토리 건수 (user+assistant 쌍 기준이 아닌 메시지 단위)
-  @combat_recent_size 2
-
-  defp build_combat_turn_messages(state, current_message, _opts) do
-    # 탐험 히스토리에서 최근 AI 응답 5건 (배경 맥락)
+  defp build_combat_turn_messages(state, _current_message, _opts) do
+    # 탐험 히스토리에서 최근 5건 (배경 맥락)
     exploration_recent = Enum.take(state.exploration_history, -@recent_window_size)
 
-    # 전투 히스토리에서 최신 1건 (user+assistant 쌍 = 2 메시지)
-    # 나머지 전투 맥락은 combat_history_summary가 시스템 프롬프트에서 커버
-    combat_recent = Enum.take(state.combat_history, -@combat_recent_size)
+    # 현재 라운드의 모든 메시지 (current_round_start_index부터 끝까지)
+    # 플레이어 액션, 적 턴 트리거, 라운드 정리 트리거 모두 포함
+    # 이전 라운드들은 combat_history_summary가 시스템 프롬프트에서 커버
+    current_round_msgs = Enum.drop(state.combat_history, state.current_round_start_index)
 
-    # 탐험 맥락 + 전투 최신 + 현재 메시지 (적 턴 트리거 또는 플레이어 입력)
-    messages = ensure_valid_turn_order(exploration_recent) ++ combat_recent
-    messages ++ [%{"role" => "user", "content" => current_message}]
+    ensure_valid_turn_order(exploration_recent) ++ current_round_msgs
   end
 
   # 메시지 리스트가 assistant로 시작하면 제거하여 user→assistant 순서를 보장
@@ -362,6 +369,7 @@ defmodule TrpgMaster.AI.PromptBuilder do
   defp combat_section(state) do
     cs = state.combat_state
     participants = (cs["participants"] || []) |> Enum.join(", ")
+    player_names = cs["player_names"] || []
 
     enemies_section =
       case cs["enemies"] do
@@ -385,10 +393,17 @@ defmodule TrpgMaster.AI.PromptBuilder do
           ""
       end
 
+    solo_note =
+      if length(player_names) <= 1 do
+        "\n- ⚠️ 솔로 플레이: 아군이 1명뿐입니다. 플레이어 HP가 0 이하가 되면 죽음 내성 굴림 없이 즉시 기절 또는 사망 처리 후 end_combat을 호출하세요."
+      else
+        ""
+      end
+
     """
     ## 전투 진행 중
     - 라운드: #{cs["round"] || 1}
-    - 참가자: #{participants}#{enemies_section}
+    - 참가자: #{participants}#{enemies_section}#{solo_note}
     """
   end
 
