@@ -183,6 +183,7 @@ defmodule TrpgMasterWeb.CampaignLive do
       {:ok, [player_result | enemy_results]} when enemy_results != [] ->
         messages = append_tool_messages(socket, player_result)
         messages = messages ++ [%{type: :dm, text: player_result.text}]
+        state = Server.get_state(campaign_id)
 
         # 플레이어 턴 결과 즉시 표시, 적 그룹 턴들은 순차 표시
         send(self(), {:display_enemy_turns, enemy_results})
@@ -190,7 +191,8 @@ defmodule TrpgMasterWeb.CampaignLive do
         {:noreply,
          socket
          |> assign(:messages, messages)
-         |> assign(:loading, true)}
+         |> assign(:loading, true)
+         |> update_state_assigns(state)}
 
       # 탐험 모드 또는 단일 결과 (전투 종료 시 등)
       {:ok, result} when not is_list(result) ->
@@ -235,12 +237,14 @@ defmodule TrpgMasterWeb.CampaignLive do
        |> update_state_assigns(state)}
     else
       # 다음 적 그룹 표시 예약
+      state = Server.get_state(campaign_id)
       send(self(), {:display_enemy_turns, rest})
 
       {:noreply,
        socket
        |> assign(:messages, messages)
-       |> assign(:loading, true)}
+       |> assign(:loading, true)
+       |> update_state_assigns(state)}
     end
   end
 
