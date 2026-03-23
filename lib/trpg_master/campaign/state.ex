@@ -20,7 +20,9 @@ defmodule TrpgMaster.Campaign.State do
     mode: :adventure,
     journal_entries: [],
     ai_model: nil,
-    context_summary: nil
+    context_summary: nil,
+    # 현재 라운드 시작 시점의 combat_history 인덱스 (라운드 전체 히스토리 전달에 사용)
+    current_round_start_index: 0
   ]
 
   @doc """

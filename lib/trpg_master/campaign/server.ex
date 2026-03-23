@@ -197,8 +197,12 @@ defmodule TrpgMaster.Campaign.Server do
   # ── 전투 모드 처리 (2단계 API 호출) ─────────────────────────────────────────
 
   defp handle_combat_action(message, state) do
-    # 1) 플레이어 메시지를 combat_history에 추가
-    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => message}]}
+    # 1) 현재 라운드 시작 인덱스를 기록한 뒤 플레이어 메시지를 combat_history에 추가
+    round_start_index = length(state.combat_history)
+    state = %{state |
+      current_round_start_index: round_start_index,
+      combat_history: state.combat_history ++ [%{"role" => "user", "content" => message}]
+    }
 
     Logger.info(
       "전투 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — combat_history: #{length(state.combat_history)}개"
@@ -273,17 +277,63 @@ defmodule TrpgMaster.Campaign.Server do
   end
 
   # 적 그룹별 순차 API 호출 — 재귀적으로 그룹 리스트를 소비
-  defp handle_enemy_group_turns(state, results, [], _tools, _model_opts) do
-    # 모든 적 그룹 처리 완료
-    state = update_combat_history_summary(state)
-    state = update_context_summary(state)
-    Persistence.save_async(state)
+  defp handle_enemy_group_turns(state, results, [], tools, model_opts) do
+    # 모든 적 그룹 처리 완료 → 라운드 정리 API 호출
+    round_trigger = "이번 라운드가 끝났습니다. 라운드를 정리하고 플레이어에게 다음 행동을 물어보세요."
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => round_trigger}]}
 
-    Logger.info(
-      "전투 턴 #{state.turn_count} 저장 완료 [#{state.id}] — combat_history: #{length(state.combat_history)}개"
-    )
+    system_prompt = PromptBuilder.build(state, combat_phase: :round_summary)
+    trimmed_history = PromptBuilder.build_turn_messages(state, round_trigger)
 
-    {:reply, {:ok, results}, state}
+    Process.put(:journal_entries, state.journal_entries)
+    Process.put(:campaign_characters, state.characters)
+
+    round_result =
+      try do
+        Client.chat(system_prompt, trimmed_history, tools, model_opts)
+      after
+        Process.delete(:journal_entries)
+        Process.delete(:campaign_characters)
+      end
+
+    case round_result do
+      {:ok, round_result} ->
+        state_before = state
+        state = apply_tool_results(state, round_result.tool_results)
+        log_npc_changes(state, state_before)
+
+        # 라운드 정리 AI 응답을 combat_history에 추가
+        state = %{state | combat_history: state.combat_history ++ [%{"role" => "assistant", "content" => round_result.text}]}
+
+        results = results ++ [round_result]
+
+        # 전투 종료 체크 (라운드 정리 중 end_combat 호출 가능성)
+        if state.phase != :combat or combat_should_end?(state) do
+          state = force_end_combat_if_needed(state)
+          state = finalize_combat(state, round_result.text)
+          state = update_context_summary(state)
+          Persistence.save_async(state)
+          {:reply, {:ok, results}, state}
+        else
+          # 이전 라운드 요약 생성 (다음 라운드에서 시스템 프롬프트에 포함됨)
+          state = update_combat_history_summary(state)
+          state = update_context_summary(state)
+          Persistence.save_async(state)
+
+          Logger.info(
+            "전투 턴 #{state.turn_count} 저장 완료 [#{state.id}] — combat_history: #{length(state.combat_history)}개"
+          )
+
+          {:reply, {:ok, results}, state}
+        end
+
+      {:error, reason} ->
+        Logger.error("AI 호출 실패 (라운드 정리) [#{state.id}]: #{inspect(reason)}")
+        # 라운드 정리 실패 시 이전까지의 결과 반환
+        state = update_combat_history_summary(state)
+        Persistence.save_async(state)
+        {:reply, {:ok, results}, state}
+    end
   end
 
   defp handle_enemy_group_turns(state, results, [enemy_name | rest], tools, model_opts) do
@@ -291,7 +341,9 @@ defmodule TrpgMaster.Campaign.Server do
     trigger_msg = "이제 #{enemy_name}의 턴입니다. #{enemy_name}의 행동을 서술해주세요."
     combat_phase = {:enemy_turn, enemy_name, is_last_group}
 
-    # 트리거 메시지는 combat_history에 저장하지 않고, API 호출에만 사용
+    # 트리거 메시지를 combat_history에 user 메시지로 저장 (라운드 전체 히스토리 유지)
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => trigger_msg}]}
+
     system_prompt = PromptBuilder.build(state, combat_phase: combat_phase)
     trimmed_history = PromptBuilder.build_turn_messages(state, trigger_msg, combat_phase: combat_phase)
 
