@@ -2538,6 +2538,42 @@ html, body {
   color: #e06c75;
 }
 
+/* 클래스 피처 */
+.char-class-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.char-feature-level-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.char-feature-level-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  min-width: 3.2rem;
+  padding-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.char-feature-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.char-feature-badge {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--text-primary);
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.78rem;
+}
+
 /* status_bar 내 트리거 버튼 */
 .char-sheet-btn {
   background: none;
