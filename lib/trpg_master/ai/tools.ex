@@ -501,8 +501,9 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "level_up",
       description:
-        "캐릭터를 레벨업시킨다. HP(히트다이스 평균 + CON 수정치), 숙련 보너스, 주문 슬롯이 자동으로 재계산된다. " <>
+        "캐릭터를 레벨업시킨다. HP(히트다이스 평균 + CON 수정치), 숙련 보너스, 주문 슬롯, 클래스 피처가 자동으로 재계산된다. " <>
         "end_combat 후 누적 XP가 다음 레벨 임계값을 초과했거나, 마일스톤 레벨업이 적절할 때 호출한다. " <>
+        "클래스 피처는 레벨업 시 자동으로 캐릭터 데이터(class_features 필드)에 추가된다. 레벨업 서술 시 새로 얻는 클래스 피처를 플레이어에게 안내한다. " <>
         "ASI 레벨(기본: 4/8/12/16/19, 파이터: +6/14, 로그: +10)에는 플레이어에게 능력치 향상(ASI) 또는 특기(Feat) 중 하나를 선택하도록 안내하고 asi 또는 feat 파라미터로 전달한다. asi와 feat은 동시에 사용할 수 없다. " <>
         "서브클래스 선택 레벨(5.5e 기준: 모든 클래스 3레벨)에 도달하면 플레이어에게 서브클래스를 선택하도록 안내하고 subclass 파라미터로 전달한다. " <>
         "주문시전 클래스(바드/소서러/레인저/워록/위자드/클레릭/드루이드)는 레벨업 시 새 주문을 배울 수 있다. " <>
@@ -801,11 +802,37 @@ defmodule TrpgMaster.AI.Tools do
           " 새 주문 습득: #{Enum.join(names, ", ")}."
       end
 
+    # 새로 얻는 클래스 피처 조회 (AI 서술에 활용)
+    characters = Process.get(:campaign_characters, [])
+    features_msg =
+      case Enum.find(characters, fn c ->
+             (c["name"] || "") |> String.downcase() ==
+               (input["character_name"] || "") |> String.downcase()
+           end) do
+        nil ->
+          ""
+
+        char ->
+          class_id = char["class_id"]
+          current_level = char["level"] || 1
+          new_level = current_level + 1
+
+          new_features =
+            TrpgMaster.Rules.CharacterData.class_features_for_level(class_id, new_level)
+
+          if new_features != [] do
+            " 새 클래스 피처: #{Enum.join(new_features, ", ")}."
+          else
+            ""
+          end
+      end
+
     {:ok,
      %{
        "status" => "ok",
        "message" =>
-         "#{input["character_name"]} 레벨업이 처리되었습니다. HP, 숙련 보너스, 주문 슬롯이 자동으로 재계산됩니다.#{asi_msg}#{feat_msg}#{spells_msg}"
+         "#{input["character_name"]} 레벨업이 처리되었습니다. HP, 숙련 보너스, 주문 슬롯, 클래스 피처가 자동으로 재계산됩니다.#{features_msg}#{asi_msg}#{feat_msg}#{spells_msg}",
+       "note" => "레벨업 서술 시 위의 새 클래스 피처를 플레이어에게 설명하세요."
      }}
   end
 

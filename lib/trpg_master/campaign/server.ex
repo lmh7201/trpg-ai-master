@@ -1136,11 +1136,17 @@ defmodule TrpgMaster.Campaign.Server do
     new_cantrips_count = CharacterData.cantrips_known_for_class_level(class_id, new_level)
     new_spells_count = CharacterData.spells_known_for_class_level(class_id, new_level)
 
+    # 레벨업으로 새로 획득하는 클래스 피처 누적
+    new_class_features = CharacterData.class_features_for_levels(class_id, old_level + 1, new_level)
+    existing_class_features = char["class_features"] || []
+    merged_class_features = existing_class_features ++ new_class_features
+
     char
     |> Map.put("level", new_level)
     |> Map.put("hp_max", new_hp_max)
     |> Map.put("hp_current", (char["hp_current"] || 1) + hp_increase)
     |> Map.put("proficiency_bonus", new_prof_bonus)
+    |> Map.put("class_features", merged_class_features)
     |> then(fn c ->
       if new_spell_slots do
         c
