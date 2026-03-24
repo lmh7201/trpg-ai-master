@@ -802,15 +802,16 @@ defmodule TrpgMaster.AI.Tools do
           " 새 주문 습득: #{Enum.join(names, ", ")}."
       end
 
-    # 새로 얻는 클래스 피처 조회 (AI 서술에 활용)
+    # 새로 얻는 클래스/서브클래스 피처 조회 (AI 서술에 활용)
     characters = Process.get(:campaign_characters, [])
-    features_msg =
+
+    {features_msg, subclass_features_msg} =
       case Enum.find(characters, fn c ->
              (c["name"] || "") |> String.downcase() ==
                (input["character_name"] || "") |> String.downcase()
            end) do
         nil ->
-          ""
+          {"", ""}
 
         char ->
           class_id = char["class_id"]
@@ -820,19 +821,38 @@ defmodule TrpgMaster.AI.Tools do
           new_features =
             TrpgMaster.Rules.CharacterData.class_features_for_level(class_id, new_level)
 
-          if new_features != [] do
-            " 새 클래스 피처: #{Enum.join(new_features, ", ")}."
-          else
-            ""
-          end
+          class_feat_msg =
+            if new_features != [] do
+              " 새 클래스 피처: #{Enum.join(new_features, ", ")}."
+            else
+              ""
+            end
+
+          sub_feat_msg =
+            case char["subclass_id"] do
+              nil ->
+                ""
+
+              subclass_id ->
+                new_sub_features =
+                  TrpgMaster.Rules.CharacterData.subclass_features_for_level(subclass_id, new_level)
+
+                if new_sub_features != [] do
+                  " 새 서브클래스 피처 (#{char["subclass"]}): #{Enum.join(new_sub_features, ", ")}."
+                else
+                  ""
+                end
+            end
+
+          {class_feat_msg, sub_feat_msg}
       end
 
     {:ok,
      %{
        "status" => "ok",
        "message" =>
-         "#{input["character_name"]} 레벨업이 처리되었습니다. HP, 숙련 보너스, 주문 슬롯, 클래스 피처가 자동으로 재계산됩니다.#{features_msg}#{asi_msg}#{feat_msg}#{spells_msg}",
-       "note" => "레벨업 서술 시 위의 새 클래스 피처를 플레이어에게 설명하세요."
+         "#{input["character_name"]} 레벨업이 처리되었습니다. HP, 숙련 보너스, 주문 슬롯, 클래스/서브클래스 피처가 자동으로 재계산됩니다.#{features_msg}#{subclass_features_msg}#{asi_msg}#{feat_msg}#{spells_msg}",
+       "note" => "레벨업 서술 시 위의 새 클래스 피처와 서브클래스 피처를 플레이어에게 설명하세요."
      }}
   end
 

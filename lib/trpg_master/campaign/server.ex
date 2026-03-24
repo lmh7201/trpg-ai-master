@@ -1141,12 +1141,25 @@ defmodule TrpgMaster.Campaign.Server do
     existing_class_features = char["class_features"] || []
     merged_class_features = existing_class_features ++ new_class_features
 
+    # 서브클래스 피처 누적 (서브클래스가 이미 선택된 경우, apply_subclass보다 먼저 실행되므로 기존 서브클래스만 처리)
+    subclass_id = char["subclass_id"]
+    new_subclass_features =
+      if subclass_id do
+        CharacterData.subclass_features_for_levels(subclass_id, old_level + 1, new_level)
+      else
+        []
+      end
+
+    existing_subclass_features = char["subclass_features"] || []
+    merged_subclass_features = existing_subclass_features ++ new_subclass_features
+
     char
     |> Map.put("level", new_level)
     |> Map.put("hp_max", new_hp_max)
     |> Map.put("hp_current", (char["hp_current"] || 1) + hp_increase)
     |> Map.put("proficiency_bonus", new_prof_bonus)
     |> Map.put("class_features", merged_class_features)
+    |> Map.put("subclass_features", merged_subclass_features)
     |> then(fn c ->
       if new_spell_slots do
         c
@@ -1215,12 +1228,29 @@ defmodule TrpgMaster.Campaign.Server do
 
   # 서브클래스 선택: level_up의 subclass 파라미터로 전달된 서브클래스를 캐릭터에 저장한다.
   # dnd_reference_ko 서브클래스 데이터에서 이름 매칭 후 한국어 이름으로 저장한다.
+  # 선택 레벨(보통 3레벨)의 서브클래스 피처를 즉시 부여한다.
   defp apply_subclass(char, subclass_name) when is_binary(subclass_name) and subclass_name != "" do
     alias TrpgMaster.Rules.CharacterData
     class_id = char["class_id"]
     resolved = CharacterData.resolve_subclass_name(class_id, subclass_name)
-    Logger.info("서브클래스 선택: #{char["name"]} → #{resolved}")
-    Map.put(char, "subclass", resolved)
+    subclass_id = CharacterData.resolve_subclass_id(class_id, subclass_name)
+    Logger.info("서브클래스 선택: #{char["name"]} → #{resolved} (id: #{subclass_id})")
+
+    char = Map.put(char, "subclass", resolved)
+    char = if subclass_id, do: Map.put(char, "subclass_id", subclass_id), else: char
+
+    # 선택 레벨의 서브클래스 피처 즉시 부여
+    if subclass_id do
+      selection_level = char["level"] || 1
+      new_features =
+        CharacterData.subclass_features_for_level(subclass_id, selection_level)
+        |> Enum.map(fn name -> %{"name" => name, "level" => selection_level} end)
+
+      existing = char["subclass_features"] || []
+      Map.put(char, "subclass_features", existing ++ new_features)
+    else
+      char
+    end
   end
   defp apply_subclass(char, _), do: char
 

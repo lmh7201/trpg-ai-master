@@ -519,6 +519,26 @@ defmodule TrpgMasterWeb.CampaignLive do
               </div>
             <% end %>
 
+            <%!-- 서브클래스 피처 (있을 때만) --%>
+            <% subclass_features = @character["subclass_features"] || [] %>
+            <%= if subclass_features != [] do %>
+              <div class="char-section">
+                <div class="char-section-title">서브클래스 피처 (<%= @character["subclass"] %>)</div>
+                <div class="char-class-features">
+                  <%= for {lvl, features} <- subclass_features |> Enum.group_by(& &1["level"]) |> Enum.sort() do %>
+                    <div class="char-feature-level-group">
+                      <span class="char-feature-level-label"><%= lvl %>레벨</span>
+                      <div class="char-feature-names">
+                        <%= for f <- features do %>
+                          <span class="char-feature-badge char-subclass-feature-badge"><%= f["name"] %></span>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
             <%!-- 특기 (있을 때만) --%>
             <% feats = (@character["feats"] || []) ++ (if @character["background_feat"], do: [@character["background_feat"]], else: []) %>
             <%= if feats != [] do %>

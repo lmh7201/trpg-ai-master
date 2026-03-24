@@ -185,6 +185,83 @@ defmodule TrpgMaster.Rules.CharacterData do
     }
   }
 
+  # SRD 기본 서브클래스 피처 목록 (dnd_reference_ko 데이터 없을 때 폴백, D&D 5.5e 2024 기준)
+  # 형식: %{"subclass_id" => %{level => ["피처명 (FeatureName)", ...]}}
+  @srd_subclass_features %{
+    "berserker" => %{
+      3  => ["광전사 (Frenzy)"],
+      6  => ["마음의 존재 (Mindless Rage)"],
+      10 => ["공포스러운 존재 (Retaliation)"],
+      14 => ["공포심 조장 (Intimidating Presence)"]
+    },
+    "lore" => %{
+      3  => ["추가 숙련 (Bonus Proficiencies)", "날카로운 조롱 (Cutting Words)"],
+      6  => ["추가 비전 비밀 (Additional Magical Secrets)"],
+      14 => ["탁월한 기술 (Peerless Skill)"]
+    },
+    "life" => %{
+      3  => ["수련의 제자 (Disciple of Life)"],
+      6  => ["축복받은 치유자 (Blessed Healer)"],
+      8  => ["신성한 타격 (Divine Strike)"],
+      17 => ["지고한 치유 (Supreme Healing)"]
+    },
+    "moon" => %{
+      3  => ["달의 변신 (Circle Forms)", "향상된 야생 변신 (Improved Wild Shape)"],
+      6  => ["원소 변신 (Elemental Wild Shape)"],
+      10 => ["무한한 형태 (Thousand Forms)"],
+      14 => ["야수의 수호자 (Beast Defender)"]
+    },
+    "champion" => %{
+      3  => ["향상된 치명타 (Improved Critical)"],
+      7  => ["뛰어난 운동 능력 (Remarkable Athlete)"],
+      10 => ["추가 전투 방식 (Additional Fighting Style)"],
+      15 => ["더 나은 치명타 (Superior Critical)"],
+      18 => ["생존자 (Survivor)"]
+    },
+    "open-hand" => %{
+      3  => ["열린 손의 기법 (Open Hand Technique)"],
+      6  => ["온전한 몸 (Wholeness of Body)"],
+      11 => ["공허한 신체 (Empty Body)"],
+      17 => ["떨리는 손바닥 (Quivering Palm)"]
+    },
+    "devotion" => %{
+      3  => ["헌신의 주문 (Oath Spells)", "신성한 무기 (Sacred Weapon)", "신성하지 않은 자 퇴치 (Turn the Unholy)"],
+      7  => ["헌신의 오라 (Aura of Devotion)"],
+      15 => ["순수한 정신 (Purity of Spirit)"],
+      20 => ["신성한 빛 (Holy Nimbus)"]
+    },
+    "hunter" => %{
+      3  => ["사냥꾼의 먹이 (Hunter's Prey)"],
+      7  => ["방어 전술 (Defensive Tactics)"],
+      11 => ["다중 공격 (Multiattack)"],
+      15 => ["우월한 사냥꾼의 방어 (Superior Hunter's Defense)"]
+    },
+    "thief" => %{
+      3  => ["빠른 손 (Fast Hands)", "2층 잠입 (Second-Story Work)"],
+      9  => ["최고의 잠입 (Supreme Sneak)"],
+      13 => ["마법 아이템 달인 (Use Magic Device)"],
+      17 => ["도둑의 반사신경 (Thief's Reflexes)"]
+    },
+    "draconic-sorcery" => %{
+      3  => ["용혈 회복력 (Draconic Resilience)", "용어 (Draconic)"],
+      6  => ["원소 친화 (Elemental Affinity)"],
+      14 => ["용의 날개 (Dragon Wings)"],
+      18 => ["용의 존재감 (Draconic Presence)"]
+    },
+    "fiend" => %{
+      3  => ["악마의 주문 (Fiend Spells)", "어둠의 축복 (Dark One's Blessing)"],
+      6  => ["어둠의 행운 (Dark One's Own Luck)"],
+      10 => ["악마의 회복력 (Fiendish Resilience)"],
+      14 => ["지옥으로 던지기 (Hurl Through Hell)"]
+    },
+    "abjurer" => %{
+      3  => ["방호 마법 달인 (Abjuration Savant)", "마법 방어막 (Arcane Ward)"],
+      6  => ["방어막 투영 (Projected Ward)"],
+      10 => ["향상된 방호 (Improved Abjuration)"],
+      14 => ["마법 저항 (Spell Resistance)"]
+    }
+  }
+
   # SRD 기본 서브클래스 목록 (dnd_reference_ko 데이터 없을 때 폴백)
   # 데이터 구조는 dnd_reference_ko 포맷과 동일: "name" (한국어), "nameEn" (영어)
   @srd_subclasses %{
@@ -536,6 +613,99 @@ defmodule TrpgMaster.Rules.CharacterData do
     end
   end
   def resolve_subclass_name(_, name), do: name
+
+  @doc """
+  클래스 ID와 서브클래스 이름(한/영/id)으로 서브클래스 id를 반환한다.
+  매칭되지 않으면 nil을 반환한다.
+  """
+  def resolve_subclass_id(class_id, subclass_name) when is_binary(subclass_name) and subclass_name != "" do
+    name_lower = String.downcase(subclass_name)
+
+    subclasses_for_class(class_id)
+    |> Enum.find(fn sc ->
+      ko = sc["name"] || ""
+      en = sc["nameEn"] || ""
+      id = sc["id"] || ""
+      String.downcase(ko) == name_lower ||
+        String.downcase(en) == name_lower ||
+        String.downcase(id) == name_lower
+    end)
+    |> case do
+      nil -> nil
+      sc  -> sc["id"]
+    end
+  end
+  def resolve_subclass_id(_, _), do: nil
+
+  @doc """
+  특정 서브클래스 ID와 레벨에서 획득하는 서브클래스 피처 이름 목록을 반환한다.
+  dnd_reference_ko의 subclassFeatures 데이터를 우선 사용하고, 없으면 SRD 폴백을 사용한다.
+  반환값: ["피처명1", "피처명2", ...] (해당 레벨에서 새로 얻는 피처만)
+  """
+  def subclass_features_for_level(subclass_id, level)
+      when is_binary(subclass_id) and is_integer(level) do
+    github_features = subclass_features()
+
+    from_github =
+      cond do
+        is_list(github_features) and github_features != [] ->
+          github_features
+          |> Enum.filter(fn f ->
+            (f["subclassId"] || f["subclass_id"] || "") == subclass_id &&
+              (f["level"] || f["subclassLevel"]) == level
+          end)
+          |> Enum.map(fn f ->
+            ko = f["name"] || ""
+            en = f["nameEn"] || f["name_en"] || ""
+            if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
+          end)
+          |> Enum.reject(&(&1 == ""))
+
+        is_map(github_features) && map_size(github_features) > 0 ->
+          case Map.get(github_features, subclass_id) do
+            features when is_list(features) ->
+              features
+              |> Enum.filter(fn f -> (f["level"] || f["subclassLevel"]) == level end)
+              |> Enum.map(fn f ->
+                ko = f["name"] || ""
+                en = f["nameEn"] || f["name_en"] || ""
+                if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
+              end)
+              |> Enum.reject(&(&1 == ""))
+
+            _ ->
+              []
+          end
+
+        true ->
+          []
+      end
+
+    if from_github != [] do
+      from_github
+    else
+      @srd_subclass_features
+      |> Map.get(subclass_id, %{})
+      |> Map.get(level, [])
+    end
+  end
+
+  def subclass_features_for_level(_, _), do: []
+
+  @doc """
+  서브클래스 ID와 레벨 범위에서 획득하는 모든 서브클래스 피처를 반환한다.
+  레벨업 시 old_level+1..new_level 범위의 피처를 한꺼번에 가져올 때 사용한다.
+  반환값: [%{"name" => "...", "level" => N}, ...]
+  """
+  def subclass_features_for_levels(subclass_id, from_level, to_level)
+      when is_binary(subclass_id) and is_integer(from_level) and is_integer(to_level) do
+    Enum.flat_map(from_level..to_level, fn lvl ->
+      subclass_features_for_level(subclass_id, lvl)
+      |> Enum.map(fn name -> %{"name" => name, "level" => lvl} end)
+    end)
+  end
+
+  def subclass_features_for_levels(_, _, _), do: []
 
   @doc """
   클래스 ID와 레벨에 맞는 주문 슬롯 맵을 반환한다.
