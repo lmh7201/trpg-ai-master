@@ -2574,6 +2574,11 @@ html, body {
   font-size: 0.78rem;
 }
 
+.char-subclass-feature-badge {
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+}
+
 /* status_bar 내 트리거 버튼 */
 .char-sheet-btn {
   background: none;
