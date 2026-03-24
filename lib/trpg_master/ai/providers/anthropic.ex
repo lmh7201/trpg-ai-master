@@ -171,11 +171,29 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
     if stop_reason == "tool_use" && length(tool_use_blocks) > 0 do
       {new_tool_results, tool_result_blocks} = execute_tools(tool_use_blocks)
 
+      # 도구 호출 전에 텍스트가 있었다면, 해당 텍스트가 유저에게 전달되지 않았음을 안내
+      has_preceding_text = Enum.any?(text_parts, &(String.trim(&1) != ""))
+
+      user_content =
+        if has_preceding_text do
+          tool_result_blocks ++
+            [
+              %{
+                type: "text",
+                text:
+                  "[시스템] 위 assistant 메시지의 text 부분은 플레이어에게 전달되지 않았습니다. " <>
+                    "최종 응답에 도구 호출 전에 작성했던 서술 내용을 자연스럽게 포함하여 완전한 장면을 작성하세요."
+              }
+            ]
+        else
+          tool_result_blocks
+        end
+
       updated_messages =
         body.messages ++
           [
             %{role: "assistant", content: content},
-            %{role: "user", content: tool_result_blocks}
+            %{role: "user", content: user_content}
           ]
 
       updated_body = %{body | messages: updated_messages}
