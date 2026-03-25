@@ -119,7 +119,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   def handle_event("select_class", %{"id" => class_id}, socket) do
     class = CharacterData.get_class(class_id)
 
-    skill_opts = get_in(class, ["skillProficienciesKo", "options"]) || get_in(class, ["skillProficiencies", "options"]) || []
+    skill_opts = get_in(class, ["skillProficiencies", "options", "ko"]) || get_in(class, ["skillProficiencies", "options", "en"]) || []
     skill_count = get_in(class, ["skillProficiencies", "choose"]) || 2
 
     # 주문시전 여부 확인
@@ -476,7 +476,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   defp maybe_prepare_step(socket, 6) do
     if socket.assigns.is_spellcaster do
       class_id = socket.assigns.selected_class["id"]
-      class_en = socket.assigns.selected_class["nameEn"] || class_id
+      class_en = get_in(socket.assigns.selected_class, ["name", "en"]) || class_id
 
       cantrips = CharacterData.cantrips_for_class(class_en)
       spells = CharacterData.level1_spells_for_class(class_en)
@@ -524,14 +524,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
           assigns.selected_cantrips
           |> Enum.map(fn id ->
             spell = Enum.find(assigns.available_cantrips, &(&1["id"] == id))
-            if spell, do: spell["nameKo"] || spell["name"], else: id
+            if spell, do: get_in(spell, ["name", "ko"]) || get_in(spell, ["name", "en"]), else: id
           end)
 
         spell_names =
           assigns.selected_spells
           |> Enum.map(fn id ->
             spell = Enum.find(assigns.available_spells, &(&1["id"] == id))
-            if spell, do: spell["nameKo"] || spell["name"], else: id
+            if spell, do: get_in(spell, ["name", "ko"]) || get_in(spell, ["name", "en"]), else: id
           end)
 
         %{"cantrips" => cantrip_names, "prepared" => spell_names}
@@ -612,13 +612,19 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   end
 
   defp get_equip_option_text(class, choice) do
-    equip = class["startingEquipmentKo"] || class["startingEquipment"]
+    equip = class["startingEquipment"]
 
     case equip do
       [%{"options" => options} | _] ->
         target = "(#{choice})"
-        Enum.find(options, "", fn opt -> String.starts_with?(opt, target) end)
-        |> String.replace(~r/^\([A-Z]\)\s*/, "")
+        Enum.find_value(options, "", fn opt ->
+          text = cond do
+            is_map(opt) -> opt["ko"] || opt["en"] || ""
+            is_binary(opt) -> opt
+            true -> ""
+          end
+          if String.starts_with?(text, target), do: String.replace(text, ~r/^\([A-Z]\)\s*/, "")
+        end) || ""
 
       _ -> ""
     end
@@ -644,8 +650,8 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
     Enum.find_value(equipment, nil, fn item ->
       Enum.find_value(armor_list, nil, fn a ->
-        name_ko = a["nameKo"] || a["name"] || ""
-        name_en = a["nameEn"] || a["name"] || ""
+        name_ko = get_in(a, ["name", "ko"]) || ""
+        name_en = get_in(a, ["name", "en"]) || ""
         if String.contains?(item, name_ko) or String.contains?(item, name_en), do: a["id"]
       end)
     end)
@@ -739,10 +745,10 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             phx-click="select_class"
             phx-value-id={class["id"]}
           >
-            <div class="cc-card-name"><%= class["name"] %></div>
-            <div class="cc-card-name-en"><%= class["nameEn"] %></div>
+            <div class="cc-card-name"><%= get_in(class, ["name", "ko"]) || get_in(class, ["name", "en"]) || class["id"] %></div>
+            <div class="cc-card-name-en"><%= get_in(class, ["name", "en"]) %></div>
             <div class="cc-card-meta">
-              HP: <%= class["hitPointDie"] %> | 주 능력: <%= class["primaryAbilityKo"] || class["primaryAbility"] %>
+              HP: <%= class["hitPointDie"] %> | 주 능력: <%= get_in(class, ["primaryAbility", "ko"]) || get_in(class, ["primaryAbility", "en"]) %>
             </div>
           </div>
         <% end %>
@@ -750,14 +756,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
       <%= if @selected_class do %>
         <div class="cc-detail-box">
-          <h3><%= @selected_class["name"] %> <span class="cc-en"><%= @selected_class["nameEn"] %></span></h3>
-          <p class="cc-detail-desc"><%= String.slice(@selected_class["description"] || "", 0..300) %>...</p>
+          <h3><%= get_in(@selected_class, ["name", "ko"]) %> <span class="cc-en"><%= get_in(@selected_class, ["name", "en"]) %></span></h3>
+          <p class="cc-detail-desc"><%= String.slice(get_in(@selected_class, ["description", "ko"]) || get_in(@selected_class, ["description", "en"]) || "", 0..300) %>...</p>
 
           <div class="cc-detail-stats">
             <div><strong>HP 주사위:</strong> <%= @selected_class["hitPointDie"] %></div>
-            <div><strong>내성 굴림:</strong> <%= @selected_class["savingThrowProficienciesKo"] || @selected_class["savingThrowProficiencies"] %></div>
-            <div><strong>무기 숙련:</strong> <%= @selected_class["weaponProficienciesKo"] || @selected_class["weaponProficiencies"] %></div>
-            <div><strong>방어구 훈련:</strong> <%= @selected_class["armorTrainingKo"] || @selected_class["armorTraining"] %></div>
+            <div><strong>내성 굴림:</strong> <%= get_in(@selected_class, ["savingThrowProficiencies", "ko"]) || get_in(@selected_class, ["savingThrowProficiencies", "en"]) %></div>
+            <div><strong>무기 숙련:</strong> <%= get_in(@selected_class, ["weaponProficiencies", "ko"]) || get_in(@selected_class, ["weaponProficiencies", "en"]) %></div>
+            <div><strong>방어구 훈련:</strong> <%= get_in(@selected_class, ["armorTraining", "ko"]) || get_in(@selected_class, ["armorTraining", "en"]) %></div>
           </div>
 
           <div class="cc-skill-select">
@@ -775,12 +781,12 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             </div>
           </div>
 
-          <%= if @selected_class["startingEquipmentKo"] || @selected_class["startingEquipment"] do %>
+          <%= if @selected_class["startingEquipment"] do %>
             <div class="cc-equip-preview">
               <h4>시작 장비 옵션</h4>
-              <%= for equip_group <- @selected_class["startingEquipmentKo"] || @selected_class["startingEquipment"] do %>
+              <%= for equip_group <- (@selected_class["startingEquipment"] || []) do %>
                 <%= for opt <- (equip_group["options"] || []) do %>
-                  <div class="cc-equip-option"><%= opt %></div>
+                  <div class="cc-equip-option"><%= if is_map(opt), do: opt["ko"] || opt["en"], else: opt %></div>
                 <% end %>
               <% end %>
             </div>
@@ -866,8 +872,8 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             phx-click="select_background"
             phx-value-id={bg["id"]}
           >
-            <div class="cc-card-name"><%= bg["name"] %></div>
-            <div class="cc-card-name-en"><%= bg["nameEn"] %></div>
+            <div class="cc-card-name"><%= get_in(bg, ["name", "ko"]) || get_in(bg, ["name", "en"]) || bg["id"] %></div>
+            <div class="cc-card-name-en"><%= get_in(bg, ["name", "en"]) %></div>
             <div class="cc-card-meta">
               특기: <%= get_in(bg, ["feat", "name", "ko"]) || "" %>
             </div>
@@ -878,7 +884,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       <%= if @selected_background do %>
         <% bg = @selected_background %>
         <div class="cc-detail-box">
-          <h3><%= bg["name"] %> <span class="cc-en"><%= bg["nameEn"] %></span></h3>
+          <h3><%= get_in(bg, ["name", "ko"]) || get_in(bg, ["name", "en"]) %> <span class="cc-en"><%= get_in(bg, ["name", "en"]) %></span></h3>
           <p class="cc-detail-desc"><%= get_in(bg, ["description", "ko"]) %></p>
 
           <div class="cc-detail-stats">
@@ -1010,18 +1016,19 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
         <div class="cc-equip-section">
           <h3>클래스 시작 장비</h3>
           <div class="cc-equip-choices">
-            <%= for equip_group <- (@selected_class["startingEquipmentKo"] || @selected_class["startingEquipment"] || []) do %>
-              <%= for opt <- (equip_group["options"] || []) do %>
-                <% choice = case Regex.run(~r/^\(([A-Z])\)/, opt) do
+            <%= for equip_group <- (@selected_class["startingEquipment"] || []) do %>
+              <%= for raw_opt <- (equip_group["options"] || []) do %>
+                <% opt_text = if is_map(raw_opt), do: raw_opt["ko"] || raw_opt["en"] || "", else: raw_opt || "" %>
+                <% choice = case Regex.run(~r/^\(([A-Z])\)/, opt_text) do
                   [_, letter] -> letter
-                  _ -> opt
+                  _ -> opt_text
                 end %>
                 <button
                   class={"cc-equip-btn #{if @class_equip_choice == choice, do: "selected"}"}
                   phx-click="set_class_equip"
                   phx-value-choice={choice}
                 >
-                  <%= opt %>
+                  <%= opt_text %>
                 </button>
               <% end %>
             <% end %>
@@ -1063,7 +1070,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
       <%= if not @is_spellcaster do %>
         <div class="cc-no-spells">
-          <p><%= if @selected_class, do: @selected_class["name"], else: "선택한 클래스" %>은(는) 1레벨에서 주문을 사용하지 않습니다.</p>
+          <p><%= if @selected_class, do: get_in(@selected_class, ["name", "ko"]) || get_in(@selected_class, ["name", "en"]), else: "선택한 클래스" %>은(는) 1레벨에서 주문을 사용하지 않습니다.</p>
           <p class="cc-hint">다음 단계로 넘어가세요.</p>
         </div>
       <% else %>
@@ -1077,13 +1084,13 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
                   phx-click="toggle_cantrip"
                   phx-value-id={spell["id"]}
                 >
-                  <div class="cc-spell-name"><%= spell["nameKo"] || spell["name"] %></div>
-                  <div class="cc-spell-name-en"><%= spell["name"] %></div>
+                  <div class="cc-spell-name"><%= get_in(spell, ["name", "ko"]) || get_in(spell, ["name", "en"]) %></div>
+                  <div class="cc-spell-name-en"><%= get_in(spell, ["name", "en"]) %></div>
                   <div class="cc-spell-meta">
-                    <%= spell["castingTimeKo"] || spell["castingTime"] %> |
-                    <%= spell["rangeKo"] || spell["range"] %>
+                    <%= get_in(spell, ["castingTime", "ko"]) || get_in(spell, ["castingTime", "en"]) %> |
+                    <%= get_in(spell, ["range", "ko"]) || get_in(spell, ["range", "en"]) %>
                   </div>
-                  <div class="cc-spell-desc"><%= String.slice(spell["descriptionKo"] || spell["description"] || "", 0..100) %>...</div>
+                  <div class="cc-spell-desc"><%= String.slice(get_in(spell, ["description", "ko"]) || get_in(spell, ["description", "en"]) || "", 0..100) %>...</div>
                 </div>
               <% end %>
             </div>
@@ -1101,14 +1108,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
                   phx-click="toggle_spell"
                   phx-value-id={spell["id"]}
                 >
-                  <div class="cc-spell-name"><%= spell["nameKo"] || spell["name"] %></div>
-                  <div class="cc-spell-name-en"><%= spell["name"] %></div>
+                  <div class="cc-spell-name"><%= get_in(spell, ["name", "ko"]) || get_in(spell, ["name", "en"]) %></div>
+                  <div class="cc-spell-name-en"><%= get_in(spell, ["name", "en"]) %></div>
                   <div class="cc-spell-meta">
-                    <%= spell["castingTimeKo"] || spell["castingTime"] %> |
-                    <%= spell["rangeKo"] || spell["range"] %> |
-                    <%= if spell["concentration"], do: "집중", else: spell["durationKo"] || spell["duration"] %>
+                    <%= get_in(spell, ["castingTime", "ko"]) || get_in(spell, ["castingTime", "en"]) %> |
+                    <%= get_in(spell, ["range", "ko"]) || get_in(spell, ["range", "en"]) %> |
+                    <%= if spell["concentration"], do: "집중", else: get_in(spell, ["duration", "ko"]) || get_in(spell, ["duration", "en"]) %>
                   </div>
-                  <div class="cc-spell-desc"><%= String.slice(spell["descriptionKo"] || spell["description"] || "", 0..100) %>...</div>
+                  <div class="cc-spell-desc"><%= String.slice(get_in(spell, ["description", "ko"]) || get_in(spell, ["description", "en"]) || "", 0..100) %>...</div>
                 </div>
               <% end %>
             </div>
@@ -1180,9 +1187,9 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
           <h3><%= if @character_name != "", do: @character_name, else: "???" %></h3>
           <p>
             <%= if @selected_race, do: get_in(@selected_race, ["name", "ko"]), else: "?" %>
-            <%= if @selected_class, do: @selected_class["name"], else: "?" %>
+            <%= if @selected_class, do: get_in(@selected_class, ["name", "ko"]) || get_in(@selected_class, ["name", "en"]), else: "?" %>
             Lv.1
-            | 배경: <%= if @selected_background, do: @selected_background["name"], else: "?" %>
+            | 배경: <%= if @selected_background, do: get_in(@selected_background, ["name", "ko"]) || get_in(@selected_background, ["name", "en"]), else: "?" %>
           </p>
         </div>
 
@@ -1217,7 +1224,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
               true -> []
             end
             a = Enum.find(flat_list, &(&1["id"] == armor_id))
-            if a, do: compute_summary_ac(a["ac"], dex_mod), else: 10 + dex_mod
+            if a, do: compute_summary_ac(get_in(a, ["ac", "en"]) || a["ac"], dex_mod), else: 10 + dex_mod
           else
             10 + dex_mod
           end %>
@@ -1267,7 +1274,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   defp find_spell_name(spells, id) do
     case Enum.find(spells, &(&1["id"] == id)) do
       nil -> id
-      spell -> spell["nameKo"] || spell["name"]
+      spell -> get_in(spell, ["name", "ko"]) || get_in(spell, ["name", "en"])
     end
   end
 

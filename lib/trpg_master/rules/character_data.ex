@@ -263,20 +263,20 @@ defmodule TrpgMaster.Rules.CharacterData do
   }
 
   # SRD 기본 서브클래스 목록 (dnd_reference_ko 데이터 없을 때 폴백)
-  # 데이터 구조는 dnd_reference_ko 포맷과 동일: "name" (한국어), "nameEn" (영어)
+  # 데이터 구조는 마이그레이션된 포맷과 동일: name: %{"ko" => ..., "en" => ...}
   @srd_subclasses %{
-    "barbarian" => [%{"id" => "berserker",        "classId" => "barbarian", "name" => "광전사의 길",    "nameEn" => "Path of the Berserker"}],
-    "bard"      => [%{"id" => "lore",             "classId" => "bard",      "name" => "지식의 학원",    "nameEn" => "College of Lore"}],
-    "cleric"    => [%{"id" => "life",             "classId" => "cleric",    "name" => "생명 권능",      "nameEn" => "Life Domain"}],
-    "druid"     => [%{"id" => "moon",             "classId" => "druid",     "name" => "달의 원환",      "nameEn" => "Circle of the Moon"}],
-    "fighter"   => [%{"id" => "champion",         "classId" => "fighter",   "name" => "용사",           "nameEn" => "Champion"}],
-    "monk"      => [%{"id" => "open-hand",        "classId" => "monk",      "name" => "열린 손의 전사", "nameEn" => "Warrior of the Open Hand"}],
-    "paladin"   => [%{"id" => "devotion",         "classId" => "paladin",   "name" => "헌신의 맹세",   "nameEn" => "Oath of Devotion"}],
-    "ranger"    => [%{"id" => "hunter",           "classId" => "ranger",    "name" => "사냥꾼",         "nameEn" => "Hunter"}],
-    "rogue"     => [%{"id" => "thief",            "classId" => "rogue",     "name" => "도둑",           "nameEn" => "Thief"}],
-    "sorcerer"  => [%{"id" => "draconic-sorcery", "classId" => "sorcerer",  "name" => "용혈 마법사",   "nameEn" => "Draconic Sorcery"}],
-    "warlock"   => [%{"id" => "fiend",            "classId" => "warlock",   "name" => "악마 계약자",   "nameEn" => "The Fiend"}],
-    "wizard"    => [%{"id" => "abjurer",          "classId" => "wizard",    "name" => "방호마법사",    "nameEn" => "Abjurer"}]
+    "barbarian" => [%{"id" => "berserker",        "classId" => "barbarian", "name" => %{"ko" => "광전사의 길",    "en" => "Path of the Berserker"}}],
+    "bard"      => [%{"id" => "lore",             "classId" => "bard",      "name" => %{"ko" => "지식의 학원",    "en" => "College of Lore"}}],
+    "cleric"    => [%{"id" => "life",             "classId" => "cleric",    "name" => %{"ko" => "생명 권능",      "en" => "Life Domain"}}],
+    "druid"     => [%{"id" => "moon",             "classId" => "druid",     "name" => %{"ko" => "달의 원환",      "en" => "Circle of the Moon"}}],
+    "fighter"   => [%{"id" => "champion",         "classId" => "fighter",   "name" => %{"ko" => "용사",           "en" => "Champion"}}],
+    "monk"      => [%{"id" => "open-hand",        "classId" => "monk",      "name" => %{"ko" => "열린 손의 전사", "en" => "Warrior of the Open Hand"}}],
+    "paladin"   => [%{"id" => "devotion",         "classId" => "paladin",   "name" => %{"ko" => "헌신의 맹세",   "en" => "Oath of Devotion"}}],
+    "ranger"    => [%{"id" => "hunter",           "classId" => "ranger",    "name" => %{"ko" => "사냥꾼",         "en" => "Hunter"}}],
+    "rogue"     => [%{"id" => "thief",            "classId" => "rogue",     "name" => %{"ko" => "도둑",           "en" => "Thief"}}],
+    "sorcerer"  => [%{"id" => "draconic-sorcery", "classId" => "sorcerer",  "name" => %{"ko" => "용혈 마법사",   "en" => "Draconic Sorcery"}}],
+    "warlock"   => [%{"id" => "fiend",            "classId" => "warlock",   "name" => %{"ko" => "악마 계약자",   "en" => "The Fiend"}}],
+    "wizard"    => [%{"id" => "abjurer",          "classId" => "wizard",    "name" => %{"ko" => "방호마법사",    "en" => "Abjurer"}}]
   }
 
   # D&D 5e 주문 슬롯 테이블 (완전 주문시전자: bard, cleric, druid, sorcerer, wizard)
@@ -401,6 +401,21 @@ defmodule TrpgMaster.Rules.CharacterData do
   def adventuring_gear, do: get(:adventuring_gear, [])
   def tools, do: get(:tools, [])
 
+  @doc "SRD only 모드 여부 (기본값: true)"
+  def srd_only?, do: Application.get_env(:trpg_master, :srd_only, true)
+
+  @doc "SRD 5.2 클래스만 반환"
+  def srd_classes, do: Enum.filter(classes(), &(&1["source"] == "SRD 5.2"))
+
+  @doc "SRD 5.2 종족만 반환"
+  def srd_races, do: Enum.filter(races(), &(&1["source"] == "SRD 5.2"))
+
+  @doc "SRD 5.2 배경만 반환"
+  def srd_backgrounds, do: Enum.filter(backgrounds(), &(&1["source"] == "SRD 5.2"))
+
+  @doc "SRD 5.2 재주만 반환"
+  def srd_feats, do: Enum.filter(feats(), &(&1["source"] == "SRD 5.2"))
+
   @doc """
   특정 클래스 ID와 레벨에서 획득하는 클래스 피처 이름 목록을 반환한다.
   dnd_reference_ko의 classFeatures 데이터를 우선 사용하고, 없으면 SRD 폴백을 사용한다.
@@ -419,8 +434,8 @@ defmodule TrpgMaster.Rules.CharacterData do
               (f["level"] || f["classLevel"]) == level
           end)
           |> Enum.map(fn f ->
-            ko = f["name"] || ""
-            en = f["nameEn"] || f["name_en"] || ""
+            ko = get_in(f, ["name", "ko"]) || ""
+            en = get_in(f, ["name", "en"]) || ""
             if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
           end)
           |> Enum.reject(&(&1 == ""))
@@ -432,8 +447,8 @@ defmodule TrpgMaster.Rules.CharacterData do
               features
               |> Enum.filter(fn f -> (f["level"] || f["classLevel"]) == level end)
               |> Enum.map(fn f ->
-                ko = f["name"] || ""
-                en = f["nameEn"] || f["name_en"] || ""
+                ko = get_in(f, ["name", "ko"]) || ""
+                en = get_in(f, ["name", "en"]) || ""
                 if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
               end)
               |> Enum.reject(&(&1 == ""))
@@ -603,13 +618,13 @@ defmodule TrpgMaster.Rules.CharacterData do
 
     subclasses_for_class(class_id)
     |> Enum.find(fn sc ->
-      ko = sc["name"] || ""
-      en = sc["nameEn"] || ""
+      ko = get_in(sc, ["name", "ko"]) || ""
+      en = get_in(sc, ["name", "en"]) || ""
       String.downcase(ko) == name_lower || String.downcase(en) == name_lower
     end)
     |> case do
       nil -> subclass_name
-      sc  -> sc["name"] || sc["nameEn"] || subclass_name
+      sc  -> get_in(sc, ["name", "ko"]) || get_in(sc, ["name", "en"]) || subclass_name
     end
   end
   def resolve_subclass_name(_, name), do: name
@@ -623,8 +638,8 @@ defmodule TrpgMaster.Rules.CharacterData do
 
     subclasses_for_class(class_id)
     |> Enum.find(fn sc ->
-      ko = sc["name"] || ""
-      en = sc["nameEn"] || ""
+      ko = get_in(sc, ["name", "ko"]) || ""
+      en = get_in(sc, ["name", "en"]) || ""
       id = sc["id"] || ""
       String.downcase(ko) == name_lower ||
         String.downcase(en) == name_lower ||
@@ -655,8 +670,8 @@ defmodule TrpgMaster.Rules.CharacterData do
               (f["level"] || f["subclassLevel"]) == level
           end)
           |> Enum.map(fn f ->
-            ko = f["name"] || ""
-            en = f["nameEn"] || f["name_en"] || ""
+            ko = get_in(f, ["name", "ko"]) || ""
+            en = get_in(f, ["name", "en"]) || ""
             if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
           end)
           |> Enum.reject(&(&1 == ""))
@@ -667,8 +682,8 @@ defmodule TrpgMaster.Rules.CharacterData do
               features
               |> Enum.filter(fn f -> (f["level"] || f["subclassLevel"]) == level end)
               |> Enum.map(fn f ->
-                ko = f["name"] || ""
-                en = f["nameEn"] || f["name_en"] || ""
+                ko = get_in(f, ["name", "ko"]) || ""
+                en = get_in(f, ["name", "en"]) || ""
                 if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
               end)
               |> Enum.reject(&(&1 == ""))
@@ -778,9 +793,9 @@ defmodule TrpgMaster.Rules.CharacterData do
     background_data = get_background(params.background_id)
 
     # 한국어 이름 추출
-    class_name = class_data["name"] || class_data["nameEn"] || params.class_id
+    class_name = get_in(class_data, ["name", "ko"]) || get_in(class_data, ["name", "en"]) || params.class_id
     race_name = extract_race_name(race_data)
-    background_name = background_data["name"] || background_data["nameEn"] || params.background_id
+    background_name = get_in(background_data, ["name", "ko"]) || get_in(background_data, ["name", "en"]) || params.background_id
 
     # HP 계산: 1레벨 = hit die 최대값 + CON 수정치
     hit_die = parse_hit_die(class_data["hitPointDie"])
@@ -1045,9 +1060,8 @@ defmodule TrpgMaster.Rules.CharacterData do
     class_features =
       case class_data["features"] do
         features when is_list(features) ->
-          features
-          |> Enum.find(%{}, &(&1["level"] == 1))
-          |> Map.get("featuresKo", Map.get(%{}, "features", []))
+          row = Enum.find(features, %{}, &(&1["level"] == 1))
+          get_in(row, ["features", "ko"]) || get_in(row, ["features", "en"]) || []
 
         _ ->
           []
@@ -1138,6 +1152,11 @@ defmodule TrpgMaster.Rules.CharacterData do
         10 + dex_mod
     end
   end
+  # 마이그레이션 후 ac가 {en: "...", ko: "..."} 형태인 경우
+  defp compute_armor_ac(%{"ac" => %{"en" => ac_str}}, dex_mod) when is_binary(ac_str) do
+    compute_armor_ac(%{"ac" => ac_str}, dex_mod)
+  end
+
   defp compute_armor_ac(%{"ac" => ac_info}, dex_mod) when is_map(ac_info) do
     base = Map.get(ac_info, "base", 10)
     add_dex = Map.get(ac_info, "addDex", true)

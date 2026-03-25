@@ -9,18 +9,19 @@ defmodule TrpgMaster.Rules.Loader do
   키 형태: {:spell, "파이어볼"}, {:monster, "고블린"} 등
   이름은 downcase + trim으로 정규화. 한국어 + 영어 이중 키 등록.
 
-  ## 파일별 name 필드 구조
+  ## 파일별 name 필드 구조 (마이그레이션 후 통일 포맷)
 
-  | 파일                | 한국어 키  | 영어 키   | JSON 형태 |
-  |---------------------|-----------|----------|----------|
-  | spells.json         | nameKo    | name     | list     |
-  | monsters.json       | name      | nameEn   | list     |
-  | classes.json        | name      | nameEn   | list     |
-  | feats.json          | name.ko   | name.en  | list (name은 {ko:,en:} 객체) |
-  | items.json          | name      | nameEn   | list     |
-  | weapons.json        | nameKo    | name     | dict → weapons 키 |
-  | armor.json          | nameKo    | name     | dict → armor 키  |
-  | adventuringGear.json| nameKo    | name     | dict → gear 키   |
+  모든 파일이 `name: {ko: "한국어명", en: "English name"}` 형태를 사용한다.
+
+  | 파일                | JSON 형태 | 비고 |
+  |---------------------|----------|------|
+  | spells.json         | list     | name: {ko, en} |
+  | monsters.json       | list     | name: {ko, en} |
+  | classes.json        | list     | name: {ko, en} |
+  | feats.json          | list     | name: {ko, en} |
+  | weapons.json        | list     | 평탄 배열로 변환됨 |
+  | armor.json          | list     | 평탄 배열로 변환됨 |
+  | adventuringGear.json| dict     | gear 키에 배열 |
   """
 
   use GenServer
@@ -32,21 +33,19 @@ defmodule TrpgMaster.Rules.Loader do
 
   # {filename, ets_type, name_style, list_key}
   # name_style:
-  #   :nameKo_name    — 한국어: nameKo, 영어: name
-  #   :name_nameEn    — 한국어: name, 영어: nameEn
-  #   :name_object    — name이 {ko: ..., en: ...} 객체
+  #   :name_object    — name이 {ko: ..., en: ...} 객체 (마이그레이션 후 모든 파일에 적용)
   # list_key:
   #   nil             — JSON 최상위가 배열
   #   "key"           — JSON 최상위가 dict; 해당 키의 배열을 사용
   @file_type_map [
-    {"spells.json", :spell, :nameKo_name, nil},
-    {"monsters.json", :monster, :name_nameEn, nil},
-    {"classes.json", :class, :name_nameEn, nil},
+    {"spells.json", :spell, :name_object, nil},
+    {"monsters.json", :monster, :name_object, nil},
+    {"classes.json", :class, :name_object, nil},
     {"feats.json", :feat, :name_object, nil},
-    {"items.json", :item, :name_nameEn, nil},
-    {"weapons.json", :item, :nameKo_name, "weapons"},
-    {"armor.json", :item, :nameKo_name, "armor"},
-    {"adventuringGear.json", :item, :nameKo_name, "gear"}
+    {"items.json", :item, :name_object, nil},
+    {"weapons.json", :item, :name_object, nil},
+    {"armor.json", :item, :name_object, nil},
+    {"adventuringGear.json", :item, :name_object, "gear"}
   ]
 
   # rules/*.json 파일: 각 파일은 {id, title, intro, sections} 구조의 단일 객체.
@@ -316,17 +315,7 @@ defmodule TrpgMaster.Rules.Loader do
 
   # ── Name extraction per style ───────────────────────────────────────────────
 
-  # spells, weapons, armor, adventuringGear: nameKo=한국어, name=영어
-  defp extract_names(entry, :nameKo_name) do
-    {Map.get(entry, "nameKo"), Map.get(entry, "name")}
-  end
-
-  # monsters, classes, items: name=한국어, nameEn=영어
-  defp extract_names(entry, :name_nameEn) do
-    {Map.get(entry, "name"), Map.get(entry, "nameEn")}
-  end
-
-  # feats: name이 {ko: ..., en: ...} 객체
+  # 마이그레이션 후 모든 파일: name이 {ko: ..., en: ...} 객체
   defp extract_names(entry, :name_object) do
     case Map.get(entry, "name") do
       %{"ko" => ko, "en" => en} -> {ko, en}

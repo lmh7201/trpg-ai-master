@@ -647,11 +647,11 @@ defmodule TrpgMaster.AI.Tools do
       |> Enum.take(limit)
       |> Enum.map(fn m ->
         %{
-          "name" => Map.get(m, "name"),
-          "nameEn" => Map.get(m, "nameEn"),
+          "name" => get_in(m, ["name", "ko"]) || get_in(m, ["name", "en"]),
+          "nameEn" => get_in(m, ["name", "en"]),
           "cr" => Map.get(m, "cr"),
-          "size" => Map.get(m, "sizeKo") || Map.get(m, "size"),
-          "type" => Map.get(m, "typeKo") || Map.get(m, "type"),
+          "size" => get_in(m, ["size", "ko"]) || get_in(m, ["size", "en"]),
+          "type" => get_in(m, ["type", "ko"]) || get_in(m, ["type", "en"]),
           "tags" => Map.get(m, "tags", [])
         }
       end)
@@ -969,7 +969,7 @@ defmodule TrpgMaster.AI.Tools do
   # 클래스 데이터는 특히 거대하므로 핵심 필드만 반환
   defp compact_entry(:class, entry) do
     Map.take(entry, [
-      "name", "nameEn", "description", "descriptionEn",
+      "id", "name", "description",
       "primaryAbility", "hitPointDie", "savingThrowProficiencies",
       "skillProficiencies", "weaponProficiencies", "armorTraining",
       "startingEquipment", "becomingThisClass",
@@ -980,15 +980,15 @@ defmodule TrpgMaster.AI.Tools do
   # 몬스터 데이터는 전투에 필요한 필드 위주로 반환
   defp compact_entry(:monster, entry) do
     Map.take(entry, [
-      "name", "nameEn", "size", "sizeKo", "type", "typeKo",
-      "ac", "acKo", "hp", "hpKo", "speed", "speedKo",
-      "abilities", "cr", "crKo", "xp",
+      "id", "name", "size", "type",
+      "ac", "hp", "speed",
+      "abilities", "cr", "xp",
       "traits", "actions", "bonusActions", "reactions",
-      "legendaryActions", "legendaryActionsDesc", "legendaryActionsDescKo",
-      "immunities", "immunitiesKo", "resistances", "resistancesKo",
-      "conditionImmunities", "conditionImmunitiesKo",
-      "senses", "sensesKo", "languages", "languagesKo",
-      "skillProficiencies", "skillProficienciesKo"
+      "legendaryActions", "legendaryActionsDesc",
+      "immunities", "resistances",
+      "conditionImmunities",
+      "senses", "languages",
+      "skillProficiencies"
     ])
   end
 
@@ -1082,7 +1082,12 @@ defmodule TrpgMaster.AI.Tools do
   defp matches_type(_monster, nil), do: true
 
   defp matches_type(monster, type_filter) do
-    monster_type = Map.get(monster, "type", "") |> String.downcase()
+    type_val = Map.get(monster, "type")
+    monster_type = cond do
+      is_map(type_val) -> (type_val["en"] || "") |> String.downcase()
+      is_binary(type_val) -> String.downcase(type_val)
+      true -> ""
+    end
     String.contains?(monster_type, String.downcase(type_filter))
   end
 end
