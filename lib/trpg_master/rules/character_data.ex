@@ -45,240 +45,6 @@ defmodule TrpgMaster.Rules.CharacterData do
     "wizard"    => [3]
   }
 
-  # SRD 기본 클래스 피처 목록 (dnd_reference_ko 데이터 없을 때 폴백, D&D 5.5e 2024 기준)
-  # 형식: %{"class_id" => %{level => ["피처명 (FeatureName)", ...]}}
-  @srd_class_features %{
-    "barbarian" => %{
-      1 => ["분노 (Rage)", "비무장 방어 (Unarmored Defense)", "무기 숙달 (Weapon Mastery)"],
-      2 => ["위험 감지 (Danger Sense)", "무모한 공격 (Reckless Attack)"],
-      3 => ["원초적 지식 (Primal Knowledge)"],
-      5 => ["추가 공격 (Extra Attack)", "빠른 이동 (Fast Movement)"],
-      7 => ["야생의 본능 (Feral Instinct)", "본능적 도약 (Instinctive Pounce)"],
-      9 => ["잔인한 일격 (Brutal Strike)"],
-      11 => ["끈질긴 분노 (Relentless Rage)"],
-      13 => ["잔인한 일격 강화 (Brutal Strike d10)"],
-      15 => ["지속적 분노 (Persistent Rage)"],
-      17 => ["잔인한 일격 강화 (Brutal Strike d12)"],
-      18 => ["정복할 수 없는 힘 (Indomitable Might)"],
-      20 => ["원초적 챔피언 (Primal Champion)"]
-    },
-    "bard" => %{
-      1 => ["음유시인의 영감 (Bardic Inspiration)", "주문 시전 (Spellcasting)"],
-      2 => ["전문화 (Expertise)", "잡학다식 (Jack of All Trades)"],
-      5 => ["영감의 샘 (Font of Inspiration)"],
-      7 => ["반박 (Countercharm)"],
-      9 => ["전문화 확장 (Expertise)"],
-      10 => ["비전 비밀 (Magical Secrets)"],
-      18 => ["탁월한 영감 (Superior Inspiration)"],
-      20 => ["창조의 말 (Words of Creation)"]
-    },
-    "cleric" => %{
-      1 => ["신성한 서열 (Divine Order)", "주문 시전 (Spellcasting)"],
-      2 => ["신성한 도관 (Channel Divinity)"],
-      5 => ["언데드 소각 (Sear Undead)"],
-      7 => ["축복받은 일격 (Blessed Strikes)", "신성한 서열 강화 (Holy Order)"],
-      10 => ["신성한 개입 (Divine Intervention)"],
-      14 => ["강화된 축복받은 일격 (Improved Blessed Strikes)"],
-      18 => ["신성한 영역 강화 (Subclass Feature)"],
-      20 => ["위대한 신성한 개입 (Greater Divine Intervention)"]
-    },
-    "druid" => %{
-      1 => ["드루이드어 (Druidic)", "원시 서열 (Primal Order)", "주문 시전 (Spellcasting)"],
-      2 => ["야생 변신 (Wild Shape)", "야생의 동반자 (Wild Companion)"],
-      4 => ["야생 변신 강화 (Wild Shape improvement)"],
-      5 => ["야생의 회복 (Wild Resurgence)"],
-      7 => ["정령의 분노 (Elemental Fury)"],
-      14 => ["강화된 정령의 분노 (Improved Elemental Fury)"],
-      18 => ["야수의 주문 (Beast Spells)"],
-      20 => ["대드루이드 (Archdruid)"]
-    },
-    "fighter" => %{
-      1 => ["전투 방식 (Fighting Style)", "두 번째 바람 (Second Wind)", "무기 숙달 (Weapon Mastery)"],
-      2 => ["행동 쇄도 (Action Surge)", "전술적 정신 (Tactical Mind)"],
-      4 => ["전술적 이동 (Tactical Shift)"],
-      5 => ["추가 공격 (Extra Attack)"],
-      9 => ["굴복하지 않음 (Indomitable)", "전술적 이동 강화 (Tactical Shift)"],
-      11 => ["추가 공격 2 (Two Extra Attacks)"],
-      13 => ["연구된 공격 (Studied Attacks)"],
-      17 => ["행동 쇄도 2 (Action Surge 2)", "굴복하지 않음 강화 (Indomitable 3/Long Rest)"],
-      20 => ["추가 공격 3 (Three Extra Attacks)"]
-    },
-    "monk" => %{
-      1 => ["무술 (Martial Arts)", "비무장 방어 (Unarmored Defense)"],
-      2 => ["수도승의 집중 (Monk's Focus)", "비무장 이동 (Unarmored Movement)", "예상치 못한 회복 (Uncanny Metabolism)"],
-      3 => ["공격 튕겨내기 (Deflect Attacks)"],
-      4 => ["느린 낙하 (Slow Fall)"],
-      5 => ["추가 공격 (Extra Attack)", "기절 일격 (Stunning Strike)"],
-      6 => ["강화된 일격 (Empowered Strikes)"],
-      7 => ["회피 (Evasion)"],
-      9 => ["곡예적 이동 (Acrobatic Movement)"],
-      10 => ["고양된 집중 (Heightened Focus)", "자기 회복 (Self-Restoration)"],
-      11 => ["에너지 튕겨내기 (Deflect Energy)"],
-      13 => ["집중된 조준 (Focused Aim)"],
-      15 => ["탁월한 방어 (Superior Defense)"],
-      17 => ["단련된 생존자 (Disciplined Survivor)"],
-      18 => ["완벽한 집중 (Perfect Focus)"],
-      20 => ["완벽한 자아 (Perfect Self)"]
-    },
-    "paladin" => %{
-      1 => ["안수 치료 (Lay on Hands)", "주문 시전 (Spellcasting)", "무기 숙달 (Weapon Mastery)"],
-      2 => ["전투 방식 (Fighting Style)", "팔라딘의 강타 (Paladin's Smite)"],
-      3 => ["신성한 도관 (Channel Divinity)"],
-      5 => ["추가 공격 (Extra Attack)", "충성스러운 말 (Faithful Steed)"],
-      6 => ["보호의 오라 (Aura of Protection)"],
-      9 => ["적 퇴치 (Abjure Foes)"],
-      10 => ["용기의 오라 (Aura of Courage)"],
-      11 => ["빛나는 일격 (Radiant Strikes)"],
-      14 => ["회복의 손길 (Restoring Touch)"],
-      18 => ["오라 확장 (Aura Expansion)"],
-      20 => ["신성한 무기 (Sacred Weapon)"]
-    },
-    "ranger" => %{
-      1 => ["전문화 (Expertise)", "선호하는 적 (Favored Enemy)", "주문 시전 (Spellcasting)", "무기 숙달 (Weapon Mastery)"],
-      2 => ["능숙한 탐험가 (Deft Explorer)", "전투 방식 (Fighting Style)"],
-      5 => ["추가 공격 (Extra Attack)"],
-      6 => ["돌아다니기 (Roving)"],
-      7 => ["지칠 줄 모름 (Tireless)"],
-      9 => ["자연의 베일 (Nature's Veil)"],
-      11 => ["정밀한 사냥꾼 (Precise Hunter)"],
-      15 => ["야성의 감각 (Feral Senses)"],
-      18 => ["적 학살자 (Foe Slayer)"]
-    },
-    "rogue" => %{
-      1 => ["전문화 (Expertise)", "비열한 공격 (Sneak Attack)", "도둑의 은어 (Thieves' Cant)", "무기 숙달 (Weapon Mastery)"],
-      2 => ["교활한 행동 (Cunning Action)"],
-      3 => ["안정된 조준 (Steady Aim)"],
-      5 => ["교활한 일격 (Cunning Strike)", "비범한 회피 (Uncanny Dodge)"],
-      6 => ["전문화 확장 (Expertise)"],
-      7 => ["회피 (Evasion)", "믿음직한 재능 (Reliable Talent)"],
-      9 => ["서브클래스 피처 (Subclass Feature)"],
-      11 => ["강화된 교활한 일격 (Improved Cunning Strike)"],
-      14 => ["교활한 일격 강화 (Devious Strikes)"],
-      15 => ["미끄러운 정신 (Slippery Mind)"],
-      18 => ["회피 불가 (Elusive)"],
-      20 => ["행운의 일격 (Stroke of Luck)"]
-    },
-    "sorcerer" => %{
-      1 => ["타고난 마법 (Innate Sorcery)", "주문 시전 (Spellcasting)"],
-      2 => ["마법의 샘 (Font of Magic)", "마법 변형 (Metamagic)"],
-      5 => ["마법사의 회복 (Sorcerous Restoration)"],
-      7 => ["마법 화신 (Sorcery Incarnate)"],
-      18 => ["비전 신격화 (Arcane Apotheosis)"],
-      20 => ["마법사의 회복 강화 (Sorcerous Restoration improvement)"]
-    },
-    "warlock" => %{
-      1 => ["엘드리치 소환 (Eldritch Invocations)", "계약 마법 (Pact Magic)"],
-      2 => ["마법적 교활함 (Magical Cunning)"],
-      9 => ["후원자 연락 (Contact Patron)"],
-      11 => ["신비로운 비법 6레벨 (Mystic Arcanum 6th)"],
-      13 => ["신비로운 비법 7레벨 (Mystic Arcanum 7th)"],
-      15 => ["신비로운 비법 8레벨 (Mystic Arcanum 8th)"],
-      17 => ["신비로운 비법 9레벨 (Mystic Arcanum 9th)"],
-      18 => ["엘드리치 마스터 (Eldritch Master)"]
-    },
-    "wizard" => %{
-      1 => ["비전 회복 (Arcane Recovery)", "주문 시전 (Spellcasting)"],
-      2 => ["학자 (Scholar)"],
-      5 => ["주문 암기 (Memorize Spell)"],
-      18 => ["주문 숙달 (Spell Mastery)"],
-      20 => ["시그니처 주문 (Signature Spells)"]
-    }
-  }
-
-  # SRD 기본 서브클래스 피처 목록 (dnd_reference_ko 데이터 없을 때 폴백, D&D 5.5e 2024 기준)
-  # 형식: %{"subclass_id" => %{level => ["피처명 (FeatureName)", ...]}}
-  @srd_subclass_features %{
-    "berserker" => %{
-      3  => ["광전사 (Frenzy)"],
-      6  => ["마음의 존재 (Mindless Rage)"],
-      10 => ["공포스러운 존재 (Retaliation)"],
-      14 => ["공포심 조장 (Intimidating Presence)"]
-    },
-    "lore" => %{
-      3  => ["추가 숙련 (Bonus Proficiencies)", "날카로운 조롱 (Cutting Words)"],
-      6  => ["추가 비전 비밀 (Additional Magical Secrets)"],
-      14 => ["탁월한 기술 (Peerless Skill)"]
-    },
-    "life" => %{
-      3  => ["수련의 제자 (Disciple of Life)"],
-      6  => ["축복받은 치유자 (Blessed Healer)"],
-      8  => ["신성한 타격 (Divine Strike)"],
-      17 => ["지고한 치유 (Supreme Healing)"]
-    },
-    "moon" => %{
-      3  => ["달의 변신 (Circle Forms)", "향상된 야생 변신 (Improved Wild Shape)"],
-      6  => ["원소 변신 (Elemental Wild Shape)"],
-      10 => ["무한한 형태 (Thousand Forms)"],
-      14 => ["야수의 수호자 (Beast Defender)"]
-    },
-    "champion" => %{
-      3  => ["향상된 치명타 (Improved Critical)"],
-      7  => ["뛰어난 운동 능력 (Remarkable Athlete)"],
-      10 => ["추가 전투 방식 (Additional Fighting Style)"],
-      15 => ["더 나은 치명타 (Superior Critical)"],
-      18 => ["생존자 (Survivor)"]
-    },
-    "open-hand" => %{
-      3  => ["열린 손의 기법 (Open Hand Technique)"],
-      6  => ["온전한 몸 (Wholeness of Body)"],
-      11 => ["공허한 신체 (Empty Body)"],
-      17 => ["떨리는 손바닥 (Quivering Palm)"]
-    },
-    "devotion" => %{
-      3  => ["헌신의 주문 (Oath Spells)", "신성한 무기 (Sacred Weapon)", "신성하지 않은 자 퇴치 (Turn the Unholy)"],
-      7  => ["헌신의 오라 (Aura of Devotion)"],
-      15 => ["순수한 정신 (Purity of Spirit)"],
-      20 => ["신성한 빛 (Holy Nimbus)"]
-    },
-    "hunter" => %{
-      3  => ["사냥꾼의 먹이 (Hunter's Prey)"],
-      7  => ["방어 전술 (Defensive Tactics)"],
-      11 => ["다중 공격 (Multiattack)"],
-      15 => ["우월한 사냥꾼의 방어 (Superior Hunter's Defense)"]
-    },
-    "thief" => %{
-      3  => ["빠른 손 (Fast Hands)", "2층 잠입 (Second-Story Work)"],
-      9  => ["최고의 잠입 (Supreme Sneak)"],
-      13 => ["마법 아이템 달인 (Use Magic Device)"],
-      17 => ["도둑의 반사신경 (Thief's Reflexes)"]
-    },
-    "draconic-sorcery" => %{
-      3  => ["용혈 회복력 (Draconic Resilience)", "용어 (Draconic)"],
-      6  => ["원소 친화 (Elemental Affinity)"],
-      14 => ["용의 날개 (Dragon Wings)"],
-      18 => ["용의 존재감 (Draconic Presence)"]
-    },
-    "fiend" => %{
-      3  => ["악마의 주문 (Fiend Spells)", "어둠의 축복 (Dark One's Blessing)"],
-      6  => ["어둠의 행운 (Dark One's Own Luck)"],
-      10 => ["악마의 회복력 (Fiendish Resilience)"],
-      14 => ["지옥으로 던지기 (Hurl Through Hell)"]
-    },
-    "abjurer" => %{
-      3  => ["방호 마법 달인 (Abjuration Savant)", "마법 방어막 (Arcane Ward)"],
-      6  => ["방어막 투영 (Projected Ward)"],
-      10 => ["향상된 방호 (Improved Abjuration)"],
-      14 => ["마법 저항 (Spell Resistance)"]
-    }
-  }
-
-  # SRD 기본 서브클래스 목록 (dnd_reference_ko 데이터 없을 때 폴백)
-  # 데이터 구조는 마이그레이션된 포맷과 동일: name: %{"ko" => ..., "en" => ...}
-  @srd_subclasses %{
-    "barbarian" => [%{"id" => "berserker",        "classId" => "barbarian", "name" => %{"ko" => "광전사의 길",    "en" => "Path of the Berserker"}}],
-    "bard"      => [%{"id" => "lore",             "classId" => "bard",      "name" => %{"ko" => "지식의 학원",    "en" => "College of Lore"}}],
-    "cleric"    => [%{"id" => "life",             "classId" => "cleric",    "name" => %{"ko" => "생명 권능",      "en" => "Life Domain"}}],
-    "druid"     => [%{"id" => "moon",             "classId" => "druid",     "name" => %{"ko" => "달의 원환",      "en" => "Circle of the Moon"}}],
-    "fighter"   => [%{"id" => "champion",         "classId" => "fighter",   "name" => %{"ko" => "용사",           "en" => "Champion"}}],
-    "monk"      => [%{"id" => "open-hand",        "classId" => "monk",      "name" => %{"ko" => "열린 손의 전사", "en" => "Warrior of the Open Hand"}}],
-    "paladin"   => [%{"id" => "devotion",         "classId" => "paladin",   "name" => %{"ko" => "헌신의 맹세",   "en" => "Oath of Devotion"}}],
-    "ranger"    => [%{"id" => "hunter",           "classId" => "ranger",    "name" => %{"ko" => "사냥꾼",         "en" => "Hunter"}}],
-    "rogue"     => [%{"id" => "thief",            "classId" => "rogue",     "name" => %{"ko" => "도둑",           "en" => "Thief"}}],
-    "sorcerer"  => [%{"id" => "draconic-sorcery", "classId" => "sorcerer",  "name" => %{"ko" => "용혈 마법사",   "en" => "Draconic Sorcery"}}],
-    "warlock"   => [%{"id" => "fiend",            "classId" => "warlock",   "name" => %{"ko" => "악마 계약자",   "en" => "The Fiend"}}],
-    "wizard"    => [%{"id" => "abjurer",          "classId" => "wizard",    "name" => %{"ko" => "방호마법사",    "en" => "Abjurer"}}]
-  }
-
   # D&D 5e 주문 슬롯 테이블 (완전 주문시전자: bard, cleric, druid, sorcerer, wizard)
   # 형식: 레벨 → {1슬롯, 2슬롯, 3슬롯, 4슬롯, 5슬롯, 6슬롯, 7슬롯, 8슬롯, 9슬롯}
   @full_caster_slots %{
@@ -418,21 +184,18 @@ defmodule TrpgMaster.Rules.CharacterData do
 
   @doc """
   특정 클래스 ID와 레벨에서 획득하는 클래스 피처 이름 목록을 반환한다.
-  dnd_reference_ko의 classFeatures 데이터를 우선 사용하고, 없으면 SRD 폴백을 사용한다.
+  dnd_reference_ko의 classFeatures 데이터를 사용한다 (class_id → [features] 맵 구조).
   반환값: ["피처명1", "피처명2", ...] (해당 레벨에서 새로 얻는 피처만)
   """
   def class_features_for_level(class_id, level)
       when is_binary(class_id) and is_integer(level) do
     github_features = class_features()
 
-    from_github =
-      cond do
-        is_list(github_features) and github_features != [] ->
-          github_features
-          |> Enum.filter(fn f ->
-            (f["classId"] || f["class_id"] || "") == class_id &&
-              (f["level"] || f["classLevel"]) == level
-          end)
+    if is_map(github_features) && map_size(github_features) > 0 do
+      case Map.get(github_features, class_id) do
+        features when is_list(features) ->
+          features
+          |> Enum.filter(fn f -> f["level"] == level end)
           |> Enum.map(fn f ->
             ko = get_in(f, ["name", "ko"]) || ""
             en = get_in(f, ["name", "en"]) || ""
@@ -440,34 +203,11 @@ defmodule TrpgMaster.Rules.CharacterData do
           end)
           |> Enum.reject(&(&1 == ""))
 
-        is_map(github_features) && map_size(github_features) > 0 ->
-          # 맵 형태의 경우 class_id → [features] 구조 시도
-          case Map.get(github_features, class_id) do
-            features when is_list(features) ->
-              features
-              |> Enum.filter(fn f -> (f["level"] || f["classLevel"]) == level end)
-              |> Enum.map(fn f ->
-                ko = get_in(f, ["name", "ko"]) || ""
-                en = get_in(f, ["name", "en"]) || ""
-                if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
-              end)
-              |> Enum.reject(&(&1 == ""))
-
-            _ ->
-              []
-          end
-
-        true ->
+        _ ->
           []
       end
-
-    if from_github != [] do
-      from_github
     else
-      # SRD 폴백
-      @srd_class_features
-      |> Map.get(class_id, %{})
-      |> Map.get(level, [])
+      []
     end
   end
 
@@ -591,21 +331,11 @@ defmodule TrpgMaster.Rules.CharacterData do
 
   @doc """
   클래스 ID에 해당하는 서브클래스 목록을 반환한다.
-  dnd_reference_ko 데이터를 우선 사용하고, 없으면 SRD 폴백을 반환한다.
   서브클래스 데이터 구조: [%{"id" => "...", "classId" => "...", "name" => %{"ko" => "...", "en" => "..."}, ...}]
   """
   def subclasses_for_class(class_id) when is_binary(class_id) do
-    from_data =
-      subclasses()
-      |> Enum.filter(fn sc ->
-        (sc["classId"] || sc["class_id"] || "") == class_id
-      end)
-
-    if from_data != [] do
-      from_data
-    else
-      Map.get(@srd_subclasses, class_id, [])
-    end
+    subclasses()
+    |> Enum.filter(fn sc -> sc["classId"] == class_id end)
   end
   def subclasses_for_class(_), do: []
 
@@ -654,21 +384,18 @@ defmodule TrpgMaster.Rules.CharacterData do
 
   @doc """
   특정 서브클래스 ID와 레벨에서 획득하는 서브클래스 피처 이름 목록을 반환한다.
-  dnd_reference_ko의 subclassFeatures 데이터를 우선 사용하고, 없으면 SRD 폴백을 사용한다.
+  dnd_reference_ko의 subclassFeatures 데이터를 사용한다 (subclass_id → [features] 맵 구조).
   반환값: ["피처명1", "피처명2", ...] (해당 레벨에서 새로 얻는 피처만)
   """
   def subclass_features_for_level(subclass_id, level)
       when is_binary(subclass_id) and is_integer(level) do
     github_features = subclass_features()
 
-    from_github =
-      cond do
-        is_list(github_features) and github_features != [] ->
-          github_features
-          |> Enum.filter(fn f ->
-            (f["subclassId"] || f["subclass_id"] || "") == subclass_id &&
-              (f["level"] || f["subclassLevel"]) == level
-          end)
+    if is_map(github_features) && map_size(github_features) > 0 do
+      case Map.get(github_features, subclass_id) do
+        features when is_list(features) ->
+          features
+          |> Enum.filter(fn f -> f["level"] == level end)
           |> Enum.map(fn f ->
             ko = get_in(f, ["name", "ko"]) || ""
             en = get_in(f, ["name", "en"]) || ""
@@ -676,32 +403,11 @@ defmodule TrpgMaster.Rules.CharacterData do
           end)
           |> Enum.reject(&(&1 == ""))
 
-        is_map(github_features) && map_size(github_features) > 0 ->
-          case Map.get(github_features, subclass_id) do
-            features when is_list(features) ->
-              features
-              |> Enum.filter(fn f -> (f["level"] || f["subclassLevel"]) == level end)
-              |> Enum.map(fn f ->
-                ko = get_in(f, ["name", "ko"]) || ""
-                en = get_in(f, ["name", "en"]) || ""
-                if en != "" && ko != en, do: "#{ko} (#{en})", else: ko
-              end)
-              |> Enum.reject(&(&1 == ""))
-
-            _ ->
-              []
-          end
-
-        true ->
+        _ ->
           []
       end
-
-    if from_github != [] do
-      from_github
     else
-      @srd_subclass_features
-      |> Map.get(subclass_id, %{})
-      |> Map.get(level, [])
+      []
     end
   end
 
