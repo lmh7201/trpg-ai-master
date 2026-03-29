@@ -673,6 +673,41 @@ defmodule TrpgMaster.Rules.CharacterData do
         load_local_file(key, Path.join("phb", file), :merge)
       end
     end
+
+    case Application.get_env(:trpg_master, :extra_data_dir) do
+      nil -> :ok
+      dir -> load_from_extra_dir(dir)
+    end
+  end
+
+  defp load_from_extra_dir(dir) do
+    if File.dir?(dir) do
+      Logger.info("CharacterData: 외부 경로 #{dir} 에서 추가 데이터 병합")
+
+      for {key, file} <- @data_mappings do
+        path = Path.join(dir, file)
+
+        if File.exists?(path) do
+          case File.read(path) do
+            {:ok, content} ->
+              case Jason.decode(content) do
+                {:ok, new_data} ->
+                  data = merge_data(get(key, nil), new_data)
+                  :ets.insert(@table, {key, data})
+                  Logger.info("CharacterData: [외부] #{file} → #{data_count(new_data)}건 병합")
+
+                {:error, reason} ->
+                  Logger.warning("CharacterData: JSON 파싱 실패 — #{path}: #{inspect(reason)}")
+              end
+
+            {:error, reason} ->
+              Logger.warning("CharacterData: 파일 읽기 실패 — #{path}: #{inspect(reason)}")
+          end
+        end
+      end
+    else
+      Logger.warning("CharacterData: DND_EXTRA_DATA_DIR 경로가 존재하지 않습니다 — #{dir}")
+    end
   end
 
   # GitHub fetch 실패 시 폴백 — srd/ 로드 후 srd_only=false면 phb/ 병합

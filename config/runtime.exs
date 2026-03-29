@@ -2,6 +2,7 @@ import Config
 
 config :trpg_master,
   srd_only: System.get_env("DND_SRD_ONLY", "true") == "true",
+  extra_data_dir: System.get_env("DND_EXTRA_DATA_DIR"),
   anthropic_api_key: System.get_env("ANTHROPIC_API_KEY"),
   openai_api_key: System.get_env("OPENAI_API_KEY"),
   google_api_key: System.get_env("GOOGLE_API_KEY"),

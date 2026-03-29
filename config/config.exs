@@ -2,7 +2,8 @@ import Config
 
 config :trpg_master,
   generators: [timestamp_type: :utc_datetime],
-  srd_only: true
+  srd_only: true,
+  extra_data_dir: nil
 
 config :trpg_master, TrpgMasterWeb.Endpoint,
   url: [host: "localhost"],
