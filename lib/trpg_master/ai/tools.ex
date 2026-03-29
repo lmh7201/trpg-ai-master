@@ -22,8 +22,6 @@ defmodule TrpgMaster.AI.Tools do
       lookup_spell_def(),
       lookup_item_def(),
       lookup_rule_def(),
-      combat_round_checklist_def(),
-      combat_end_checklist_def(),
       lookup_dc_def(),
       level_up_def()
     ]
@@ -39,9 +37,6 @@ defmodule TrpgMaster.AI.Tools do
       lookup_item_def(),
       consult_oracle_def(),
       list_oracles_def(),
-      combat_prep_checklist_def(),
-      combat_round_checklist_def(),
-      combat_end_checklist_def(),
       lookup_dc_def(),
       lookup_rule_def(),
       level_up_def()
@@ -222,42 +217,6 @@ defmodule TrpgMaster.AI.Tools do
     %{
       name: "list_oracles",
       description: "사용 가능한 오라클 목록과 각 오라클의 설명을 반환한다.",
-      input_schema: %{
-        type: "object",
-        properties: %{},
-        required: []
-      }
-    }
-  end
-
-  defp combat_prep_checklist_def do
-    %{
-      name: "combat_prep_checklist",
-      description: "전투를 시작하기 전에 반드시 이 도구를 호출하여 전투 계획을 세웁니다.",
-      input_schema: %{
-        type: "object",
-        properties: %{},
-        required: []
-      }
-    }
-  end
-
-  defp combat_round_checklist_def do
-    %{
-      name: "combat_round_checklist",
-      description: "전투의 각 라운드 시작 시 이 도구를 호출하여 확인합니다.",
-      input_schema: %{
-        type: "object",
-        properties: %{},
-        required: []
-      }
-    }
-  end
-
-  defp combat_end_checklist_def do
-    %{
-      name: "combat_end_checklist",
-      description: "전투 종료 후 이 도구를 호출하여 마무리합니다.",
       input_schema: %{
         type: "object",
         properties: %{},
@@ -874,54 +833,6 @@ defmodule TrpgMaster.AI.Tools do
       end
 
     {:ok, %{"status" => "ok", "entries" => filtered, "total" => length(filtered)}}
-  end
-
-  def execute("combat_prep_checklist", _input) do
-    checklist = """
-    전투 준비 체크리스트:
-    0. 몬스터 스탯 조회: 등장하는 모든 적에 대해 lookup_monster를 즉시 호출한다.
-       조회한 AC, HP(최대치), 공격 수정치, 피해 주사위, 특수 능력을 기억하고 전투에 사용한다.
-       HP는 조회된 hp 값을 기준으로 실제 HP를 roll_dice로 굴려 결정한다 (또는 평균값 사용).
-    1. 몬스터 목표: 각 적은 이 전투에서 무엇을 원하는가? (생존, 약탈, 영역 방어, 복수, 시간 벌기, 보호)
-    2. 행동 패턴: 각 적의 전투 성향을 정한다 (매복, 비열한 전투, 리더 보호, 열세 시 도주)
-    3. 환경 활용: 최소 2가지 환경 요소를 파악한다 (엄폐물, 위험 지형, 고도차, 어둠, 좁은 통로)
-    4. 퇴각 경로: 몬스터가 도망칠 수 있는 경로를 설정한다
-    5. 전리품/단서: 적이 소지하거나 떨어뜨릴 수 있는 아이템/정보를 정한다
-    위 항목을 각각 1~2문장으로 계획한 후, start_combat의 enemies 필드에 조회된 스탯을 채워 호출하고, roll_dice로 주도권을 굴리세요.
-    """
-
-    {:ok, %{"checklist" => String.trim(checklist)}}
-  end
-
-  def execute("combat_round_checklist", _input) do
-    checklist = """
-    라운드 체크리스트:
-    1. 주도권 순서 확인: 이번 라운드의 행동 순서를 확인
-    2. 집중 주문: 집중력 유지 중인 주문이 있는지 확인
-    3. 상태이상: 진행 중인 상태이상 효과 처리 (독, 기절, 공포 등)
-    4. 환경 변화: 전투 중 환경이 변하는 요소가 있는지 확인
-    5. 사기 확인: HP가 50% 이하인 적은 도주를 고려
-    6. HP 즉시 기록: 이번 라운드에서 발생한 모든 피해/치유를 update_character로 즉시 기록하세요.
-       피해를 받은 캐릭터(플레이어 또는 적)마다 update_character를 호출해야 합니다.
-       다음 라운드로 넘어가기 전에 반드시 처리해야 합니다.
-    """
-
-    {:ok, %{"checklist" => String.trim(checklist)}}
-  end
-
-  def execute("combat_end_checklist", _input) do
-    checklist = """
-    전투 종료 체크리스트:
-    1. 전리품 배분: 적에게서 획득한 아이템/금화를 정리
-    2. 경험치 계산: 전투 보상 경험치 합산
-    3. HP/자원 확인: 파티원의 현재 HP와 소모된 자원(주문 슬롯, 아이템) 정리
-    4. 도주한 적: 도망친 적이 있다면 기록 (나중에 재등장 가능)
-    5. 스토리 영향: 이 전투가 스토리에 미치는 영향을 정리
-    HP는 각 라운드에서 이미 update_character로 실시간 기록되었어야 합니다. 여기서는 누락된 항목만 최종 확인하세요.
-    확인 후 write_journal로 전투 결과를 기록하세요.
-    """
-
-    {:ok, %{"checklist" => String.trim(checklist)}}
   end
 
   def execute(tool_name, _input) do
