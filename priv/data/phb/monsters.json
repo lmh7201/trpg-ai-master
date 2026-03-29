@@ -1,0 +1,577 @@
+[
+  {
+    "ac": {
+      "en": 17,
+      "ko": null
+    },
+    "actions": [
+      {
+        "description": {
+          "en": "The archelon makes two Bite attacks.",
+          "ko": "아르켈론은 물기 공격을 두 번 합니다."
+        },
+        "name": {
+          "en": "Multiattack",
+          "ko": "다중공격"
+        }
+      },
+      {
+        "description": {
+          "en": "Melee Attack Roll: +6, reach 5 ft. Hit: 14 (3d6 + 4) Piercing damage.",
+          "ko": "근접 공격 굴림: +6, 간격 5 피트. 명중: 14 (3d6 + 4) 관통 피해."
+        },
+        "name": {
+          "en": "Bite",
+          "ko": "물기"
+        }
+      }
+    ],
+    "alignment": {
+      "en": "Unaligned",
+      "ko": "무질서"
+    },
+    "cr": {
+      "en": "4",
+      "ko": "4 (XP 1,100; PB +2)"
+    },
+    "hp": {
+      "en": 90,
+      "ko": null
+    },
+    "id": "archelon",
+    "languages": {
+      "en": "None",
+      "ko": "없음"
+    },
+    "name": {
+      "en": "Archelon",
+      "ko": "아르켈론"
+    },
+    "senses": {
+      "en": "Passive Perception 12",
+      "ko": "수동 지각 12"
+    },
+    "size": {
+      "en": "Huge",
+      "ko": "거대형"
+    },
+    "source": "PHB 2024",
+    "speed": {
+      "en": "20 ft., Swim 80 ft.",
+      "ko": "20 피트, 수영 80 피트"
+    },
+    "tags": [
+      "stealthy",
+      "brute"
+    ],
+    "traits": [
+      {
+        "description": {
+          "en": "The archelon can breathe air and water.",
+          "ko": "아르켈론은 공기와 물에서 모두 호흡할 수 있습니다."
+        },
+        "name": {
+          "en": "Amphibious",
+          "ko": "수륙양용"
+        }
+      }
+    ],
+    "type": {
+      "en": "Beast (Dinosaur)",
+      "ko": "야수 (공룡)"
+    },
+    "xp": 1100
+  },
+  {
+    "ac": {
+      "en": 14,
+      "ko": null
+    },
+    "actions": [
+      {
+        "description": {
+          "en": "The hippopotamus makes two Bite attacks.",
+          "ko": "하마는 물기 공격을 2회 합니다."
+        },
+        "name": {
+          "en": "Multiattack",
+          "ko": "다중공격"
+        }
+      },
+      {
+        "description": {
+          "en": "Melee Attack Roll: +7, reach 5 ft. Hit: 16 (2d10 + 5) Piercing damage.",
+          "ko": "근접 공격 굴림: +7, 간격 5 피트. 명중: 16 (2d10 + 5) 관통 피해."
+        },
+        "name": {
+          "en": "Bite",
+          "ko": "물기"
+        }
+      }
+    ],
+    "alignment": {
+      "en": "Unaligned",
+      "ko": "무질서"
+    },
+    "cr": {
+      "en": "4",
+      "ko": "4 (XP 1,100; PB +2)"
+    },
+    "hp": {
+      "en": 82,
+      "ko": null
+    },
+    "id": "hippopotamus",
+    "languages": {
+      "en": "None",
+      "ko": "없음"
+    },
+    "name": {
+      "en": "Hippopotamus",
+      "ko": "하마"
+    },
+    "senses": {
+      "en": "Passive Perception 13",
+      "ko": "수동 지각 13"
+    },
+    "size": {
+      "en": "Large",
+      "ko": "대형"
+    },
+    "source": "PHB 2024",
+    "speed": {
+      "en": "30 ft., Swim 30 ft.",
+      "ko": "30 피트, 수영 30 피트"
+    },
+    "tags": [
+      "brute"
+    ],
+    "traits": [
+      {
+        "description": {
+          "en": "The hippopotamus can hold its breath for 10 minutes.",
+          "ko": "하마는 10분 동안 숨을 참을 수 있습니다."
+        },
+        "name": {
+          "en": "Hold Breath",
+          "ko": "숨 참기"
+        }
+      }
+    ],
+    "type": {
+      "en": "Beast",
+      "ko": "야수"
+    },
+    "xp": 1100
+  },
+  {
+    "ac": {
+      "en": 13,
+      "ko": null
+    },
+    "actions": [
+      {
+        "description": {
+          "en": "Melee Attack Roll: +5 (with Advantage if the target doesn't have all its Hit Points), reach 5 ft. Hit: 1 Piercing damage.",
+          "ko": "근접 공격 굴림: +5 (목표가 최대 HP를 보유하지 않은 경우 이점), 간격 5 피트. 명중: 1 관통 피해."
+        },
+        "name": {
+          "en": "Bite",
+          "ko": "물기"
+        }
+      }
+    ],
+    "alignment": {
+      "en": "Unaligned",
+      "ko": "무질서"
+    },
+    "cr": {
+      "en": "0",
+      "ko": "0 (XP 10; PB +2)"
+    },
+    "hp": {
+      "en": 1,
+      "ko": null
+    },
+    "id": "piranha",
+    "languages": {
+      "en": "None",
+      "ko": "없음"
+    },
+    "name": {
+      "en": "Piranha",
+      "ko": "피라냐"
+    },
+    "senses": {
+      "en": "Darkvision 60 ft., Passive Perception 8",
+      "ko": "암흑시각 60 피트, 수동 지각 8"
+    },
+    "size": {
+      "en": "Tiny",
+      "ko": "극소형"
+    },
+    "source": "PHB 2024",
+    "speed": {
+      "en": "5 ft., Swim 40 ft.",
+      "ko": "5 피트, 수영 40 피트"
+    },
+    "tags": [
+      "minion"
+    ],
+    "traits": [
+      {
+        "description": {
+          "en": "The piranha can breathe only underwater.",
+          "ko": "피라냐는 물속에서만 호흡할 수 있습니다."
+        },
+        "name": {
+          "en": "Water Breathing",
+          "ko": "수중 호흡"
+        }
+      }
+    ],
+    "type": {
+      "en": "Beast",
+      "ko": "야수"
+    },
+    "xp": 10
+  },
+  {
+    "ac": {
+      "en": 13,
+      "ko": null
+    },
+    "actions": [
+      {
+        "description": {
+          "en": "Melee Attack Roll: +5 (with Advantage if the target doesn't have all its Hit Points), reach 5 ft. Hit: 8 (2d4 + 3) Piercing damage, or 5 (1d4 + 3) Piercing damage if the swarm is Bloodied.",
+          "ko": "근접 공격 굴림: +5 (목표가 최대 HP가 아니라면 이점 적용), 간격 5 피트. 명중: 8 (2d4 + 3) 관통 피해. 무리가 부상 상태이면 5 (1d4 + 3) 관통 피해."
+        },
+        "name": {
+          "en": "Bites",
+          "ko": "물기"
+        }
+      }
+    ],
+    "alignment": {
+      "en": "Unaligned",
+      "ko": "무질서"
+    },
+    "conditionImmunities": {
+      "en": [
+        "Charmed",
+        "Frightened",
+        "Grappled",
+        "Paralyzed",
+        "Petrified",
+        "Prone",
+        "Restrained",
+        "Stunned"
+      ],
+      "ko": [
+        "매혹",
+        "공포",
+        "붙잡힘",
+        "마비",
+        "석화",
+        "넘어짐",
+        "속박",
+        "기절"
+      ]
+    },
+    "cr": {
+      "en": "1",
+      "ko": "1 (XP 200; PB +2)"
+    },
+    "hp": {
+      "en": 28,
+      "ko": null
+    },
+    "id": "swarm-of-piranhas",
+    "languages": {
+      "en": "None",
+      "ko": "없음"
+    },
+    "name": {
+      "en": "Swarm of Piranhas",
+      "ko": "피라냐 무리"
+    },
+    "resistances": {
+      "en": [
+        "Bludgeoning",
+        "Piercing",
+        "Slashing"
+      ],
+      "ko": [
+        "타격",
+        "관통",
+        "베기"
+      ]
+    },
+    "senses": {
+      "en": "Darkvision 60 ft., Passive Perception 8",
+      "ko": "암흑시각 60 피트, 수동 지각 8"
+    },
+    "size": {
+      "en": "Medium",
+      "ko": "중형"
+    },
+    "source": "PHB 2024",
+    "speed": {
+      "en": "5 ft., Swim 40 ft.",
+      "ko": "5 피트, 수영 40 피트"
+    },
+    "tags": [
+      "minion"
+    ],
+    "traits": [
+      {
+        "description": {
+          "en": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny piranha. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+          "ko": "무리는 다른 크리처의 공간을 점유할 수 있고, 그 반대도 가능합니다. 또한 무리는 극소형 피라냐가 통과할 수 있는 크기의 틈새를 통과할 수 있습니다. 무리는 HP를 회복하거나 임시 HP를 얻을 수 없습니다."
+        },
+        "name": {
+          "en": "Swarm",
+          "ko": "무리"
+        }
+      },
+      {
+        "description": {
+          "en": "The swarm can breathe only underwater.",
+          "ko": "무리는 물속에서만 호흡할 수 있습니다."
+        },
+        "name": {
+          "en": "Water Breathing",
+          "ko": "수중 호흡"
+        }
+      }
+    ],
+    "type": {
+      "en": "Swarm of Tiny Beasts",
+      "ko": "극소형 야수 무리"
+    },
+    "xp": 200
+  },
+  {
+    "ac": {
+      "en": 12,
+      "ko": null
+    },
+    "actions": [
+      {
+        "description": {
+          "en": "Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage, or 2 (1d4) Piercing damage if the swarm is Bloodied.",
+          "ko": "근접 공격 굴림: +4, 간격 5 피트. 명중: 5 (1d6 + 2) 관통 피해. 무리가 부상 상태이면 2 (1d4) 관통 피해."
+        },
+        "name": {
+          "en": "Beaks",
+          "ko": "부리"
+        }
+      },
+      {
+        "description": {
+          "en": "Wisdom Saving Throw: DC 10, one creature in the swarm's space. Failure: The target has the Deafened condition until the start of the swarm's next turn. While Deafened, the target also has Disadvantage on ability checks and attack rolls.",
+          "ko": "지혜 내성 굴림: DC 10, 무리의 공간 내 크리처 하나. 실패: 목표는 무리의 다음 턴 시작까지 귀먹음 상태가 됩니다. 귀먹음 상태인 동안, 목표는 능력 판정과 공격 굴림에도 불리를 받습니다."
+        },
+        "name": {
+          "en": "Cacophony (Recharge 6)",
+          "ko": "불협화음 (재충전 6)"
+        }
+      }
+    ],
+    "alignment": {
+      "en": "Unaligned",
+      "ko": "무질서"
+    },
+    "conditionImmunities": {
+      "en": [
+        "Charmed",
+        "Frightened",
+        "Grappled",
+        "Paralyzed",
+        "Petrified",
+        "Prone",
+        "Restrained",
+        "Stunned"
+      ],
+      "ko": [
+        "매혹",
+        "공포",
+        "붙잡힘",
+        "마비",
+        "석화",
+        "넘어짐",
+        "속박",
+        "기절"
+      ]
+    },
+    "cr": {
+      "en": "1/4",
+      "ko": "1/4 (XP 50; PB +2)"
+    },
+    "hp": {
+      "en": 11,
+      "ko": null
+    },
+    "id": "swarm-of-ravens",
+    "languages": {
+      "en": "None",
+      "ko": "없음"
+    },
+    "name": {
+      "en": "Swarm of Ravens",
+      "ko": "까마귀 무리"
+    },
+    "resistances": {
+      "en": [
+        "Bludgeoning",
+        "Piercing",
+        "Slashing"
+      ],
+      "ko": [
+        "타격",
+        "관통",
+        "베기"
+      ]
+    },
+    "senses": {
+      "en": "Passive Perception 15",
+      "ko": "수동 지각 15"
+    },
+    "size": {
+      "en": "Medium",
+      "ko": "중형"
+    },
+    "source": "PHB 2024",
+    "speed": {
+      "en": "10 ft., Fly 50 ft.",
+      "ko": "10 피트, 비행 50 피트"
+    },
+    "tags": [
+      "minion"
+    ],
+    "traits": [
+      {
+        "description": {
+          "en": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny raven. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+          "ko": "무리는 다른 크리처의 공간을 점유할 수 있고, 그 반대도 가능합니다. 또한 무리는 극소형 까마귀가 통과할 수 있는 크기의 틈새를 통과할 수 있습니다. 무리는 HP를 회복하거나 임시 HP를 얻을 수 없습니다."
+        },
+        "name": {
+          "en": "Swarm",
+          "ko": "무리"
+        }
+      }
+    ],
+    "type": {
+      "en": "Swarm of Tiny Beasts",
+      "ko": "극소형 야수 무리"
+    },
+    "xp": 50
+  },
+  {
+    "ac": {
+      "en": 14,
+      "ko": null
+    },
+    "actions": [
+      {
+        "description": {
+          "en": "Melee Attack Roll: +6, reach 5 ft. Hit: 8 (1d8 + 4) Piercing damage—or 6 (1d4 + 4) Piercing damage if the swarm is Bloodied—plus 10 (3d6) Poison damage.",
+          "ko": "근접 공격 굴림: +6, 간격 5 피트. 명중: 8 (1d8 + 4) 관통 피해—무리가 부상 상태이면 6 (1d4 + 4) 관통 피해—와 10 (3d6) 독 피해."
+        },
+        "name": {
+          "en": "Bites",
+          "ko": "물기"
+        }
+      }
+    ],
+    "alignment": {
+      "en": "Unaligned",
+      "ko": "무질서"
+    },
+    "conditionImmunities": {
+      "en": [
+        "Charmed",
+        "Frightened",
+        "Grappled",
+        "Paralyzed",
+        "Petrified",
+        "Prone",
+        "Restrained",
+        "Stunned"
+      ],
+      "ko": [
+        "매혹",
+        "공포",
+        "붙잡힘",
+        "마비",
+        "석화",
+        "넘어짐",
+        "속박",
+        "기절"
+      ]
+    },
+    "cr": {
+      "en": "2",
+      "ko": "2 (XP 450; PB +2)"
+    },
+    "hp": {
+      "en": 36,
+      "ko": null
+    },
+    "id": "swarm-of-venomous-snakes",
+    "languages": {
+      "en": "None",
+      "ko": "없음"
+    },
+    "name": {
+      "en": "Swarm of Venomous Snakes",
+      "ko": "독사 무리"
+    },
+    "resistances": {
+      "en": [
+        "Bludgeoning",
+        "Piercing",
+        "Slashing"
+      ],
+      "ko": [
+        "타격",
+        "관통",
+        "베기"
+      ]
+    },
+    "senses": {
+      "en": "Blindsight 10 ft., Passive Perception 10",
+      "ko": "맹안시각 10 피트, 수동 지각 10"
+    },
+    "size": {
+      "en": "Medium",
+      "ko": "중형"
+    },
+    "source": "PHB 2024",
+    "speed": {
+      "en": "30 ft., Swim 30 ft.",
+      "ko": "30 피트, 수영 30 피트"
+    },
+    "tags": [
+      "brute"
+    ],
+    "traits": [
+      {
+        "description": {
+          "en": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny snake. The swarm can't regain Hit Points or gain Temporary Hit Points.",
+          "ko": "무리는 다른 크리처의 공간을 점유할 수 있고, 그 반대도 가능합니다. 또한 무리는 극소형 뱀이 통과할 수 있는 크기의 틈새를 통과할 수 있습니다. 무리는 HP를 회복하거나 임시 HP를 얻을 수 없습니다."
+        },
+        "name": {
+          "en": "Swarm",
+          "ko": "무리"
+        }
+      }
+    ],
+    "type": {
+      "en": "Swarm of Tiny Beasts",
+      "ko": "극소형 야수 무리"
+    },
+    "xp": 450
+  }
+]

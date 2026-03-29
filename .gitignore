@@ -33,3 +33,4 @@ erl_crash.dump
 
 # Save backup folder
 save backup/
+/_build_worktree/

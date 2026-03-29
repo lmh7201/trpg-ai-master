@@ -1,0 +1,2783 @@
+[
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Healing"
+      ],
+      "ko": [
+        "치유"
+      ]
+    },
+    "description": {
+      "en": "You tap into your life force to heal yourself. Roll one or two of your unexpended Hit Point Dice, and regain a number of Hit Points equal to the roll's total plus your spellcasting ability modifier. Those dice are then expended.",
+      "ko": "당신은 생명력을 끌어내어 자신을 치유합니다. 사용하지 않은 생명력 주사위 중 한 개 또는 두 개를 굴리고, 굴림의 합계에 주문 시전 능력치 수정치를 더한 만큼의 생명력을 회복합니다. 그 주사위들은 소모됩니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "arcane-vigor",
+    "isRitual": false,
+    "level": 2,
+    "name": {
+      "en": "Arcane Vigor",
+      "ko": "비전의 활력"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Abjuration",
+      "ko": "방호"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The number of unexpended Hit Dice you can roll increases by one for each spell slot level above 2.",
+      "ko": "2레벨을 초과하는 주문 슬롯 레벨마다 굴릴 수 있는 사용하지 않은 생명력 주사위의 수가 하나씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Warlock"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a shard of blue glass",
+        "ko": "파란 유리 조각"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Cold",
+        "Buff"
+      ],
+      "ko": [
+        "냉기",
+        "강화"
+      ]
+    },
+    "description": {
+      "en": "Protective magical frost surrounds you. You gain 5 Temporary Hit Points. If a creature hits you with a melee attack roll before the spell ends, the creature takes 5 Cold damage. The spell ends early if you have no Temporary Hit Points.",
+      "ko": "보호하는 마법의 서리가 당신을 둘러쌉니다. 당신은 5 임시 생명력을 얻습니다. 주문이 끝나기 전에 크리처가 근접 공격 굴림으로 당신을 명중시키면, 크리처는 5 냉기 피해를 받습니다. 임시 생명력이 없으면 주문이 조기 종료됩니다."
+    },
+    "duration": {
+      "en": "1 hour",
+      "ko": "1시간"
+    },
+    "id": "armor-of-agathys",
+    "isRitual": false,
+    "level": 1,
+    "name": {
+      "en": "Armor of Agathys",
+      "ko": "아가티스의 갑옷"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Abjuration",
+      "ko": "방호"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The Temporary Hit Points and the Cold damage both increase by 5 for each spell slot level above 1.",
+      "ko": "1레벨을 초과하는 주문 슬롯 레벨마다 임시 생명력과 냉기 피해가 모두 5씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "10-foot Emanation",
+      "ko": "10피트 발산"
+    },
+    "attackSave": {
+      "en": "STR Save",
+      "ko": "근력 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Warlock"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Necrotic"
+      ],
+      "ko": [
+        "괴사"
+      ]
+    },
+    "description": {
+      "en": "Invoking Hadar, you cause tendrils to erupt from yourself. Each creature in a 10-foot Emanation originating from you makes a Strength saving throw. On a failed save, a target takes 2d6 Necrotic damage and can't take Reactions until the start of its next turn. On a successful save, a target takes half as much damage only.",
+      "ko": "하다르를 소환하며, 당신은 촉수들이 자신으로부터 분출되게 합니다. 당신을 기점으로 하는 10피트 발산 내의 각 크리처는 근력 내성 굴림을 합니다. 내성에 실패하면, 목표는 2d6 괴사 피해를 받고 다음 턴 시작까지 반응을 취할 수 없습니다. 내성에 성공하면, 목표는 절반의 피해만 받습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "arms-of-hadar",
+    "isRitual": false,
+    "level": 1,
+    "name": {
+      "en": "Arms of Hadar",
+      "ko": "하다르의 팔"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The damage increases by 1d6 for each spell slot level above 1.",
+      "ko": "1레벨을 초과하는 주문 슬롯 레벨마다 피해가 1d6씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "30-foot Emanation",
+      "ko": "30피트 발산"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Cleric",
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Healing",
+        "Buff"
+      ],
+      "ko": [
+        "치유",
+        "강화"
+      ]
+    },
+    "description": {
+      "en": "An aura radiates from you in a 30-foot Emanation for the duration. While in the aura, you and your allies have Resistance to Necrotic damage, and your Hit Point maximums can't be reduced. If an ally with 0 Hit Points starts its turn in the aura, that ally regains 1 Hit Point.",
+      "ko": "오라가 지속시간 동안 당신으로부터 30피트 발산으로 퍼져나갑니다. 오라 내에 있는 동안, 당신과 당신의 동료들은 괴사 피해에 대한 저항을 가지며, 최대 생명력이 감소할 수 없습니다. 생명력이 0인 동료가 오라 내에서 턴을 시작하면, 그 동료는 1 생명력을 회복합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 10 minutes",
+      "ko": "집중, 최대 10분"
+    },
+    "id": "aura-of-life",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Aura of Life",
+      "ko": "생명의 오라"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Abjuration",
+      "ko": "방호"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "30-foot Emanation",
+      "ko": "30피트 발산"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Cleric",
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Buff"
+      ],
+      "ko": [
+        "강화"
+      ]
+    },
+    "description": {
+      "en": "An aura radiates from you in a 30-foot Emanation for the duration. While in the aura, you and your allies have Resistance to Poison damage and Advantage on saving throws to avoid or end effects that include the Blinded, Charmed, Deafened, Frightened, Paralyzed, Poisoned, or Stunned condition.",
+      "ko": "오라가 지속시간 동안 당신으로부터 30피트 발산으로 퍼져나갑니다. 오라 내에 있는 동안, 당신과 당신의 동료들은 독 피해에 대한 저항을 가지며, 실명, 매혹, 청각상실, 공포, 마비, 중독, 또는 기절 상태를 포함하는 효과를 피하거나 끝내는 내성 굴림에 유리함을 가집니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 10 minutes",
+      "ko": "집중, 최대 10분"
+    },
+    "id": "aura-of-purity",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Aura of Purity",
+      "ko": "순결의 오라"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Abjuration",
+      "ko": "방호"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "30-foot Emanation",
+      "ko": "30피트 발산"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Healing"
+      ],
+      "ko": [
+        "치유"
+      ]
+    },
+    "description": {
+      "en": "An aura radiates from you in a 30-foot Emanation for the duration. When you create the aura and at the start of each of your turns while it persists, you can restore 2d6 Hit Points to one creature in it.",
+      "ko": "오라가 지속시간 동안 당신으로부터 30피트 발산으로 퍼져나갑니다. 오라를 만들 때와 오라가 지속되는 동안 당신의 각 턴 시작 시, 오라 내의 크리처 한 명에게 2d6 생명력을 회복시킬 수 있습니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "aura-of-vitality",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Aura of Vitality",
+      "ko": "활력의 오라"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Abjuration",
+      "ko": "방호"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "CHA Save",
+      "ko": "매력 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a creature with a Melee weapon or an Unarmed Strike",
+      "ko": "근접 무기나 비무장 타격으로 크리처를 명중시킨 직후에 취함"
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Force",
+        "Banishment"
+      ],
+      "ko": [
+        "force",
+        "추방"
+      ]
+    },
+    "description": {
+      "en": "The target hit by the attack roll takes an extra 5d10 Force damage from the attack. If the attack reduces the target to 50 Hit Points or fewer, the target must succeed on a Charisma saving throw or be transported to a harmless demiplane for the duration. While there, the target has the Incapacitated condition. When the spell ends, the target reappears in the space it left or in the nearest unoccupied space if that space is occupied.",
+      "ko": "공격 굴림에 맞은 목표는 공격으로부터 추가로 5d10 force 피해를 받습니다. 공격이 목표의 생명력을 50 이하로 줄이면, 목표는 매력 내성 굴림에 성공해야 하며, 실패하면 지속시간 동안 무해한 반차원으로 이동합니다. 그곳에 있는 동안, 목표는 무력화 상태를 가집니다. 주문이 끝나면, 목표는 떠났던 공간으로 다시 나타나거나, 그 공간이 점유되어 있다면 가장 가까운 비어있는 공간에 나타납니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "banishing-smite",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Banishing Smite",
+      "ko": "추방 강타"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "INT Save",
+      "ko": "지능 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Bard",
+      "Druid",
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a key ring with no keys",
+        "ko": "열쇠가 없는 열쇠고리"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Psychic"
+      ],
+      "ko": [
+        "정신"
+      ]
+    },
+    "description": {
+      "en": "You blast the mind of a creature that you can see within range. The target makes an Intelligence saving throw.\nOn a failed save, the target takes 10d12 Psychic damage and can't cast spells or take the Magic action. At the end of every 30 days, the target repeats the save, ending the effect on a success. The effect can also be ended by the Greater Restoration, Heal, or Wish spell.\nOn a successful save, the target takes half as much damage only.",
+      "ko": "당신은 사거리 내에서 볼 수 있는 크리처의 정신을 강타합니다. 목표는 지능 내성 굴림을 합니다.\n내성에 실패하면, 목표는 10d12 정신 피해를 받고 주문을 시전하거나 마법 액션을 취할 수 없습니다. 매 30일이 끝날 때마다, 목표는 내성 굴림을 반복하며, 성공하면 효과가 끝납니다. 이 효과는 상급 회복, 치유, 또는 소원 주문으로도 끝낼 수 있습니다.\n내성에 성공하면, 목표는 절반의 피해만 받습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "befuddlement",
+    "isRitual": false,
+    "level": 8,
+    "name": {
+      "en": "Befuddlement",
+      "ko": "혼란"
+    },
+    "range": {
+      "en": "150 feet",
+      "ko": "150피트"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "마력"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "CON Save",
+      "ko": "건강 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a creature with a Melee weapon or an Unarmed Strike",
+      "ko": "근접 무기나 비무장 타격으로 크리처를 명중시킨 직후에 취함"
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Radiant",
+        "Blinded"
+      ],
+      "ko": [
+        "광휘",
+        "실명"
+      ]
+    },
+    "description": {
+      "en": "The target hit by the strike takes an extra 3d8 Radiant damage from the attack, and the target has the Blinded condition until the spell ends. At the end of each of its turns, the Blinded target makes a Constitution saving throw, ending the spell on itself on a success.",
+      "ko": "타격에 맞은 목표는 공격으로부터 추가로 3d8 광휘 피해를 받으며, 주문이 끝날 때까지 목표는 실명 상태를 가집니다. 각 턴이 끝날 때마다, 실명 상태인 목표는 건강 내성 굴림을 하며, 성공하면 자신에게 걸린 주문이 끝납니다."
+    },
+    "duration": {
+      "en": "1 minute",
+      "ko": "1분"
+    },
+    "id": "blinding-smite",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Blinding Smite",
+      "ko": "실명 강타"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Evocation",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The extra damage increases by 1d8 for each spell slot level above 3.",
+      "ko": "3레벨을 초과하는 주문 슬롯 레벨마다 추가 피해가 1d8씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "30-foot Emanation",
+      "ko": "30피트 발산"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Cleric",
+      "Paladin",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Buff"
+      ],
+      "ko": [
+        "강화"
+      ]
+    },
+    "description": {
+      "en": "An aura radiates from you in a 30-foot Emanation for the duration. While in the aura, you and your allies have Advantage on saving throws against spells and other magical effects. When an affected creature makes a saving throw against a spell or magical effect that allows a save to take only half damage, it takes no damage if it succeeds on the save.",
+      "ko": "오라가 지속시간 동안 당신으로부터 30피트 발산으로 퍼져나갑니다. 오라 내에 있는 동안, 당신과 당신의 동료들은 주문 및 다른 마법 효과에 대한 내성 굴림에 유리함을 가집니다. 영향을 받은 크리처가 절반의 피해만 받도록 하는 내성이 허용되는 주문이나 마법 효과에 대한 내성 굴림을 할 때, 내성에 성공하면 피해를 받지 않습니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 10 minutes",
+      "ko": "집중, 최대 10분"
+    },
+    "id": "circle-of-power",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Circle of Power",
+      "ko": "힘의 원"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Abjuration",
+      "ko": "방호"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "WIS Save",
+      "ko": "지혜 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Debuff"
+      ],
+      "ko": [
+        "약화"
+      ]
+    },
+    "description": {
+      "en": "You try to compel a creature into a duel. One creature that you can see within range makes a Wisdom saving throw. On a failed save, the target has Disadvantage on attack rolls against creatures other than you, and it can't willingly move to a space that is more than 30 feet away from you.\nThe spell ends if you make an attack roll against a creature other than the target, if you cast a spell on an enemy other than the target, if an ally of yours damages the target, or if you end your turn more than 30 feet away from the target.",
+      "ko": "당신은 크리처를 결투로 강제하려고 시도합니다. 사거리 내에서 볼 수 있는 크리처 한 명이 지혜 내성 굴림을 합니다. 내성에 실패하면, 목표는 당신이 아닌 크리처들에 대한 공격 굴림에 불리함을 가지며, 당신으로부터 30피트 이상 떨어진 공간으로 자발적으로 이동할 수 없습니다.\n당신이 목표가 아닌 크리처에 대해 공격 굴림을 하거나, 목표가 아닌 적에게 주문을 시전하거나, 당신의 동료가 목표에게 피해를 입히거나, 목표로부터 30피트 이상 떨어진 곳에서 턴을 끝내면 주문이 끝납니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "compelled-duel",
+    "isRitual": false,
+    "level": 1,
+    "name": {
+      "en": "Compelled Duel",
+      "ko": "강제 결투"
+    },
+    "range": {
+      "en": "30 feet",
+      "ko": "30피트"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "마력"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "30-foot Emanation",
+      "ko": "30피트 발산"
+    },
+    "attackSave": {
+      "en": "CON Save",
+      "ko": "건강 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Thunder",
+        "Radiant",
+        "Necrotic"
+      ],
+      "ko": [
+        "천둥",
+        "광휘",
+        "괴사"
+      ]
+    },
+    "description": {
+      "en": "Destructive energy ripples outward from you in a 30-foot Emanation. Each creature you choose in the Emanation makes a Constitution saving throw. On a failed save, a target takes 5d6 Thunder damage and 5d6 Radiant or Necrotic damage (your choice) and has the Prone condition. On a successful save, a target takes half as much damage only.",
+      "ko": "파괴적인 에너지가 30피트 발산으로 당신으로부터 퍼져나갑니다. 발산 내에서 당신이 선택한 각 크리처는 건강 내성 굴림을 합니다. 내성에 실패하면, 목표는 5d6 천둥 피해와 5d6 광휘 또는 괴사 피해(당신의 선택)를 받고 엎드림 상태를 가집니다. 내성에 성공하면, 목표는 절반의 피해만 받습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "destructive-wave",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Destructive Wave",
+      "ko": "파괴의 파동"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Evocation",
+      "ko": "소환"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "castingTime": {
+      "en": "1 minute",
+      "ko": "1분"
+    },
+    "castingTimeDetails": {
+      "en": "or Ritual",
+      "ko": "또는 의식"
+    },
+    "classes": [
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 1000,
+      "m": true,
+      "materials": {
+        "en": "a sapphire worth 1,000+ GP",
+        "ko": "1,000 GP 이상 가치의 사파이어"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Utility"
+      ],
+      "ko": [
+        "유틸리티"
+      ]
+    },
+    "description": {
+      "en": "You touch the sapphire used in the casting and an object weighing 10 pounds or less whose longest dimension is 6 feet or less. The spell leaves an Invisible mark on that object and invisibly inscribes the object's name on the sapphire. Each time you cast this spell, you must use a different sapphire.\nThereafter, you can take a Magic action to speak the object's name and crush the sapphire. The object instantly appears in your hand regardless of physical or planar distances, and the spell ends.\nIf another creature is holding or carrying the object, crushing the sapphire doesn't transport it, but instead you learn who that creature is and where that creature is currently located.",
+      "ko": "당신은 시전에 사용된 사파이어와 무게가 10파운드 이하이고 가장 긴 치수가 6피트 이하인 물체를 만집니다. 주문은 그 물체에 투명한 표시를 남기고 사파이어에 물체의 이름을 보이지 않게 새깁니다. 이 주문을 시전할 때마다, 다른 사파이어를 사용해야 합니다.\n그 후, 마법 액션을 사용하여 물체의 이름을 말하고 사파이어를 부술 수 있습니다. 물체는 물리적 또는 차원적 거리에 관계없이 즉시 당신의 손에 나타나며, 주문이 끝납니다.\n다른 크리처가 물체를 들고 있거나 운반하고 있다면, 사파이어를 부셔도 물체가 이동하지 않고, 대신 그 크리처가 누구이며 현재 어디에 있는지를 알게 됩니다."
+    },
+    "duration": {
+      "en": "Until dispelled",
+      "ko": "해제될 때까지"
+    },
+    "id": "drawmijs-instant-summons",
+    "isRitual": true,
+    "level": 6,
+    "name": {
+      "en": "Drawmij's Instant Summons",
+      "ko": "드로마이즈의 즉시 소환"
+    },
+    "range": {
+      "en": "Touch",
+      "ko": "접촉"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "60-foot Cone",
+      "ko": "60피트 원뿔"
+    },
+    "attackSave": {
+      "en": "DEX Save",
+      "ko": "민첩 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a Melee or Ranged weapon worth at least 1 CP",
+        "ko": "최소 1 CP 가치의 근접 또는 원거리 무기"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Force"
+      ],
+      "ko": [
+        "force"
+      ]
+    },
+    "description": {
+      "en": "You brandish the weapon used to cast the spell and conjure similar spectral weapons (or ammunition appropriate to the weapon) that launch forward and then disappear. Each creature of your choice that you can see in a 60-foot Cone makes a Dexterity saving throw, taking 5d8 Force damage on a failed save or half as much damage on a successful one.",
+      "ko": "당신은 주문을 시전하는 데 사용된 무기를 휘두르고 앞으로 발사된 후 사라지는 유사한 유령 무기들(또는 무기에 적합한 탄약)을 소환합니다. 60피트 원뿔 내에서 볼 수 있는 당신이 선택한 각 크리처는 민첩 내성 굴림을 하며, 실패하면 5d8 force 피해를 받고, 성공하면 절반의 피해를 받습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "conjure-barrage",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Conjure Barrage",
+      "ko": "탄막 소환"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The damage increases by 1d8 for each spell slot level above 3.",
+      "ko": "3레벨을 초과하는 주문 슬롯 레벨마다 피해가 1d8씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "40-foot-radius, 20-foot-high Cylinder",
+      "ko": "반경 40피트, 높이 20피트 원기둥"
+    },
+    "attackSave": {
+      "en": "DEX Save",
+      "ko": "민첩 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a Melee or Ranged weapon worth at least 1 CP",
+        "ko": "최소 1 CP 가치의 근접 또는 원거리 무기"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Force"
+      ],
+      "ko": [
+        "force"
+      ]
+    },
+    "description": {
+      "en": "You brandish the weapon used to cast the spell and choose a point within range. Hundreds of similar spectral weapons (or ammunition appropriate to the weapon) fall in a volley and then disappear. Each creature of your choice that you can see in a 40-foot-radius, 20-foot-high Cylinder centered on that point makes a Dexterity saving throw. A creature takes 8d8 Force damage on a failed save or half as much damage on a successful one.",
+      "ko": "당신은 주문을 시전하는 데 사용된 무기를 휘두르고 사거리 내의 지점을 선택합니다. 수백 개의 유사한 유령 무기들(또는 무기에 적합한 탄약)이 일제 사격으로 떨어진 후 사라집니다. 그 지점을 중심으로 한 반경 40피트, 높이 20피트 원기둥 내에서 볼 수 있는 당신이 선택한 각 크리처는 민첩 내성 굴림을 합니다. 크리처는 내성에 실패하면 8d8 force 피해를 받고, 성공하면 절반의 피해를 받습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "conjure-volley",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Conjure Volley",
+      "ko": "일제 사격 소환"
+    },
+    "range": {
+      "en": "150 feet",
+      "ko": "150피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "DEX Save",
+      "ko": "민첩 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "an ornamental braid",
+        "ko": "장식용 끈"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Piercing"
+      ],
+      "ko": [
+        "관통"
+      ]
+    },
+    "description": {
+      "en": "You touch up to four nonmagical Arrows or Bolts and plant them in the ground in your space. Until the spell ends, the ammunition can't be physically uprooted, and whenever a creature other than you enters a space within 30 feet of the ammunition for the first time on a turn or ends its turn there, one piece of ammunition flies up to strike it. The creature must succeed on a Dexterity saving throw or take 2d4 Piercing damage. The piece of ammunition is then destroyed. The spell ends when none of the ammunition remains planted in the ground.\nWhen you cast this spell, you can designate any creatures you choose, and the spell ignores them.",
+      "ko": "당신은 최대 4개의 마법이 아닌 화살이나 볼트를 만지고 당신의 공간에 있는 지면에 심습니다. 주문이 끝날 때까지, 탄약은 물리적으로 뽑을 수 없으며, 당신이 아닌 크리처가 턴에서 처음으로 탄약으로부터 30피트 이내의 공간에 들어가거나 그곳에서 턴을 끝낼 때마다, 탄약 한 조각이 날아올라 그것을 공격합니다. 크리처는 민첩 내성 굴림에 성공해야 하며, 실패하면 2d4 관통 피해를 받습니다. 그런 다음 탄약 조각은 파괴됩니다. 지면에 심어진 탄약이 하나도 남지 않으면 주문이 끝납니다.\n이 주문을 시전할 때, 원하는 크리처들을 지정할 수 있으며, 주문은 그들을 무시합니다."
+    },
+    "duration": {
+      "en": "8 hours",
+      "ko": "8시간"
+    },
+    "id": "cordon-of-arrows",
+    "isRitual": false,
+    "level": 2,
+    "name": {
+      "en": "Cordon of Arrows",
+      "ko": "화살 경계선"
+    },
+    "range": {
+      "en": "Touch",
+      "ko": "접촉"
+    },
+    "school": {
+      "en": "Transmutation",
+      "ko": "변환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The amount of ammunition that can be affected increases by two for each spell slot level above 2.",
+      "ko": "2레벨을 초과하는 주문 슬롯 레벨마다 영향을 받을 수 있는 탄약의 양이 2개씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "WIS Save",
+      "ko": "지혜 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Charmed"
+      ],
+      "ko": [
+        "매혹"
+      ]
+    },
+    "description": {
+      "en": "One creature that you can see within range must succeed on a Wisdom saving throw or have the Charmed condition for the duration. The creature succeeds automatically if it isn't Humanoid.\nA spectral crown appears on the Charmed target's head, and it must use its action before moving on each of its turns to make a melee attack against a creature other than itself that you mentally choose. The target can act normally on its turn if you choose no creature or if no creature is within its reach. The target repeats the save at the end of each of its turns, ending the spell on itself on a success.\nOn your later turns, you must take the Magic action to maintain control of the target, or the spell ends.",
+      "ko": "사거리 내에서 볼 수 있는 크리처 한 명은 지혜 내성 굴림에 성공해야 하며, 실패하면 지속시간 동안 매혹 상태를 가집니다. 크리처가 인간형이 아니라면 자동으로 성공합니다.\n유령 같은 왕관이 매혹된 목표의 머리에 나타나며, 각 턴에서 이동하기 전에 액션을 사용하여 당신이 정신적으로 선택한 자신이 아닌 크리처에 대해 근접 공격을 해야 합니다. 당신이 크리처를 선택하지 않거나 손이 닿는 범위 내에 크리처가 없다면 목표는 자신의 턴에서 정상적으로 행동할 수 있습니다. 목표는 각 턴이 끝날 때마다 내성 굴림을 반복하며, 성공하면 자신에게 걸린 주문이 끝납니다.\n이후 턴에서, 목표의 통제를 유지하려면 마법 액션을 취해야 하며, 그렇지 않으면 주문이 끝납니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "crown-of-madness",
+    "isRitual": false,
+    "level": 2,
+    "name": {
+      "en": "Crown of Madness",
+      "ko": "광기의 왕관"
+    },
+    "range": {
+      "en": "120 feet",
+      "ko": "120피트"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "마력"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "CON Save",
+      "ko": "건강 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Bard",
+      "Druid"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Radiant",
+        "Blinded"
+      ],
+      "ko": [
+        "광휘",
+        "실명"
+      ]
+    },
+    "description": {
+      "en": "A cool light wreathes your body for the duration, emitting Bright Light in a 20-foot radius and Dim Light for an additional 20 feet.\nUntil the spell ends, you have Resistance to Radiant damage, and your melee attacks deal an extra 2d6 Radiant damage on a hit.\nIn addition, immediately after you take damage from a creature you can see within 60 feet of yourself, you can take a Reaction to force the creature to make a Constitution saving throw. On a failed save, the creature has the Blinded condition until the end of your next turn.",
+      "ko": "시원한 빛이 지속시간 동안 당신의 몸을 감싸며, 반경 20피트에 밝은 빛을 방출하고 추가로 20피트에 희미한 빛을 방출합니다.\n주문이 끝날 때까지, 당신은 광휘 피해에 대한 저항을 가지며, 근접 공격은 명중 시 추가로 2d6 광휘 피해를 입힙니다.\n또한, 당신으로부터 60피트 이내에서 볼 수 있는 크리처로부터 피해를 받은 직후, 반응을 사용하여 크리처가 건강 내성 굴림을 하도록 강제할 수 있습니다. 내성에 실패하면, 크리처는 다음 턴 끝까지 실명 상태를 가집니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 10 minutes",
+      "ko": "집중, 최대 10분"
+    },
+    "id": "fount-of-moonlight",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Fount of Moonlight",
+      "ko": "달빛의 샘"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Evocation",
+      "ko": "소환"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "Melee Spell Attack",
+      "ko": "근접 주문 공격"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Druid",
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Bludgeoning",
+        "Grappled"
+      ],
+      "ko": [
+        "타격",
+        "붙잡힘"
+      ]
+    },
+    "description": {
+      "en": "You conjure a vine that sprouts from a surface in an unoccupied space that you can see within range. The vine lasts for the duration.\nMake a melee spell attack against a creature within 30 feet of the vine. On a hit, the target takes 4d8 Bludgeoning damage and is pulled up to 30 feet toward the vine; if the target is Huge or smaller, it has the Grappled condition (escape DC equal to your spell save DC). The vine can grapple only one creature at a time, and you can cause the vine to release a Grappled creature (no action required).\nAs a Bonus Action on your later turns, you can repeat the attack against a creature within 30 feet of the vine.",
+      "ko": "당신은 사거리 내에서 볼 수 있는 비어있는 공간의 표면에서 싹트는 덩굴을 소환합니다. 덩굴은 지속시간 동안 지속됩니다.\n덩굴로부터 30피트 이내의 크리처에 대해 근접 주문 공격을 합니다. 명중하면, 목표는 4d8 타격 피해를 받고 덩굴을 향해 최대 30피트까지 당겨집니다; 목표가 거대형 또는 그보다 작다면, 붙잡힘 상태를 가집니다 (탈출 DC는 당신의 주문 내성 굴림 DC와 같음). 덩굴은 한 번에 한 크리처만 붙잡을 수 있으며, 덩굴이 붙잡힌 크리처를 놓아주게 할 수 있습니다 (액션 불필요).\n이후 턴의 보너스 액션으로, 덩굴로부터 30피트 이내의 크리처에 대해 공격을 반복할 수 있습니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "grasping-vine",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Grasping Vine",
+      "ko": "움켜잡는 덩굴"
+    },
+    "range": {
+      "en": "60 feet",
+      "ko": "60피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The number of creatures the vine can grapple increases by one for each spell slot level above 4.",
+      "ko": "4레벨을 초과하는 주문 슬롯 레벨마다 덩굴이 붙잡을 수 있는 크리처의 수가 1씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "DEX Save",
+      "ko": "민첩 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a creature with a Ranged weapon",
+      "ko": "원거리 무기로 크리처를 명중시킨 직후에 취함"
+    },
+    "classes": [
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Piercing"
+      ],
+      "ko": [
+        "관통"
+      ]
+    },
+    "description": {
+      "en": "As you hit the creature, this spell creates a rain of thorns that sprouts from your Ranged weapon or ammunition. The target of the attack and each creature within 5 feet of it make a Dexterity saving throw, taking 1d10 Piercing damage on a failed save or half as much damage on a successful one.",
+      "ko": "당신이 크리처를 명중시킬 때, 이 주문은 원거리 무기나 탄약에서 싹트는 가시 비를 만듭니다. 공격의 목표와 그것으로부터 5피트 이내의 각 크리처는 민첩 내성 굴림을 하며, 실패하면 1d10 관통 피해를 받고, 성공하면 절반의 피해를 받습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "hail-of-thorns",
+    "isRitual": false,
+    "level": 1,
+    "name": {
+      "en": "Hail of Thorns",
+      "ko": "가시 우박"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The damage increases by 1d10 for each spell slot level above 1.",
+      "ko": "1레벨을 초과하는 주문 슬롯 레벨마다 피해가 1d10씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "20-foot-radius Sphere",
+      "ko": "반경 20피트 구체"
+    },
+    "attackSave": {
+      "en": "DEX Save",
+      "ko": "민첩 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Warlock"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a pickled tentacle",
+        "ko": "절인 촉수"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Cold",
+        "Acid",
+        "Blinded"
+      ],
+      "ko": [
+        "냉기",
+        "산성",
+        "실명"
+      ]
+    },
+    "description": {
+      "en": "You open a gateway to the Far Realm, a region infested with unspeakable horrors. A 20-foot-radius Sphere of Darkness appears, centered on a point with range and lasting for the duration. The Sphere is Difficult Terrain, and it is filled with strange whispers and slurping noises, which can be heard up to 30 feet away. No light, magical or otherwise, can illuminate the area, and creatures fully within it have the Blinded condition.\nAny creature that starts its turn in the area takes 2d6 Cold damage. Any creature that ends its turn there must succeed on a Dexterity saving throw or take 2d6 Acid damage from otherworldly tentacles.",
+      "ko": "당신은 형언할 수 없는 공포로 들끓는 지역인 원계로 가는 관문을 엽니다. 반경 20피트의 어둠 구체가 사거리 내의 지점을 중심으로 나타나며 지속시간 동안 지속됩니다. 구체는 어려운 지형이며, 최대 30피트 떨어진 곳에서 들을 수 있는 이상한 속삭임과 후루룩거리는 소음으로 가득 차 있습니다. 마법이든 아니든 어떤 빛도 그 구역을 비출 수 없으며, 그 안에 완전히 있는 크리처들은 실명 상태를 가집니다.\n구역에서 턴을 시작하는 모든 크리처는 2d6 냉기 피해를 받습니다. 그곳에서 턴을 끝내는 모든 크리처는 민첩 내성 굴림에 성공해야 하며, 실패하면 이계의 촉수로부터 2d6 산성 피해를 받습니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "hunger-of-hadar",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Hunger of Hadar",
+      "ko": "하다르의 굶주림"
+    },
+    "range": {
+      "en": "150 feet",
+      "ko": "150피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "창조"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The Cold or Acid damage (your choice) increases by 1d6 for each spell slot level above 3.",
+      "ko": "3레벨을 초과하는 주문 슬롯 레벨마다 냉기 또는 산성 피해(당신의 선택)가 1d6씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "10-foot-radius, 40-foot-high Cylinder",
+      "ko": "반경 10피트, 높이 40피트 원기둥"
+    },
+    "attackSave": {
+      "en": "CON Save",
+      "ko": "건강 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a pinch of phosphorus",
+        "ko": "인 한 꼬집"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Radiant",
+        "Thunder",
+        "Blinded",
+        "Deafened"
+      ],
+      "ko": [
+        "광휘",
+        "천둥",
+        "실명",
+        "청각상실"
+      ]
+    },
+    "description": {
+      "en": "You unleash a storm of flashing light and raging thunder in a 10-foot-radius, 40-foot-high Cylinder centered on a point you can see within range. While in this area, creatures have the Blinded and Deafened conditions, and they can't cast spells with a Verbal component.\nWhen the storm appears, each creature in it makes a Constitution saving throw, taking 2d10 Radiant damage and 2d10 Thunder damage on a failed save or half as much damage on a successful one. A creature also makes this save when it enters the spell's area for the first time on a turn or ends its turn there. A creature makes this save only once per turn.",
+      "ko": "당신은 사거리 내에서 볼 수 있는 지점을 중심으로 한 반경 10피트, 높이 40피트 원기둥에 번쩍이는 빛과 격렬한 천둥의 폭풍을 방출합니다. 이 구역에 있는 동안, 크리처들은 실명과 청각상실 상태를 가지며, 언어 구성요소가 있는 주문을 시전할 수 없습니다.\n폭풍이 나타날 때, 그 안의 각 크리처는 건강 내성 굴림을 하며, 실패하면 2d10 광휘 피해와 2d10 천둥 피해를 받고, 성공하면 절반의 피해를 받습니다. 크리처는 또한 턴에서 처음으로 주문의 구역에 들어가거나 그곳에서 턴을 끝낼 때도 이 내성 굴림을 합니다. 크리처는 턴당 한 번만 이 내성 굴림을 합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "jallarzis-storm-of-radiance",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Jallarzi's Storm of Radiance",
+      "ko": "잘라르지의 광휘 폭풍"
+    },
+    "range": {
+      "en": "120 feet",
+      "ko": "120피트"
+    },
+    "school": {
+      "en": "Evocation",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The Radiant and Thunder damage increase by 1d10 for each spell slot level above 5.",
+      "ko": "5레벨을 초과하는 주문 슬롯 레벨마다 광휘와 천둥 피해가 각각 1d10씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "DEX Save",
+      "ko": "민첩 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting or missing a target with a ranged attack using a weapon",
+      "ko": "무기를 사용한 원거리 공격으로 목표를 명중시키거나 빗나간 직후에 취함"
+    },
+    "classes": [
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Lightning"
+      ],
+      "ko": [
+        "전기"
+      ]
+    },
+    "description": {
+      "en": "As your attack hits or misses the target, the weapon or ammunition you're using transforms into a lightning bolt. Instead of taking any damage or other effects from the attack, the target takes 4d8 Lightning damage on a hit or half as much damage on a miss. Each creature within 10 feet of the target then makes a Dexterity saving throw, taking 2d8 Lightning damage on a failed save or half as much damage on a successful one.\nThe weapon or ammunition then returns to its normal form.",
+      "ko": "공격이 목표를 명중시키거나 빗나갈 때, 사용하고 있는 무기나 탄약이 번개로 변합니다. 공격으로부터 피해나 다른 효과를 받는 대신, 목표는 명중하면 4d8 전기 피해를 받고, 빗나가면 절반의 피해를 받습니다. 그런 다음 목표로부터 10피트 이내의 각 크리처는 민첩 내성 굴림을 하며, 실패하면 2d8 전기 피해를 받고, 성공하면 절반의 피해를 받습니다.\n그런 다음 무기나 탄약은 정상 형태로 돌아갑니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "lightning-arrow",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Lightning Arrow",
+      "ko": "번개 화살"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Transmutation",
+      "ko": "변환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "The damage for both effects of the spell increases by 1d8 for each spell slot level above 3.",
+      "ko": "3레벨을 초과하는 주문 슬롯 레벨마다 주문의 두 효과에 대한 피해가 모두 1d8씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "",
+      "ko": ""
+    },
+    "attackSave": {
+      "en": "INT Save",
+      "ko": "지능 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "castingTimeDetails": {
+      "en": "",
+      "ko": ""
+    },
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": "",
+        "ko": ""
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Psychic"
+      ],
+      "ko": [
+        "정신"
+      ]
+    },
+    "description": {
+      "en": "You try to temporarily sliver the mind of one creature you can see within range. The target must succeed on an Intelligence saving throw or take 1d6 Psychic damage and subtract 1d4 from the next saving throw it makes before the end of your next turn.\nCantrip Upgrade. The damage increases by 1d6 when you reach levels 5 (2d6), 11 (3d6), and 17 (4d6).",
+      "ko": "당신은 사거리 내에서 볼 수 있는 크리처 하나의 정신을 일시적으로 쪼개려고 시도합니다. 목표는 지능 내성 굴림에 성공해야 하며, 실패하면 1d6 정신 피해를 받고 다음 턴 끝 전에 하는 다음 내성 굴림에서 1d4를 뺍니다.\n주문 강화. 5레벨(2d6), 11레벨(3d6), 그리고 17레벨(4d6)에 도달하면 피해가 1d6씩 증가합니다."
+    },
+    "duration": {
+      "en": "1 round",
+      "ko": "1라운드"
+    },
+    "id": "mind-sliver",
+    "isRitual": false,
+    "level": 0,
+    "name": {
+      "en": "Mind Sliver",
+      "ko": "정신 파편"
+    },
+    "range": {
+      "en": "60 feet",
+      "ko": "60피트"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "마력"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Bard",
+      "Cleric"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You fortify up to six creatures you can see within range. The spell bestows 120 Temporary Hit Points, which you divide among the spell’s recipients.",
+      "ko": "사거리 내에서 당신이 볼 수 있는 최대 6명의 생명체를 강화합니다. 이 주문은 120점의 임시 생명력을 부여하며, 당신은 이를 주문의 수혜자들에게 나누어 줍니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "power-word-fortify",
+    "isRitual": false,
+    "level": 7,
+    "name": {
+      "en": "Power Word Fortify",
+      "ko": "권능의 말: 강화"
+    },
+    "range": {
+      "en": "60 feet",
+      "ko": "60피트"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "마력"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a creature with a Melee weapon or an Unarmed Strike",
+      "ko": "근접 무기나 비무장 타격으로 생명체를 적중시킨 직후"
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Radiant"
+      ],
+      "ko": [
+        "광휘"
+      ]
+    },
+    "description": {
+      "en": "The target hit by the strike takes an extra 2d6 Radiant damage from the attack. Until the spell ends, the target sheds Bright Light in a 5-foot radius, attack rolls against it have Advantage, and it can’t benefit from the Invisible condition.",
+      "ko": "타격을 입은 목표는 공격으로 인해 2d6 광휘 피해를 추가로 입습니다. 주문이 끝날 때까지, 목표는 반경 5피트 내에 밝은 빛을 내뿜으며, 목표에 대한 공격 굴림은 이점을 가지고, 목표는 투명(Invisible) 상태의 이점을 누릴 수 없습니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "shining-smite",
+    "isRitual": false,
+    "level": 2,
+    "name": {
+      "en": "Shining Smite",
+      "ko": "빛나는 강타"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Transmutation",
+      "ko": "변환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. The damage increases by 1d6 for each spell slot level above 2.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 2레벨보다 높은 주문 슬롯 레벨마다 피해가 1d6씩 증가합니다."
+    }
+  },
+  {
+    "attackSave": {
+      "en": "Wisdom saving throw",
+      "ko": "지혜 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a creature with a Melee weapon or an Unarmed Strike",
+      "ko": "근접 무기나 비무장 타격으로 생명체를 적중시킨 직후"
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Psychic"
+      ],
+      "ko": [
+        "정신"
+      ]
+    },
+    "description": {
+      "en": "The target takes an extra 4d6 Psychic damage from the attack, and the target must succeed on a Wisdom saving throw or have the Stunned condition until the end of your next turn.",
+      "ko": "목표는 공격으로 인해 4d6 정신 피해를 추가로 입으며, 지혜 내성굴림에 성공해야 합니다. 실패 시, 당신의 다음 턴이 끝날 때까지 기절(Stunned) 상태가 됩니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "staggering-smite",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Staggering Smite",
+      "ko": "비틀거리는 강타"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "부여"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. The extra damage increases by 1d6 for each spell slot level above 4.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 4레벨보다 높은 주문 슬롯 레벨마다 추가 피해가 1d6씩 증가합니다."
+    }
+  },
+  {
+    "attackSave": {
+      "en": "melee spell attack",
+      "ko": "근접 주문 공격"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Ranger",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a Melee weapon worth 1+ SP",
+        "ko": "1sp 이상의 가치가 있는 근접 무기"
+      },
+      "s": true,
+      "v": false
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Force"
+      ],
+      "ko": [
+        "역장"
+      ]
+    },
+    "description": {
+      "en": "You flourish the weapon used in the casting and then vanish to strike like the wind. Choose up to five creatures you can see within range. Make a melee spell attack against each target. On a hit, a target takes 6d10 Force damage.\n\nYou then teleport to an unoccupied space you can see within 5 feet of one of the targets.",
+      "ko": "당신은 주문 시전에 사용된 무기를 휘두르며 사라져 바람처럼 타격합니다. 사거리 내에서 당신이 볼 수 있는 생명체를 최대 다섯까지 선택하십시오. 각 목표에 대해 근접 주문 공격을 수행하십시오. 적중 시, 목표는 6d10 역장 피해를 입습니다.\n\n그 후 당신은 목표들 중 하나의 5피트 내에 당신이 볼 수 있는 빈 공간으로 순간이동합니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "steel-wind-strike",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Steel Wind Strike",
+      "ko": "강철 바람 타격"
+    },
+    "range": {
+      "en": "30 feet",
+      "ko": "30피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 400,
+      "m": true,
+      "materials": {
+        "en": "a pickled tentacle and an eyeball in a platinum-inlaid vial worth 400+ GP",
+        "ko": "절인 촉수와 400gp 이상의 가치가 있는 백금이 상감된 병에 든 눈알"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth an aberrant spirit. It manifests in an unoccupied space that you can see within range and uses the Aberrant Spirit stat block. When you cast the spell, choose Beholderkin, Mind Flayer, or Slaad. The creature resembles an Aberration of that kind, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, it shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "이형체 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 이형체 영혼(Aberrant Spirit) 통계치를 사용합니다. 주문을 시전할 때, 비홀더킨(Beholderkin), 마인드 플레이어(Mind Flayer), 또는 슬라드(Slaad) 중 하나를 선택하십시오. 생명체는 해당 종류의 이형체(Aberration)를 닮으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-aberration",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Summon Aberration",
+      "ko": "이형체 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Druid",
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 200,
+      "m": true,
+      "materials": {
+        "en": "a feather, tuft of fur, and fish tail inside a gilded acorn worth 200+ GP",
+        "ko": "깃털, 털 뭉치, 물고기 꼬리가 들어 있는 200gp 이상의 가치가 있는 도금된 도토리"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth a bestial spirit. It manifests in an unoccupied space that you can see within range and uses the Bestial Spirit stat block. When you cast the spell, choose an environment: Air, Land, or Water. The creature resembles an animal of your choice that is native to the chosen environment, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "야수의 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 야수 영혼(Bestial Spirit) 통계치를 사용합니다. 주문을 시전할 때, 공중(Air), 지상(Land), 또는 수중(Water) 중 하나의 환경을 선택하십시오. 생명체는 선택한 환경에 서식하는 동물 중 당신이 선택한 것과 닮았으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-beast",
+    "isRitual": false,
+    "level": 2,
+    "name": {
+      "en": "Summon Beast",
+      "ko": "야수 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Cleric",
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 500,
+      "m": true,
+      "materials": {
+        "en": "a reliquary worth 500+ GP",
+        "ko": "500gp 이상의 가치가 있는 성물함"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth a Celestial spirit. It manifests in an angelic form in an unoccupied space that you can see within range and uses the Celestial Spirit stat block. When you cast the spell, choose Avenger or Defender. Your choice determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "천계의 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 천사 형태로 나타나며, 천계 영혼(Celestial Spirit) 통계치를 사용합니다. 주문을 시전할 때, 복수자(Avenger) 또는 방어자(Defender) 중 하나를 선택하십시오. 당신의 선택은 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-celestial",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Summon Celestial",
+      "ko": "천계 존재 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 400,
+      "m": true,
+      "materials": {
+        "en": "a lockbox worth 400+ GP",
+        "ko": "400gp 이상의 가치가 있는 자물쇠 상자"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth the spirit of a Construct. It manifests in an unoccupied space that you can see within range and uses the Construct Spirit stat block. When you cast the spell, choose a material: Clay, Metal, or Stone. The creature resembles an animate statue (you determine the appearance) made of the chosen material, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "구조물의 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 구조물 영혼(Construct Spirit) 통계치를 사용합니다. 주문을 시전할 때, 점토(Clay), 금속(Metal), 또는 암석(Stone) 중 하나의 재료를 선택하십시오. 생명체는 선택한 재료로 만들어진 움직이는 조각상(외형은 당신이 결정)을 닮았으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-construct",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Summon Construct",
+      "ko": "구조물 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Druid",
+      "Ranger",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 400,
+      "m": true,
+      "materials": {
+        "en": "air, a pebble, ash, and water inside a gold-inlaid vial worth 400+ GP",
+        "ko": "공기, 조약돌, 재, 물이 들어 있는 400gp 이상의 가치가 있는 금이 상감된 병"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth an Elemental spirit. It manifests in an unoccupied space that you can see within range and uses the Elemental Spirit stat block. When you cast the spell, choose an element: Air, Earth, Fire, or Water. The creature resembles a bipedal form wreathed in the chosen element, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "원소의 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 원소 영혼(Elemental Spirit) 통계치를 사용합니다. 주문을 시전할 때, 공기(Air), 대지(Earth), 화염(Fire), 또는 물(Water) 중 하나의 원소를 선택하십시오. 생명체는 선택한 원소에 둘러싸인 이족 보행 형태를 닮았으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-elemental",
+    "isRitual": false,
+    "level": 4,
+    "name": {
+      "en": "Summon Elemental",
+      "ko": "원소 정령 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Druid",
+      "Ranger",
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 300,
+      "m": true,
+      "materials": {
+        "en": "a gilded flower worth 300+ GP",
+        "ko": "300gp 이상의 가치가 있는 도금된 꽃"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth a Fey spirit. It manifests in an unoccupied space that you can see within range and uses the Fey Spirit stat block. When you cast the spell, choose a mood: Fuming, Mirthful, or Tricksy. The creature resembles a Fey creature of your choice marked by the chosen mood, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "요정의 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 요정 영혼(Fey Spirit) 통계치를 사용합니다. 주문을 시전할 때, 분노(Fuming), 유쾌(Mirthful), 또는 장난(Tricksy) 중 하나의 기분을 선택하십시오. 생명체는 선택한 기분으로 특징지어지는 당신이 선택한 요정(Fey) 생명체를 닮았으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-fey",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Summon Fey",
+      "ko": "요정 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 600,
+      "m": true,
+      "materials": {
+        "en": "a bloody vial worth 600+ GP",
+        "ko": "600gp 이상의 가치가 있는 피가 든 병"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth a fiendish spirit. It manifests in an unoccupied space that you can see within range and uses the Fiendish Spirit stat block. When you cast the spell, choose Demon, Devil, or Yugoloth. The creature resembles a Fiend of the chosen type, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "마귀의 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 마귀 영혼(Fiendish Spirit) 통계치를 사용합니다. 주문을 시전할 때, 데몬(Demon), 데블(Devil), 또는 유골로스(Yugoloth) 중 하나를 선택하십시오. 생명체는 선택한 종류의 마귀(Fiend)를 닮았으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-fiend",
+    "isRitual": false,
+    "level": 6,
+    "name": {
+      "en": "Summon Fiend",
+      "ko": "마귀 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 300,
+      "m": true,
+      "materials": {
+        "en": "a gilded skull worth 300+ GP",
+        "ko": "300gp 이상의 가치가 있는 도금된 해골"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You call forth an Undead spirit. It manifests in an unoccupied space that you can see within range and uses the Undead Spirit stat block. When you cast the spell, choose the creature’s form: Ghostly, Putrid, or Skeletal. The spirit resembles an Undead creature with the chosen form, which determines certain details in its stat block. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe creature is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don’t issue any, it takes the Dodge action and uses its movement to avoid danger.",
+      "ko": "언데드 영혼을 불러냅니다. 영혼은 사거리 내에서 당신이 볼 수 있는 빈 공간에 나타나며, 언데드 영혼(Undead Spirit) 통계치를 사용합니다. 주문을 시전할 때, 유령(Ghostly), 부패(Putrid), 또는 해골(Skeletal) 중 하나의 형태를 선택하십시오. 영혼은 선택한 형태를 가진 언데드(Undead) 생명체를 닮았으며, 이는 통계치의 특정 세부 사항을 결정합니다. 생명체는 생명력이 0이 되거나 주문이 끝나면 사라집니다.\n\n이 생명체는 당신과 당신의 동료들에게 아군입니다. 전투 시, 이 생명체는 당신과 주도권 수치를 공유하지만, 당신의 턴 직후에 자신의 턴을 가집니다. 이 생명체는 당신의 구두 명령에 복종합니다(당신의 액션 불필요). 명령을 내리지 않으면, 회피(Dodge) 액션을 취하고 위험을 피하기 위해 이동을 사용합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 hour",
+      "ko": "집중, 최대 1시간"
+    },
+    "id": "summon-undead",
+    "isRitual": false,
+    "level": 3,
+    "name": {
+      "en": "Summon Undead",
+      "ko": "언데드 소환"
+    },
+    "range": {
+      "en": "90 feet",
+      "ko": "90피트"
+    },
+    "school": {
+      "en": "Necromancy",
+      "ko": "사령"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. Use the spell slot’s level for the spell’s level in the stat block.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 통계치의 주문 레벨에 해당 주문 슬롯의 레벨을 사용합니다."
+    }
+  },
+  {
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "classes": [
+      "Ranger"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a Quiver worth 1+ GP",
+        "ko": "1gp 이상의 가치가 있는 화살통"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "When you cast the spell and as a Bonus Action until it ends, you can make two attacks with a weapon that fires Arrows or Bolts, such as a Longbow or a Light Crossbow. The spell magically creates the ammunition needed for each attack. Each Arrow or Bolt created by the spell deals damage like a nonmagical piece of ammunition of its kind and disintegrates immediately after it hits or misses.",
+      "ko": "이 주문을 시전할 때와 주문이 끝날 때까지 보너스 액션으로, 당신은 롱보우나 라이트 크로스보우처럼 화살이나 볼트를 발사하는 무기로 2회의 공격을 할 수 있습니다. 주문은 각 공격에 필요한 탄약을 마법적으로 생성합니다. 이 주문으로 생성된 각 화살이나 볼트는 해당 종류의 비마법적 탄약과 동일한 피해를 입히며, 적중하거나 빗나간 직후 소멸합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "swift-quiver",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Swift Quiver",
+      "ko": "신속의 화살통"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Transmutation",
+      "ko": "변환"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "area": {
+      "en": "20-foot-radius Sphere",
+      "ko": "반경 20피트 구체"
+    },
+    "attackSave": {
+      "en": "Intelligence saving throw",
+      "ko": "지능 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Psychic"
+      ],
+      "ko": [
+        "정신"
+      ]
+    },
+    "description": {
+      "en": "You cause psychic energy to erupt at a point within range. Each creature in a 20-foot-radius Sphere centered on that point makes an Intelligence saving throw, taking 8d6 Psychic damage on a failed save or half as much damage on a successful one.\n\nOn a failed save, a target also has muddled thoughts for 1 minute. During that time, it subtracts 1d6 from all its attack rolls and ability checks, as well as any Constitution saving throws to maintain Concentration. The target makes an Intelligence saving throw at the end of each of its turns, ending the effect on itself on a success.",
+      "ko": "사거리 내 한 지점에서 정신 에너지가 폭발하도록 합니다. 그 지점을 중심으로 반경 20피트 구체 내의 각 생명체는 지능 내성굴림을 하여, 실패 시 8d6 정신 피해를 입고 성공 시 절반의 피해만 입습니다.\n\n내성에 실패한 목표는 또한 1분간 사고가 혼란스러워집니다. 그동안 목표는 모든 공격 굴림과 능력 판정, 그리고 집중 유지를 위한 건강 내성굴림에서 1d6을 뺍니다. 목표는 각 자신의 턴 끝에 지능 내성굴림을 하여, 성공 시 자신에 대한 효과를 종료합니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "synaptic-static",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Synaptic Static",
+      "ko": "시냅스 교란"
+    },
+    "range": {
+      "en": "120 feet",
+      "ko": "120피트"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "부여"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": 500,
+      "m": true,
+      "materials": {
+        "en": "a gilded ladle worth 500+ GP",
+        "ko": "500gp 이상의 가치가 있는 도금된 국자"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [],
+      "ko": []
+    },
+    "description": {
+      "en": "You conjure a claw-footed cauldron filled with bubbling liquid. The cauldron appears in an unoccupied space on the ground within 5 feet of you and lasts for the duration. The cauldron can’t be moved and disappears when the spell ends, along with the bubbling liquid inside it.\n\nThe liquid in the cauldron duplicates the properties of a Common or an Uncommon potion of your choice (such as a Potion of Healing). As a Bonus Action, you or an ally can reach into the cauldron and withdraw one potion of that kind. The potion is contained in a vial that disappears when the potion is consumed. The cauldron can produce a number of these potions equal to your spellcasting ability modifier (minimum 1). When the last of these potions is withdrawn from the cauldron, the cauldron disappears, and the spell ends.\n\nPotions obtained from the cauldron that aren’t consumed disappear when you cast this spell again.",
+      "ko": "당신은 거품이 나는 액체로 가득 찬, 발톱 달린 다리가 있는 가마솥을 소환합니다. 가마솥은 당신의 5피트 내 지상 빈 공간에 나타나며 지속시간 동안 유지됩니다. 가마솥은 움직일 수 없으며, 주문이 끝나면 내부의 액체와 함께 사라집니다.\n\n가마솥 안의 액체는 당신이 선택한 커먼(Common) 또는 언커먼(Uncommon) 등급 물약(치유 물약(Potion of Healing) 등)의 속성을 복제합니다. 보너스 액션으로, 당신이나 아군은 가마솥에 손을 넣어 해당 종류의 물약 하나를 꺼낼 수 있습니다. 물약은 물약을 마시면 사라지는 유리병에 담겨 있습니다. 가마솥은 당신의 주문 시전 능력 수정치(최소 1)만큼의 물약을 생성할 수 있습니다. 가마솥에서 마지막 물약을 꺼내면 가마솥은 사라지고 주문이 종료됩니다.\n\n가마솥에서 얻었지만 소비되지 않은 물약은 당신이 이 주문을 다시 시전하면 사라집니다."
+    },
+    "duration": {
+      "en": "10 minutes",
+      "ko": "10분"
+    },
+    "id": "tashas-bubbling-cauldron",
+    "isRitual": false,
+    "level": 6,
+    "name": {
+      "en": "Tasha’s Bubbling Cauldron",
+      "ko": "타샤의 거품 나는 가마솥"
+    },
+    "range": {
+      "en": "5 feet",
+      "ko": "5피트"
+    },
+    "school": {
+      "en": "Conjuration",
+      "ko": "소환"
+    },
+    "source": "PHB 2024"
+  },
+  {
+    "attackSave": {
+      "en": "Strength saving throw",
+      "ko": "근력 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a target with a Melee weapon or an Unarmed Strike",
+      "ko": "근접 무기나 비무장 타격으로 대상을 적중시킨 직후"
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Thunder",
+        "Prone",
+        "Pushed"
+      ],
+      "ko": [
+        "천둥",
+        "넘어짐",
+        "밀려남"
+      ]
+    },
+    "description": {
+      "en": "Your strike rings with thunder that is audible within 300 feet of you, and the target takes an extra 2d6 Thunder damage from the attack. Additionally, if the target is a creature, it must succeed on a Strength saving throw or be pushed 10 feet away from you and have the Prone condition.",
+      "ko": "당신의 공격은 300피트 내에서 들을 수 있는 천둥소리를 울리며, 대상은 공격으로 인한 추가 2d6 천둥 피해를 입습니다. 또한, 대상이 생명체라면 힘 내성굴림에 성공해야 하며, 실패 시 당신으로부터 10피트 밀려나고 넘어짐(Prone) 상태가 됩니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "thunderous-smite",
+    "isRitual": false,
+    "level": 1,
+    "name": {
+      "en": "Thunderous Smite",
+      "ko": "천둥의 강타"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Evocation",
+      "ko": "방출"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. The damage increases by 1d6 for each spell slot level above 1.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 1레벨보다 높은 주문 슬롯 레벨마다 피해량이 1d6씩 증가합니다."
+    }
+  },
+  {
+    "attackSave": {
+      "en": "Wisdom saving throw",
+      "ko": "지혜 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Cleric",
+      "Warlock",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Necrotic"
+      ],
+      "ko": [
+        "사령"
+      ]
+    },
+    "description": {
+      "en": "You point at one creature you can see within range, and the single chime of a dolorous bell is audible within 10 feet of the target. The target must succeed on a Wisdom saving throw or take 1d8 Necrotic damage. If the target is missing any of its Hit Points, it instead takes 1d12 Necrotic damage.",
+      "ko": "사거리 내에서 당신이 볼 수 있는 생명체 하나를 가리키면, 대상의 10피트 내에서 비통한 종소리가 한 번 울립니다. 대상은 지혜 내성굴림에 성공해야 하며, 실패 시 1d8 사령 피해를 입습니다. 대상이 생명력을 조금이라도 잃은 상태라면 대신 1d12 사령 피해를 입습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "toll-the-dead",
+    "isRitual": false,
+    "level": 0,
+    "name": {
+      "en": "Toll the Dead",
+      "ko": "죽음의 종소리"
+    },
+    "range": {
+      "en": "60 feet",
+      "ko": "60피트"
+    },
+    "school": {
+      "en": "Necromancy",
+      "ko": "사령"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Cantrip Upgrade. The damage increases by one die when you reach levels 5 (2d8 or 2d12), 11 (3d8 or 3d12), and 17 (4d8 or 4d12).",
+      "ko": "소마법 강화. 5레벨(2d8 또는 2d12), 11레벨(3d8 또는 3d12), 17레벨(4d8 또는 4d12)에 피해 주사위가 하나씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "5-foot Emanation",
+      "ko": "5피트 발산"
+    },
+    "attackSave": {
+      "en": "Constitution saving throw",
+      "ko": "건강 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Cleric"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a sunburst token",
+        "ko": "햇살 무늬의 상징"
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Radiant"
+      ],
+      "ko": [
+        "광휘"
+      ]
+    },
+    "description": {
+      "en": "Burning radiance erupts from you in a 5-foot Emanation. Each creature of your choice that you can see in it must succeed on a Constitution saving throw or take 1d6 Radiant damage.",
+      "ko": "당신을 기점으로 하는 5피트 발산(Emanation) 내에서 타오르는 광휘가 뿜어져 나옵니다. 범위 내에서 당신이 볼 수 있는 선택한 각 생명체는 건강 내성굴림에 성공해야 하며, 실패 시 1d6 광휘 피해를 입습니다."
+    },
+    "duration": {
+      "en": "Instantaneous",
+      "ko": "즉시"
+    },
+    "id": "word-of-radiance",
+    "isRitual": false,
+    "level": 0,
+    "name": {
+      "en": "Word of Radiance",
+      "ko": "광휘의 말씀"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Evocation",
+      "ko": "방출"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Cantrip Upgrade. The damage increases by 1d6 when you reach levels 5 (2d6), 11 (3d6), and 17 (4d6).",
+      "ko": "소마법 강화. 5레벨(2d6), 11레벨(3d6), 17레벨(4d6)에 피해량이 1d6씩 증가합니다."
+    }
+  },
+  {
+    "attackSave": {
+      "en": "Wisdom saving throw",
+      "ko": "지혜 내성"
+    },
+    "castingTime": {
+      "en": "Bonus Action",
+      "ko": "보너스 액션"
+    },
+    "castingTimeDetails": {
+      "en": "which you take immediately after hitting a creature with a Melee weapon or an Unarmed Strike",
+      "ko": "근접 무기나 비무장 타격으로 생명체를 적중시킨 직후"
+    },
+    "classes": [
+      "Paladin"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": false,
+      "materials": {
+        "en": null,
+        "ko": null
+      },
+      "s": false,
+      "v": true
+    },
+    "concentration": false,
+    "damageEffect": {
+      "en": [
+        "Necrotic",
+        "Frightened"
+      ],
+      "ko": [
+        "사령",
+        "공포"
+      ]
+    },
+    "description": {
+      "en": "The target takes an extra 1d6 Necrotic damage from the attack, and it must succeed on a Wisdom saving throw or have the Frightened condition until the spell ends. At the end of each of its turns, the Frightened target repeats the save, ending the spell on itself on a success.",
+      "ko": "대상은 공격으로 인해 1d6 사령 피해를 추가로 입으며, 지혜 내성굴림에 성공해야 합니다. 실패 시 주문이 끝날 때까지 공포(Frightened) 상태가 됩니다. 각 자신의 턴이 끝날 때, 공포 상태인 대상은 내성굴림을 다시 하여 성공 시 자신에 대한 주문을 종료합니다."
+    },
+    "duration": {
+      "en": "1 minute",
+      "ko": "1분"
+    },
+    "id": "wrathful-smite",
+    "isRitual": false,
+    "level": 1,
+    "name": {
+      "en": "Wrathful Smite",
+      "ko": "분노의 강타"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Necromancy",
+      "ko": "사령"
+    },
+    "source": "PHB 2024",
+    "upcast": {
+      "en": "Using a Higher-Level Spell Slot. The damage increases by 1d6 for each spell slot level above 1.",
+      "ko": "상위 레벨 주문 슬롯 사용 시. 1레벨보다 높은 주문 슬롯 레벨마다 피해량이 1d6씩 증가합니다."
+    }
+  },
+  {
+    "area": {
+      "en": "10-foot Emanation",
+      "ko": "10피트 발산"
+    },
+    "attackSave": {
+      "en": "Wisdom saving throw",
+      "ko": "지혜 내성"
+    },
+    "castingTime": {
+      "en": "Action",
+      "ko": "액션"
+    },
+    "classes": [
+      "Bard",
+      "Wizard"
+    ],
+    "components": {
+      "consumed": false,
+      "costGp": null,
+      "m": true,
+      "materials": {
+        "en": "a miniature tiara",
+        "ko": "소형 티아라"
+      },
+      "s": true,
+      "v": true
+    },
+    "concentration": true,
+    "damageEffect": {
+      "en": [
+        "Psychic",
+        "Prone",
+        "Pushed"
+      ],
+      "ko": [
+        "정신",
+        "넘어짐",
+        "밀려남"
+      ]
+    },
+    "description": {
+      "en": "You surround yourself with unearthly majesty in a 10-foot Emanation. Whenever the Emanation enters the space of a creature you can see and whenever a creature you can see enters the Emanation or ends its turn there, you can force that creature to make a Wisdom saving throw. On a failed save, the target takes 4d6 Psychic damage and has the Prone condition, and you can push it up to 10 feet away. On a successful save, the target takes half as much damage only. A creature makes this save only once per turn.",
+      "ko": "당신은 10피트 발산(Emanation) 범위 내에서 비현실적인 위엄으로 자신을 감쌉니다. 발산 범위가 당신이 볼 수 있는 생명체의 공간에 들어갈 때마다, 그리고 당신이 볼 수 있는 생명체가 발산 범위에 들어오거나 그곳에서 턴을 마칠 때마다, 당신은 그 생명체에게 지혜 내성굴림을 강제할 수 있습니다. 내성에 실패하면 대상은 4d6 정신 피해를 입고 넘어짐(Prone) 상태가 되며, 당신은 대상을 최대 10피트 밀어낼 수 있습니다. 내성에 성공하면 대상은 절반의 피해만 입습니다. 생명체는 턴당 한 번만 이 내성굴림을 합니다."
+    },
+    "duration": {
+      "en": "Concentration, up to 1 minute",
+      "ko": "집중, 최대 1분"
+    },
+    "id": "yolandes-regal-presence",
+    "isRitual": false,
+    "level": 5,
+    "name": {
+      "en": "Yolande’s Regal Presence",
+      "ko": "욜란드의 제왕적 위엄"
+    },
+    "range": {
+      "en": "Self",
+      "ko": "자신"
+    },
+    "school": {
+      "en": "Enchantment",
+      "ko": "부여"
+    },
+    "source": "PHB 2024"
+  }
+]

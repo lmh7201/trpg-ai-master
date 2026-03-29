@@ -1,0 +1,770 @@
+{
+  "archfey-patron": [
+    {
+      "description": {
+        "en": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Archfey Spells table, you thereafter always have the listed spells prepared.",
+        "ko": "후원자의 마법은 당신이 항상 특정 주문을 준비할 수 있도록 보장합니다. 아치페이 주문 테이블에 명시된 워록 레벨에 도달하면, 이후 나열된 주문을 항상 준비된 상태로 가집니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Archfey Spells",
+        "ko": "아치페이 주문"
+      },
+      "source": "SRD 5.2",
+      "tables": [
+        {
+          "columns": {
+            "en": [
+              "Warlock Level",
+              "Spells"
+            ],
+            "ko": [
+              "워록 레벨",
+              "주문"
+            ]
+          },
+          "rows": [
+            {
+              "effect": {
+                "en": "Calm Emotions, Faerie Fire, Misty Step, Phantasmal Force, Sleep",
+                "ko": "감정 진정, 요정의 불, 안개 걸음, 환영력, 수면"
+              },
+              "level": "3"
+            },
+            {
+              "effect": {
+                "en": "Blink, Plant Growth",
+                "ko": "점멸, 식물 성장"
+              },
+              "level": "5"
+            },
+            {
+              "effect": {
+                "en": "Dominate Beast, Greater Invisibility",
+                "ko": "야수 지배, 상급 투명화"
+              },
+              "level": "7"
+            },
+            {
+              "effect": {
+                "en": "Dominate Person, Seeming",
+                "ko": "사람 지배, 외모 가장"
+              },
+              "level": "9"
+            }
+          ],
+          "title": {
+            "en": "Archfey Spells",
+            "ko": "아치페이 주문"
+          }
+        }
+      ]
+    },
+    {
+      "description": {
+        "en": "Your patron grants you the ability to move between the boundaries of the planes. You can cast Misty Step without expending a spell slot a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.\n\nIn addition, whenever you cast that spell, you can choose one of the following additional effects.\n\n**Refreshing Step.** Immediately after you teleport, you or one creature you can see within 10 feet of yourself gains 1d10 Temporary Hit Points.\n\n**Taunting Step.** Creatures within 5 feet of the space you left must succeed on a Wisdom saving throw against your spell save DC or have Disadvantage on attack rolls against creatures other than you until the start of your next turn.",
+        "ko": "후원자가 차원의 경계를 넘나드는 능력을 부여합니다. *안개 걸음(Misty Step)*을 매력 수정치만큼(최소 1회) 주문 슬롯을 소모하지 않고 시전할 수 있으며, 긴 휴식을 마치면 소모한 사용 횟수를 모두 회복합니다.\n\n또한, 해당 주문을 시전할 때마다 다음 추가 효과 중 하나를 선택할 수 있습니다.\n\n**회복의 발걸음.** 순간이동 직후, 당신 또는 10피트 이내에 볼 수 있는 크리처 하나가 1d10 임시 생명력을 얻습니다.\n\n**도발의 발걸음.** 당신이 떠난 공간에서 5피트 이내의 크리처들은 주문 내성 DC에 대한 지혜 내성 굴림에 성공해야 하며, 실패 시 다음 턴 시작까지 당신 이외의 크리처에 대한 공격 굴림에 불이익을 받습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Steps of the Fey",
+        "ko": "페이의 발걸음"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You can cast Misty Step as a Reaction in response to taking damage.\n\nIn addition, the following effects are now among your Steps of the Fey options.\n\n**Disappearing Step.** You have the Invisible condition until the start of your next turn or until immediately after you make an attack roll, deal damage, or cast a spell.\n\n**Dreadful Step.** Creatures within 5 feet of the space you left or the space you appear in (your choice) must succeed on a Wisdom saving throw against your spell save DC or take 2d10 Psychic damage.",
+        "ko": "피해를 받는 것에 대한 반응으로 *안개 걸음(Misty Step)*을 시전할 수 있습니다.\n\n또한, 다음 효과들이 페이의 발걸음 옵션에 추가됩니다.\n\n**사라지는 발걸음.** 다음 턴 시작까지 또는 공격 굴림을 하거나, 피해를 입히거나, 주문을 시전한 직후까지 투명 상태가 됩니다.\n\n**공포의 발걸음.** 당신이 떠난 공간 또는 나타난 공간(선택)에서 5피트 이내의 크리처들은 주문 내성 DC에 대한 지혜 내성 굴림에 성공해야 하며, 실패 시 2d10 정신 피해를 받습니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Misty Escape",
+        "ko": "안개의 탈출"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your patron teaches you how to guard your mind and body. You are immune to the Charmed condition.\n\nIn addition, immediately after a creature you can see hits you with an attack roll, you can take a Reaction to reduce the damage you take by half (round down), and you can force the attacker to make a Wisdom saving throw against your spell save DC. On a failed save, the attacker takes Psychic damage equal to the damage you take. Once you use this Reaction, you can't use it again until you finish a Long Rest unless you expend a Pact Magic spell slot (no action required) to restore your use of it.",
+        "ko": "후원자가 마음과 몸을 지키는 법을 가르쳐 줍니다. 매혹 상태에 면역이 됩니다.\n\n또한, 볼 수 있는 크리처가 공격 굴림으로 당신에게 명중한 직후, 반응을 사용하여 받는 피해를 절반으로 줄이고(내림), 공격자에게 주문 내성 DC에 대한 지혜 내성 굴림을 강제할 수 있습니다. 실패 시 공격자는 당신이 받은 피해만큼의 정신 피해를 받습니다. 이 반응을 사용하면 긴 휴식을 마치거나 계약 마법 주문 슬롯을 소모(행동 불필요)하여 사용 횟수를 복구하기 전까지 다시 사용할 수 없습니다."
+      },
+      "level": 10,
+      "name": {
+        "en": "Beguiling Defenses",
+        "ko": "매혹 방어"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your patron grants you the ability to weave your magic with teleportation. Immediately after you cast an Enchantment or Illusion spell using an action and a spell slot, you can cast Misty Step as part of the same action and without expending a spell slot.",
+        "ko": "후원자가 마법과 순간이동을 엮는 능력을 부여합니다. 행동과 주문 슬롯을 사용하여 매혹 또는 환영 주문을 시전한 직후, 같은 행동의 일부로 주문 슬롯을 소모하지 않고 *안개 걸음(Misty Step)*을 시전할 수 있습니다."
+      },
+      "level": 14,
+      "name": {
+        "en": "Bewitching Magic",
+        "ko": "매혹의 마법"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "berserker": [
+    {
+      "description": {
+        "en": "If you use Reckless Attack while your Rage is active, you deal extra damage to the first target you hit on your turn with a Strength-based attack. To determine the extra damage, roll a number of d6s equal to your Rage Damage bonus, and add them together. The damage has the same type as the weapon or Unarmed Strike used for the attack.",
+        "ko": "당신의 격노(Rage)가 활성화되어 있는 동안 무모한 공격(Reckless Attack)을 사용한다면, 당신의 차례에 근력 기반 공격으로 명중시킨 첫 번째 대상에게 추가 피해를 입힙니다. 추가 피해를 결정하기 위해, 당신의 격노 피해(Rage Damage) 보너스 수치와 동일한 개수의 d6를 굴려 그 합을 더합니다. 이 피해는 해당 공격에 사용된 무기 또는 비무장 타격(Unarmed Strike)과 동일한 유형을 가집니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Frenzy",
+        "ko": "광란"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You have Immunity to the Charmed and Frightened conditions while your Rage is active. If you’re Charmed or Frightened when you enter your Rage, the condition ends on you.",
+        "ko": "당신의 격노가 활성화되어 있는 동안 당신은 매혹됨(Charmed) 및 공포에 질림(Frightened) 상태에 면역이 됩니다. 격노에 진입할 때 당신이 매혹되거나 공포에 질린 상태라면, 해당 상태는 즉시 종료됩니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Mindless Rage",
+        "ko": "무아지경의 격노"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you take damage from a creature that is within 5 feet of you, you can take a Reaction to make one melee attack against that creature, using a weapon or an Unarmed Strike.",
+        "ko": "당신으로부터 5피트 이내에 있는 생명체로부터 피해를 입었을 때, 당신은 반응 행동(Reaction)을 사용하여 해당 생명체에게 무기 또는 비무장 타격(Unarmed Strike)으로 한 번의 근접 공격을 가할 수 있습니다."
+      },
+      "level": 10,
+      "name": {
+        "en": "Retaliation",
+        "ko": "보복"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "As a Bonus Action, you can strike terror into others with your menacing presence and primal power. When you do so, each creature of your choice in a 30-foot Emanation originating from you must make a Wisdom saving throw (DC 8 plus your Strength modifier and Proficiency Bonus). On a failed save, a creature has the Frightened condition for 1 minute. At the end of each of the Frightened creature’s turns, the creature repeats the save, ending the effect on itself on a success. Once you use this feature, you can’t use it again until you finish a Long Rest unless you expend a use of your Rage (no action required) to restore your use of it.",
+        "ko": "보너스 행동으로, 당신은 위압적인 존재감과 원초적인 힘을 사용하여 타인에게 공포를 심어줄 수 있습니다. 당신이 이를 수행할 때, 당신으로부터 시작되는 30피트 발산(Emanation) 범위 내에서 당신이 선택한 각 생명체는 지혜 내성 굴림(난이도 8 + 당신의 근력 수정치 + 숙련 보너스)을 수행해야 합니다. 내성 굴림에 실패하면, 해당 생명체는 1분 동안 공포에 질림(Frightened) 상태가 됩니다. 공포에 질린 생명체는 자신의 각 차례가 끝날 때마다 내성 굴림을 반복하며, 성공 시 해당 효과를 종료합니다. 이 특성을 한 번 사용하면 긴 휴식(Long Rest)을 마치기 전까지는 다시 사용할 수 없습니다. 다만, 격노(Rage) 사용 횟수를 1회 소모하여(별도의 행동 불필요) 이 특성의 사용 횟수를 회복할 수 있습니다."
+      },
+      "level": 14,
+      "name": {
+        "en": "Intimidating Presence",
+        "ko": "위압적 존재감"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "champion": [
+    {
+      "description": {
+        "en": "Your attack rolls with weapons and Unarmed Strikes can score a Critical Hit on a roll of 19 or 20 on the d20.",
+        "ko": "당신의 무기 및 비무장 타격(Unarmed Strikes) 공격 굴림은 d20에서 19 또는 20이 나오면 치명타(Critical Hit)가 됩니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Improved Critical",
+        "ko": "향상된 치명타"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Thanks to your athleticism, you have Advantage on Initiative rolls and Strength (Athletics) checks.\n\nIn addition, immediately after you score a Critical Hit, you can move up to half your Speed without provoking Opportunity Attacks.",
+        "ko": "당신의 뛰어난 운동 능력 덕분에, 당신은 주도권(Initiative) 굴림과 힘(운동)(Strength (Athletics)) 판정에 이점(Advantage)을 가집니다.\n\n또한, 당신이 치명타(Critical Hit)를 기록한 직후, 당신은 기회 공격(Opportunity Attacks)을 유발하지 않고 자신의 이동 속도의 절반까지 이동할 수 있습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Remarkable Athlete",
+        "ko": "탁월한 운동신경"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You gain another Fighting Style feat of your choice.",
+        "ko": "당신은 당신이 선택한 전투 방식(Fighting Style) 재주를 하나 더 얻습니다."
+      },
+      "level": 7,
+      "name": {
+        "en": "Additional Fighting Style",
+        "ko": "추가 전투 방식"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "The thrill of battle drives you toward victory. During combat, you can give yourself Heroic Inspiration whenever you start your turn without it.",
+        "ko": "전투의 전율이 당신을 승리로 이끕니다. 전투 중, 당신의 차례를 시작할 때 영웅적 영감(Heroic Inspiration)이 없다면 당신은 스스로에게 영웅적 영감을 부여할 수 있습니다."
+      },
+      "level": 10,
+      "name": {
+        "en": "Heroic Warrior",
+        "ko": "영웅적 전사"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your attack rolls with weapons and Unarmed Strikes can now score a Critical Hit on a roll of 18–20 on the d20.",
+        "ko": "당신의 무기 및 비무장 타격(Unarmed Strikes) 공격 굴림은 이제 d20에서 18~20이 나오면 치명타(Critical Hit)가 됩니다."
+      },
+      "level": 15,
+      "name": {
+        "en": "Superior Critical",
+        "ko": "압도적 치명타"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You attain the pinnacle of resilience in battle, giving you these benefits.\n\n**Defy Death.** You have Advantage on Death Saving Throws. Moreover, when you roll 18–20 on a Death Saving Throw, you gain the benefit of rolling a 20 on it.\n\n**Heroic Rally.** At the start of each of your turns, you regain Hit Points equal to 5 plus your Constitution modifier if you are Bloodied and have at least 1 Hit Point.",
+        "ko": "당신은 전투에서 회복력의 정점에 도달하여 다음의 혜택들을 얻습니다.\n\n**죽음에 대한 저항(Defy Death).** 당신은 죽음 내성 굴림(Death Saving Throws)에 이점(Advantage)을 가집니다. 또한, 죽음 내성 굴림에서 18~20을 굴리면, 20을 굴린 것과 동일한 효과를 얻습니다.\n\n**영웅적 회복(Heroic Rally).** 당신의 각 차례가 시작될 때, 당신이 피투성이(Bloodied) 상태이고 생명력이 최소 1 이상이라면, 5 + 당신의 건강 수정치만큼의 생명력을 회복합니다."
+      },
+      "level": 18,
+      "name": {
+        "en": "Survivor",
+        "ko": "생존자"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "circle-of-the-moon": [
+    {
+      "description": {
+        "en": "You can channel lunar magic when you assume a Wild Shape form, granting you the benefits below.\n\n**Challenge Rating.** The maximum Challenge Rating for the form equals your Druid level divided by 3 (round down).\n\n**Armor Class.** Until you leave the form, your AC equals 13 plus your Wisdom modifier if that total is higher than the Beast’s AC.\n\n**Temporary Hit Points.** You gain a number of Temporary Hit Points equal to three times your Druid level.",
+        "ko": "당신은 야성적 형상(Wild Shape)을 취할 때 달의 마법을 집중시켜 다음과 같은 혜택을 얻습니다.\n\n**위험 등급(Challenge Rating).** 해당 형상의 최대 위험 등급은 당신의 드루이드 레벨을 3으로 나눈 값(내림)과 같습니다.\n\n**방어도(Armor Class).** 해당 형상을 해제할 때까지, 만약 13 + 당신의 지혜 수정치 합계가 야수의 AC보다 높다면 당신의 AC는 그 합계와 같아집니다.\n\n**임시 생명력(Temporary Hit Points).** 당신은 당신의 드루이드 레벨의 3배와 동일한 수치의 임시 생명력을 얻습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Circle Forms",
+        "ko": "서클의 형상"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you reach a Druid level specified in the Circle of the Moon Spells table, you thereafter always have the listed spells prepared. \n\nIn addition, you can cast the spells from this feature while you’re in a Wild Shape form.",
+        "ko": "달의 서클 주문 표에 명시된 드루이드 레벨에 도달하면, 당신은 그 이후로 항상 나열된 주문들을 준비된 상태로 보유합니다. \n\n추가로, 당신은 야성적 형상 상태에서도 이 특성으로 얻은 주문들을 시전할 수 있습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Circle of the Moon Spells",
+        "ko": "달의 서클 주문"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "While in a Wild Shape form, you gain the following benefits.\n\n**Lunar Radiance.** Each of your attacks in a Wild Shape form can deal its normal damage type or Radiant damage. You make this choice each time you hit with those attacks.\n\n**Increased Toughness.** You can add your Wisdom modifier to your Constitution saving throws.",
+        "ko": "야성적 형상 상태인 동안, 당신은 다음과 같은 혜택을 얻습니다.\n\n**달빛 광휘(Lunar Radiance).** 야성적 형상 상태에서의 당신의 각 공격은 정상적인 피해 유형이나 광휘(Radiant) 피해 중 하나를 입힐 수 있습니다. 당신은 해당 공격들로 명중시킬 때마다 이 선택을 내립니다.\n\n**강화된 강인함(Increased Toughness).** 당신은 자신의 건강 내성 굴림(Constitution saving throws)에 당신의 지혜 수정치를 더할 수 있습니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Improved Circle Forms",
+        "ko": "강화된 서클의 형상"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You magically transport yourself, reappearing amid a burst of moonlight. As a Bonus Action, you teleport up to 30 feet to an unoccupied space you can see, and you have Advantage on the next attack roll you make before the end of this turn. \n\nYou can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest. You can also regain uses by expending a level 2+ spell slot for each use you want to restore (no action required).",
+        "ko": "당신은 달빛의 폭발과 함께 다시 나타나며 자신을 마법적으로 이동시킵니다. 보너스 행동으로, 당신은 30피트 이내의 당신이 볼 수 있는 비어 있는 공간으로 순간이동하며, 이번 차례가 끝나기 전에 수행하는 다음 공격 굴림에 이점(Advantage)을 가집니다. \n\n당신은 이 특성을 자신의 지혜 수정치와 동일한 횟수(최소 1회)만큼 사용할 수 있으며, 긴 휴식(Long Rest)을 마치면 소모된 모든 사용 횟수를 회복합니다. 또한 당신은 회복하고 싶은 사용 횟수당 2레벨 이상의 주문 슬롯 하나를 소모하여 사용 횟수를 회복할 수 있습니다(별도의 행동 불필요)."
+      },
+      "level": 10,
+      "name": {
+        "en": "Moonlight Step",
+        "ko": "달빛 걸음"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "The power of the moon suffuses you, granting you the following benefits.\n\n**Improved Lunar Radiance.** Once per turn, you can deal an extra 2d10 Radiant damage to a target you hit with a Wild Shape form’s attack.\n\n**Shared Moonlight.** Whenever you use Moonlight Step, you can also teleport one willing creature. That creature must be within 10 feet of you, and you teleport it to an unoccupied space you can see within 10 feet of your destination space.",
+        "ko": "달의 권능이 당신에게 스며들어 다음과 같은 혜택을 부여합니다.\n\n**개선된 달빛 광휘(Improved Lunar Radiance).** 한 차례에 한 번, 당신은 야성적 형상 공격으로 명중시킨 대상에게 2d10의 광휘 피해를 추가로 입힐 수 있습니다.\n\n**공유된 달빛(Shared Moonlight).** 달빛 걸음(Moonlight Step)을 사용할 때마다, 당신은 자발적인 생명체 하나를 함께 순간이동시킬 수 있습니다. 해당 생명체는 당신으로부터 10피트 이내에 있어야 하며, 당신은 그 생명체를 당신의 목적지 공간으로부터 10피트 이내에 있는 당신이 볼 수 있는 비어 있는 공간으로 순간이동시킵니다."
+      },
+      "level": 14,
+      "name": {
+        "en": "Lunar Form",
+        "ko": "달의 형상"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "college-of-lore": [
+    {
+      "description": {
+        "en": "You gain proficiency with three skills of your choice.",
+        "ko": "당신은 원하는 세 가지 기술에 대한 숙련을 얻습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Bonus Proficiencies",
+        "ko": "보너스 숙련"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You learn to use your wit to supernaturally distract, confuse, and otherwise sap the confidence and competence of others. When a creature that you can see within 60 feet of yourself makes a damage roll or succeeds on an ability check or attack roll, you can take a Reaction to expend one use of your Bardic Inspiration; roll your Bardic Inspiration die, and subtract the number rolled from the creature’s roll, reducing the damage or potentially turning the success into a failure.",
+        "ko": "당신은 기지를 발휘하여 타인을 초자연적으로 방해하고 혼란시키며, 그들의 자신감과 능력을 깎아내리는 법을 배웁니다. 당신으로부터 60피트 이내에 있는 당신이 볼 수 있는 생명체가 피해 굴림을 수행하거나, 능력 판정 또는 공격 굴림에 성공했을 때, 당신은 반응 행동(Reaction)을 취하고 바드적 영감(Bardic Inspiration) 사용 횟수 하나를 소모할 수 있습니다. 당신의 바드적 영감 주사위를 굴려, 나온 수치를 해당 생명체의 굴림 결과에서 뺍니다. 이를 통해 피해량을 줄이거나 성공을 실패로 바꿀 수도 있습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Cutting Words",
+        "ko": "방해의 말"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You learn two spells of your choice. These spells can come from the Cleric, Druid, or Wizard spell list or any combination thereof (see a class’s section for its spell list). A spell you choose must be a cantrip or a spell for which you have spell slots, as shown in the Bard Features table. \n\nYou always have the chosen spells prepared, and whenever you gain a Bard level, you can replace one of the spells with another spell that meets these requirements.",
+        "ko": "당신은 원하는 두 개의 주문을 배웁니다. 이 주문들은 클레릭, 드루이드, 또는 위저드 주문 목록에서 가져오거나 이들을 조합하여 선택할 수 있습니다(각 클래스 섹션의 주문 목록을 참조하십시오). 선택한 주문은 바드 특징 표에 명시된 바와 같이 소마법이거나 당신이 주문 슬롯을 보유한 레벨의 주문이어야 합니다. \n\n당신은 선택한 주문들을 항상 준비하고 있으며, 바드 레벨을 얻을 때마다 이 주문 중 하나를 해당 요건을 충족하는 다른 주문으로 교체할 수 있습니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Magical Discoveries",
+        "ko": "마법적 발견"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you make an ability check or attack roll and fail, you can expend one use of Bardic Inspiration; roll the Bardic Inspiration die, and add the number rolled to the d20, potentially turning a failure into a success. On a failure, the Bardic Inspiration isn’t expended.",
+        "ko": "당신이 능력 판정이나 공격 굴림을 수행하여 실패했을 때, 바드적 영감(Bardic Inspiration) 사용 횟수 하나를 소모할 수 있습니다. 바드적 영감 주사위를 굴려 나온 숫자를 d20 결과에 더하며, 이를 통해 실패를 성공으로 바꿀 수도 있습니다. 만약 주사위를 더하고도 실패한다면, 바드적 영감은 소모되지 않습니다."
+      },
+      "level": 14,
+      "name": {
+        "en": "Peerless Skill",
+        "ko": "비할 데 없는 기술"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "draconic-sorcery": [
+    {
+      "description": {
+        "en": "The magic in your body manifests physical traits of your draconic gift. Your Hit Point maximum increases by 3, and it increases by 1 whenever you gain another Sorcerer level.\n\nParts of you are also covered by dragon-like scales. While you aren't wearing armor, your base Armor Class equals 10 plus your Dexterity and Charisma modifiers.",
+        "ko": "당신 몸의 마법이 용족 선물의 물리적 특성을 나타냅니다. 최대 HP가 3 증가하며, 이후 소서러 레벨을 얻을 때마다 1씩 추가로 증가합니다.\n\n또한 몸의 일부가 용 비늘로 덮여 있습니다. 갑옷을 입고 있지 않을 때, 기본 AC는 **10 + 민첩 수정치 + 매력 수정치**입니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Draconic Resilience",
+        "ko": "용족의 회복력"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you reach a Sorcerer level specified in the Draconic Spells table, you thereafter always have the listed spells prepared.",
+        "ko": "용족 주문 테이블에 명시된 소서러 레벨에 도달하면, 나열된 주문들이 항상 준비된 상태가 됩니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Draconic Spells",
+        "ko": "용족 주문"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your draconic magic has an affinity with a damage type associated with dragons. Choose one of those types: Acid, Cold, Fire, Lightning, or Poison.\n\nYou have Resistance to that damage type, and when you cast a spell that deals damage of that type, you can add your Charisma modifier to one damage roll of that spell.",
+        "ko": "당신의 용족 마법은 용과 관련된 피해 유형과 친화력이 있습니다. 다음 유형 중 하나를 선택합니다: 산성, 냉기, 화염, 번개, 독.\n\n해당 피해 유형에 대한 **저항**을 가지며, 해당 유형의 피해를 주는 주문을 시전할 때 그 주문의 피해 굴림 중 하나에 **매력 수정치**를 더할 수 있습니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Elemental Affinity",
+        "ko": "원소 친화력"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "As a Bonus Action, you can cause draconic wings to appear on your back. The wings last for 1 hour or until you dismiss them (no action required). For the duration, you have a Fly Speed of 60 feet.\n\nOnce you use this feature, you can't use it again until you finish a Long Rest unless you spend 3 Sorcery Points (no action required) to restore your use of it.",
+        "ko": "**보너스 액션**으로, 등에 용의 날개가 나타나게 할 수 있습니다. 날개는 1시간 동안 또는 해제할 때까지(행동 불필요) 지속됩니다. 지속 시간 동안 60피트의 비행 속도를 갖습니다.\n\n이 특성을 사용하면 긴 휴식을 마칠 때까지 다시 사용할 수 없습니다. 단, 3 소서리 포인트를 소모하면(행동 불필요) 사용 횟수를 회복할 수 있습니다."
+      },
+      "level": 14,
+      "name": {
+        "en": "Dragon Wings",
+        "ko": "용의 날개"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You can cast Summon Dragon without a Material component. You can also cast it once without a spell slot, and you regain the ability to cast it in this way when you finish a Long Rest.\n\nWhenever you start casting the spell, you can modify it so that it doesn't require Concentration. If you do so, the spell's duration becomes 1 minute for that casting.",
+        "ko": "재료 구성요소 없이 *용 소환*을 시전할 수 있습니다. 또한 주문 슬롯 없이 한 번 시전할 수 있으며, 긴 휴식을 마치면 이 방식으로 시전하는 능력을 회복합니다.\n\n주문 시전을 시작할 때마다, 집중이 필요하지 않도록 수정할 수 있습니다. 그렇게 하면 해당 시전에서 주문의 지속 시간이 1분이 됩니다."
+      },
+      "level": 18,
+      "name": {
+        "en": "Dragon Companion",
+        "ko": "용 동반자"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "evoker": [
+    {
+      "description": {
+        "en": "Choose two Wizard spells from the Evocation school, each of which must be no higher than level 2, and add them to your spellbook for free.\n\nIn addition, whenever you gain access to a new level of spell slots in this class, you can add one Wizard spell from the Evocation school to your spellbook for free. The chosen spell must be of a level for which you have spell slots.",
+        "ko": "발현 학파에서 위자드 주문 2개를 선택합니다. 각각 2레벨 이하여야 하며, 무료로 주문서에 추가합니다.\n\n또한, 이 클래스에서 새로운 레벨의 주문 슬롯에 접근할 때마다, 발현 학파의 위자드 주문 1개를 무료로 주문서에 추가할 수 있습니다. 선택한 주문은 주문 슬롯이 있는 레벨이어야 합니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Evocation Savant",
+        "ko": "발현 학자"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your damaging cantrips affect even creatures that avoid the brunt of the effect. When you cast a cantrip at a creature and you miss with the attack roll or the target succeeds on a saving throw against the cantrip, the target takes half the cantrip's damage (if any) but suffers no additional effect from the cantrip.",
+        "ko": "피해를 주는 소마법이 효과의 직격을 피한 크리처에게도 영향을 미칩니다. 크리처에게 소마법을 시전하여 공격 굴림이 빗나가거나 대상이 소마법에 대한 내성 굴림에 성공하면, 대상은 소마법 피해의 절반을 받지만(있는 경우) 소마법의 추가 효과는 받지 않습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Potent Cantrip",
+        "ko": "강력한 소마법"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You can create pockets of relative safety within the effects of your evocations. When you cast an Evocation spell that affects other creatures that you can see, you can choose a number of them equal to 1 plus the spell's level. The chosen creatures automatically succeed on their saving throws against the spell, and they take no damage if they would normally take half damage on a successful save.",
+        "ko": "발현 주문의 효과 내에 상대적으로 안전한 구역을 만들 수 있습니다. 볼 수 있는 다른 크리처에게 영향을 미치는 발현 주문을 시전할 때, 1 + 주문 레벨과 같은 수의 크리처를 선택할 수 있습니다. 선택된 크리처는 해당 주문에 대한 내성 굴림에 자동으로 성공하며, 성공 시 원래 절반 피해를 받았을 경우 피해를 받지 않습니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Sculpt Spells",
+        "ko": "주문 조각"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Whenever you cast a Wizard spell from the Evocation school, you can add your Intelligence modifier to one damage roll of that spell.",
+        "ko": "발현 학파의 위자드 주문을 시전할 때마다, 해당 주문의 피해 굴림 중 하나에 지능 수정치를 더할 수 있습니다."
+      },
+      "level": 10,
+      "name": {
+        "en": "Empowered Evocation",
+        "ko": "강화된 발현"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You can increase the power of your spells. When you cast a Wizard spell with a spell slot of levels 1–5 that deals damage, you can deal maximum damage with that spell on the turn you cast it.\n\nThe first time you do so, you suffer no adverse effect. If you use this feature again before you finish a Long Rest, you take 2d12 Necrotic damage for each level of the spell slot immediately after you cast it. This damage ignores Resistance and Immunity.\n\nEach time you use this feature again before finishing a Long Rest, the Necrotic damage per spell level increases by 1d12.",
+        "ko": "주문의 위력을 높일 수 있습니다. 피해를 주는 1~5레벨 주문 슬롯의 위자드 주문을 시전할 때, 시전한 턴에 해당 주문으로 최대 피해를 줄 수 있습니다.\n\n처음 사용할 때는 부작용이 없습니다. 긴 휴식을 마치기 전에 이 특성을 다시 사용하면, 시전 직후 주문 슬롯 레벨당 2d12 괴사 피해를 받습니다. 이 피해는 저항과 면역을 무시합니다.\n\n긴 휴식을 마치기 전에 이 특성을 다시 사용할 때마다, 주문 레벨당 괴사 피해가 1d12씩 증가합니다."
+      },
+      "level": 14,
+      "name": {
+        "en": "Overchannel",
+        "ko": "과충전"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "hunter": [
+    {
+      "description": {
+        "en": "You can call on the forces of nature to reveal certain strengths and weaknesses of your prey. While a creature is marked by your Hunter’s Mark, you know whether that creature has any Immunities, Resistances, or Vulnerabilities, and if the creature has any, you know what they are.",
+        "ko": "당신은 자연의 힘을 불러내어 먹잇감의 특정 강점과 약점을 알아낼 수 있습니다. 생명체가 당신의 *사냥꾼의 표식(Hunter’s Mark)*이 찍혀 있는 동안, 당신은 그 생명체가 어떤 **면역(Immunities), 저항(Resistances), 또는 취약점(Vulnerabilities)**을 가지고 있는지 알게 되며, 만약 있다면 그것이 무엇인지도 알게 됩니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Hunter’s Lore",
+        "ko": "헌터의 지식"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You gain one of the following feature options of your choice. Whenever you finish a Short or Long Rest, you can replace the chosen option with the other one.\n\n**Colossus Slayer.** Your tenacity can wear down even the most resilient foes. When you hit a creature with a weapon, the weapon deals an extra 1d8 damage to the target if it’s missing any of its Hit Points. You can deal this extra damage only once per turn.\n\n**Horde Breaker.** Once on each of your turns when you make an attack with a weapon, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target, that is within the weapon’s range, and that you haven’t attacked this turn.",
+        "ko": "다음 특성 옵션 중 하나를 선택하여 얻습니다. 짧은 휴식이나 긴 휴식을 마칠 때마다 선택한 옵션을 다른 것으로 교체할 수 있습니다.\n\n**거구 살해자(Colossus Slayer).** 당신의 끈기는 가장 회복력이 강한 적조차 약화시킬 수 있습니다. 무기로 생명체를 맞혔을 때, 대상의 HP가 조금이라도 깎여 있다면 해당 무기는 **1d8**의 추가 피해를 입힙니다. 이 추가 피해는 차례당 한 번만 입힐 수 있습니다.\n\n**무리 파괴자(Horde Breaker).** 각 자신의 차례에 한 번씩 무기로 공격을 할 때, 원래 대상으로부터 5피트 이내에 있고 무기의 사거리 내에 있으며 이번 차례에 당신이 공격하지 않은 다른 생명체에게 동일한 무기로 추가 공격을 한 번 더 수행할 수 있습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Hunter’s Prey",
+        "ko": "헌터의 사냥감"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You gain one of the following feature options of your choice. Whenever you finish a Short or Long Rest, you can replace the chosen option with the other one.\n\n**Escape the Horde.** Opportunity Attacks have Disadvantage against you.\n\n**Multiattack Defense.** When a creature hits you with an attack roll, that creature has Disadvantage on all other attack rolls against you this turn.",
+        "ko": "다음 특성 옵션 중 하나를 선택하여 얻습니다. 짧은 휴식이나 긴 휴식을 마칠 때마다 선택한 옵션을 다른 것으로 교체할 수 있습니다.\n\n**무리 탈출(Escape the Horde).** 당신을 향한 **기회 공격(Opportunity Attacks)**은 **불이점(Disadvantage)**을 가집니다.\n\n**다중 공격 방어(Multiattack Defense).** 생명체가 공격 굴림으로 당신을 맞혔을 때, 해당 생명체는 이번 턴 동안 당신을 상대로 하는 다른 모든 공격 굴림에 **불이점**을 가집니다."
+      },
+      "level": 7,
+      "name": {
+        "en": "Defensive Tactics",
+        "ko": "방어 전술"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Once per turn when you deal damage to a creature marked by your Hunter’s Mark, you can also deal that spell’s extra damage to a different creature that you can see within 30 feet of the first creature.",
+        "ko": "차례당 한 번, 당신의 *사냥꾼의 표식(Hunter’s Mark)*이 찍힌 생명체에게 피해를 입힐 때, 첫 번째 생명체로부터 30피트 이내에 보이는 다른 생명체에게도 해당 주문의 추가 피해를 입힐 수 있습니다."
+      },
+      "level": 11,
+      "name": {
+        "en": "Superior Hunter’s Prey",
+        "ko": "상급 헌터의 사냥감"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you take damage, you can take a Reaction to give yourself Resistance to that damage and any other damage of the same type until the end of the current turn.",
+        "ko": "피해를 입었을 때, **반응**을 사용하여 해당 피해 및 동일한 유형의 모든 피해에 대해 이번 턴 종료 시까지 **저항(Resistance)**을 얻을 수 있습니다."
+      },
+      "level": 15,
+      "name": {
+        "en": "Superior Hunter’s Defense",
+        "ko": "상급 헌터의 방어"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "life-domain": [
+    {
+      "description": {
+        "en": "When a spell you cast with a spell slot restores Hit Points to a creature, that creature regains additional Hit Points on the turn you cast the spell. The additional Hit Points equal 2 plus the spell slot’s level.",
+        "ko": "당신이 주문 슬롯을 사용하여 시전한 주문이 생명체의 생명력을 회복시킬 때, 해당 생명체는 당신이 주문을 시전한 차례에 추가 생명력을 회복합니다. 이 추가 생명력은 2 + 해당 주문 슬롯의 레벨과 같습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Disciple of Life",
+        "ko": "생명의 제자"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Life Domain Spells table, you thereafter always have the listed spells prepared.",
+        "ko": "이 신성한 권역과의 연결 덕분에 당신은 항상 특정 주문들을 준비해 둘 수 있습니다. 생명 권역 주문 표에 명시된 클레릭 레벨에 도달하면, 당신은 그 이후로 항상 나열된 주문들을 준비된 상태로 유지합니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Life Domain Spells",
+        "ko": "생명 권역 주문"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "As a Magic action, you present your Holy Symbol and expend a use of your Channel Divinity to evoke healing energy that can restore a number of Hit Points equal to five times your Cleric level. Choose Bloodied creatures within 30 feet of yourself (which can include you), and divide those Hit Points among them. This feature can restore a creature to no more than half its Hit Point maximum.",
+        "ko": "마법 행동(Magic action)으로, 당신은 성표를 제시하고 신성력 채널링(Channel Divinity) 사용 횟수 하나를 소모하여 당신의 클레릭 레벨의 5배에 해당하는 생명력을 회복시킬 수 있는 치유 에너지를 불러일으킵니다. 당신으로부터 30피트 이내에 있는 피투성이(Bloodied) 상태의 생명체들(자신 포함 가능)을 선택하고, 해당 생명력 수치를 그들 사이에서 나눕니다. 이 특성은 생명체의 최대 생명력의 절반까지만 회복시킬 수 있습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Preserve Life",
+        "ko": "생명 보존"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "The healing spells you cast on others heal you as well. Immediately after you cast a spell with a spell slot that restores Hit Points to one or more creatures other than yourself, you regain Hit Points equal to 2 plus the spell slot’s level.",
+        "ko": "당신이 타인에게 시전하는 치유 주문은 당신 자신 또한 치유합니다. 당신이 주문 슬롯을 사용하여 자신 이외의 하나 이상의 생명체에게 생명력을 회복시키는 주문을 시전한 직후, 당신은 2 + 해당 주문 슬롯의 레벨과 같은 수치의 생명력을 회복합니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Blessed Healer",
+        "ko": "축복받은 치유사"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you would normally roll one or more dice to restore Hit Points to a creature with a spell or Channel Divinity, don’t roll those dice for the healing; instead use the highest number possible for each die. For example, instead of restoring 2d6 Hit Points to a creature with a spell, you restore 12.",
+        "ko": "당신이 주문이나 신성력 채널링(Channel Divinity)으로 생명체의 생명력을 회복시키기 위해 보통 하나 이상의 주사위를 굴려야 할 때, 치유를 위해 주사위를 굴리지 않습니다. 대신 각 주사위에서 나올 수 있는 가장 높은 수치를 사용합니다. 예를 들어, 주문으로 생명체에게 2d6의 생명력을 회복시키는 대신 12를 회복시킵니다."
+      },
+      "level": 17,
+      "name": {
+        "en": "Supreme Healing",
+        "ko": "지고의 치유"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "oath-of-devotion": [
+    {
+      "description": {
+        "en": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Devotion Spells table, you thereafter always have the listed spells prepared.",
+        "ko": "맹세의 마법은 당신이 항상 특정 주문을 준비하고 있도록 보장합니다. 헌신의 맹세 주문 표에 명시된 팔라딘 레벨에 도달하면, 이후 해당 주문들은 항상 준비된 상태가 됩니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Oath of Devotion Spells",
+        "ko": "헌신의 맹세 주문"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you take the Attack action, you can expend one use of your Channel Divinity to imbue one Melee weapon that you are holding with positive energy. For 10 minutes or until you use this feature again, you add your Charisma modifier to attack rolls you make with that weapon (minimum bonus of +1), and each time you hit with it, you cause it to deal its normal damage type or Radiant damage.\n\nThe weapon also emits Bright Light in a 20-foot radius and Dim Light 20 feet beyond that.\n\nYou can end this effect early (no action required). This effect also ends if you aren’t carrying the weapon.",
+        "ko": "**공격 행동(Attack Action)**을 취할 때, 신성력 전달 사용 횟수 하나를 소모하여 당신이 들고 있는 근접 무기 하나에 긍정 에너지를 불어넣을 수 있습니다. 10분 동안 또는 이 특성을 다시 사용하기 전까지, 당신은 그 무기로 수행하는 공격 굴림에 **매력** 수정치를 추가합니다(최소 보너스 +1). 또한 명중할 때마다 무기의 원래 피해 유형 또는 **광휘(Radiant)** 피해 중 하나를 선택해 입힐 수 있습니다.\n\n무기는 또한 20피트 반경에 **밝은 빛(Bright Light)**을 내뿜으며, 그 너머로 추가 20피트까지 **희미한 빛(Dim Light)**을 발산합니다.\n\n당신은 언제든지 이 효과를 일찍 종료할 수 있습니다(액션 불필요). 무기를 소지하고 있지 않아도 효과가 종료됩니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Sacred Weapon",
+        "ko": "성스러운 무기"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You and your allies have Immunity to the Charmed condition while in your Aura of Protection. If a Charmed ally enters the aura, that condition has no effect on that ally while there.",
+        "ko": "당신과 아군들은 보호의 오라 안에 있는 동안 **매료됨(Charmed)** 상태에 면역이 됩니다. 만약 매료된 아군이 오라에 들어오면, 그 안에 있는 동안에는 해당 상태가 그 아군에게 아무런 영향을 미치지 않습니다."
+      },
+      "level": 7,
+      "name": {
+        "en": "Aura of Devotion",
+        "ko": "헌신의 오라"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "Your magical smite now radiates protective energy. Whenever you cast Divine Smite, you and your allies have Half Cover while in your Aura of Protection. The aura has this benefit until the start of your next turn.",
+        "ko": "당신의 마법 강타가 이제 보호 에너지를 내뿜습니다. 당신이 *신성한 강타(Divine Smite)*를 시전할 때마다, 당신과 아군들은 보호의 오라 안에 있는 동안 **절반 엄폐(Half Cover)** 효과를 받습니다. 이 오라의 혜택은 당신의 다음 차례 시작 시까지 유지됩니다."
+      },
+      "level": 15,
+      "name": {
+        "en": "Smite of Protection",
+        "ko": "보호의 강타"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "As a Bonus Action, you can imbue your Aura of Protection with holy power, granting the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can’t use it again until you finish a Long Rest. You can also restore your use of it by expending a level 5 spell slot (no action required).\n\n**Holy Ward.** You have Advantage on any saving throw you are forced to make by a Fiend or an Undead.\n\n**Radiant Damage.** Whenever an enemy starts its turn in the aura, that creature takes Radiant damage equal to your Charisma modifier plus your Proficiency Bonus.\n\n**Sunlight.** The aura is filled with Bright Light that is sunlight.",
+        "ko": "**보너스 액션**으로, 당신은 보호의 오라에 신성한 힘을 채워 10분 동안 또는 종료할 때까지(액션 불필요) 아래의 혜택을 제공할 수 있습니다. 이 특성을 한 번 사용하면 긴 휴식을 마칠 때까지 다시 사용할 수 없습니다. 5레벨 주문 슬롯을 소모하여 사용 횟수를 회복할 수도 있습니다(액션 불필요).\n\n**성스러운 보호(Holy Ward).** 당신은 악마(Fiend)나 언데드(Undead)에 의해 강요된 모든 내성 굴림에 **이점(Advantage)**을 가집니다.\n\n**광휘 피해(Radiant Damage).** 적이 오라 안에서 자신의 차례를 시작할 때마다, 해당 생명체는 당신의 **매력 수정치 + 숙련 보너스**만큼의 **광휘(Radiant)** 피해를 입습니다.\n\n**햇빛(Sunlight).** 오라는 햇빛에 해당하는 **밝은 빛**으로 가득 찹니다."
+      },
+      "level": 20,
+      "name": {
+        "en": "Holy Nimbus",
+        "ko": "성스러운 후광"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "thief": [
+    {
+      "description": {
+        "en": "As a Bonus Action, you can do one of the following:\n\n**Sleight of Hand.** Make a Dexterity (Sleight of Hand) check to pick a lock or disarm a trap with Thieves’ Tools or to pick a pocket.\n\n**Use an Object.** Take the Utilize action, or take the Magic action to use a magic item that requires that action.",
+        "ko": "**보너스 액션**으로 다음 중 하나를 수행할 수 있습니다.\n\n**손재주.** 도둑 도구를 사용하여 자물쇠를 따거나 함정을 해제하기 위해, 혹은 소매치기를 하기 위해 **민첩(손재주)** 판정을 수행합니다.\n\n**물체 사용.** **활용(Utilize)** 액션을 취하거나, 해당 액션을 요구하는 마법 아이템을 사용하기 위해 **마법 행동**을 취합니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Fast Hands",
+        "ko": "빠른 손놀림"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You've trained to get into especially hard-to-reach places, granting you these benefits.\n\n**Climber.** You gain a Climb Speed equal to your Speed.\n\n**Jumper.** You can determine your jump distance using your Dexterity rather than your Strength.",
+        "ko": "당신은 특히 접근하기 어려운 장소에 침입하는 훈련을 받아 다음의 혜택을 얻습니다.\n\n**등반가.** 당신의 이동 속도와 동일한 **등반 속도**를 얻습니다.\n\n**도약자.** 근력 대신 **민첩** 수치를 사용하여 점프 거리를 결정할 수 있습니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Second-Story Work",
+        "ko": "건물 침투"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You gain the following Cunning Strike option:\n\n**Stealth Attack (Cost: 1d6).** If you have the Hide action’s Invisible condition, this attack doesn’t end that condition on you if you end the turn behind Three-Quarters Cover or Total Cover.",
+        "ko": "다음의 교활한 타격 옵션을 얻습니다.\n\n**은신 공격 (비용: 1d6).** 당신이 '은신' 행동을 통해 **투명(Invisible)** 상태일 때, 차례를 마칠 때 **3/4 엄폐** 혹은 **완전 엄폐** 뒤에 있다면 이 공격을 가해도 투명 상태가 해제되지 않습니다."
+      },
+      "level": 9,
+      "name": {
+        "en": "Supreme Sneak",
+        "ko": "지고의 은신"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You've learned how to maximize use of magic items, granting you the following benefits.\n\n**Attunement.** You can attune to up to four magic items at once.\n\n**Charges.** Whenever you use a magic item property that expends charges, roll 1d6. On a roll of 6, you use the property without expending the charges.\n\n**Scrolls.** You can use any Spell Scroll, using Intelligence as your spellcasting ability for the spell. If the spell is a cantrip or a level 1 spell, you can cast it reliably. If the scroll contains a higher-level spell, you must first succeed on an Intelligence (Arcana) check (DC 10 plus the spell's level). On a successful check, you cast the spell from the scroll. On a failed check, the scroll disintegrates.",
+        "ko": "당신은 마법 아이템의 사용을 극대화하는 법을 배워 다음의 혜택을 얻습니다.\n\n**동조.** 한 번에 최대 **4개**의 마법 아이템에 동조할 수 있습니다.\n\n**충전.** 충전(Charge)을 소모하는 마법 아이템의 기능을 사용할 때마다 1d6을 굴립니다. 6이 나오면 충전량을 소모하지 않고 기능을 사용합니다.\n\n**스크롤.** 당신은 모든 **주문 스크롤**을 사용할 수 있으며, **지능**을 해당 주문의 주문시전 능력으로 사용합니다. 주문이 소마법이나 1레벨 주문이라면 안정적으로 시전할 수 있습니다. 스크롤에 더 높은 레벨의 주문이 담겨 있다면, 먼저 **지능(비전학)** 판정(DC 10 + 주문 레벨)에 성공해야 합니다. 판정에 성공하면 스크롤에서 주문을 시전합니다. 판정에 실패하면 스크롤이 분해됩니다."
+      },
+      "level": 13,
+      "name": {
+        "en": "Use Magic Device",
+        "ko": "마법 도구 사용"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You are adept at laying ambushes and quickly escaping danger. You can take two turns during the first round of any combat. You take your first turn at your normal Initiative and your second turn at your Initiative minus 10.",
+        "ko": "당신은 매복을 놓고 위험에서 빠르게 벗어나는 데 능숙합니다. 당신은 모든 전투의 첫 번째 라운드 동안 **두 번의 차례**를 가질 수 있습니다. 첫 번째 차례는 본래의 우선권 순서에 따라 가지고, 두 번째 차례는 본래 우선권 수치에서 10을 뺀 순서에 가집니다."
+      },
+      "level": 17,
+      "name": {
+        "en": "Thief’s Reflexes",
+        "ko": "도둑의 반사신경"
+      },
+      "source": "SRD 5.2"
+    }
+  ],
+  "warrior-of-the-open-hand": [
+    {
+      "description": {
+        "en": "Whenever you hit a creature with an attack granted by your Flurry of Blows, you can impose one of the following effects on that target.\n\n**Addle.** The target can’t make Opportunity Attacks until the start of its next turn.\n\n**Push.** The target must succeed on a Strength saving throw or be pushed up to 15 feet away from you.\n\n**Topple.** The target must succeed on a Dexterity saving throw or have the Prone condition.",
+        "ko": "연타(Flurry of Blows)로 부여된 공격으로 크리처를 명중시킬 때마다, 대상에게 다음 효과 중 하나를 부여할 수 있습니다.\n\n**혼란(Addle).** 대상은 다음 자신의 턴 시작까지 기회 공격을 할 수 없습니다.\n\n**밀치기(Push).** 대상은 힘 내성 굴림을 해야 하며, 실패 시 당신으로부터 최대 15피트까지 밀려납니다.\n\n**넘어뜨리기(Topple).** 대상은 민첩 내성 굴림을 해야 하며, 실패 시 넘어짐(Prone) 상태가 됩니다."
+      },
+      "level": 3,
+      "name": {
+        "en": "Open Hand Technique",
+        "ko": "오픈 핸드 기술"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You gain the ability to heal yourself. As a Bonus Action, you can roll your Martial Arts die. You regain a number of Hit Points equal to the number rolled plus your Wisdom modifier (minimum of 1 Hit Point regained).\n\nYou can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.",
+        "ko": "자신을 치유하는 능력을 얻습니다. 보너스 액션으로 무술 주사위를 굴려, (굴린 숫자 + 지혜 수정치, 최소 1)만큼의 HP를 회복합니다.\n\n이 기능은 지혜 수정치(최소 1회)만큼의 횟수만 사용할 수 있으며, 긴 휴식을 마칠 때 소모된 횟수를 모두 회복합니다."
+      },
+      "level": 6,
+      "name": {
+        "en": "Wholeness of Body",
+        "ko": "육체의 온전함"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "When you take a Bonus Action other than Step of the Wind, you can also use Step of the Wind immediately after that Bonus Action.",
+        "ko": "'바람의 발걸음'이 아닌 다른 보너스 액션을 취했을 때, 그 직후에 '바람의 발걸음'을 추가로 사용할 수 있습니다."
+      },
+      "level": 11,
+      "name": {
+        "en": "Fleet Step",
+        "ko": "신속한 발걸음"
+      },
+      "source": "SRD 5.2"
+    },
+    {
+      "description": {
+        "en": "You gain the ability to set up lethal vibrations in someone’s body. When you hit a creature with an Unarmed Strike, you can expend 4 Focus Points to start these imperceptible vibrations, which last for a number of days equal to your Monk level. The vibrations are harmless unless you take an action to end them. Alternatively, when you take the Attack action on your turn, you can forgo one of the attacks to end the vibrations. To end them, you and the target must be on the same plane of existence. When you end them, the target must make a Constitution saving throw, taking 10d12 Force damage on a failed save or half as much damage on a successful one.\n\nYou can have only one creature under the effect of this feature at a time. You can end the vibrations harmlessly (no action required).",
+        "ko": "누군가의 몸 안에 치명적인 진동을 심는 능력을 얻습니다. 비무장 타격으로 크리처를 명중시켰을 때, 4 집중 포인트를 소모하여 미세한 진동을 시작할 수 있습니다. 이 진동은 당신의 몽크 레벨만큼의 일수 동안 지속됩니다. 당신이 액션을 취해 진동을 끝내기 전까지는 무해합니다. 또는 자신의 턴에 공격 행동을 취할 때, 공격 중 하나를 포기하고 진동을 끝낼 수도 있습니다. 진동을 끝내려면 당신과 대상이 같은 존재 차원에 있어야 합니다. 진동을 끝내면 대상은 건강 내성 굴림을 해야 하며, 실패 시 10d12 역장(Force) 피해를 입고 성공 시 절반의 피해를 입습니다.\n\n한 번에 한 크리처에게만 이 효과를 유지할 수 있습니다. 행동을 소모하지 않고 진동을 무해하게 끝낼 수도 있습니다."
+      },
+      "level": 17,
+      "name": {
+        "en": "Quivering Palm",
+        "ko": "진동의 손바닥"
+      },
+      "source": "SRD 5.2"
+    }
+  ]
+}

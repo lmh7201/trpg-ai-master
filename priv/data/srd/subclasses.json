@@ -1,0 +1,909 @@
+[
+  {
+    "classId": "barbarian",
+    "description": {
+      "en": "For some Barbarians, rage is a means to an end — that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood.",
+      "ko": "광전사는 분노를 극한까지 끌어올려, 전투에서 억제할 수 없는 광란의 힘을 발휘합니다. 이 길을 걷는 바바리안은 싸움 자체를 즐기며, 분노가 끓어오를수록 더욱 치명적인 전사가 됩니다."
+    },
+    "id": "berserker",
+    "name": {
+      "en": "Path of the Berserker",
+      "ko": "광전사의 길"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Frenzy"
+          ],
+          "ko": [
+            "광란"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Mindless Rage"
+          ],
+          "ko": [
+            "무아지경의 격노"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Retaliation"
+          ],
+          "ko": [
+            "보복"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Intimidating Presence"
+          ],
+          "ko": [
+            "위압적 존재감"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "SRD 5.2"
+  },
+  {
+    "classId": "cleric",
+    "description": {
+      "en": "The Life Domain focuses on the positive energy that helps sustain all life in the multiverse. Clerics who tap into this domain are masters of healing, using that life force to cure many hurts.",
+      "ko": "생명 권역은 다원우주의 모든 생명을 유지하는 긍정적인 에너지를 다룹니다. 이 권역의 클레릭은 치유의 대가로서 생명력을 사용하여 상처를 치료하고, 병자에게 활력을 불어넣습니다."
+    },
+    "id": "life-domain",
+    "name": {
+      "en": "Life Domain",
+      "ko": "생명 권역"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Disciple of Life",
+            "Life Domain Spells",
+            "Preserve Life"
+          ],
+          "ko": [
+            "생명의 제자",
+            "생명 권역 주문",
+            "생명 보존"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Blessed Healer"
+          ],
+          "ko": [
+            "축복받은 치유사"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Supreme Healing"
+          ],
+          "ko": [
+            "지고의 치유"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "SRD 5.2",
+    "subclassSpells": {
+      "level3": [
+        "Aid",
+        "Bless",
+        "Cure Wounds",
+        "Lesser Restoration"
+      ],
+      "level3Ko": [
+        "원조",
+        "축복",
+        "상처 치유",
+        "하급 회복"
+      ],
+      "level5": [
+        "Mass Healing Word",
+        "Revivify"
+      ],
+      "level5Ko": [
+        "대규모 치유의 말",
+        "소생"
+      ],
+      "level7": [
+        "Aura of Life",
+        "Death Ward"
+      ],
+      "level7Ko": [
+        "생명의 오라",
+        "죽음 방호"
+      ],
+      "level9": [
+        "Greater Restoration",
+        "Mass Cure Wounds"
+      ],
+      "level9Ko": [
+        "상급 회복",
+        "대규모 상처 치유"
+      ]
+    }
+  },
+  {
+    "classId": "bard",
+    "description": {
+      "en": "Bards of the College of Lore collect spells and secrets from diverse sources, such as scholarly tomes, mystical rites, and peasant tales.",
+      "ko": "전승 학파의 바드는 고서, 의식, 민담 등 다양한 출처에서 주문과 비밀을 수집합니다. 이들은 지식을 나누고, 부패를 폭로하며, 거짓을 밝혀내기 위해 도서관이나 축제에 모입니다."
+    },
+    "id": "college-of-lore",
+    "name": {
+      "en": "College of Lore",
+      "ko": "전승 학파"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Bonus Proficiencies",
+            "Cutting Words"
+          ],
+          "ko": [
+            "보너스 숙련",
+            "방해의 말"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Magical Discoveries"
+          ],
+          "ko": [
+            "마법적 발견"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Peerless Skill"
+          ],
+          "ko": [
+            "비할 데 없는 기술"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "SRD 5.2"
+  },
+  {
+    "classId": "fighter",
+    "description": {
+      "en": "A Champion focuses on the development of martial prowess in a relentless pursuit of victory. Champions combine rigorous training with physical excellence to deal devastating blows, withstand peril, and garner glory. Whether in athletic contests or bloody battle, Champions strive for the crown of the victor.",
+      "ko": "챔피언은 승리를 향한 끊임없는 추구 속에서 무술 기량의 발전에 집중합니다. 챔피언은 혹독한 훈련과 신체적 탁월함을 결합하여 치명적인 일격을 가하고, 위험을 견뎌내며, 영광을 얻습니다. 운동 경기에서든 피비린내 나는 전투에서든, 챔피언은 승자의 자리를 차지하기 위해 노력합니다."
+    },
+    "id": "champion",
+    "name": {
+      "en": "Champion",
+      "ko": "챔피언"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Improved Critical",
+            "Remarkable Athlete"
+          ],
+          "ko": [
+            "향상된 치명타",
+            "탁월한 운동신경"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Additional Fighting Style"
+          ],
+          "ko": [
+            "추가 전투 방식"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Heroic Warrior"
+          ],
+          "ko": [
+            "영웅적 전사"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Superior Critical"
+          ],
+          "ko": [
+            "압도적 치명타"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Survivor"
+          ],
+          "ko": [
+            "생존자"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "SRD 5.2"
+  },
+  {
+    "classId": "monk",
+    "description": {
+      "en": "Warriors of the Open Hand are masters of unarmed combat. They learn techniques to push and trip their opponents and manipulate their own energy to protect themselves from harm.",
+      "ko": "오픈 핸드의 전사는 비무장 전투의 대가입니다. 그들은 상대를 밀치거나 넘어뜨리는 기술을 배우고, 자신의 기를 조작하여 피해로부터 자신을 보호합니다."
+    },
+    "id": "warrior-of-the-open-hand",
+    "name": {
+      "en": "Warrior of the Open Hand",
+      "ko": "오픈 핸드의 전사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Open Hand Technique"
+          ],
+          "ko": [
+            "오픈 핸드 기술"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Wholeness of Body"
+          ],
+          "ko": [
+            "육체의 온전함"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Fleet Step"
+          ],
+          "ko": [
+            "신속한 발걸음"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Quivering Palm"
+          ],
+          "ko": [
+            "진동의 손바닥"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "SRD 5.2"
+  },
+  {
+    "classId": "warlock",
+    "description": {
+      "en": "Your pact draws on the power of the Feywild. When you choose this subclass, you might make a deal with an archfey, such as the Prince of Frost; the Queen of Air and Darkness, ruler of the Gloaming Court; Titania of the Summer Court; or an ancient hag. Or you might call on a spectrum of Fey, weaving a web of favors and debts. Whoever they are, your patron is often inscrutable and whimsical.",
+      "ko": "당신의 계약은 페이와일드의 힘을 끌어옵니다. 이 서브클래스를 선택할 때, 서리의 왕자, 황혼 궁정의 지배자인 공기와 어둠의 여왕, 여름 궁정의 티타니아, 또는 고대의 마녀와 같은 아치페이와 거래를 맺을 수 있습니다. 또는 다양한 페이들에게 호소하여 호의와 빚의 그물을 엮을 수도 있습니다. 누구이든 간에, 당신의 후원자는 종종 불가해하고 변덕스럽습니다."
+    },
+    "id": "archfey-patron",
+    "name": {
+      "en": "Archfey Patron",
+      "ko": "아치페이 패트론"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Archfey Spells",
+            "Steps of the Fey"
+          ],
+          "ko": [
+            "아치페이 주문",
+            "페이의 발걸음"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Misty Escape"
+          ],
+          "ko": [
+            "안개의 탈출"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Beguiling Defenses"
+          ],
+          "ko": [
+            "매혹 방어"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Bewitching Magic"
+          ],
+          "ko": [
+            "매혹의 마법"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "SRD 5.2",
+    "subclassSpells": {
+      "level3": [
+        "Calm Emotions",
+        "Faerie Fire",
+        "Misty Step",
+        "Phantasmal Force",
+        "Sleep"
+      ],
+      "level3Ko": [
+        "감정 진정",
+        "요정의 불",
+        "안개 걸음",
+        "환영력",
+        "수면"
+      ],
+      "level5": [
+        "Blink",
+        "Plant Growth"
+      ],
+      "level5Ko": [
+        "점멸",
+        "식물 성장"
+      ],
+      "level7": [
+        "Dominate Beast",
+        "Greater Invisibility"
+      ],
+      "level7Ko": [
+        "야수 지배",
+        "상급 투명화"
+      ],
+      "level9": [
+        "Dominate Person",
+        "Seeming"
+      ],
+      "level9Ko": [
+        "사람 지배",
+        "외모 가장"
+      ]
+    }
+  },
+  {
+    "classId": "druid",
+    "description": {
+      "en": "Druids of the Circle of the Moon draw on lunar magic to transform themselves. Their order gathers under the moon to share news and perform rituals. Changeable as the moon, a Druid of this circle might prowl as a great cat one night, soar over the treetops as an eagle the next day, and then crash through undergrowth as a bear to drive off a trespassing monster.",
+      "ko": "달의 서클 드루이드들은 자신을 변형시키기 위해 달의 마법을 끌어다 씁니다. 그들의 결사는 달 아래에 모여 소식을 나누고 의식을 거행합니다. 달처럼 변화무쌍한 이 결사의 드루이드는 어느 날 밤에는 거대 고양이가 되어 어슬렁거리다가, 다음 날에는 독수리가 되어 나무 꼭대기 위를 날아오르고, 그 다음에는 곰이 되어 덤불을 헤치며 침입한 괴물을 쫓아낼지도 모릅니다."
+    },
+    "id": "circle-of-the-moon",
+    "name": {
+      "en": "Circle of the Moon",
+      "ko": "달의 서클"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Circle Forms",
+            "Circle of the Moon Spells"
+          ],
+          "ko": [
+            "서클의 형상",
+            "달의 서클 주문"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Improved Circle Forms"
+          ],
+          "ko": [
+            "개선된 서클의 형상"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Moonlight Step"
+          ],
+          "ko": [
+            "달빛 걸음"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Lunar Form"
+          ],
+          "ko": [
+            "달의 형상"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "SRD 5.2",
+    "subclassSpells": {
+      "level3": [
+        "Cure Wounds",
+        "Moonbeam",
+        "Starry Wisp"
+      ],
+      "level3Ko": [
+        "상처 치유",
+        "달빛",
+        "별빛 위스프"
+      ],
+      "level5": [
+        "Conjure Animals"
+      ],
+      "level5Ko": [
+        "동물 소환"
+      ],
+      "level7": [
+        "Fount of Moonlight"
+      ],
+      "level7Ko": [
+        "달빛의 샘"
+      ],
+      "level9": [
+        "Mass Cure Wounds"
+      ],
+      "level9Ko": [
+        "대규모 상처 치유"
+      ]
+    }
+  },
+  {
+    "classId": "paladin",
+    "description": {
+      "en": "The Oath of Devotion binds Paladins to the ideals of justice and order. These Paladins meet the archetype of the knight in shining armor. They hold themselves to the highest standards of conduct, and some—for better or worse—hold the rest of the world to the same standards.\n\nMany who swear this oath are devoted to gods of law and good and use their gods' tenets as the measure of personal devotion. Others hold angels as their ideals and incorporate images of angelic wings into their helmets or coats of arms.\n\nThese paladins share the following tenets:\n* Let your word be your promise.\n* Protect the weak and never fear to act.\n* Let your honorable deeds be an example.",
+      "ko": "헌신의 맹세는 팔라딘을 정의와 질서의 이상에 결속시킵니다. 이 팔라딘들은 빛나는 갑옷을 입은 기사의 전형을 충족합니다. 그들은 스스로를 최고의 행동 기준으로 규율하며, 일부는—좋든 나쁘든—세상의 나머지에도 동일한 기준을 적용합니다.\n\n이 맹세를 서약하는 많은 이들은 법과 선의 신들에게 헌신하며, 신의 교리를 개인적 헌신의 척도로 삼습니다. 다른 이들은 천사를 이상으로 삼아 투구나 문장에 천사의 날개 이미지를 새기기도 합니다.\n\n이 팔라딘들은 다음의 신조를 공유합니다:\n* 당신의 말이 당신의 약속이 되게 하라.\n* 약자를 보호하고 행동하기를 두려워하지 말라.\n* 당신의 명예로운 행동이 본보기가 되게 하라."
+    },
+    "id": "oath-of-devotion",
+    "name": {
+      "en": "Oath of Devotion",
+      "ko": "헌신의 맹세"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Oath of Devotion Spells",
+            "Sacred Weapon"
+          ],
+          "ko": [
+            "헌신의 맹세 주문",
+            "성스러운 무기"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Aura of Devotion"
+          ],
+          "ko": [
+            "헌신의 오라"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Smite of Protection"
+          ],
+          "ko": [
+            "보호의 강타"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Holy Nimbus"
+          ],
+          "ko": [
+            "성스러운 후광"
+          ]
+        },
+        "level": 20
+      }
+    ],
+    "source": "SRD 5.2",
+    "subclassSpells": {
+      "level13": [
+        "Freedom of Movement",
+        "Guardian of Faith"
+      ],
+      "level13Ko": [
+        "이동의 자유",
+        "신앙의 수호자"
+      ],
+      "level17": [
+        "Commune",
+        "Flame Strike"
+      ],
+      "level17Ko": [
+        "신과의 교감",
+        "화염 강타"
+      ],
+      "level3": [
+        "Protection from Evil and Good",
+        "Shield of Faith"
+      ],
+      "level3Ko": [
+        "선악으로부터의 보호",
+        "신앙의 방패"
+      ],
+      "level5": [
+        "Aid",
+        "Zone of Truth"
+      ],
+      "level5Ko": [
+        "원조",
+        "진실의 구역"
+      ],
+      "level9": [
+        "Beacon of Hope",
+        "Dispel Magic"
+      ],
+      "level9Ko": [
+        "희망의 봉화",
+        "마법 해제"
+      ]
+    }
+  },
+  {
+    "classId": "ranger",
+    "description": {
+      "en": "You stalk prey in the wilds and elsewhere, using your abilities as a Hunter to protect nature and people everywhere from forces that would destroy them.",
+      "ko": "당신은 야생과 다른 곳에서 먹잇감을 추적하며, 헌터로서의 능력을 사용하여 자연과 사람들을 파괴하려는 세력으로부터 보호합니다."
+    },
+    "id": "hunter",
+    "name": {
+      "en": "Hunter",
+      "ko": "헌터"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Hunter’s Lore",
+            "Hunter’s Prey"
+          ],
+          "ko": [
+            "헌터의 지식",
+            "헌터의 사냥감"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Defensive Tactics"
+          ],
+          "ko": [
+            "방어 전술"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Superior Hunter’s Prey"
+          ],
+          "ko": [
+            "상급 헌터의 사냥감"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Superior Hunter’s Defense"
+          ],
+          "ko": [
+            "상급 헌터의 방어"
+          ]
+        },
+        "level": 15
+      }
+    ],
+    "source": "SRD 5.2"
+  },
+  {
+    "classId": "rogue",
+    "description": {
+      "en": "A mix of burglar, treasure hunter, and explorer, you are the epitome of an adventurer. In addition to improving your agility and stealth, you gain abilities useful for delving into ruins and getting maximum benefit from the magic items you find there.",
+      "ko": "빈집 털이범, 보물 사냥꾼, 탐험가가 섞인 당신은 모험가의 전형입니다. 민첩성과 은신 능력을 향상시키는 것 외에도, 당신은 유적을 탐사하고 그곳에서 발견한 마법 아이템으로부터 최대의 이익을 얻는 데 유용한 능력을 얻습니다."
+    },
+    "id": "thief",
+    "name": {
+      "en": "Thief",
+      "ko": "시프"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Fast Hands",
+            "Second-Story Work"
+          ],
+          "ko": [
+            "빠른 손놀림",
+            "건물 침투"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Supreme Sneak"
+          ],
+          "ko": [
+            "지고의 은신"
+          ]
+        },
+        "level": 9
+      },
+      {
+        "features": {
+          "en": [
+            "Use Magic Device"
+          ],
+          "ko": [
+            "마법 도구 사용"
+          ]
+        },
+        "level": 13
+      },
+      {
+        "features": {
+          "en": [
+            "Thief’s Reflexes"
+          ],
+          "ko": [
+            "도둑의 반사신경"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "SRD 5.2"
+  },
+  {
+    "classId": "sorcerer",
+    "description": {
+      "en": "Your innate magic comes from the gift of a dragon. Perhaps an ancient dragon facing death bequeathed some of its magical power to you or your ancestor. You might have absorbed magic from a site infused with dragons' power. Or perhaps you handled a treasure taken from a dragon's hoard that was steeped in draconic power. Or you might have a dragon for an ancestor.",
+      "ko": "당신의 타고난 마법은 드래곤의 선물로부터 옵니다. 어쩌면 죽음을 앞둔 고대 드래곤이 자신의 마법적 힘의 일부를 당신이나 조상에게 물려주었을 수도 있습니다. 드래곤의 힘이 깃든 장소에서 마법을 흡수했을 수도 있고, 용의 보물 더미에서 가져온 드래곤의 힘이 스며든 보물을 다루었을 수도 있습니다. 혹은 조상 중에 드래곤이 있을 수도 있습니다."
+    },
+    "id": "draconic-sorcery",
+    "name": {
+      "en": "Draconic Sorcery",
+      "ko": "용족 마법"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Draconic Resilience",
+            "Draconic Spells"
+          ],
+          "ko": [
+            "용족의 회복력",
+            "용족 주문"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Elemental Affinity"
+          ],
+          "ko": [
+            "원소 친화력"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Dragon Wings"
+          ],
+          "ko": [
+            "용의 날개"
+          ]
+        },
+        "level": 14
+      },
+      {
+        "features": {
+          "en": [
+            "Dragon Companion"
+          ],
+          "ko": [
+            "용 동반자"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "SRD 5.2",
+    "subclassSpells": {
+      "level3": [
+        "Alter Self",
+        "Chromatic Orb",
+        "Command",
+        "Dragon's Breath"
+      ],
+      "level3Ko": [
+        "자신 변형",
+        "채색 구체",
+        "명령",
+        "용의 숨결"
+      ],
+      "level5": [
+        "Fear",
+        "Fly"
+      ],
+      "level5Ko": [
+        "공포",
+        "비행"
+      ],
+      "level7": [
+        "Arcane Eye",
+        "Charm Monster"
+      ],
+      "level7Ko": [
+        "비전의 눈",
+        "괴물 매혹"
+      ],
+      "level9": [
+        "Legend Lore",
+        "Summon Dragon"
+      ],
+      "level9Ko": [
+        "전설 지식",
+        "드래곤 소환"
+      ]
+    }
+  },
+  {
+    "classId": "wizard",
+    "description": {
+      "en": "Your studies focus on magic that creates powerful elemental effects such as bitter cold, searing flame, rolling thunder, crackling lightning, and burning acid. Some Evokers find employment in military forces, serving as artillery to blast armies from afar. Others use their power to protect others, while some seek their own gain.",
+      "ko": "당신의 연구는 혹독한 냉기, 맹렬한 화염, 굉음의 천둥, 탁탁 터지는 번개, 타는 듯한 산성과 같은 강력한 원소 효과를 만드는 마법에 집중되어 있습니다. 일부 발현술사는 군대에 고용되어 멀리서 적군을 폭격하는 포병 역할을 합니다. 또 다른 이들은 타인을 보호하기 위해 힘을 사용하고, 일부는 자신의 이익을 추구합니다."
+    },
+    "id": "evoker",
+    "name": {
+      "en": "Evoker",
+      "ko": "발현술사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Evocation Savant",
+            "Potent Cantrip"
+          ],
+          "ko": [
+            "발현 학자",
+            "강력한 소마법"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Sculpt Spells"
+          ],
+          "ko": [
+            "주문 조각"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Empowered Evocation"
+          ],
+          "ko": [
+            "강화된 발현"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Overchannel"
+          ],
+          "ko": [
+            "과충전"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "SRD 5.2"
+  }
+]

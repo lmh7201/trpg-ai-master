@@ -1,0 +1,3229 @@
+[
+  {
+    "classId": "barbarian",
+    "description": {
+      "en": "Barbarians who follow the Path of the Wild Heart have a bond to the natural world that allows them to communicate with animals and channel primal aspects of beasts.",
+      "ko": "야생의 심장 바바리안은 자연과 깊은 유대를 맺고, 동물의 본능과 힘을 자신의 분노에 담아냅니다. 이 길을 걷는 자는 야생의 영혼을 품고, 전투에서 다양한 동물의 특성을 발현합니다."
+    },
+    "id": "wild-heart",
+    "name": {
+      "en": "Path of the Wild Heart",
+      "ko": "야생의 심장의 길"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Animal Speaker",
+            "Rage of the Wilds"
+          ],
+          "ko": [
+            "동물 대화가",
+            "야생의 격노"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Aspect of the Wilds"
+          ],
+          "ko": [
+            "야생의 상"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Nature Speaker"
+          ],
+          "ko": [
+            "자연의 대화가"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Power of the Wilds"
+          ],
+          "ko": [
+            "야생의 힘"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "barbarian",
+    "description": {
+      "en": "Barbarians who follow the Path of the World Tree believe that their rage links them to the cosmic ash tree Yggdrasil.",
+      "ko": "세계수의 길을 따르는 바바리안은 모든 존재를 연결하는 세계수의 신비로운 힘을 분노에 담습니다. 분노의 에너지가 보호의 가지가 되어 아군을 감싸고, 적을 다른 차원으로 밀어내는 힘을 발휘합니다."
+    },
+    "id": "world-tree",
+    "name": {
+      "en": "Path of the World Tree",
+      "ko": "세계수의 길"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Vitality of the Tree"
+          ],
+          "ko": [
+            "세계수의 활력"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Branches of the Tree"
+          ],
+          "ko": [
+            "세계수의 가지"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Battering Roots"
+          ],
+          "ko": [
+            "타격하는 뿌리"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Travel Along the Tree"
+          ],
+          "ko": [
+            "세계수를 따른 이동"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "barbarian",
+    "description": {
+      "en": "For Barbarians who walk the Path of the Zealot, their rage is not just a force of nature — it is a divine fury.",
+      "ko": "광신자는 신성한 힘을 분노에 담아 신의 전사로 싸웁니다. 이 바바리안들은 전투를 신성한 의식으로 여기며, 죽음조차 그들의 사명을 막을 수 없습니다."
+    },
+    "id": "zealot",
+    "name": {
+      "en": "Path of the Zealot",
+      "ko": "광신자의 길"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Divine Fury",
+            "Warrior of the Gods"
+          ],
+          "ko": [
+            "신성한 분노",
+            "신들의 전사"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Fanatical Focus"
+          ],
+          "ko": [
+            "광신적 집중"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Zealous Presence"
+          ],
+          "ko": [
+            "열성적인 풍모"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Rage of the Gods"
+          ],
+          "ko": [
+            "신들의 격노"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "cleric",
+    "description": {
+      "en": "The Light Domain emphasizes the divine power to bring about blazing fire and revelation. Clerics who wield this power are enlightened souls infused with radiance and the power of their deities’ discerning vision.",
+      "ko": "빛 권역은 타오르는 불꽃과 계시를 가져오는 신성한 힘을 강조합니다. 이 권역의 클레릭은 거짓을 쫓아내고 어둠을 태워버리는 빛과 신의 통찰력으로 충만해 있습니다."
+    },
+    "id": "light-domain",
+    "name": {
+      "en": "Light Domain",
+      "ko": "빛 권역"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Light Domain Spells",
+            "Radiance of the Dawn",
+            "Warding Flare"
+          ],
+          "ko": [
+            "빛 권역 주문",
+            "여명의 광휘",
+            "수호의 불꽃"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Improved Warding Flare"
+          ],
+          "ko": [
+            "향상된 수호의 불꽃"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Corona of Light"
+          ],
+          "ko": [
+            "빛의 왕관"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Burning Hands",
+        "Faerie Fire",
+        "Scorching Ray",
+        "See Invisibility"
+      ],
+      "level3Ko": [
+        "불타는 손",
+        "요정의 불",
+        "작열 광선",
+        "투명체 감지"
+      ],
+      "level5": [
+        "Daylight",
+        "Fireball"
+      ],
+      "level5Ko": [
+        "태양광",
+        "화염구"
+      ],
+      "level7": [
+        "Arcane Eye",
+        "Wall of Fire"
+      ],
+      "level7Ko": [
+        "비전의 눈",
+        "불의 장벽"
+      ],
+      "level9": [
+        "Flame Strike",
+        "Scrying"
+      ],
+      "level9Ko": [
+        "화염 강타",
+        "투시"
+      ]
+    }
+  },
+  {
+    "classId": "cleric",
+    "description": {
+      "en": "The Trickery Domain offers magic of deception, illusion, and stealth. Clerics who wield this magic are a disruptive force in the world, puncturing pride, mocking tyrants, freeing captives, and flouting hollow traditions.",
+      "ko": "기만 권역은 속임수, 환상, 은신의 마법을 제공합니다. 이 권역의 클레릭은 세상의 혼란을 야기하는 힘으로, 오만한 자들을 꺾고 폭군을 조롱하며 억압받는 자들을 해방시킵니다."
+    },
+    "id": "trickery-domain",
+    "name": {
+      "en": "Trickery Domain",
+      "ko": "기만 권역"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Blessing of the Trickster",
+            "Trickery Domain Spells",
+            "Invoke Duplicity"
+          ],
+          "ko": [
+            "기만자의 축복",
+            "기만 권역 주문",
+            "분신 환영"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Trickster’s Transposition"
+          ],
+          "ko": [
+            "기만자의 위치 교환"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Improved Duplicity"
+          ],
+          "ko": [
+            "강화된 분신 환영"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Charm Person",
+        "Disguise Self",
+        "Invisibility",
+        "Pass without Trace"
+      ],
+      "level3Ko": [
+        "사람 매혹",
+        "자신 변장",
+        "투명화",
+        "흔적 없는 이동"
+      ],
+      "level5": [
+        "Hypnotic Pattern",
+        "Nondetection"
+      ],
+      "level5Ko": [
+        "최면 무늬",
+        "탐지 회피"
+      ],
+      "level7": [
+        "Confusion",
+        "Dimension Door"
+      ],
+      "level7Ko": [
+        "혼란",
+        "차원문"
+      ],
+      "level9": [
+        "Dominate Person",
+        "Modify Memory"
+      ],
+      "level9Ko": [
+        "사람 지배",
+        "기억 수정"
+      ]
+    }
+  },
+  {
+    "classId": "cleric",
+    "description": {
+      "en": "Clerics who tap into the magic of the War Domain excel in battle, inspiring others to fight the good fight or offering acts of violence as prayers.",
+      "ko": "전쟁 권역의 마법은 전투에서 탁월함을 발휘하게 하며, 다른 이들에게 싸울 용기를 불어넣거나 기도로 폭력을 행사합니다. 전쟁신들은 명예와 기사도의 챔피언부터 파괴와 약탈의 신까지 다양합니다."
+    },
+    "id": "war-domain",
+    "name": {
+      "en": "War Domain",
+      "ko": "전쟁 권역"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Guided Strike",
+            "War Domain Spells",
+            "War Priest"
+          ],
+          "ko": [
+            "인도된 타격",
+            "전쟁 권역 주문",
+            "전쟁 사제"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "War God’s Blessing"
+          ],
+          "ko": [
+            "전쟁신의 축복"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Avatar of Battle"
+          ],
+          "ko": [
+            "전투의 화신"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Guiding Bolt",
+        "Magic Weapon",
+        "Shield of Faith",
+        "Spiritual Weapon"
+      ],
+      "level3Ko": [
+        "유도 화살",
+        "마법 무기",
+        "신앙의 방패",
+        "영적 무기"
+      ],
+      "level5": [
+        "Crusader's Mantle",
+        "Spirit Guardians"
+      ],
+      "level5Ko": [
+        "성전사의 망토",
+        "수호령"
+      ],
+      "level7": [
+        "Fire Shield",
+        "Freedom of Movement"
+      ],
+      "level7Ko": [
+        "화염 보호막",
+        "이동의 자유"
+      ],
+      "level9": [
+        "Hold Monster",
+        "Steel Wind Strike"
+      ],
+      "level9Ko": [
+        "몬스터 속박",
+        "강철 바람 타격"
+      ]
+    }
+  },
+  {
+    "classId": "bard",
+    "description": {
+      "en": "Bards of the College of Dance know that the Words of Creation can’t be contained within speech or song; the words are uttered by the movements of celestial bodies and flow through the motions of the smallest creatures.",
+      "ko": "무용 학파의 바드는 창조의 언어가 말이나 노래에만 국한되지 않는다는 것을 압니다. 천체의 움직임과 작은 생명체의 흐름을 춤으로 표현하며, 우주의 소용돌이와 조화를 이루는 민첩하고 우아한 방식을 수련합니다."
+    },
+    "id": "college-of-dance",
+    "name": {
+      "en": "College of Dance",
+      "ko": "무용 학파"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Dazzling Footwork"
+          ],
+          "ko": [
+            "눈부신 발놀림"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Inspiring Movement",
+            "Tandem Footwork"
+          ],
+          "ko": [
+            "영감을 주는 이동",
+            "합 맞춘 발놀림"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Leading Evasion"
+          ],
+          "ko": [
+            "이끄는 회피"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "bard",
+    "description": {
+      "en": "The College of Glamour traces its origins to the beguiling magic of the Feywild. Bards who study this magic weave threads of beauty and terror into their songs and stories.",
+      "ko": "매혹 학파는 요정의 황야(Feywild)의 마법에 기원을 둡니다. 이들은 아름다움과 공포를 노래와 이야기에 엮어내며, 잊혀진 순수함에 대한 동경이나 무의식적 공포를 자극하여 청중의 마음을 흔듭니다."
+    },
+    "id": "college-of-glamour",
+    "name": {
+      "en": "College of Glamour",
+      "ko": "매혹 학파"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Beguiling Magic",
+            "Mantle of Inspiration"
+          ],
+          "ko": [
+            "현혹의 마법",
+            "영감의 망토"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Mantle of Majesty"
+          ],
+          "ko": [
+            "위엄의 망토"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Unbreakable Majesty"
+          ],
+          "ko": [
+            "불굴의 위엄"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "bard",
+    "description": {
+      "en": "Bards of the College of Valor are daring storytellers whose tales preserve the memory of the great heroes of the past.",
+      "ko": "용맹 학파의 바드는 과거 영웅들의 위업을 노래하고 기억을 보존하는 대담한 이야기꾼입니다. 이들은 전장을 직접 목격하고, 새로운 세대가 영웅이 되도록 고무합니다."
+    },
+    "id": "college-of-valor",
+    "name": {
+      "en": "College of Valor",
+      "ko": "용맹 학파"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Combat Inspiration",
+            "Martial Training"
+          ],
+          "ko": [
+            "전투의 영감",
+            "전투 훈련"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Extra Attack"
+          ],
+          "ko": [
+            "추가 공격"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Battle Magic"
+          ],
+          "ko": [
+            "전투 마법"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "fighter",
+    "description": {
+      "en": "Battle Masters are students of the art of battle, learning martial techniques passed down through generations. The most accomplished Battle Masters are well-rounded figures who combine their carefully honed combat skills with academic study in the fields of history, theory, and the arts.",
+      "ko": "배틀 마스터는 전승된 무술 기술을 익힌 전투의 학도입니다. 가장 뛰어난 배틀 마스터들은 정교하게 다듬어진 전투 기술과 역사, 이론, 예술 분야의 학문적 연구를 결합한 다재다능한 인물들입니다."
+    },
+    "id": "battle-master",
+    "name": {
+      "en": "Battle Master",
+      "ko": "배틀 마스터"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Combat Superiority",
+            "Student of War"
+          ],
+          "ko": [
+            "전투 우월성",
+            "전쟁의 학도"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Know Your Enemy"
+          ],
+          "ko": [
+            "적 파악"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Improved Combat Superiority"
+          ],
+          "ko": [
+            "향상된 전투 우월성"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Relentless"
+          ],
+          "ko": [
+            "끈질김"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Ultimate Combat Superiority"
+          ],
+          "ko": [
+            "궁극의 전투 우월성"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "fighter",
+    "description": {
+      "en": "Eldritch Knights combine the martial mastery common to all Fighters with a careful study of magic. Their spells both complement and extend their combat skills, providing additional protection to shore up their armor and also allowing them to engage many foes at once with explosive magic.",
+      "ko": "엘드리치 나이트는 모든 파이터에게 공통된 무술 숙달과 마법에 대한 신중한 연구를 결합합니다. 이들의 주문은 전투 기술을 보완하고 확장하며, 갑옷을 강화하는 추가적인 보호를 제공하고 폭발적인 마법으로 다수의 적을 한꺼번에 상대할 수 있게 해줍니다."
+    },
+    "id": "eldritch-knight",
+    "name": {
+      "en": "Eldritch Knight",
+      "ko": "엘드리치 나이트"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Spellcasting",
+            "War Bond"
+          ],
+          "ko": [
+            "주문 시전",
+            "전쟁의 유대"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "War Magic"
+          ],
+          "ko": [
+            "전쟁 마법"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Eldritch Strike"
+          ],
+          "ko": [
+            "엘드리치 타격"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Arcane Charge"
+          ],
+          "ko": [
+            "비전 돌격"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Improved War Magic"
+          ],
+          "ko": [
+            "향상된 전쟁 마법"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "PHB 2024",
+    "spellcasting": {
+      "ability": "지능",
+      "abilityEn": "Intelligence",
+      "focus": "비전 매개체",
+      "focusEn": "Arcane Focus",
+      "slots": [
+        {
+          "cantrips": "-",
+          "level": 1,
+          "preparedSpells": "-",
+          "slot1": "-",
+          "slot2": "-",
+          "slot3": "-",
+          "slot4": "-"
+        },
+        {
+          "cantrips": "-",
+          "level": 2,
+          "preparedSpells": "-",
+          "slot1": "-",
+          "slot2": "-",
+          "slot3": "-",
+          "slot4": "-"
+        },
+        {
+          "cantrips": 2,
+          "level": 3,
+          "preparedSpells": 3,
+          "slot1": 2,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 2,
+          "level": 4,
+          "preparedSpells": 4,
+          "slot1": 3,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 2,
+          "level": 5,
+          "preparedSpells": 4,
+          "slot1": 3,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 2,
+          "level": 6,
+          "preparedSpells": 4,
+          "slot1": 3,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 2,
+          "level": 7,
+          "preparedSpells": 5,
+          "slot1": 4,
+          "slot2": 2,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 2,
+          "level": 8,
+          "preparedSpells": 6,
+          "slot1": 4,
+          "slot2": 2,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 2,
+          "level": 9,
+          "preparedSpells": 6,
+          "slot1": 4,
+          "slot2": 2,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 10,
+          "preparedSpells": 7,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 11,
+          "preparedSpells": 8,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 12,
+          "preparedSpells": 8,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 13,
+          "preparedSpells": 9,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 2,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 14,
+          "preparedSpells": 10,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 2,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 15,
+          "preparedSpells": 10,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 2,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 16,
+          "preparedSpells": 11,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 17,
+          "preparedSpells": 11,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 18,
+          "preparedSpells": 11,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 19,
+          "preparedSpells": 12,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 1
+        },
+        {
+          "cantrips": 3,
+          "level": 20,
+          "preparedSpells": 13,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 1
+        }
+      ],
+      "spellListSource": "위저드",
+      "spellListSourceEn": "Wizard"
+    }
+  },
+  {
+    "classId": "fighter",
+    "description": {
+      "en": "Psi Warriors awaken the power of their minds to augment their physical might. They harness this psionic power to infuse their weapon strikes, lash out with telekinetic energy, and create barriers of mental force.",
+      "ko": "사이 워리어는 정신의 힘을 일깨워 신체 능력을 강화합니다. 이들은 사이오닉 에너지를 사용하여 무기 타격에 힘을 불어넣고, 염동력 에너지로 공격하며, 정신력으로 방어막을 형성합니다."
+    },
+    "id": "psi-warrior",
+    "name": {
+      "en": "Psi Warrior",
+      "ko": "사이 워리어"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Psionic Power"
+          ],
+          "ko": [
+            "사이오닉 힘"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Telekinetic Adept"
+          ],
+          "ko": [
+            "염동력 숙련"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Guarded Mind"
+          ],
+          "ko": [
+            "보호받는 정신"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Bulwark of Force"
+          ],
+          "ko": [
+            "역장의 방벽"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Telekinetic Master"
+          ],
+          "ko": [
+            "염동력의 대가"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "monk",
+    "description": {
+      "en": "Warriors of Mercy manipulate the life force of others. These Monks are wandering physicians, but they bring a swift end to their enemies. They often wear masks, presenting themselves as faceless bringers of life and death.",
+      "ko": "자비의 전사는 타인의 생명력을 조작합니다. 이 몽크들은 떠돌이 의사지만, 적들에게는 신속한 죽음을 가져다줍니다. 그들은 종종 가면을 쓰고, 자신들을 얼굴 없는 생과 사의 전달자로 표현합니다."
+    },
+    "id": "warrior-of-mercy",
+    "name": {
+      "en": "Warrior of Mercy",
+      "ko": "자비의 전사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Hand of Harm",
+            "Hand of Healing",
+            "Implements of Mercy"
+          ],
+          "ko": [
+            "해악의 손길",
+            "치유의 손길",
+            "자비의 도구"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Physician’s Touch"
+          ],
+          "ko": [
+            "의사의 손길"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Flurry of Healing and Harm"
+          ],
+          "ko": [
+            "치유와 해악의 연타"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Hand of Ultimate Mercy"
+          ],
+          "ko": [
+            "궁극의 자비의 손길"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "monk",
+    "description": {
+      "en": "Warriors of Shadow practice stealth and subterfuge, harnessing the power of the Shadowfell. They are at home in darkness, able to draw gloom around themselves to hide, leap from shadow to shadow, and take on a wraithlike form.",
+      "ko": "그림자의 전사는 섀도우펠의 힘을 이용하여 은신과 속임수를 구사합니다. 그들은 어둠 속에서 편안함을 느끼며, 어둠을 둘러 숨거나, 그림자에서 그림자로 도약하고, 유령 같은 형상을 취할 수 있습니다."
+    },
+    "id": "warrior-of-shadow",
+    "name": {
+      "en": "Warrior of Shadow",
+      "ko": "그림자의 전사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Shadow Arts"
+          ],
+          "ko": [
+            "그림자 예술"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Shadow Step"
+          ],
+          "ko": [
+            "그림자 걸음"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Improved Shadow Step"
+          ],
+          "ko": [
+            "향상된 그림자 걸음"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Cloak of Shadows"
+          ],
+          "ko": [
+            "그림자 망토"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "monk",
+    "description": {
+      "en": "Warriors of the Elements tap into the power of the Elemental Planes. Harnessing their supernatural focus, these Monks momentarily tame the energy of the Elemental Chaos to empower themselves in and out of battle.",
+      "ko": "원소의 전사는 원소 평면의 힘을 이용합니다. 이 몽크들은 초자연적인 집중력을 발휘하여 원소 혼돈의 에너지를 일시적으로 길들이고, 전투 안팎에서 자신을 강화합니다."
+    },
+    "id": "warrior-of-the-elements",
+    "name": {
+      "en": "Warrior of the Elements",
+      "ko": "원소의 전사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Elemental Attunement",
+            "Manipulate Elements"
+          ],
+          "ko": [
+            "원소 조율",
+            "원소 조작"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Elemental Burst"
+          ],
+          "ko": [
+            "원소 폭발"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Stride of the Elements"
+          ],
+          "ko": [
+            "원소의 활보"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Elemental Epitome"
+          ],
+          "ko": [
+            "원소의 전형"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "warlock",
+    "description": {
+      "en": "Your pact draws on the Upper Planes, the realms of everlasting bliss. You might enter an agreement with an empyrean, a couatl, a sphinx, a unicorn, or another heavenly entity. Or you might call on numerous such beings as you pursue goals aligned with theirs. Your pact allows you to experience a hint of the holy light that illuminates the multiverse.",
+      "ko": "당신의 계약은 영원한 축복의 영역인 상위 차원계의 힘을 끌어옵니다. 엠피리언, 코아틀, 스핑크스, 유니콘 또는 다른 천상의 존재와 계약을 맺을 수 있습니다. 또는 그들의 목표에 부합하는 목표를 추구하면서 수많은 그러한 존재들에게 호소할 수도 있습니다. 당신의 계약은 다중우주를 비추는 성스러운 빛의 일부를 경험할 수 있게 해줍니다."
+    },
+    "id": "celestial-patron",
+    "name": {
+      "en": "Celestial Patron",
+      "ko": "천상의 패트론"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Celestial Spells",
+            "Healing Light"
+          ],
+          "ko": [
+            "천상의 주문",
+            "치유의 빛"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Radiant Soul"
+          ],
+          "ko": [
+            "빛나는 영혼"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Celestial Resilience"
+          ],
+          "ko": [
+            "천상의 회복력"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Searing Vengeance"
+          ],
+          "ko": [
+            "타오르는 복수"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Aid",
+        "Cure Wounds",
+        "Guiding Bolt",
+        "Lesser Restoration",
+        "Light",
+        "Sacred Flame"
+      ],
+      "level3Ko": [
+        "원조",
+        "상처 치유",
+        "인도의 광선",
+        "하급 회복",
+        "빛",
+        "신성한 불꽃"
+      ],
+      "level5": [
+        "Daylight",
+        "Revivify"
+      ],
+      "level5Ko": [
+        "일광",
+        "부활"
+      ],
+      "level7": [
+        "Guardian of Faith",
+        "Wall of Fire"
+      ],
+      "level7Ko": [
+        "수호신",
+        "불의 장벽"
+      ],
+      "level9": [
+        "Greater Restoration",
+        "Summon Celestial"
+      ],
+      "level9Ko": [
+        "상급 회복",
+        "천상 소환"
+      ]
+    }
+  },
+  {
+    "classId": "warlock",
+    "description": {
+      "en": "Your pact draws on the Lower Planes, the realms of perdition. You might forge a bargain with a demon lord such as Demogorgon or Orcus; an archdevil such as Asmodeus; or a pit fiend, balor, yugoloth, or night hag that is especially mighty. That patron's aims are evil—the corruption or destruction of all things, ultimately including you—and your path is defined by the extent to which you strive against those aims.",
+      "ko": "당신의 계약은 멸망의 영역인 하위 차원계의 힘을 끌어옵니다. 데모고르곤이나 오르쿠스 같은 악마 군주, 아스모데우스 같은 대악마, 또는 특히 강력한 피트 피엔드, 발로르, 유골로스, 밤의 마녀와 거래를 맺을 수 있습니다. 그 후원자의 목적은 사악하며—궁극적으로 당신을 포함한 모든 것의 부패 또는 파괴—당신의 길은 그 목적에 얼마나 저항하느냐에 따라 결정됩니다."
+    },
+    "id": "fiend-patron",
+    "name": {
+      "en": "Fiend Patron",
+      "ko": "피엔드 패트론"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Dark One's Blessing",
+            "Fiend Spells"
+          ],
+          "ko": [
+            "어둠의 축복",
+            "피엔드 주문"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Dark One's Own Luck"
+          ],
+          "ko": [
+            "어둠의 행운"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Fiendish Resilience"
+          ],
+          "ko": [
+            "악마의 회복력"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Hurl Through Hell"
+          ],
+          "ko": [
+            "지옥으로 끌어내리기"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Burning Hands",
+        "Command",
+        "Scorching Ray",
+        "Suggestion"
+      ],
+      "level3Ko": [
+        "불타는 손",
+        "명령",
+        "작열 광선",
+        "암시"
+      ],
+      "level5": [
+        "Fireball",
+        "Stinking Cloud"
+      ],
+      "level5Ko": [
+        "화염구",
+        "악취 구름"
+      ],
+      "level7": [
+        "Fire Shield",
+        "Wall of Fire"
+      ],
+      "level7Ko": [
+        "화염 보호막",
+        "불의 장벽"
+      ],
+      "level9": [
+        "Geas",
+        "Insect Plague"
+      ],
+      "level9Ko": [
+        "강제 이행",
+        "곤충 재앙"
+      ]
+    }
+  },
+  {
+    "classId": "warlock",
+    "description": {
+      "en": "When you choose this subclass, you might bind yourself to an unspeakable being from the Far Realm or an elder god—a being such as Tharizdun, the Chained God; Zargon, the Returner; Hadar, the Dark Hunger; or Great Cthulhu. Or you might invoke several entities without yoking yourself to one. The motives of these beings are incomprehensible, and the Great Old One might be indifferent to your existence. But the secrets you've learned nevertheless allow you to draw strange magic from it.",
+      "ko": "이 서브클래스를 선택할 때, 먼 영역의 형언할 수 없는 존재나 태고의 신—사슬에 묶인 신 타리즈던, 회귀자 자르곤, 어둠의 굶주림 하다르, 또는 위대한 크툴루 같은 존재—과 결속할 수 있습니다. 또는 하나에 매이지 않고 여러 개체를 불러올 수도 있습니다. 이 존재들의 동기는 이해할 수 없으며, 위대한 태고의 존재는 당신의 존재에 무관심할 수 있습니다. 그러나 당신이 배운 비밀은 그로부터 기이한 마법을 끌어낼 수 있게 해줍니다."
+    },
+    "id": "great-old-one-patron",
+    "name": {
+      "en": "Great Old One Patron",
+      "ko": "위대한 태고의 존재 패트론"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Awakened Mind",
+            "Great Old One Spells",
+            "Psychic Spells"
+          ],
+          "ko": [
+            "각성된 정신",
+            "위대한 태고의 존재 주문",
+            "정신 주문"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Clairvoyant Combatant"
+          ],
+          "ko": [
+            "천리안 전투원"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Eldritch Hex",
+            "Thought Shield"
+          ],
+          "ko": [
+            "엘드리치 헥스",
+            "사념 보호막"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Create Thrall"
+          ],
+          "ko": [
+            "하수인 창조"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Detect Thoughts",
+        "Dissonant Whispers",
+        "Phantasmal Force",
+        "Tasha's Hideous Laughter"
+      ],
+      "level3Ko": [
+        "사고 감지",
+        "불협화음의 속삭임",
+        "환영의 힘",
+        "타샤의 끔찍한 웃음"
+      ],
+      "level5": [
+        "Clairvoyance",
+        "Hunger of Hadar"
+      ],
+      "level5Ko": [
+        "천리안",
+        "하다르의 굶주림"
+      ],
+      "level7": [
+        "Confusion",
+        "Summon Aberration"
+      ],
+      "level7Ko": [
+        "혼란",
+        "이형 소환"
+      ],
+      "level9": [
+        "Modify Memory",
+        "Telekinesis"
+      ],
+      "level9Ko": [
+        "기억 수정",
+        "염동력"
+      ]
+    }
+  },
+  {
+    "classId": "druid",
+    "description": {
+      "en": "The Circle of the Land comprises mystics and sages who safeguard ancient knowledge and rites. These Druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle’s wisest members preside as the chief priests of their communities.",
+      "ko": "대지의 서클은 고대 지식과 의식을 수호하는 신비주의자와 현자들로 구성됩니다. 이 드루이드들은 드루이드어로 원초적 비밀을 속삭이기 위해 나무가 늘어선 신성한 원형지나 선돌 아래에서 만납니다. 결사에서 가장 현명한 일원들은 공동체의 수석 사제로서 의례를 주관합니다."
+    },
+    "id": "circle-of-the-land",
+    "name": {
+      "en": "Circle of the Land",
+      "ko": "대지의 서클"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Circle of the Land Spells",
+            "Land’s Aid"
+          ],
+          "ko": [
+            "대지의 서클 주문",
+            "대지의 원조"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Natural Recovery"
+          ],
+          "ko": [
+            "자연의 회복"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Nature’s Ward"
+          ],
+          "ko": [
+            "자연의 수호"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Nature’s Sanctuary"
+          ],
+          "ko": [
+            "자연의 성역"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "arid": {
+        "level3": [
+          "Blur",
+          "Burning Hands",
+          "Fire Bolt"
+        ],
+        "level3Ko": [
+          "흐림",
+          "불타는 손",
+          "화염 화살"
+        ],
+        "level5": [
+          "Fireball"
+        ],
+        "level5Ko": [
+          "화염구"
+        ],
+        "level7": [
+          "Blight"
+        ],
+        "level7Ko": [
+          "황폐"
+        ],
+        "level9": [
+          "Wall of Stone"
+        ],
+        "level9Ko": [
+          "돌의 장벽"
+        ]
+      },
+      "polar": {
+        "level3": [
+          "Fog Cloud",
+          "Hold Person",
+          "Ray of Frost"
+        ],
+        "level3Ko": [
+          "안개 구름",
+          "인간형 속박",
+          "냉기 광선"
+        ],
+        "level5": [
+          "Sleet Storm"
+        ],
+        "level5Ko": [
+          "진눈깨비 폭풍"
+        ],
+        "level7": [
+          "Ice Storm"
+        ],
+        "level7Ko": [
+          "얼음 폭풍"
+        ],
+        "level9": [
+          "Cone of Cold"
+        ],
+        "level9Ko": [
+          "냉기 원뿔"
+        ]
+      },
+      "temperate": {
+        "level3": [
+          "Misty Step",
+          "Shocking Grasp",
+          "Sleep"
+        ],
+        "level3Ko": [
+          "안개 걸음",
+          "충격의 손아귀",
+          "수면"
+        ],
+        "level5": [
+          "Lightning Bolt"
+        ],
+        "level5Ko": [
+          "번개"
+        ],
+        "level7": [
+          "Freedom of Movement"
+        ],
+        "level7Ko": [
+          "이동의 자유"
+        ],
+        "level9": [
+          "Tree Stride"
+        ],
+        "level9Ko": [
+          "나무 건너기"
+        ]
+      },
+      "tropical": {
+        "level3": [
+          "Acid Splash",
+          "Ray of Sickness",
+          "Web"
+        ],
+        "level3Ko": [
+          "산성 튀기기",
+          "질병의 광선",
+          "거미줄"
+        ],
+        "level5": [
+          "Stinking Cloud"
+        ],
+        "level5Ko": [
+          "악취 구름"
+        ],
+        "level7": [
+          "Polymorph"
+        ],
+        "level7Ko": [
+          "변신"
+        ],
+        "level9": [
+          "Insect Plague"
+        ],
+        "level9Ko": [
+          "곤충 역병"
+        ]
+      }
+    }
+  },
+  {
+    "classId": "druid",
+    "description": {
+      "en": "Druids of the Circle of the Sea draw on the tempestuous forces of oceans and storms. Some view themselves as embodiments of nature’s wrath, seeking vengeance against those who despoil nature. Others seek mystical unity with nature by attuning themselves to the ebb and flow of the tides, following the rush of currents and waves and listening to the inscrutable whispers and roars of the winds.",
+      "ko": "바다의 서클 드루이드들은 대양과 폭풍의 격동하는 힘을 끌어다 씁니다. 어떤 이들은 자신을 자연의 분노의 화신으로 여기며, 자연을 훼손하는 자들에게 복수를 꾀합니다. 다른 이들은 조수의 썰물과 밀물에 자신을 조율하고, 조류와 파도의 흐름을 따르며, 바람의 알 수 없는 속삭임과 포효에 귀를 기울임으로써 자연과의 신비로운 단결을 추구합니다."
+    },
+    "id": "circle-of-the-sea",
+    "name": {
+      "en": "Circle of the Sea",
+      "ko": "바다의 서클"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Circle of the Sea Spells",
+            "Wrath of the Sea"
+          ],
+          "ko": [
+            "바다의 서클 주문",
+            "바다의 분노"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Aquatic Affinity"
+          ],
+          "ko": [
+            "수중 친화"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Stormborn"
+          ],
+          "ko": [
+            "폭풍의 자손"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Oceanic Gift"
+          ],
+          "ko": [
+            "대양의 선물"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Fog Cloud",
+        "Gust of Wind",
+        "Ray of Frost",
+        "Shatter",
+        "Thunderwave"
+      ],
+      "level3Ko": [
+        "안개 구름",
+        "돌풍",
+        "냉기 광선",
+        "파쇄",
+        "천둥파"
+      ],
+      "level5": [
+        "Lightning Bolt",
+        "Water Breathing"
+      ],
+      "level5Ko": [
+        "번개",
+        "수중 호흡"
+      ],
+      "level7": [
+        "Control Water",
+        "Ice Storm"
+      ],
+      "level7Ko": [
+        "물 조종",
+        "얼음 폭풍"
+      ],
+      "level9": [
+        "Conjure Elemental",
+        "Hold Monster"
+      ],
+      "level9Ko": [
+        "원소 소환",
+        "몬스터 속박"
+      ]
+    }
+  },
+  {
+    "classId": "druid",
+    "description": {
+      "en": "The Circle of the Stars has tracked heavenly patterns since time immemorial, discovering secrets hidden amid the constellations. By understanding these secrets, the Druids of this circle seek to harness the powers of the cosmos.",
+      "ko": "별의 서클은 태고적부터 하늘의 패턴을 추적하며 별자리 사이에 숨겨진 비밀을 발견해 왔습니다. 이 결사의 드루이드들은 이러한 비밀을 이해함으로써 코스모스의 힘을 활용하고자 합니다."
+    },
+    "id": "circle-of-the-stars",
+    "name": {
+      "en": "Circle of the Stars",
+      "ko": "별의 서클"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Star Map",
+            "Starry Form"
+          ],
+          "ko": [
+            "별지도",
+            "별의 형상"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Cosmic Omen"
+          ],
+          "ko": [
+            "우주의 징조"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Twinkling Constellations"
+          ],
+          "ko": [
+            "반짝이는 성좌"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Full of Stars"
+          ],
+          "ko": [
+            "별의 충만함"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Guidance",
+        "Guiding Bolt"
+      ],
+      "level3Ko": [
+        "지도",
+        "유도 화살"
+      ]
+    }
+  },
+  {
+    "classId": "paladin",
+    "description": {
+      "en": "Paladins who take the Oath of Glory believe they and their companions are destined to achieve glory through deeds of heroism. They train diligently and encourage their companions, so they're all ready when destiny calls.\n\nThese paladins share the following tenets:\n* Endeavor to be known by your deeds.\n* Face hardships with courage.\n* Inspire others to strive for glory.",
+      "ko": "영광의 맹세를 하는 팔라딘은 자신과 동료들이 영웅적인 행위를 통해 영광을 쟁취할 운명이라고 믿습니다. 그들은 부지런히 훈련하고 동료들을 격려하여, 운명의 부름이 올 때 모두가 준비될 수 있도록 합니다.\n\n이 팔라딘들은 다음의 신조를 공유합니다:\n* 당신의 행적으로 알려지도록 노력하라.\n* 고난에 용기로 맞서라.\n* 다른 이들이 영광을 위해 노력하도록 영감을 주라."
+    },
+    "id": "oath-of-glory",
+    "name": {
+      "en": "Oath of Glory",
+      "ko": "영광의 맹세"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Inspiring Smite",
+            "Oath of Glory Spells",
+            "Peerless Athlete"
+          ],
+          "ko": [
+            "고무적인 강타",
+            "영광의 맹세 주문",
+            "비할 데 없는 운동선수"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Aura of Alacrity"
+          ],
+          "ko": [
+            "민첩의 오라"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Glorious Defense"
+          ],
+          "ko": [
+            "영광스러운 방어"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Living Legend"
+          ],
+          "ko": [
+            "살아있는 전설"
+          ]
+        },
+        "level": 20
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level13": [
+        "Compulsion",
+        "Freedom of Movement"
+      ],
+      "level13Ko": [
+        "강제",
+        "이동의 자유"
+      ],
+      "level17": [
+        "Legend Lore",
+        "Yolande’s Regal Presence"
+      ],
+      "level17Ko": [
+        "전설 지식",
+        "욜란드의 제왕적 위엄"
+      ],
+      "level3": [
+        "Guiding Bolt",
+        "Heroism"
+      ],
+      "level3Ko": [
+        "유도 화살",
+        "영웅심"
+      ],
+      "level5": [
+        "Enhance Ability",
+        "Magic Weapon"
+      ],
+      "level5Ko": [
+        "능력치 강화",
+        "마법 무기"
+      ],
+      "level9": [
+        "Haste",
+        "Protection from Energy"
+      ],
+      "level9Ko": [
+        "신속",
+        "에너지 저항"
+      ]
+    }
+  },
+  {
+    "classId": "paladin",
+    "description": {
+      "en": "The Oath of the Ancients is as old as the first elves. Paladins who swear this oath cherish the light; they love the beautiful and life-giving things of the world more than any principles of honor, courage, and justice. They often adorn their armor and clothing with images of growing things—leaves, antlers, or flowers—to reflect their commitment to preserving life and light.\n\nThese paladins share the following tenets:\n* Kindle the light of hope.\n* Shelter life.\n* Delight in art and laughter.",
+      "ko": "고대의 맹세는 최초의 엘프들만큼이나 오래되었습니다. 이 맹세를 하는 팔라딘은 빛을 소중히 여깁니다. 그들은 명예, 용기, 정의의 원칙보다 세상의 아름답고 생명을 주는 것들을 더 사랑합니다. 그들은 생명과 빛을 보존하겠다는 의지를 반영하기 위해 종종 잎사귀, 뿔, 꽃과 같은 식물의 이미지로 갑옷과 옷을 장식합니다.\n\n이 팔라딘들은 다음의 신조를 공유합니다:\n* 희망의 빛을 지펴라.\n* 생명을 보호하라.\n* 예술과 웃음을 즐겨라."
+    },
+    "id": "oath-of-the-ancients",
+    "name": {
+      "en": "Oath of the Ancients",
+      "ko": "고대의 맹세"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Nature's Wrath",
+            "Oath of the Ancients Spells"
+          ],
+          "ko": [
+            "자연의 분노",
+            "고대의 맹세 주문"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Aura of Warding"
+          ],
+          "ko": [
+            "수호의 오라"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Undying Sentinel"
+          ],
+          "ko": [
+            "죽지 않는 파수꾼"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Elder Champion"
+          ],
+          "ko": [
+            "고대의 챔피언"
+          ]
+        },
+        "level": 20
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level13": [
+        "Ice Storm",
+        "Stoneskin"
+      ],
+      "level13Ko": [
+        "얼음 폭풍",
+        "돌의 피부"
+      ],
+      "level17": [
+        "Commune with Nature",
+        "Tree Stride"
+      ],
+      "level17Ko": [
+        "자연과의 교감",
+        "나무 건너기"
+      ],
+      "level3": [
+        "Ensnaring Strike",
+        "Speak with Animals"
+      ],
+      "level3Ko": [
+        "속박 강타",
+        "동물과의 대화"
+      ],
+      "level5": [
+        "Misty Step",
+        "Moonbeam"
+      ],
+      "level5Ko": [
+        "안개 걸음",
+        "달빛"
+      ],
+      "level9": [
+        "Plant Growth",
+        "Protection from Energy"
+      ],
+      "level9Ko": [
+        "식물 성장",
+        "에너지 저항"
+      ]
+    }
+  },
+  {
+    "classId": "paladin",
+    "description": {
+      "en": "The Oath of Vengeance is a solemn commitment to punish those who have committed grievously evil acts. When evil armies slaughter helpless villagers, when a tyrant defies the will of the gods, when a thieves' guild grows too violent, when a dragon rampages through the countryside—at times like these, paladins arise and swear an Oath of Vengeance to set right what has gone wrong.\n\nThese paladins share the following tenets:\n* Show the wicked no mercy.\n* Fight injustice and its causes.\n* Aid those harmed by injustice.",
+      "ko": "복수의 맹세는 중대한 악행을 저지른 이들을 처단하겠다는 엄숙한 약속입니다. 사악한 군대가 무력한 마을 사람들을 학살할 때, 폭군이 신의 뜻을 거스를 때, 도둑 길드가 너무 폭력적으로 변할 때, 드래곤이 시골 마을을 휩쓸고 다닐 때—이러한 시기에 팔라딘들이 일어나 잘못된 것을 바로잡기 위해 복수의 맹세를 합니다.\n\n이 팔라딘들은 다음의 신조를 공유합니다:\n* 악인에게 자비를 베풀지 말라.\n* 불의와 그 원인에 맞서 싸워라.\n* 불의로 인해 피해를 입은 이들을 도와라."
+    },
+    "id": "oath-of-vengeance",
+    "name": {
+      "en": "Oath of Vengeance",
+      "ko": "복수의 맹세"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Oath of Vengeance Spells",
+            "Vow of Enmity"
+          ],
+          "ko": [
+            "복수의 맹세 주문",
+            "적대의 맹세"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Relentless Avenger"
+          ],
+          "ko": [
+            "끈질긴 복수자"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Soul of Vengeance"
+          ],
+          "ko": [
+            "복수의 영혼"
+          ]
+        },
+        "level": 15
+      },
+      {
+        "features": {
+          "en": [
+            "Avenging Angel"
+          ],
+          "ko": [
+            "응징의 천사"
+          ]
+        },
+        "level": 20
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level13": [
+        "Banishment",
+        "Dimension Door"
+      ],
+      "level13Ko": [
+        "추방",
+        "차원문"
+      ],
+      "level17": [
+        "Hold Monster",
+        "Scrying"
+      ],
+      "level17Ko": [
+        "몬스터 속박",
+        "투시"
+      ],
+      "level3": [
+        "Bane",
+        "Hunter’s Mark"
+      ],
+      "level3Ko": [
+        "저주",
+        "사냥꾼의 표식"
+      ],
+      "level5": [
+        "Hold Person",
+        "Misty Step"
+      ],
+      "level5Ko": [
+        "인간형 속박",
+        "안개 걸음"
+      ],
+      "level9": [
+        "Haste",
+        "Protection from Energy"
+      ],
+      "level9Ko": [
+        "신속",
+        "에너지 저항"
+      ]
+    }
+  },
+  {
+    "classId": "ranger",
+    "description": {
+      "en": "A Beast Master forms a mystical bond with a special animal, drawing on primal magic and a deep connection to the natural world.",
+      "ko": "비스트 마스터는 특별한 동물과 신비로운 유대를 맺으며, 원초적인 마법과 자연계와의 깊은 연결을 끌어냅니다."
+    },
+    "id": "beast-master",
+    "name": {
+      "en": "Beast Master",
+      "ko": "비스트 마스터"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Primal Companion"
+          ],
+          "ko": [
+            "원초적 동반자"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Exceptional Training"
+          ],
+          "ko": [
+            "예외적인 훈련"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Bestial Fury"
+          ],
+          "ko": [
+            "야수의 분노"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Share Spells"
+          ],
+          "ko": [
+            "주문 공유"
+          ]
+        },
+        "level": 15
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "ranger",
+    "description": {
+      "en": "A fey mystique surrounds you, thanks to the boon of an archfey or a location in the Feywild that transformed you. However you gained fey magic, you are now a Fey Wanderer. Your joyful laughter brightens the hearts of the downtrodden, and your martial prowess strikes terror in your foes, for great is the mirth of the fey and dreadful is their fury.",
+      "ko": "강력한 아치페이의 은총이나 당신을 변화시킨 페이와일드의 특정 장소 덕분에 페이의 신비함이 당신을 감싸고 있습니다. 어떤 방식으로 페이 마법을 얻었든, 당신은 이제 페이 완더러입니다. 당신의 즐거운 웃음은 억압받는 이들의 마음을 밝게 하고, 당신의 무술 실력은 적들에게 공포를 심어줍니다. 페이의 즐거움은 위대하며 그들의 분노는 끔찍하기 때문입니다."
+    },
+    "id": "fey-wanderer",
+    "name": {
+      "en": "Fey Wanderer",
+      "ko": "페이 완더러"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Dreadful Strikes",
+            "Fey Wanderer Spells",
+            "Otherworldly Glamour"
+          ],
+          "ko": [
+            "끔찍한 타격",
+            "페이 완더러 주문",
+            "다른 세상의 화려함"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Beguiling Twist"
+          ],
+          "ko": [
+            "기만적인 뒤틀림"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Fey Reinforcements"
+          ],
+          "ko": [
+            "페이 지원군"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Misty Wanderer"
+          ],
+          "ko": [
+            "안개 낀 방랑자"
+          ]
+        },
+        "level": 15
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level13": [
+        "Dimension Door"
+      ],
+      "level13Ko": [
+        "차원문"
+      ],
+      "level17": [
+        "Mislead"
+      ],
+      "level17Ko": [
+        "오도"
+      ],
+      "level3": [
+        "Charm Person"
+      ],
+      "level3Ko": [
+        "사람 매혹"
+      ],
+      "level5": [
+        "Misty Step"
+      ],
+      "level5Ko": [
+        "안개 걸음"
+      ],
+      "level9": [
+        "Summon Fey"
+      ],
+      "level9Ko": [
+        "요정 소환"
+      ]
+    }
+  },
+  {
+    "classId": "ranger",
+    "description": {
+      "en": "Gloom Stalkers are at home in the darkest places, wielding magic drawn from the Shadowfell to combat enemies that lurk in darkness.",
+      "ko": "글룸 스토커는 가장 어두운 곳을 내집처럼 여기며, 어둠 속에 숨어 있는 적들과 싸우기 위해 섀도펠(Shadowfell)에서 끌어온 마법을 휘두릅니다."
+    },
+    "id": "gloom-stalker",
+    "name": {
+      "en": "Gloom Stalker",
+      "ko": "글룸 스토커"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Dread Ambusher",
+            "Gloom Stalker Spells",
+            "Umbral Sight"
+          ],
+          "ko": [
+            "공포의 매복꾼",
+            "글룸 스토커 주문",
+            "심연의 시야"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Iron Mind"
+          ],
+          "ko": [
+            "강철의 정신"
+          ]
+        },
+        "level": 7
+      },
+      {
+        "features": {
+          "en": [
+            "Stalker’s Flurry"
+          ],
+          "ko": [
+            "추적자의 난무"
+          ]
+        },
+        "level": 11
+      },
+      {
+        "features": {
+          "en": [
+            "Shadowy Dodge"
+          ],
+          "ko": [
+            "그림자 회피"
+          ]
+        },
+        "level": 15
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level13": [
+        "Greater Invisibility"
+      ],
+      "level13Ko": [
+        "상급 투명화"
+      ],
+      "level17": [
+        "Seeming"
+      ],
+      "level17Ko": [
+        "외모 가장"
+      ],
+      "level3": [
+        "Disguise Self"
+      ],
+      "level3Ko": [
+        "자신 변장"
+      ],
+      "level5": [
+        "Rope Trick"
+      ],
+      "level5Ko": [
+        "로프 트릭"
+      ],
+      "level9": [
+        "Fear"
+      ],
+      "level9Ko": [
+        "공포"
+      ]
+    }
+  },
+  {
+    "classId": "rogue",
+    "description": {
+      "en": "Some Rogues enhance their fine-honed skills of stealth and agility with spells, learning magical tricks to aid them in their trade. Some Arcane Tricksters use their talents as pickpockets and burglars, while others are pranksters.",
+      "ko": "일부 로그는 연마된 은신 기술과 민첩성을 주문으로 강화하며, 자신의 직업 활동에 도움을 줄 마법적인 속임수를 배웁니다. 어떤 아케인 트릭스터는 소매치기나 빈집 털이범으로서 자신의 재능을 사용하고, 다른 이들은 장난꾸러기로 활동합니다."
+    },
+    "id": "arcane-trickster",
+    "name": {
+      "en": "Arcane Trickster",
+      "ko": "아케인 트릭스터"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Spellcasting",
+            "Mage Hand Legerdemain"
+          ],
+          "ko": [
+            "주문시전",
+            "마법 손놀림"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Magical Ambush"
+          ],
+          "ko": [
+            "마법 매복"
+          ]
+        },
+        "level": 9
+      },
+      {
+        "features": {
+          "en": [
+            "Versatile Trickster"
+          ],
+          "ko": [
+            "다재다능한 사기꾼"
+          ]
+        },
+        "level": 13
+      },
+      {
+        "features": {
+          "en": [
+            "Spell Thief"
+          ],
+          "ko": [
+            "주문 도둑"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024",
+    "spellcasting": {
+      "ability": "지능",
+      "abilityEn": "Intelligence",
+      "focus": "비전 매개체",
+      "focusEn": "Arcane Focus",
+      "slots": [
+        {
+          "cantrips": "-",
+          "level": 1,
+          "preparedSpells": "-",
+          "slot1": "-",
+          "slot2": "-",
+          "slot3": "-",
+          "slot4": "-"
+        },
+        {
+          "cantrips": "-",
+          "level": 2,
+          "preparedSpells": "-",
+          "slot1": "-",
+          "slot2": "-",
+          "slot3": "-",
+          "slot4": "-"
+        },
+        {
+          "cantrips": 3,
+          "level": 3,
+          "preparedSpells": 3,
+          "slot1": 2,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 4,
+          "preparedSpells": 4,
+          "slot1": 3,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 5,
+          "preparedSpells": 4,
+          "slot1": 3,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 6,
+          "preparedSpells": 4,
+          "slot1": 3,
+          "slot2": 0,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 7,
+          "preparedSpells": 5,
+          "slot1": 4,
+          "slot2": 2,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 8,
+          "preparedSpells": 6,
+          "slot1": 4,
+          "slot2": 2,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 3,
+          "level": 9,
+          "preparedSpells": 6,
+          "slot1": 4,
+          "slot2": 2,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 10,
+          "preparedSpells": 7,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 11,
+          "preparedSpells": 8,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 12,
+          "preparedSpells": 8,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 0,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 13,
+          "preparedSpells": 9,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 2,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 14,
+          "preparedSpells": 10,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 2,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 15,
+          "preparedSpells": 10,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 2,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 16,
+          "preparedSpells": 11,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 17,
+          "preparedSpells": 11,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 18,
+          "preparedSpells": 11,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 0
+        },
+        {
+          "cantrips": 4,
+          "level": 19,
+          "preparedSpells": 12,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 1
+        },
+        {
+          "cantrips": 4,
+          "level": 20,
+          "preparedSpells": 13,
+          "slot1": 4,
+          "slot2": 3,
+          "slot3": 3,
+          "slot4": 1
+        }
+      ],
+      "spellListSource": "위저드",
+      "spellListSourceEn": "Wizard"
+    }
+  },
+  {
+    "classId": "rogue",
+    "description": {
+      "en": "An Assassin’s training focuses on using stealth, poison, and disguise to eliminate foes with deadly efficiency. While some Rogues who follow this path are hired killers, spies, or bounty hunters, the capabilities of this subclass are equally useful for adventurers facing a variety of monstrous enemies.",
+      "ko": "어쌔신의 훈련은 은신, 독, 그리고 변장을 사용하여 치명적인 효율성으로 적을 제거하는 데 집중합니다. 이 길을 따르는 일부 로그는 고용된 살인마, 스파이, 혹은 현상금 사냥꾼이지만, 이 서브클래스의 능력은 다양한 괴물 적들을 상대하는 모험가들에게도 동일하게 유용합니다."
+    },
+    "id": "assassin",
+    "name": {
+      "en": "Assassin",
+      "ko": "어쌔신"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Assassinate",
+            "Assassin’s Tools"
+          ],
+          "ko": [
+            "암살",
+            "어쌔신의 도구"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Infiltration Expertise"
+          ],
+          "ko": [
+            "침투 전문가"
+          ]
+        },
+        "level": 9
+      },
+      {
+        "features": {
+          "en": [
+            "Envenom Weapons"
+          ],
+          "ko": [
+            "독 바른 무기"
+          ]
+        },
+        "level": 13
+      },
+      {
+        "features": {
+          "en": [
+            "Death Strike"
+          ],
+          "ko": [
+            "죽음의 일격"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "rogue",
+    "description": {
+      "en": "A Soulknife strikes with the mind, cutting through barriers both physical and psychic. These Rogues discover psionic power within themselves and channel it to do their roguish work. As a Soulknife, your psionic abilities might have haunted you since childhood, revealing their full potential only as you experienced the stress of adventure. Or you might have sought out an order of psychic adepts and spent years learning how to manifest your power.",
+      "ko": "소울나이프는 정신으로 타격하며 물리적, 정신적 장벽을 모두 꿰뚫습니다. 이 로그들은 자신 안의 초능력을 발견하고 이를 로그 활동에 활용하기 위해 집중시킵니다. 소울나이프인 당신의 초능력은 어린 시절부터 당신을 괴롭혀 왔을 수도 있고, 모험의 스트레스를 겪으며 비로소 그 잠재력이 완전히 드러났을 수도 있습니다. 혹은 초능력 숙련자들의 단체를 찾아가 자신의 힘을 발현하는 법을 수년간 배웠을 수도 있습니다."
+    },
+    "id": "soulknife",
+    "name": {
+      "en": "Soulknife",
+      "ko": "소울나이프"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Psionic Power",
+            "Psychic Blades"
+          ],
+          "ko": [
+            "초능력",
+            "정신 칼날"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Soul Blades"
+          ],
+          "ko": [
+            "영혼 칼날"
+          ]
+        },
+        "level": 9
+      },
+      {
+        "features": {
+          "en": [
+            "Psychic Veil"
+          ],
+          "ko": [
+            "정신 장막"
+          ]
+        },
+        "level": 13
+      },
+      {
+        "features": {
+          "en": [
+            "Rend Mind"
+          ],
+          "ko": [
+            "정신 분쇄"
+          ]
+        },
+        "level": 17
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "sorcerer",
+    "description": {
+      "en": "An alien influence has wrapped its tendrils around your mind, giving you psionic power. You can now touch other minds with that power and alter the world around you. Will this power shine from you as a hopeful beacon to others? Or will you be a terror to those who feel the stab of your mind?\n\nPerhaps a psychic wind from the Astral Plane carried psionic energy to you, or you were exposed to the Far Realm's warping influence. Alternatively, you were implanted with a mind flayer tadpole, but your transformation into a mind flayer never occurred; now the tadpole's psionic power is yours. However you acquired this power, your mind is aflame with it.",
+      "ko": "외계의 영향력이 당신의 정신에 촉수를 감아 초능력을 부여했습니다. 이제 당신은 그 힘으로 다른 이의 정신에 닿고 주변 세상을 변화시킬 수 있습니다. 이 힘이 타인에게 희망의 봉화로 빛날까요, 아니면 당신의 정신적 일격을 느끼는 이들에게 공포가 될까요?\n\n아마도 아스트랄 차원에서 불어온 정신의 바람이 초능력 에너지를 당신에게 실어다주었을 수도 있고, 먼 영역의 왜곡 영향에 노출되었을 수도 있습니다. 혹은 마인드 플레이어의 올챙이를 이식받았지만 마인드 플레이어로의 변환이 결코 일어나지 않았을 수도 있습니다; 이제 그 올챙이의 초능력이 당신의 것입니다. 어떤 경위로 이 힘을 얻었든, 당신의 정신은 그것으로 불타오르고 있습니다."
+    },
+    "id": "aberrant-sorcery",
+    "name": {
+      "en": "Aberrant Sorcery",
+      "ko": "기이한 마법"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Psionic Spells",
+            "Telepathic Speech"
+          ],
+          "ko": [
+            "초능력 주문",
+            "텔레파시 대화"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Psionic Sorcery",
+            "Psychic Defenses"
+          ],
+          "ko": [
+            "초능력 마법",
+            "정신적 방어"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Revelation in Flesh"
+          ],
+          "ko": [
+            "육신의 계시"
+          ]
+        },
+        "level": 14
+      },
+      {
+        "features": {
+          "en": [
+            "Warping Implosion"
+          ],
+          "ko": [
+            "왜곡 내파"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Arms of Hadar",
+        "Calm Emotions",
+        "Detect Thoughts",
+        "Dissonant Whispers",
+        "Mind Sliver"
+      ],
+      "level3Ko": [
+        "하다르의 팔",
+        "감정 진정",
+        "생각 감지",
+        "불협화음 속삭임",
+        "정신 파편"
+      ],
+      "level5": [
+        "Hunger of Hadar",
+        "Sending"
+      ],
+      "level5Ko": [
+        "하다르의 굶주림",
+        "전언"
+      ],
+      "level7": [
+        "Evard's Black Tentacles",
+        "Summon Aberration"
+      ],
+      "level7Ko": [
+        "에바드의 검은 촉수",
+        "이형체 소환"
+      ],
+      "level9": [
+        "Rary's Telepathic Bond",
+        "Telekinesis"
+      ],
+      "level9Ko": [
+        "래리의 텔레파시 유대",
+        "염동력"
+      ]
+    }
+  },
+  {
+    "classId": "sorcerer",
+    "description": {
+      "en": "The cosmic force of order has suffused you with magic. That power arises from Mechanus or a realm like it—a plane of existence shaped entirely by clockwork efficiency. You or someone from your lineage might have become entangled in the machinations of modrons, the orderly beings who inhabit Mechanus. Perhaps your ancestor even took part in the Great Modron March. Whatever its origin within you, the power of order can seem strange to others, but for you, it's part of a vast and glorious system.",
+      "ko": "질서의 우주적 힘이 당신에게 마법을 불어넣었습니다. 그 힘은 메카누스(Mechanus) 혹은 그와 유사한, 시계태엽 같은 효율성으로 형성된 존재 차원에서 기인합니다. 당신 혹은 당신의 혈통 누군가가 메카누스에 거주하는 질서의 존재인 모드론들의 암투에 얽혔을 수도 있습니다. 어쩌면 당신의 조상이 대 모드론 행진에 참여했을 수도 있습니다. 당신 안에서 어떤 기원을 가졌든, 질서의 힘은 다른 이들에게 낯설게 보일 수 있지만, 당신에게는 광대하고 영광스러운 체계의 일부입니다."
+    },
+    "id": "clockwork-sorcery",
+    "name": {
+      "en": "Clockwork Sorcery",
+      "ko": "태엽 마법"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Clockwork Spells",
+            "Restore Balance"
+          ],
+          "ko": [
+            "시계태엽 주문",
+            "균형 회복"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Bastion of Law"
+          ],
+          "ko": [
+            "법의 보루"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Trance of Order"
+          ],
+          "ko": [
+            "질서의 황홀경"
+          ]
+        },
+        "level": 14
+      },
+      {
+        "features": {
+          "en": [
+            "Clockwork Cavalcade"
+          ],
+          "ko": [
+            "시계태엽 행진"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "PHB 2024",
+    "subclassSpells": {
+      "level3": [
+        "Aid",
+        "Alarm",
+        "Lesser Restoration",
+        "Protection from Evil and Good"
+      ],
+      "level3Ko": [
+        "원조",
+        "경보",
+        "하급 회복",
+        "선악으로부터의 보호"
+      ],
+      "level5": [
+        "Dispel Magic",
+        "Protection from Energy"
+      ],
+      "level5Ko": [
+        "마법 해제",
+        "에너지 저항"
+      ],
+      "level7": [
+        "Freedom of Movement",
+        "Summon Construct"
+      ],
+      "level7Ko": [
+        "이동의 자유",
+        "구조물 소환"
+      ],
+      "level9": [
+        "Greater Restoration",
+        "Wall of Force"
+      ],
+      "level9Ko": [
+        "상급 회복",
+        "역장의 장벽"
+      ]
+    }
+  },
+  {
+    "classId": "sorcerer",
+    "description": {
+      "en": "Your innate magic stems from the forces of chaos that underlie the order of creation. You or an ancestor might have endured exposure to raw magic, perhaps through a planar portal leading to Limbo or the Elemental Planes. Perhaps you were blessed by a fey being or marked by a demon. Or your magic could be a fluke with no apparent cause. Whatever its source, this magic churns within you, waiting for any outlet.",
+      "ko": "당신의 타고난 마법은 창조의 질서 아래에 깔린 혼돈의 힘으로부터 솟아나옵니다. 당신 혹은 조상이 림보(Limbo)나 원소계로 통하는 차원문을 통해 가공되지 않은 마법에 노출되었을 수도 있습니다. 어쩌면 페이 존재의 축복을 받았거나 악마의 표식을 받았을 수도 있습니다. 혹은 당신의 마법은 뚜렷한 원인 없는 돌연변이일 수도 있습니다. 그 근원이 무엇이든, 이 마법은 당신 안에서 소용돌이치며 분출구를 기다리고 있습니다."
+    },
+    "id": "wild-magic-sorcery",
+    "name": {
+      "en": "Wild Magic Sorcery",
+      "ko": "야생 마법"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Wild Magic Surge",
+            "Tides of Chaos"
+          ],
+          "ko": [
+            "야생 마법 폭주",
+            "혼돈의 조수"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Bend Luck"
+          ],
+          "ko": [
+            "운명 굴리기"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Controlled Chaos"
+          ],
+          "ko": [
+            "통제된 혼돈"
+          ]
+        },
+        "level": 14
+      },
+      {
+        "features": {
+          "en": [
+            "Tamed Surge"
+          ],
+          "ko": [
+            "길들여진 폭주"
+          ]
+        },
+        "level": 18
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "wizard",
+    "description": {
+      "en": "Your study of magic is focused on spells that block, banish, or protect—ending harmful effects, banishing evil influences, and protecting the weak. Abjurers are sought when baleful spirits require exorcism, when locations must be guarded against magical spying, and when portals to other planes of existence must be closed. Adventuring parties value Abjurers for the protection they provide against a variety of hostile magic and other attacks.",
+      "ko": "당신의 마법 연구는 차단, 추방 또는 보호하는 주문에 집중되어 있습니다—해로운 효과를 종결하고, 사악한 영향을 추방하며, 약자를 보호합니다. 방호술사는 악령의 퇴마가 필요할 때, 장소를 마법적 정탐으로부터 지켜야 할 때, 그리고 다른 차원으로의 차원문을 닫아야 할 때 찾게 됩니다. 모험 일행은 다양한 적대적 마법과 기타 공격에 대한 보호를 제공하는 방호술사를 소중히 여깁니다."
+    },
+    "id": "abjurer",
+    "name": {
+      "en": "Abjurer",
+      "ko": "방호술사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Abjuration Savant",
+            "Arcane Ward"
+          ],
+          "ko": [
+            "방호 학자",
+            "비전 보호막"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Projected Ward"
+          ],
+          "ko": [
+            "투사된 보호막"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Spell Breaker"
+          ],
+          "ko": [
+            "주문 파쇄자"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Spell Resistance"
+          ],
+          "ko": [
+            "주문 저항"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "wizard",
+    "description": {
+      "en": "The counsel of a Diviner is sought by those who want a clearer understanding of the past, present, and future. As a Diviner, you strive to part the veils of space, time, and consciousness. You work to master spells of discernment, remote viewing, supernatural knowledge, and foresight.",
+      "ko": "예언술사의 조언은 과거, 현재, 미래에 대한 더 명확한 이해를 원하는 이들이 찾습니다. 예언술사로서 당신은 공간, 시간, 의식의 장막을 걷어내고자 노력합니다. 당신은 감별, 원격 투시, 초자연적 지식, 그리고 예지의 주문을 숙달하기 위해 연구합니다."
+    },
+    "id": "diviner",
+    "name": {
+      "en": "Diviner",
+      "ko": "예언술사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Divination Savant",
+            "Portent"
+          ],
+          "ko": [
+            "예언 학자",
+            "전조"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Expert Divination"
+          ],
+          "ko": [
+            "숙련된 예언술"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "The Third Eye"
+          ],
+          "ko": [
+            "제3의 눈"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Greater Portent"
+          ],
+          "ko": [
+            "상급 전조"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  },
+  {
+    "classId": "wizard",
+    "description": {
+      "en": "You specialize in magic that dazzles the senses and tricks the mind, and the illusions you craft make the impossible seem real.",
+      "ko": "당신은 감각을 현혹하고 정신을 속이는 마법을 전문으로 하며, 당신이 만든 환영은 불가능한 것을 실제처럼 보이게 합니다."
+    },
+    "id": "illusionist",
+    "name": {
+      "en": "Illusionist",
+      "ko": "환영술사"
+    },
+    "overview": [
+      {
+        "features": {
+          "en": [
+            "Illusion Savant",
+            "Improved Illusions"
+          ],
+          "ko": [
+            "환영 학자",
+            "향상된 환영"
+          ]
+        },
+        "level": 3
+      },
+      {
+        "features": {
+          "en": [
+            "Phantasmal Creatures"
+          ],
+          "ko": [
+            "환상의 크리처"
+          ]
+        },
+        "level": 6
+      },
+      {
+        "features": {
+          "en": [
+            "Illusory Self"
+          ],
+          "ko": [
+            "환영의 자아"
+          ]
+        },
+        "level": 10
+      },
+      {
+        "features": {
+          "en": [
+            "Illusory Reality"
+          ],
+          "ko": [
+            "환영의 실체화"
+          ]
+        },
+        "level": 14
+      }
+    ],
+    "source": "PHB 2024"
+  }
+]

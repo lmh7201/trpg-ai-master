@@ -1,0 +1,1017 @@
+[
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "constitution",
+        "wisdom"
+      ],
+      "text": {
+        "en": "Increase your Constitution or Wisdom score by 1, to a maximum of 20.",
+        "ko": "건강 또는 지혜 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You gain proficiency with Cook's Utensils if you don't already have it.",
+          "ko": "요리 도구에 숙련이 없다면 숙련을 얻습니다."
+        },
+        "name": {
+          "en": "Cook's Utensils",
+          "ko": "요리 도구"
+        }
+      },
+      {
+        "description": {
+          "en": "As part of a Short Rest, you can cook special food if you have Cook's Utensils and ingredients on hand. You can prepare enough of this food for a number of creatures equal to 4 plus your Proficiency Bonus. At the end of the Short Rest, any creature who eats the food and spends one or more Hit Point Dice to regain Hit Points regains an extra 1d8 Hit Points.",
+          "ko": "짧은 휴식의 일부로, 요리 도구와 재료가 있다면 특별한 음식을 만들 수 있습니다. 4 + 숙련 보너스와 같은 수의 생명체를 위한 음식을 준비할 수 있습니다. 짧은 휴식이 끝날 때, 음식을 먹고 생명점 회복을 위해 하나 이상의 생명점 주사위를 소모한 생명체는 추가로 1d8 생명점을 회복합니다."
+        },
+        "name": {
+          "en": "Replenishing Meal",
+          "ko": "회복 식사"
+        }
+      },
+      {
+        "description": {
+          "en": "With 1 hour of work or when you finish a Long Rest, you can cook a number of treats equal to your Proficiency Bonus if you have ingredients and Cook's Utensils on hand. These special treats last 8 hours after being made. A creature can use a Bonus Action to eat one of those treats to gain a number of Temporary Hit Points equal to your Proficiency Bonus.",
+          "ko": "1시간의 작업으로 또는 긴 휴식을 마칠 때, 재료와 요리 도구가 있다면 숙련 보너스와 같은 수의 간식을 만들 수 있습니다. 이 특별한 간식은 만들어진 후 8시간 동안 유지됩니다. 생명체는 보너스 행동을 사용하여 간식 하나를 먹고 숙련 보너스와 같은 수의 임시 생명점을 얻을 수 있습니다."
+        },
+        "name": {
+          "en": "Bolstering Treats",
+          "ko": "강화 간식"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "chef",
+    "name": {
+      "en": "Chef",
+      "ko": "요리사"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "strength",
+        "constitution"
+      ],
+      "text": {
+        "en": "Increase your Strength or Constitution score by 1, to a maximum of 20.",
+        "ko": "근력 또는 건강 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Once per turn, when you hit a creature with an attack that deals Bludgeoning damage, you can move it 5 feet to an unoccupied space if the target is no more than one size larger than you.",
+          "ko": "턴당 한 번, 타격 피해를 주는 공격으로 생명체를 명중시키면, 목표가 당신보다 한 체격 이하로 크다면 빈 공간으로 5피트 이동시킬 수 있습니다."
+        },
+        "name": {
+          "en": "Push",
+          "ko": "밀치기"
+        }
+      },
+      {
+        "description": {
+          "en": "When you score a Critical Hit that deals Bludgeoning damage to a creature, attack rolls against that creature have Advantage until the start of your next turn.",
+          "ko": "생명체에게 타격 피해를 주는 치명타를 가하면, 다음 턴 시작까지 그 생명체에 대한 공격 굴림에 이점을 받습니다."
+        },
+        "name": {
+          "en": "Enhanced Critical",
+          "ko": "향상된 치명타"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "crusher",
+    "name": {
+      "en": "Crusher",
+      "ko": "분쇄자"
+    },
+    "prerequisite": {
+      "abilities": [
+        {
+          "minimum": 13,
+          "options": [
+            "strength",
+            "constitution"
+          ],
+          "type": "or"
+        }
+      ],
+      "level": 4,
+      "text": {
+        "en": "Level 4+, Strength or Constitution 13+",
+        "ko": "4레벨 이상, 근력 또는 건강 13 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.",
+        "ko": "지능, 지혜, 또는 매력 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Choose one level 1 spell from the Divination or Enchantment school of magic. You always have that spell and the Misty Step spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+          "ko": "점술 또는 마법부여 마법 학파의 1레벨 주문 하나를 선택합니다. 그 주문과 안개 발걸음 주문을 항상 준비한 상태로 유지합니다. 이 주문들 각각을 주문 슬롯을 소모하지 않고 시전할 수 있습니다. 이 방식으로 주문 중 하나를 시전하면, 긴 휴식을 마칠 때까지 그 방식으로 그 주문을 다시 시전할 수 없습니다. 적절한 레벨의 주문 슬롯을 사용하여 이 주문들을 시전할 수도 있습니다. 주문의 주문시전 능력치는 이 특기로 증가시킨 능력치입니다."
+        },
+        "name": {
+          "en": "Fey Magic",
+          "ko": "페이 마법"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "fey_touched",
+    "name": {
+      "en": "Fey Touched",
+      "ko": "페이 접촉"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "strength",
+        "dexterity"
+      ],
+      "text": {
+        "en": "Increase your Strength or Dexterity score by 1, to a maximum of 20.",
+        "ko": "근력 또는 민첩 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You gain proficiency with Martial weapons.",
+          "ko": "군사 무기에 숙련을 얻습니다."
+        },
+        "name": {
+          "en": "Weapon Proficiency",
+          "ko": "무기 숙련"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "martial_weapon_training",
+    "name": {
+      "en": "Martial Weapon Training",
+      "ko": "군사 무기 훈련"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "strength",
+        "dexterity"
+      ],
+      "text": {
+        "en": "Increase your Strength or Dexterity by 1, to a maximum of 20.",
+        "ko": "근력 또는 민첩을 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Once per turn, when you hit a creature with an attack that deals Piercing damage, you can reroll one of the attack's damage dice, and you must use the new roll.",
+          "ko": "턴당 한 번, 관통 피해를 주는 공격으로 생명체를 명중시키면, 공격의 피해 주사위 하나를 다시 굴릴 수 있으며 새 굴림 결과를 사용해야 합니다."
+        },
+        "name": {
+          "en": "Puncture",
+          "ko": "천공"
+        }
+      },
+      {
+        "description": {
+          "en": "When you score a Critical Hit that deals Piercing damage to a creature, you can roll one additional damage die when determining the extra Piercing damage the target takes.",
+          "ko": "생명체에게 관통 피해를 주는 치명타를 가하면, 목표가 받는 추가 관통 피해를 결정할 때 피해 주사위를 하나 더 굴릴 수 있습니다."
+        },
+        "name": {
+          "en": "Enhanced Critical",
+          "ko": "향상된 치명타"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "piercer",
+    "name": {
+      "en": "Piercer",
+      "ko": "관통자"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "dexterity",
+        "intelligence"
+      ],
+      "text": {
+        "en": "Increase your Dexterity or Intelligence score by 1, to a maximum of 20.",
+        "ko": "민첩 또는 지능 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "When you make a damage roll that deals Poison damage, it ignores Resistance to Poison damage.",
+          "ko": "독 피해를 주는 피해 굴림을 할 때, 독 피해에 대한 저항을 무시합니다."
+        },
+        "name": {
+          "en": "Potent Poison",
+          "ko": "강력한 독"
+        }
+      },
+      {
+        "description": {
+          "en": "You gain proficiency with the Poisoner's Kit. With 1 hour of work using such a kit and expending 50 GP worth of materials, you can create a number of poison doses equal to your Proficiency Bonus. As a Bonus Action, you can apply a poison dose to a weapon or piece of ammunition. Once applied, the poison retains its potency for 1 minute or until you deal damage with the poisoned item, whichever is shorter. When a creature takes damage from the poisoned item, that creature must succeed on a Constitution saving throw (DC 8 plus the modifier of the ability increased by this feat and your Proficiency Bonus) or take 2d8 Poison damage and have the Poisoned condition until the end of your next turn.",
+          "ko": "독약 도구에 숙련을 얻습니다. 도구를 사용하여 1시간 동안 작업하고 50GP 가치의 재료를 소모하여, 숙련 보너스와 같은 수의 독 투여량을 만들 수 있습니다. 보너스 행동으로 무기나 탄약 하나에 독 투여량을 바를 수 있습니다. 한번 발라지면, 독은 1분 동안 또는 독이 바른 아이템으로 피해를 줄 때까지 중 짧은 쪽 동안 효력을 유지합니다. 생명체가 독이 바른 아이템으로 피해를 받으면, 건강 내성 굴림에 성공해야 합니다(DC 8 + 이 특기로 증가시킨 능력치 수정치 + 숙련 보너스). 실패하면 2d8 독 피해를 받고 다음 턴 종료까지 중독 상태가 됩니다."
+        },
+        "name": {
+          "en": "Brew Poison",
+          "ko": "독 제조"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "poisoner",
+    "name": {
+      "en": "Poisoner",
+      "ko": "독약 조제사"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.",
+        "ko": "지능, 지혜, 또는 매력 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Choose one level 1 spell from the Illusion or Necromancy school of magic. You always have that spell and the Invisibility spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+          "ko": "환영 또는 강령술 마법 학파의 1레벨 주문 하나를 선택합니다. 그 주문과 투명화 주문을 항상 준비한 상태로 유지합니다. 이 주문들 각각을 주문 슬롯을 소모하지 않고 시전할 수 있습니다. 이 방식으로 주문 중 하나를 시전하면, 긴 휴식을 마칠 때까지 그 방식으로 그 주문을 다시 시전할 수 없습니다. 적절한 레벨의 주문 슬롯을 사용하여 이 주문들을 시전할 수도 있습니다. 주문의 주문시전 능력치는 이 특기로 증가시킨 능력치입니다."
+        },
+        "name": {
+          "en": "Shadow Magic",
+          "ko": "그림자 마법"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "shadow_touched",
+    "name": {
+      "en": "Shadow Touched",
+      "ko": "그림자 접촉"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase one ability score of your choice by 1, to a maximum of 20.",
+        "ko": "선택한 능력치 하나를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You gain proficiency in one skill of your choice.",
+          "ko": "선택한 기술 하나에 숙련을 얻습니다."
+        },
+        "name": {
+          "en": "Skill Proficiency",
+          "ko": "기술 숙련"
+        }
+      },
+      {
+        "description": {
+          "en": "Choose one skill in which you have proficiency but lack Expertise. You gain Expertise with that skill.",
+          "ko": "숙련이 있지만 전문성이 없는 기술 하나를 선택합니다. 그 기술에 전문성을 얻습니다."
+        },
+        "name": {
+          "en": "Expertise",
+          "ko": "전문성"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "skill_expert",
+    "name": {
+      "en": "Skill Expert",
+      "ko": "기술 전문가"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "strength",
+        "dexterity"
+      ],
+      "text": {
+        "en": "Increase your Strength or Dexterity score by 1, to a maximum of 20.",
+        "ko": "근력 또는 민첩 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Once per turn when you hit a creature with an attack that deals Slashing damage, you can reduce the Speed of that creature by 10 feet until the start of your next turn.",
+          "ko": "턴당 한 번, 베기 피해를 주는 공격으로 생명체를 명중시키면, 다음 턴 시작까지 그 생명체의 속도를 10피트 감소시킬 수 있습니다."
+        },
+        "name": {
+          "en": "Hamstring",
+          "ko": "힘줄 끊기"
+        }
+      },
+      {
+        "description": {
+          "en": "When you score a Critical Hit that deals Slashing damage to a creature, it has Disadvantage on attack rolls until the start of your next turn.",
+          "ko": "생명체에게 베기 피해를 주는 치명타를 가하면, 그 생명체는 다음 턴 시작까지 공격 굴림에 불리를 받습니다."
+        },
+        "name": {
+          "en": "Enhanced Critical",
+          "ko": "향상된 치명타"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "slasher",
+    "name": {
+      "en": "Slasher",
+      "ko": "베기 전문가"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "dexterity",
+        "constitution"
+      ],
+      "text": {
+        "en": "Increase your Dexterity or Constitution score by 1, to a maximum of 20.",
+        "ko": "민첩 또는 건강 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Your Speed increases by 10 feet.",
+          "ko": "속도가 10피트 증가합니다."
+        },
+        "name": {
+          "en": "Speed Increase",
+          "ko": "속도 증가"
+        }
+      },
+      {
+        "description": {
+          "en": "When you take the Dash action on your turn, Difficult Terrain doesn't cost you extra movement for the rest of that turn.",
+          "ko": "당신의 턴에 질주 행동을 취하면, 그 턴의 나머지 동안 험난한 지형이 추가 이동력을 소모하지 않습니다."
+        },
+        "name": {
+          "en": "Dash over Difficult Terrain",
+          "ko": "험난한 지형 질주"
+        }
+      },
+      {
+        "description": {
+          "en": "Opportunity Attacks have Disadvantage against you.",
+          "ko": "당신에 대한 기회 공격에 불리가 적용됩니다."
+        },
+        "name": {
+          "en": "Agile Movement",
+          "ko": "민첩한 이동"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "speedy",
+    "name": {
+      "en": "Speedy",
+      "ko": "빠름"
+    },
+    "prerequisite": {
+      "abilities": [
+        {
+          "minimum": 13,
+          "options": [
+            "dexterity",
+            "constitution"
+          ],
+          "type": "or"
+        }
+      ],
+      "level": 4,
+      "text": {
+        "en": "Level 4+, Dexterity or Constitution 13+",
+        "ko": "4레벨 이상, 민첩 또는 건강 13 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.",
+        "ko": "지능, 지혜, 또는 매력 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You learn the Mage Hand spell. You can cast it without Verbal or Somatic components, you can make the spectral hand Invisible, and its range and the distance it can be away from you both increase by 30 feet when you cast it. The spell's spellcasting ability is the ability increased by this feat.",
+          "ko": "마법사의 손 주문을 배웁니다. 언어 또는 동작 구성요소 없이 시전할 수 있고, 유령 손을 투명하게 만들 수 있으며, 시전 시 사거리와 손이 당신에게서 떨어질 수 있는 거리가 모두 30피트 증가합니다. 주문의 주문시전 능력치는 이 특기로 증가시킨 능력치입니다."
+        },
+        "name": {
+          "en": "Minor Telekinesis",
+          "ko": "미약한 염력"
+        }
+      },
+      {
+        "description": {
+          "en": "As a Bonus Action, you can telekinetically shove one creature you can see within 30 feet of yourself. When you do so, the target must succeed on a Strength saving throw (DC 8 plus the ability modifier of the score increased by this feat and your Proficiency Bonus) or be moved 5 feet toward or away from you.",
+          "ko": "보너스 행동으로, 30피트 이내에 보이는 생명체 하나를 염력으로 밀칠 수 있습니다. 그렇게 하면 목표는 근력 내성 굴림에 성공해야 합니다(DC 8 + 이 특기로 증가시킨 능력치 수정치 + 숙련 보너스). 실패하면 5피트 당신 쪽으로 또는 반대 방향으로 이동합니다."
+        },
+        "name": {
+          "en": "Telekinetic Shove",
+          "ko": "염력 밀치기"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "telekinetic",
+    "name": {
+      "en": "Telekinetic",
+      "ko": "염력 능력자"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 20,
+      "options": [
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase your Intelligence, Wisdom, or Charisma score by 1, to a maximum of 20.",
+        "ko": "지능, 지혜, 또는 매력 능력치를 1 증가시킵니다(최대 20)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You can speak telepathically to any creature you can see within 60 feet of yourself. Your telepathic utterances are in a language you know, and the creature understands you only if it knows that language. Your communication doesn't give the creature the ability to respond to you telepathically.",
+          "ko": "60피트 이내에 보이는 생명체에게 텔레파시로 말할 수 있습니다. 텔레파시 발언은 당신이 아는 언어로 이루어지며, 생명체가 그 언어를 알 때만 당신을 이해합니다. 이 의사소통은 생명체에게 텔레파시로 응답하는 능력을 부여하지 않습니다."
+        },
+        "name": {
+          "en": "Telepathic Utterance",
+          "ko": "텔레파시 발언"
+        }
+      },
+      {
+        "description": {
+          "en": "You always have the Detect Thoughts spell prepared. You can cast it without a spell slot or spell components, and you must finish a Long Rest before you can cast it in this way again. You can also cast it using spell slots you have of the appropriate level. Your spellcasting ability for the spell is the ability increased by this feat.",
+          "ko": "생각 감지 주문을 항상 준비한 상태로 유지합니다. 주문 슬롯이나 주문 구성요소 없이 시전할 수 있으며, 이 방식으로 다시 시전하려면 긴 휴식을 마쳐야 합니다. 적절한 레벨의 주문 슬롯을 사용하여 시전할 수도 있습니다. 이 주문의 주문시전 능력치는 이 특기로 증가시킨 능력치입니다."
+        },
+        "name": {
+          "en": "Detect Thoughts",
+          "ko": "생각 감지"
+        }
+      }
+    ],
+    "category": "general",
+    "id": "telepathic",
+    "name": {
+      "en": "Telepathic",
+      "ko": "텔레파시 능력자"
+    },
+    "prerequisite": {
+      "level": 4,
+      "text": {
+        "en": "Level 4+",
+        "ko": "4레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": null,
+    "benefits": [
+      {
+        "description": {
+          "en": "You have Blindsight with a range of 10 feet.",
+          "ko": "10피트 범위의 맹목 감각을 얻습니다."
+        },
+        "name": {
+          "en": null,
+          "ko": null
+        }
+      }
+    ],
+    "category": "fighting_style",
+    "id": "blind_fighting",
+    "name": {
+      "en": "Blind Fighting",
+      "ko": "맹인 전투"
+    },
+    "prerequisite": {
+      "level": 1,
+      "text": {
+        "en": "Fighting Style Feature",
+        "ko": "전투 스타일 특성"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": null,
+    "benefits": [
+      {
+        "description": {
+          "en": "When a creature you can see hits another creature within 5 feet of you with an attack roll, you can take a Reaction to reduce the damage dealt to the target by 1d10 plus your Proficiency Bonus. You must be holding a Shield or a Simple or Martial weapon to use this Reaction.",
+          "ko": "당신이 볼 수 있는 생명체가 당신에게서 5피트 이내에 있는 다른 생명체를 공격 굴림으로 명중시킬 때, 당신은 반응을 사용하여 대상에게 가해지는 피해를 1d10 더하기 숙련 보너스만큼 줄일 수 있습니다. 이 반응을 사용하려면 방패나 단순 또는 군용 무기를 들고 있어야 합니다."
+        },
+        "name": {
+          "en": null,
+          "ko": null
+        }
+      }
+    ],
+    "category": "fighting_style",
+    "id": "interception",
+    "name": {
+      "en": "Interception",
+      "ko": "차단"
+    },
+    "prerequisite": {
+      "level": 1,
+      "text": {
+        "en": "Fighting Style Feature",
+        "ko": "전투 스타일 특성"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": null,
+    "benefits": [
+      {
+        "description": {
+          "en": "When you hit with a ranged attack roll using a weapon that has the Thrown property, you gain a +2 bonus to the damage roll.",
+          "ko": "투척 속성이 있는 무기로 원거리 공격 굴림으로 명중시킬 때, 피해 굴림에 +2 보너스를 얻습니다."
+        },
+        "name": {
+          "en": null,
+          "ko": null
+        }
+      }
+    ],
+    "category": "fighting_style",
+    "id": "thrown_weapon_fighting",
+    "name": {
+      "en": "Thrown Weapon Fighting",
+      "ko": "투척 무기 전투"
+    },
+    "prerequisite": {
+      "level": 1,
+      "text": {
+        "en": "Fighting Style Feature",
+        "ko": "전투 스타일 특성"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": null,
+    "benefits": [
+      {
+        "description": {
+          "en": "When you hit with your Unarmed Strike and deal damage, you can deal Bludgeoning damage equal to 1d6 plus your Strength modifier instead of the normal damage of an Unarmed Strike. If you aren't holding any weapons or a Shield when you make the attack roll, the d6 becomes a d8. At the start of each of your turns, you can deal 1d4 Bludgeoning damage to one creature Grappled by you.",
+          "ko": "비무장 타격으로 명중시켜 피해를 줄 때, 비무장 타격의 일반 피해 대신 1d6 더하기 근력 수정치에 해당하는 타격 피해를 줄 수 있습니다. 공격 굴림을 할 때 무기나 방패를 들고 있지 않다면, d6가 d8이 됩니다. 매 턴 시작 시, 당신에게 붙잡힌 생명체 하나에게 1d4 타격 피해를 줄 수 있습니다."
+        },
+        "name": {
+          "en": null,
+          "ko": null
+        }
+      }
+    ],
+    "category": "fighting_style",
+    "id": "unarmed_fighting",
+    "name": {
+      "en": "Unarmed Fighting",
+      "ko": "비무장 전투"
+    },
+    "prerequisite": {
+      "level": 1,
+      "text": {
+        "en": "Fighting Style Feature",
+        "ko": "전투 스타일 특성"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 30,
+      "options": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase one ability score of your choice by 1, to a maximum of 30.",
+        "ko": "선택한 능력치 하나를 1 증가시킵니다(최대 30)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You gain Resistance to two of the following damage types of your choice: Acid, Cold, Fire, Lightning, Necrotic, Poison, Psychic, Radiant, or Thunder. Whenever you finish a Long Rest, you can change your choices.",
+          "ko": "다음 피해 유형 중 선택한 두 가지에 저항을 얻습니다: 산성, 냉기, 화염, 번개, 사령, 독, 심령, 광휘 또는 천둥. 긴 휴식을 마칠 때마다 선택을 변경할 수 있습니다."
+        },
+        "name": {
+          "en": "Energy Resistances",
+          "ko": "에너지 저항"
+        }
+      },
+      {
+        "description": {
+          "en": "When you take damage of one of the types chosen for the Energy Resistances benefit, you can take a Reaction to direct damage of the same type toward another creature you can see within 60 feet of yourself that isn't behind Total Cover. If you do so, that creature must succeed on a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus) or take damage equal to 2d12 plus your Constitution modifier.",
+          "ko": "에너지 저항 이점으로 선택한 유형의 피해를 받을 때, 반응을 사용하여 같은 유형의 피해를 완전한 엄폐물 뒤에 있지 않은 당신에게서 60피트 이내에 볼 수 있는 다른 생명체에게 향할 수 있습니다. 그렇게 하면, 그 생명체는 민첩 내성 굴림(DC 8 더하기 건강 수정치 더하기 숙련 보너스)에 성공하거나 2d12 더하기 건강 수정치만큼의 피해를 받습니다."
+        },
+        "name": {
+          "en": "Energy Redirection",
+          "ko": "에너지 전환"
+        }
+      }
+    ],
+    "category": "epic_boon",
+    "id": "boon_of_energy_resistance",
+    "name": {
+      "en": "Boon of Energy Resistance",
+      "ko": "에너지 저항의 축복"
+    },
+    "prerequisite": {
+      "level": 19,
+      "text": {
+        "en": "Level 19+",
+        "ko": "19레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 30,
+      "options": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase one ability score of your choice by 1, to a maximum of 30.",
+        "ko": "선택한 능력치 하나를 1 증가시킵니다(최대 30)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "Your Hit Point maximum increases by 40. In addition, whenever you regain Hit Points, you can regain additional Hit Points equal to your Constitution modifier. Once you've regained these additional Hit Points, you can't do so again until the start of your next turn.",
+          "ko": "최대 생명점이 40 증가합니다. 또한 생명점을 회복할 때마다, 건강 수정치와 같은 추가 생명점을 회복할 수 있습니다. 이 추가 생명점을 회복하면, 다음 턴 시작까지 다시 그렇게 할 수 없습니다."
+        },
+        "name": {
+          "en": "Fortified Health",
+          "ko": "강화된 건강"
+        }
+      }
+    ],
+    "category": "epic_boon",
+    "id": "boon_of_fortitude",
+    "name": {
+      "en": "Boon of Fortitude",
+      "ko": "불굴의 축복"
+    },
+    "prerequisite": {
+      "level": 19,
+      "text": {
+        "en": "Level 19+",
+        "ko": "19레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 30,
+      "options": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase one ability score of your choice by 1, to a maximum of 30.",
+        "ko": "선택한 능력치 하나를 1 증가시킵니다(최대 30)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "When you would be reduced to 0 Hit Points, you can drop to 1 Hit Point instead and regain a number of Hit Points equal to half your Hit Point maximum. Once you use this benefit, you can't use it again until you finish a Long Rest.",
+          "ko": "생명점이 0으로 줄어들 때, 대신 생명점 1로 떨어지고 최대 생명점의 절반과 같은 생명점을 회복할 수 있습니다. 이 이점을 사용하면, 긴 휴식을 마칠 때까지 다시 사용할 수 없습니다."
+        },
+        "name": {
+          "en": "Last Stand",
+          "ko": "최후의 저항"
+        }
+      },
+      {
+        "description": {
+          "en": "You have a pool of ten d10s. As a Bonus Action, you can expend dice from the pool, roll those dice, and regain a number of Hit Points equal to the roll's total. You regain all the expended dice when you finish a Long Rest.",
+          "ko": "열 개의 d10으로 구성된 풀을 가집니다. 보너스 행동으로 풀에서 주사위를 소모하고, 그 주사위를 굴려 굴림 합계와 같은 생명점을 회복할 수 있습니다. 긴 휴식을 마치면 소모한 주사위를 모두 회복합니다."
+        },
+        "name": {
+          "en": "Recover Vitality",
+          "ko": "활력 회복"
+        }
+      }
+    ],
+    "category": "epic_boon",
+    "id": "boon_of_recovery",
+    "name": {
+      "en": "Boon of Recovery",
+      "ko": "회복의 축복"
+    },
+    "prerequisite": {
+      "level": 19,
+      "text": {
+        "en": "Level 19+",
+        "ko": "19레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 30,
+      "options": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase one ability score of your choice by 1, to a maximum of 30.",
+        "ko": "선택한 능력치 하나를 1 증가시킵니다(최대 30)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "You gain proficiency in all skills.",
+          "ko": "모든 기술에 숙련을 얻습니다."
+        },
+        "name": {
+          "en": "All-Around Adept",
+          "ko": "전방위 숙달"
+        }
+      },
+      {
+        "description": {
+          "en": "Choose one skill in which you lack Expertise. You gain Expertise in that skill.",
+          "ko": "전문화가 없는 기술 하나를 선택합니다. 그 기술에 전문화를 얻습니다."
+        },
+        "name": {
+          "en": "Expertise",
+          "ko": "전문화"
+        }
+      }
+    ],
+    "category": "epic_boon",
+    "id": "boon_of_skill",
+    "name": {
+      "en": "Boon of Skill",
+      "ko": "기술의 축복"
+    },
+    "prerequisite": {
+      "level": 19,
+      "text": {
+        "en": "Level 19+",
+        "ko": "19레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  },
+  {
+    "abilityScoreIncrease": {
+      "amount": 1,
+      "maximum": 30,
+      "options": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "text": {
+        "en": "Increase one ability score of your choice by 1, to a maximum of 30.",
+        "ko": "선택한 능력치 하나를 1 증가시킵니다(최대 30)."
+      }
+    },
+    "benefits": [
+      {
+        "description": {
+          "en": "As a Bonus Action, you can take the Disengage action, which also ends the Grappled condition on you.",
+          "ko": "보너스 행동으로 이탈 행동을 취할 수 있으며, 이는 당신의 붙잡힘 상태도 종료시킵니다."
+        },
+        "name": {
+          "en": "Escape Artist",
+          "ko": "탈출 전문가"
+        }
+      },
+      {
+        "description": {
+          "en": "Your Speed increases by 30 feet.",
+          "ko": "속도가 30피트 증가합니다."
+        },
+        "name": {
+          "en": "Quickness",
+          "ko": "신속"
+        }
+      }
+    ],
+    "category": "epic_boon",
+    "id": "boon_of_speed",
+    "name": {
+      "en": "Boon of Speed",
+      "ko": "속도의 축복"
+    },
+    "prerequisite": {
+      "level": 19,
+      "text": {
+        "en": "Level 19+",
+        "ko": "19레벨 이상"
+      }
+    },
+    "repeatable": false,
+    "source": "PHB 2024"
+  }
+]

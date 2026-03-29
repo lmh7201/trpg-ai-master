@@ -1,0 +1,1238 @@
+[
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "1 SP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "club",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Club",
+      "ko": "곤봉"
+    },
+    "properties": {
+      "en": [
+        "Light"
+      ],
+      "ko": [
+        "경량"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "2 GP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "dagger",
+    "mastery": {
+      "en": "Nick",
+      "ko": "베기"
+    },
+    "name": {
+      "en": "Dagger",
+      "ko": "단검"
+    },
+    "properties": {
+      "en": [
+        "Finesse",
+        "Light",
+        "Thrown (Range 20/60)"
+      ],
+      "ko": [
+        "기교",
+        "경량",
+        "투척 (사거리 20/60)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "1 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "2 SP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "greatclub",
+    "mastery": {
+      "en": "Push",
+      "ko": "밀어내기"
+    },
+    "name": {
+      "en": "Greatclub",
+      "ko": "대곤봉"
+    },
+    "properties": {
+      "en": [
+        "Two-Handed"
+      ],
+      "ko": [
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "10 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "5 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "handaxe",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Handaxe",
+      "ko": "손도끼"
+    },
+    "properties": {
+      "en": [
+        "Light",
+        "Thrown (Range 20/60)"
+      ],
+      "ko": [
+        "경량",
+        "투척 (사거리 20/60)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "5 SP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "javelin",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Javelin",
+      "ko": "투창"
+    },
+    "properties": {
+      "en": [
+        "Thrown (Range 30/120)"
+      ],
+      "ko": [
+        "투척 (사거리 30/120)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "2 GP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "light-hammer",
+    "mastery": {
+      "en": "Nick",
+      "ko": "베기"
+    },
+    "name": {
+      "en": "Light Hammer",
+      "ko": "경량 해머"
+    },
+    "properties": {
+      "en": [
+        "Light",
+        "Thrown (Range 20/60)"
+      ],
+      "ko": [
+        "경량",
+        "투척 (사거리 20/60)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "5 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "mace",
+    "mastery": {
+      "en": "Sap",
+      "ko": "약화"
+    },
+    "name": {
+      "en": "Mace",
+      "ko": "철퇴"
+    },
+    "properties": {
+      "en": [],
+      "ko": []
+    },
+    "source": "SRD 5.2",
+    "weight": "4 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "2 SP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "quarterstaff",
+    "mastery": {
+      "en": "Topple",
+      "ko": "넘어뜨리기"
+    },
+    "name": {
+      "en": "Quarterstaff",
+      "ko": "육척봉"
+    },
+    "properties": {
+      "en": [
+        "Versatile (1d8)"
+      ],
+      "ko": [
+        "다용도 (1d8)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "4 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "1 GP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "sickle",
+    "mastery": {
+      "en": "Nick",
+      "ko": "베기"
+    },
+    "name": {
+      "en": "Sickle",
+      "ko": "낫"
+    },
+    "properties": {
+      "en": [
+        "Light"
+      ],
+      "ko": [
+        "경량"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Melee",
+      "ko": "단순 근접"
+    },
+    "cost": "1 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "spear",
+    "mastery": {
+      "en": "Sap",
+      "ko": "약화"
+    },
+    "name": {
+      "en": "Spear",
+      "ko": "창"
+    },
+    "properties": {
+      "en": [
+        "Thrown (Range 20/60)",
+        "Versatile (1d8)"
+      ],
+      "ko": [
+        "투척 (사거리 20/60)",
+        "다용도 (1d8)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "3 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Ranged",
+      "ko": "단순 원거리"
+    },
+    "cost": "25 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "light-crossbow",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Light Crossbow",
+      "ko": "경량 석궁"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 80/320)",
+        "Loading",
+        "Two-Handed"
+      ],
+      "ko": [
+        "탄약 (사거리 80/320)",
+        "장전",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "5 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Ranged",
+      "ko": "단순 원거리"
+    },
+    "cost": "5 CP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "dart",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Dart",
+      "ko": "다트"
+    },
+    "properties": {
+      "en": [
+        "Finesse",
+        "Thrown (Range 20/60)"
+      ],
+      "ko": [
+        "기교",
+        "투척 (사거리 20/60)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "1/4 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Ranged",
+      "ko": "단순 원거리"
+    },
+    "cost": "25 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "shortbow",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Shortbow",
+      "ko": "단궁"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 80/320)",
+        "Two-Handed"
+      ],
+      "ko": [
+        "탄약 (사거리 80/320)",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Simple Ranged",
+      "ko": "단순 원거리"
+    },
+    "cost": "1 SP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "sling",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Sling",
+      "ko": "투석구"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 30/120)"
+      ],
+      "ko": [
+        "탄약 (사거리 30/120)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "—"
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "10 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "battleaxe",
+    "mastery": {
+      "en": "Topple",
+      "ko": "넘어뜨리기"
+    },
+    "name": {
+      "en": "Battleaxe",
+      "ko": "전투도끼"
+    },
+    "properties": {
+      "en": [
+        "Versatile (1d10)"
+      ],
+      "ko": [
+        "다용도 (1d10)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "4 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "10 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "flail",
+    "mastery": {
+      "en": "Sap",
+      "ko": "약화"
+    },
+    "name": {
+      "en": "Flail",
+      "ko": "도리깨"
+    },
+    "properties": {
+      "en": [],
+      "ko": []
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "20 GP",
+    "damage": "1d10",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "glaive",
+    "mastery": {
+      "en": "Graze",
+      "ko": "스침"
+    },
+    "name": {
+      "en": "Glaive",
+      "ko": "글레이브"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "ko": [
+        "무거움",
+        "장거리",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "6 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "30 GP",
+    "damage": "1d12",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "greataxe",
+    "mastery": {
+      "en": "Cleave",
+      "ko": "절단"
+    },
+    "name": {
+      "en": "Greataxe",
+      "ko": "대도끼"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "ko": [
+        "무거움",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "7 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "50 GP",
+    "damage": "2d6",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "greatsword",
+    "mastery": {
+      "en": "Graze",
+      "ko": "스침"
+    },
+    "name": {
+      "en": "Greatsword",
+      "ko": "대검"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "ko": [
+        "무거움",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "6 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "20 GP",
+    "damage": "1d10",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "halberd",
+    "mastery": {
+      "en": "Cleave",
+      "ko": "절단"
+    },
+    "name": {
+      "en": "Halberd",
+      "ko": "할버드"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "ko": [
+        "무거움",
+        "장거리",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "6 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "10 GP",
+    "damage": "1d10",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "lance",
+    "mastery": {
+      "en": "Topple",
+      "ko": "넘어뜨리기"
+    },
+    "name": {
+      "en": "Lance",
+      "ko": "랜스"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Reach",
+        "Two-Handed (unless mounted)"
+      ],
+      "ko": [
+        "무거움",
+        "장거리",
+        "양손 (기승 시 제외)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "6 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "15 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "longsword",
+    "mastery": {
+      "en": "Sap",
+      "ko": "약화"
+    },
+    "name": {
+      "en": "Longsword",
+      "ko": "장검"
+    },
+    "properties": {
+      "en": [
+        "Versatile (1d10)"
+      ],
+      "ko": [
+        "다용도 (1d10)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "3 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "10 GP",
+    "damage": "2d6",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "maul",
+    "mastery": {
+      "en": "Topple",
+      "ko": "넘어뜨리기"
+    },
+    "name": {
+      "en": "Maul",
+      "ko": "몰"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Two-Handed"
+      ],
+      "ko": [
+        "무거움",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "10 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "15 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "morningstar",
+    "mastery": {
+      "en": "Sap",
+      "ko": "약화"
+    },
+    "name": {
+      "en": "Morningstar",
+      "ko": "모닝스타"
+    },
+    "properties": {
+      "en": [],
+      "ko": []
+    },
+    "source": "SRD 5.2",
+    "weight": "4 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "5 GP",
+    "damage": "1d10",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "pike",
+    "mastery": {
+      "en": "Push",
+      "ko": "밀어내기"
+    },
+    "name": {
+      "en": "Pike",
+      "ko": "파이크"
+    },
+    "properties": {
+      "en": [
+        "Heavy",
+        "Reach",
+        "Two-Handed"
+      ],
+      "ko": [
+        "무거움",
+        "장거리",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "18 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "25 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "rapier",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Rapier",
+      "ko": "레이피어"
+    },
+    "properties": {
+      "en": [
+        "Finesse"
+      ],
+      "ko": [
+        "기교"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "25 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "scimitar",
+    "mastery": {
+      "en": "Nick",
+      "ko": "베기"
+    },
+    "name": {
+      "en": "Scimitar",
+      "ko": "시미터"
+    },
+    "properties": {
+      "en": [
+        "Finesse",
+        "Light"
+      ],
+      "ko": [
+        "기교",
+        "경량"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "3 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "10 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "shortsword",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Shortsword",
+      "ko": "쇼트소드"
+    },
+    "properties": {
+      "en": [
+        "Finesse",
+        "Light"
+      ],
+      "ko": [
+        "기교",
+        "경량"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "5 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "trident",
+    "mastery": {
+      "en": "Topple",
+      "ko": "넘어뜨리기"
+    },
+    "name": {
+      "en": "Trident",
+      "ko": "삼지창"
+    },
+    "properties": {
+      "en": [
+        "Thrown (Range 20/60)",
+        "Versatile (1d10)"
+      ],
+      "ko": [
+        "투척 (사거리 20/60)",
+        "다용도 (1d10)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "4 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "15 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Bludgeoning",
+      "ko": "타격"
+    },
+    "id": "warhammer",
+    "mastery": {
+      "en": "Push",
+      "ko": "밀어내기"
+    },
+    "name": {
+      "en": "Warhammer",
+      "ko": "워해머"
+    },
+    "properties": {
+      "en": [
+        "Versatile (1d10)"
+      ],
+      "ko": [
+        "다용도 (1d10)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "5 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "war-pick",
+    "mastery": {
+      "en": "Sap",
+      "ko": "약화"
+    },
+    "name": {
+      "en": "War Pick",
+      "ko": "워 픽"
+    },
+    "properties": {
+      "en": [
+        "Versatile (1d10)"
+      ],
+      "ko": [
+        "다용도 (1d10)"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Melee",
+      "ko": "군용 근접"
+    },
+    "cost": "2 GP",
+    "damage": "1d4",
+    "damageType": {
+      "en": "Slashing",
+      "ko": "참격"
+    },
+    "id": "whip",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Whip",
+      "ko": "채찍"
+    },
+    "properties": {
+      "en": [
+        "Finesse",
+        "Reach"
+      ],
+      "ko": [
+        "기교",
+        "장거리"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "3 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Ranged",
+      "ko": "군용 원거리"
+    },
+    "cost": "10 GP",
+    "damage": "1",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "blowgun",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Blowgun",
+      "ko": "바람총"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 25/100)",
+        "Loading"
+      ],
+      "ko": [
+        "탄약 (사거리 25/100)",
+        "장전"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "1 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Ranged",
+      "ko": "군용 원거리"
+    },
+    "cost": "75 GP",
+    "damage": "1d6",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "hand-crossbow",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Hand Crossbow",
+      "ko": "손 석궁"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 30/120)",
+        "Light",
+        "Loading"
+      ],
+      "ko": [
+        "탄약 (사거리 30/120)",
+        "경량",
+        "장전"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "3 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Ranged",
+      "ko": "군용 원거리"
+    },
+    "cost": "50 GP",
+    "damage": "1d10",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "heavy-crossbow",
+    "mastery": {
+      "en": "Push",
+      "ko": "밀어내기"
+    },
+    "name": {
+      "en": "Heavy Crossbow",
+      "ko": "중석궁"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 100/400)",
+        "Heavy",
+        "Loading",
+        "Two-Handed"
+      ],
+      "ko": [
+        "탄약 (사거리 100/400)",
+        "무거움",
+        "장전",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "18 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Ranged",
+      "ko": "군용 원거리"
+    },
+    "cost": "50 GP",
+    "damage": "1d8",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "longbow",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Longbow",
+      "ko": "장궁"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 150/600)",
+        "Heavy",
+        "Two-Handed"
+      ],
+      "ko": [
+        "탄약 (사거리 150/600)",
+        "무거움",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "2 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Ranged",
+      "ko": "군용 원거리"
+    },
+    "cost": "500 GP",
+    "damage": "1d12",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "musket",
+    "mastery": {
+      "en": "Slow",
+      "ko": "감속"
+    },
+    "name": {
+      "en": "Musket",
+      "ko": "머스켓"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 40/120)",
+        "Loading",
+        "Two-Handed"
+      ],
+      "ko": [
+        "탄약 (사거리 40/120)",
+        "장전",
+        "양손"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "10 lb."
+  },
+  {
+    "category": {
+      "en": "Martial Ranged",
+      "ko": "군용 원거리"
+    },
+    "cost": "250 GP",
+    "damage": "1d10",
+    "damageType": {
+      "en": "Piercing",
+      "ko": "관통"
+    },
+    "id": "pistol",
+    "mastery": {
+      "en": "Vex",
+      "ko": "교란"
+    },
+    "name": {
+      "en": "Pistol",
+      "ko": "권총"
+    },
+    "properties": {
+      "en": [
+        "Ammunition (Range 30/90)",
+        "Loading"
+      ],
+      "ko": [
+        "탄약 (사거리 30/90)",
+        "장전"
+      ]
+    },
+    "source": "SRD 5.2",
+    "weight": "3 lb."
+  }
+]

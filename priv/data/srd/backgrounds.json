@@ -1,0 +1,222 @@
+[
+  {
+    "abilityScores": {
+      "en": [
+        "Intelligence",
+        "Wisdom",
+        "Charisma"
+      ],
+      "ko": [
+        "지능",
+        "지혜",
+        "매력"
+      ]
+    },
+    "description": {
+      "en": "You devoted yourself to service in a temple, either nestled in a town or secluded in a sacred grove. There you performed hallowed rites in honor of a god or pantheon. You served under a priest and studied religion. Thanks to your priest's instruction and your own devotion, you also learned how to channel a modicum of divine power in service to your place of worship and the people who prayed there.",
+      "ko": "당신은 마을에 자리 잡은 사원이나 신성한 숲에 은둔한 성소에서 봉사하는 삶에 헌신했습니다. 그곳에서 당신은 신이나 신들의 판테온을 기리는 신성한 의식을 거행했습니다. 사제 밑에서 봉사하며 종교를 공부했습니다. 사제의 가르침과 당신 자신의 헌신 덕분에, 당신은 예배 장소와 그곳에서 기도하는 사람들을 위해 약간의 신성한 힘을 사용하는 방법도 배웠습니다."
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP",
+        "ko": "서예 도구, 책 (기도문), 성물, 양피지 (10장), 로브, 8 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "feat": {
+      "name": {
+        "en": "Magic Initiate (Cleric)",
+        "ko": "마법 입문자 (클레릭)"
+      },
+      "reference": "chapter 5"
+    },
+    "id": "acolyte",
+    "name": {
+      "en": "Acolyte",
+      "ko": "수행사제"
+    },
+    "skillProficiencies": {
+      "en": [
+        "Insight",
+        "Religion"
+      ],
+      "ko": [
+        "통찰",
+        "종교"
+      ]
+    },
+    "source": "SRD 5.2",
+    "toolProficiency": {
+      "en": "Calligrapher's Supplies",
+      "ko": "서예 도구"
+    }
+  },
+  {
+    "abilityScores": {
+      "en": [
+        "Dexterity",
+        "Constitution",
+        "Intelligence"
+      ],
+      "ko": [
+        "민첩",
+        "건강",
+        "지능"
+      ]
+    },
+    "description": {
+      "en": "You eked out a living in dark alleyways, cutting purses or burgling shops. Perhaps you were part of a small gang of like-minded criminals who looked out for each other. Or maybe you were a lone wolf, fending for yourself against the local thieves' guild and more fearsome predators of the city's seedy underbelly.",
+      "ko": "당신은 어두운 골목에서 지갑을 털거나 가게에 침입하며 근근이 생계를 유지했습니다. 어쩌면 당신은 서로를 돌봐주는 비슷한 성향의 범죄자들로 이루어진 작은 갱단의 일원이었을 수도 있습니다. 아니면 외로운 늑대처럼 혼자서 지역 도둑 길드와 도시 뒷골목의 더 무서운 포식자들에 맞서 살아남았을 수도 있습니다."
+    },
+    "equipment": {
+      "optionA": {
+        "en": "2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes, 16 GP",
+        "ko": "단검 2개, 도둑 도구, 쇠지렛대, 주머니 2개, 여행자의 옷, 16 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "feat": {
+      "name": {
+        "en": "Alert",
+        "ko": "경계"
+      },
+      "reference": "chapter 5"
+    },
+    "id": "criminal",
+    "name": {
+      "en": "Criminal",
+      "ko": "범죄자"
+    },
+    "skillProficiencies": {
+      "en": [
+        "Sleight of Hand",
+        "Stealth"
+      ],
+      "ko": [
+        "손재주",
+        "은신"
+      ]
+    },
+    "source": "SRD 5.2",
+    "toolProficiency": {
+      "en": "Thieves' Tools",
+      "ko": "도둑 도구"
+    }
+  },
+  {
+    "abilityScores": {
+      "en": [
+        "Constitution",
+        "Intelligence",
+        "Wisdom"
+      ],
+      "ko": [
+        "건강",
+        "지능",
+        "지혜"
+      ]
+    },
+    "description": {
+      "en": "You spent your formative years traveling between manors and monasteries, performing odd jobs and errands in exchange for access to their libraries. You whiled away many a long night in dusty vaults cataloging ancient tomes, and now you've heard rumors of an even greater prize: a library of secrets forgotten by mortal minds, hidden somewhere in the multiverse.",
+      "ko": "당신은 형성기 시절을 영주 저택과 수도원 사이를 여행하며, 도서관 이용을 대가로 잡일과 심부름을 수행하며 보냈습니다. 먼지 쌓인 금고에서 고대 서적을 목록화하며 많은 긴 밤을 보냈고, 이제 더 큰 보물에 대한 소문을 들었습니다: 인간의 기억에서 잊혀진 비밀의 도서관이 다중우주 어딘가에 숨겨져 있다는 것입니다."
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Calligrapher's Supplies, Book (history), Parchment (8 sheets), Quarterstaff, Robe, 8 GP",
+        "ko": "서예 도구, 책 (역사), 양피지 (8장), 쿼터스태프, 로브, 8 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "feat": {
+      "name": {
+        "en": "Magic Initiate (Wizard)",
+        "ko": "마법 입문자 (위자드)"
+      },
+      "reference": "chapter 5"
+    },
+    "id": "sage",
+    "name": {
+      "en": "Sage",
+      "ko": "현자"
+    },
+    "skillProficiencies": {
+      "en": [
+        "Arcana",
+        "History"
+      ],
+      "ko": [
+        "비전학",
+        "역사"
+      ]
+    },
+    "source": "SRD 5.2",
+    "toolProficiency": {
+      "en": "Calligrapher's Supplies",
+      "ko": "서예 도구"
+    }
+  },
+  {
+    "abilityScores": {
+      "en": [
+        "Strength",
+        "Dexterity",
+        "Constitution"
+      ],
+      "ko": [
+        "근력",
+        "민첩",
+        "건강"
+      ]
+    },
+    "description": {
+      "en": "You began training for war as a youth, whetheryou squired for a knight, enrolled in a military academy, or simply enlisted in the local militia. Training was hard, and some of your comrades didn't survive it. But you did, and you've got the scars to prove it. Now, having survived your first few battles, you're ready to face whatever new dangers the world throws at you.",
+      "ko": "당신은 젊은 시절부터 전쟁을 위한 훈련을 시작했습니다. 기사의 종자로 일했든, 사관학교에 입학했든, 단순히 지역 민병대에 입대했든 말입니다. 훈련은 힘들었고, 동료 중 일부는 살아남지 못했습니다. 하지만 당신은 살아남았고, 그것을 증명할 흉터가 있습니다. 이제 첫 몇 번의 전투를 살아남은 당신은 세상이 던지는 어떤 새로운 위험도 마주할 준비가 되어 있습니다."
+    },
+    "equipment": {
+      "optionA": {
+        "en": "Gaming Set (same as above), Arrows (20), Healer's Kit, Light Crossbow, Quiver, Spear, Traveler's Clothes, 14 GP",
+        "ko": "게임 도구 (위와 동일), 화살 (20개), 치료 도구, 경석궁, 화살통, 창, 여행자의 옷, 14 GP"
+      },
+      "optionB": {
+        "en": "50 GP",
+        "ko": "50 GP"
+      }
+    },
+    "feat": {
+      "name": {
+        "en": "Savage Attacker",
+        "ko": "야만적 공격자"
+      },
+      "reference": "chapter 5"
+    },
+    "id": "soldier",
+    "name": {
+      "en": "Soldier",
+      "ko": "병사"
+    },
+    "skillProficiencies": {
+      "en": [
+        "Athletics",
+        "Intimidation"
+      ],
+      "ko": [
+        "운동",
+        "위협"
+      ]
+    },
+    "source": "SRD 5.2",
+    "toolProficiency": {
+      "en": "Choose one kind of Gaming Set",
+      "ko": "게임 도구 중 1종 선택"
+    }
+  }
+]

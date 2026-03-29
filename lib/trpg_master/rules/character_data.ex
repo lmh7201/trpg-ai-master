@@ -145,7 +145,8 @@ defmodule TrpgMaster.Rules.CharacterData do
     {:weapons, "weapons.json"},
     {:armor, "armor.json"},
     {:adventuring_gear, "adventuringGear.json"},
-    {:tools, "tools.json"}
+    {:tools, "tools.json"},
+    {:monsters, "monsters.json"}
   ]
 
   # ── Public API ──────────────────────────────────────────────────────────────
@@ -166,6 +167,7 @@ defmodule TrpgMaster.Rules.CharacterData do
   def armor, do: get(:armor, [])
   def adventuring_gear, do: get(:adventuring_gear, [])
   def tools, do: get(:tools, [])
+  def monsters, do: get(:monsters, [])
 
   @doc "SRD only 모드 여부 (기본값: true)"
   def srd_only?, do: Application.get_env(:trpg_master, :srd_only, true)
@@ -658,29 +660,67 @@ defmodule TrpgMaster.Rules.CharacterData do
   end
 
   defp load_from_local do
+    Logger.info("CharacterData: priv/data/srd/ 에서 로드 시작")
+
     for {key, file} <- @data_mappings do
-      load_local_file(key, file)
+      load_local_file(key, Path.join("srd", file), :replace)
+    end
+
+    unless srd_only?() do
+      Logger.info("CharacterData: srd_only=false → priv/data/phb/ 데이터 병합")
+
+      for {key, file} <- @data_mappings do
+        load_local_file(key, Path.join("phb", file), :merge)
+      end
     end
   end
 
+  # GitHub fetch 실패 시 폴백 — srd/ 로드 후 srd_only=false면 phb/ 병합
   defp load_local_file(key, file) do
-    path = Application.app_dir(:trpg_master, Path.join("priv/data", file))
+    load_local_file(key, Path.join("srd", file), :replace)
+
+    unless srd_only?() do
+      load_local_file(key, Path.join("phb", file), :merge)
+    end
+  end
+
+  defp load_local_file(key, relative_path, mode) do
+    path = Application.app_dir(:trpg_master, Path.join("priv/data", relative_path))
 
     case File.read(path) do
       {:ok, content} ->
         case Jason.decode(content) do
-          {:ok, data} ->
+          {:ok, new_data} ->
+            data =
+              case mode do
+                :replace ->
+                  new_data
+
+                :merge ->
+                  existing = get(key, nil)
+                  merge_data(existing, new_data)
+              end
+
             :ets.insert(@table, {key, data})
-            Logger.info("CharacterData: [로컬] #{file} → #{data_count(data)}건")
+            Logger.info("CharacterData: [로컬/#{mode}] #{relative_path} → #{data_count(new_data)}건")
 
           {:error, reason} ->
-            Logger.warning("CharacterData: JSON 파싱 실패 — #{file}: #{inspect(reason)}")
+            Logger.warning("CharacterData: JSON 파싱 실패 — #{relative_path}: #{inspect(reason)}")
         end
 
+      {:error, :enoent} ->
+        # PHB 전용 파일이 없는 것은 정상
+        :ok
+
       {:error, reason} ->
-        Logger.warning("CharacterData: 파일 읽기 실패 — #{file}: #{inspect(reason)}")
+        Logger.warning("CharacterData: 파일 읽기 실패 — #{relative_path}: #{inspect(reason)}")
     end
   end
+
+  defp merge_data(nil, new_data), do: new_data
+  defp merge_data(existing, new_data) when is_list(existing) and is_list(new_data), do: existing ++ new_data
+  defp merge_data(existing, new_data) when is_map(existing) and is_map(new_data), do: Map.merge(existing, new_data)
+  defp merge_data(_existing, new_data), do: new_data
 
   # ── GitHub HTTP fetch ──────────────────────────────────────────────────────
 

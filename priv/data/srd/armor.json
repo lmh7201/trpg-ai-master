@@ -1,0 +1,366 @@
+[
+  {
+    "ac": {
+      "en": "11 + Dex modifier",
+      "ko": "11 + 민첩 수정치"
+    },
+    "category": "Light",
+    "cost": "5 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "id": "padded-armor",
+    "name": {
+      "en": "Padded Armor",
+      "ko": "솜갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "8 lb."
+  },
+  {
+    "ac": {
+      "en": "11 + Dex modifier",
+      "ko": "11 + 민첩 수정치"
+    },
+    "category": "Light",
+    "cost": "10 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "id": "leather-armor",
+    "name": {
+      "en": "Leather Armor",
+      "ko": "가죽 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": null,
+      "ko": null
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "10 lb."
+  },
+  {
+    "ac": {
+      "en": "12 + Dex modifier",
+      "ko": "12 + 민첩 수정치"
+    },
+    "category": "Light",
+    "cost": "45 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "id": "studded-leather",
+    "name": {
+      "en": "Studded Leather Armor",
+      "ko": "스터드 가죽 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": null,
+      "ko": null
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "13 lb."
+  },
+  {
+    "ac": {
+      "en": "12 + Dex modifier (max 2)",
+      "ko": "12 + 민첩 수정치 (최대 2)"
+    },
+    "category": "Medium",
+    "cost": "10 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "id": "hide-armor",
+    "name": {
+      "en": "Hide Armor",
+      "ko": "짐승가죽 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": null,
+      "ko": null
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "12 lb."
+  },
+  {
+    "ac": {
+      "en": "13 + Dex modifier (max 2)",
+      "ko": "13 + 민첩 수정치 (최대 2)"
+    },
+    "category": "Medium",
+    "cost": "50 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "id": "chain-shirt",
+    "name": {
+      "en": "Chain Shirt",
+      "ko": "사슬 셔츠"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": null,
+      "ko": null
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "20 lb."
+  },
+  {
+    "ac": {
+      "en": "14 + Dex modifier (max 2)",
+      "ko": "14 + 민첩 수정치 (최대 2)"
+    },
+    "category": "Medium",
+    "cost": "50 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "id": "scale-mail",
+    "name": {
+      "en": "Scale Mail",
+      "ko": "비늘 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "45 lb."
+  },
+  {
+    "ac": {
+      "en": "14 + Dex modifier (max 2)",
+      "ko": "14 + 민첩 수정치 (최대 2)"
+    },
+    "category": "Medium",
+    "cost": "400 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "id": "breastplate",
+    "name": {
+      "en": "Breastplate",
+      "ko": "흉갑"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": null,
+      "ko": null
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "20 lb."
+  },
+  {
+    "ac": {
+      "en": "15 + Dex modifier (max 2)",
+      "ko": "15 + 민첩 수정치 (최대 2)"
+    },
+    "category": "Medium",
+    "cost": "750 GP",
+    "doffTime": {
+      "en": "1 Minute",
+      "ko": "1분"
+    },
+    "donTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "id": "half-plate",
+    "name": {
+      "en": "Half Plate Armor",
+      "ko": "하프 플레이트"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "40 lb."
+  },
+  {
+    "ac": {
+      "en": "14",
+      "ko": "14"
+    },
+    "category": "Heavy",
+    "cost": "30 GP",
+    "doffTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "donTime": {
+      "en": "10 Minutes",
+      "ko": "10분"
+    },
+    "id": "ring-mail",
+    "name": {
+      "en": "Ring Mail",
+      "ko": "링 메일"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": null,
+    "type": "armor",
+    "weight": "40 lb."
+  },
+  {
+    "ac": {
+      "en": "16",
+      "ko": "16"
+    },
+    "category": "Heavy",
+    "cost": "75 GP",
+    "doffTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "donTime": {
+      "en": "10 Minutes",
+      "ko": "10분"
+    },
+    "id": "chain-mail",
+    "name": {
+      "en": "Chain Mail",
+      "ko": "사슬 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": "Str 13",
+    "type": "armor",
+    "weight": "55 lb."
+  },
+  {
+    "ac": {
+      "en": "17",
+      "ko": "17"
+    },
+    "category": "Heavy",
+    "cost": "200 GP",
+    "doffTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "donTime": {
+      "en": "10 Minutes",
+      "ko": "10분"
+    },
+    "id": "splint-armor",
+    "name": {
+      "en": "Splint Armor",
+      "ko": "스플린트 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": "Str 15",
+    "type": "armor",
+    "weight": "60 lb."
+  },
+  {
+    "ac": {
+      "en": "18",
+      "ko": "18"
+    },
+    "category": "Heavy",
+    "cost": "1,500 GP",
+    "doffTime": {
+      "en": "5 Minutes",
+      "ko": "5분"
+    },
+    "donTime": {
+      "en": "10 Minutes",
+      "ko": "10분"
+    },
+    "id": "plate-armor",
+    "name": {
+      "en": "Plate Armor",
+      "ko": "판금 갑옷"
+    },
+    "source": "SRD 5.2",
+    "stealth": {
+      "en": "Disadvantage",
+      "ko": "불리"
+    },
+    "strength": "Str 15",
+    "type": "armor",
+    "weight": "65 lb."
+  },
+  {
+    "category": null,
+    "cost": "10 GP",
+    "donAction": {
+      "en": "Utilize",
+      "ko": "활용"
+    },
+    "id": "shield",
+    "name": {
+      "en": "Shield",
+      "ko": "방패"
+    },
+    "source": "SRD 5.2",
+    "type": "shield",
+    "weight": "6 lb."
+  }
+]
