@@ -926,6 +926,7 @@ defmodule TrpgMaster.AI.Tools do
       "startingEquipment", "becomingThisClass",
       "classTableGroups", "levelFeatures"
     ])
+    |> flatten_ko()
   end
 
   # 몬스터 데이터는 전투에 필요한 필드 위주로 반환
@@ -941,6 +942,7 @@ defmodule TrpgMaster.AI.Tools do
       "senses", "languages",
       "skillProficiencies"
     ])
+    |> flatten_ko()
   end
 
   # 룰 문서는 sections 안의 content가 매우 클 수 있으므로 상위 구조만 반환
@@ -969,18 +971,39 @@ defmodule TrpgMaster.AI.Tools do
       end)
 
     Map.put(entry, "sections", compact_sections)
+    |> flatten_ko()
   end
 
   # 주문 데이터: 소마법(cantrip) 여부를 명시적으로 안내
   defp compact_entry(:spell, entry) when is_map(entry) do
-    case entry["level"] do
+    result = case entry["level"] do
       0 -> Map.put(entry, "note", "이 주문은 소마법(cantrip)입니다. 주문 슬롯을 소모하지 않습니다.")
       _ -> entry
     end
+
+    flatten_ko(result)
   end
 
-  # 기타 타입은 그대로 반환
-  defp compact_entry(_type, entry), do: entry
+  # 기타 타입도 한국어 flatten 적용
+  defp compact_entry(_type, entry), do: flatten_ko(entry)
+
+  # ── 이중 언어 필드 flatten ────────────────────────────────────────────────
+
+  # {"ko": "화염구", "en": "Fireball"} → "화염구" (ko 우선, en 폴백)
+  # 맵/리스트를 재귀적으로 순회하여 모든 {ko, en} 객체를 flatten한다.
+  defp flatten_ko(%{"ko" => ko, "en" => _} = map) when map_size(map) == 2, do: ko
+  defp flatten_ko(%{"ko" => ko} = map) when map_size(map) == 1, do: ko
+  defp flatten_ko(%{"en" => en} = map) when map_size(map) == 1, do: en
+
+  defp flatten_ko(map) when is_map(map) do
+    Map.new(map, fn {k, v} -> {k, flatten_ko(v)} end)
+  end
+
+  defp flatten_ko(list) when is_list(list) do
+    Enum.map(list, &flatten_ko/1)
+  end
+
+  defp flatten_ko(other), do: other
 
   defp format_tool_result(result) do
     formatted = Roller.format_result(result)
