@@ -974,18 +974,45 @@ defmodule TrpgMaster.AI.Tools do
     |> flatten_ko()
   end
 
-  # 주문 데이터: 소마법(cantrip) 여부를 명시적으로 안내
+  # 주문 데이터: 불필요 필드 제거 + 소마법 표시
   defp compact_entry(:spell, entry) when is_map(entry) do
-    result = case entry["level"] do
-      0 -> Map.put(entry, "note", "이 주문은 소마법(cantrip)입니다. 주문 슬롯을 소모하지 않습니다.")
-      _ -> entry
+    result =
+      entry
+      |> Map.drop(["source"])
+      |> maybe_drop_empty("castingTimeDetails")
+      |> maybe_drop_false("isRitual")
+      |> maybe_drop_false("concentration")
+
+    result = case result["level"] do
+      0 -> Map.put(result, "note", "이 주문은 소마법(cantrip)입니다. 주문 슬롯을 소모하지 않습니다.")
+      _ -> result
     end
 
     flatten_ko(result)
   end
 
+  # 아이템 데이터: source 제거
+  defp compact_entry(:item, entry) do
+    entry
+    |> Map.drop(["source"])
+    |> flatten_ko()
+  end
+
   # 기타 타입도 한국어 flatten 적용
   defp compact_entry(_type, entry), do: flatten_ko(entry)
+
+  defp maybe_drop_empty(map, key) do
+    case Map.get(map, key) do
+      %{"ko" => "", "en" => ""} -> Map.delete(map, key)
+      "" -> Map.delete(map, key)
+      nil -> Map.delete(map, key)
+      _ -> map
+    end
+  end
+
+  defp maybe_drop_false(map, key) do
+    if Map.get(map, key) == false, do: Map.delete(map, key), else: map
+  end
 
   # ── 이중 언어 필드 flatten ────────────────────────────────────────────────
 
