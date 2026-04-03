@@ -280,7 +280,7 @@ defmodule TrpgMaster.Campaign.Server do
   defp handle_enemy_group_turns(state, results, [], tools, model_opts) do
     # 모든 적 그룹 처리 완료 → 라운드 정리 API 호출
     round_trigger = "이번 라운드가 끝났습니다. 라운드를 정리하고 플레이어에게 다음 행동을 물어보세요."
-    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => round_trigger}]}
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => round_trigger, "synthetic" => true}]}
 
     system_prompt = PromptBuilder.build(state, combat_phase: :round_summary)
     trimmed_history = PromptBuilder.build_turn_messages(state, round_trigger)
@@ -342,7 +342,7 @@ defmodule TrpgMaster.Campaign.Server do
     combat_phase = {:enemy_turn, enemy_name, is_last_group}
 
     # 트리거 메시지를 combat_history에 user 메시지로 저장 (라운드 전체 히스토리 유지)
-    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => trigger_msg}]}
+    state = %{state | combat_history: state.combat_history ++ [%{"role" => "user", "content" => trigger_msg, "synthetic" => true}]}
 
     system_prompt = PromptBuilder.build(state, combat_phase: combat_phase)
     trimmed_history = PromptBuilder.build_turn_messages(state, trigger_msg, combat_phase: combat_phase)

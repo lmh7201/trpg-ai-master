@@ -704,6 +704,9 @@ defmodule TrpgMasterWeb.CampaignLive do
     conversation_history
     |> Enum.reduce([], fn msg, acc ->
       case msg do
+        %{"role" => "user", "synthetic" => true} ->
+          acc
+
         %{"role" => "user", "content" => content} when is_binary(content) ->
           acc ++ [%{type: :player, text: content}]
 
