@@ -219,7 +219,10 @@ defmodule TrpgMaster.AI.PromptBuilder do
     # 현재 라운드의 모든 메시지 (current_round_start_index부터 끝까지)
     # 플레이어 액션, 적 턴 트리거, 라운드 정리 트리거 모두 포함
     # 이전 라운드들은 combat_history_summary가 시스템 프롬프트에서 커버
-    current_round_msgs = Enum.drop(state.combat_history, state.current_round_start_index)
+    current_round_msgs =
+      state.combat_history
+      |> Enum.drop(state.current_round_start_index)
+      |> Enum.map(&Map.delete(&1, "synthetic"))
 
     ensure_valid_turn_order(exploration_recent) ++ current_round_msgs
   end
