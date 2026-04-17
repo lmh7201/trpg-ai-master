@@ -57,6 +57,36 @@ defmodule TrpgMaster.Campaign.PersistenceTest do
     assert loaded_state.ai_model == state.ai_model
   end
 
+  test "load_campaign_history/1 returns summary metadata and logs for history view" do
+    campaign_id = "campaign-#{System.unique_integer([:positive])}"
+
+    state = %State{
+      id: campaign_id,
+      name: "History View Test"
+    }
+
+    assert :ok = Persistence.save(state)
+    assert :ok = Persistence.append_session_log(state, 1, "첫 세션 요약")
+    assert :ok = Persistence.append_summary_log(campaign_id, "AI 요약 로그")
+
+    assert {:ok, history} = Persistence.load_campaign_history(campaign_id)
+    assert history.name == "History View Test"
+
+    assert [session] = history.sessions
+    assert session =~ "# 세션 1 — #{Date.utc_today() |> Date.to_iso8601()}"
+    assert session =~ "첫 세션 요약"
+    assert session =~ "## 파티 현황 (자동 기록)"
+
+    assert [%{"summary" => "AI 요약 로그", "timestamp" => timestamp}] = history.summary_logs
+    assert is_binary(timestamp)
+  end
+
+  test "load_campaign_history/1 returns not_found when campaign summary is missing" do
+    campaign_id = "missing-#{System.unique_integer([:positive])}"
+
+    assert {:error, :not_found} = Persistence.load_campaign_history(campaign_id)
+  end
+
   defp restore_data_dir(nil), do: Application.delete_env(:trpg_master, :data_dir)
   defp restore_data_dir(path), do: Application.put_env(:trpg_master, :data_dir, path)
 end

@@ -7,8 +7,8 @@ defmodule TrpgMasterWeb.HistoryLive do
 
   @impl true
   def mount(%{"id" => campaign_id}, _session, socket) do
-    case load_campaign_data(campaign_id) do
-      {:ok, name, sessions, summary_logs} ->
+    case Persistence.load_campaign_history(campaign_id) do
+      {:ok, %{name: name, sessions: sessions, summary_logs: summary_logs}} ->
         {:ok,
          socket
          |> assign(:campaign_id, campaign_id)
@@ -21,6 +21,12 @@ defmodule TrpgMasterWeb.HistoryLive do
         {:ok,
          socket
          |> put_flash(:error, "캠페인을 찾을 수 없습니다.")
+         |> push_navigate(to: "/")}
+
+      {:error, _reason} ->
+        {:ok,
+         socket
+         |> put_flash(:error, "캠페인 기록을 불러오지 못했습니다.")
          |> push_navigate(to: "/")}
     end
   end
@@ -107,39 +113,11 @@ defmodule TrpgMasterWeb.HistoryLive do
 
   # ── Private helpers ──────────────────────────────────────────────────────────
 
-  defp load_campaign_data(campaign_id) do
-    summary_path =
-      Path.join([
-        Application.get_env(:trpg_master, :data_dir, "data"),
-        "campaigns",
-        sanitize(campaign_id),
-        "campaign-summary.json"
-      ])
-
-    case File.read(summary_path) do
-      {:ok, content} ->
-        case Jason.decode(content) do
-          {:ok, summary} ->
-            {:ok, sessions} = Persistence.load_session_log(campaign_id)
-            {:ok, summary_logs} = Persistence.load_summary_log(campaign_id)
-            {:ok, summary["name"] || campaign_id, sessions, summary_logs}
-
-          _ ->
-            {:error, :not_found}
-        end
-
-      _ ->
-        {:error, :not_found}
-    end
-  end
-
-  defp sanitize(name) do
-    name |> String.replace(~r/[\/\\:*?"<>|]/, "_") |> String.trim()
-  end
-
   defp format_markdown(text) when is_binary(text) do
     case Earmark.as_html(text, %Earmark.Options{breaks: true}) do
-      {:ok, html, _warnings} -> html
+      {:ok, html, _warnings} ->
+        html
+
       {:error, _, _} ->
         text |> Phoenix.HTML.html_escape() |> Phoenix.HTML.safe_to_string()
     end

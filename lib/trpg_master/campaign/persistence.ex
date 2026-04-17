@@ -43,7 +43,9 @@ defmodule TrpgMaster.Campaign.Persistence do
     Task.start(fn ->
       try do
         case save(state) do
-          :ok -> :ok
+          :ok ->
+            :ok
+
           {:error, reason} ->
             Logger.error("[Persistence] 캠페인 #{state.id} 저장 실패: #{inspect(reason)}")
         end
@@ -120,6 +122,31 @@ defmodule TrpgMaster.Campaign.Persistence do
       end
     else
       []
+    end
+  end
+
+  @doc """
+  히스토리 화면에 필요한 캠페인 메타데이터와 로그를 함께 로드한다.
+  """
+  def load_campaign_history(campaign_id) do
+    summary_path = Path.join(campaign_dir(campaign_id), "campaign-summary.json")
+
+    with {:ok, summary} <- read_json(summary_path),
+         {:ok, sessions} <- load_session_log(campaign_id),
+         {:ok, summary_logs} <- load_summary_log(campaign_id) do
+      {:ok,
+       %{
+         name: summary["name"] || campaign_id,
+         sessions: sessions,
+         summary_logs: summary_logs
+       }}
+    else
+      {:error, :enoent} ->
+        {:error, :not_found}
+
+      {:error, reason} ->
+        Logger.error("캠페인 히스토리 로드 실패 [#{campaign_id}]: #{inspect(reason)}")
+        {:error, reason}
     end
   end
 
@@ -219,13 +246,16 @@ defmodule TrpgMaster.Campaign.Persistence do
     File.mkdir_p(dir)
     log_path = Path.join(dir, "summary_log.jsonl")
 
-    entry = Jason.encode!(%{
-      "timestamp" => DateTime.utc_now() |> DateTime.to_iso8601(),
-      "summary" => summary_text
-    })
+    entry =
+      Jason.encode!(%{
+        "timestamp" => DateTime.utc_now() |> DateTime.to_iso8601(),
+        "summary" => summary_text
+      })
 
     case File.write(log_path, entry <> "\n", [:append]) do
-      :ok -> :ok
+      :ok ->
+        :ok
+
       {:error, reason} ->
         Logger.error("요약 로그 저장 실패 [#{campaign_id}]: #{inspect(reason)}")
         {:error, reason}
@@ -367,7 +397,9 @@ defmodule TrpgMaster.Campaign.Persistence do
     chars =
       state.characters
       |> Enum.map(fn c ->
-        hp = if c["hp_current"] && c["hp_max"], do: " HP #{c["hp_current"]}/#{c["hp_max"]}", else: ""
+        hp =
+          if c["hp_current"] && c["hp_max"], do: " HP #{c["hp_current"]}/#{c["hp_max"]}", else: ""
+
         "- #{c["name"]}#{hp}"
       end)
       |> Enum.join("\n")
