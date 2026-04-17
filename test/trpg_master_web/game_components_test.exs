@@ -98,4 +98,63 @@ defmodule TrpgMasterWeb.GameComponentsTest do
     refute html =~ "클래스 피처"
     refute html =~ "상태이상"
   end
+
+  test "campaign_header/1 renders campaign metadata and current controls" do
+    html =
+      render_component(&GameComponents.campaign_header/1,
+        campaign_id: "campaign-42",
+        campaign_name: "붉은 달의 폐허",
+        phase: :combat,
+        ai_model: "gpt-5.4",
+        mode: :debug,
+        loading: true
+      )
+
+    assert html =~ "붉은 달의 폐허"
+    assert html =~ "전투"
+    assert html =~ ~s(href="/history/campaign-42")
+    assert html =~ "mode-debug"
+    assert html =~ "aria-label=\"GPT\""
+    assert html =~ ~s(title="세션 종료")
+    assert html =~ "disabled"
+  end
+
+  test "model_selector_modal/1 groups models and shows availability badges" do
+    html =
+      render_component(&GameComponents.model_selector_modal/1,
+        available_models: [
+          %{
+            id: "claude-sonnet-4-6",
+            name: "Claude Sonnet 4.6",
+            provider: :anthropic,
+            env: "ANTHROPIC_API_KEY",
+            available: true
+          },
+          %{
+            id: "gpt-5.4",
+            name: "GPT-5.4",
+            provider: :openai,
+            env: "OPENAI_API_KEY",
+            available: true
+          },
+          %{
+            id: "gemini-2.5-flash",
+            name: "Gemini 2.5 Flash",
+            provider: :gemini,
+            env: "GOOGLE_API_KEY",
+            available: false
+          }
+        ],
+        ai_model: "gpt-5.4"
+      )
+
+    assert html =~ "Anthropic"
+    assert html =~ "OpenAI"
+    assert html =~ "Google Gemini"
+    assert html =~ "GPT-5.4"
+    assert html =~ "사용 중"
+    assert html =~ "API 키 미설정"
+    assert html =~ ~s(phx-value-model="gemini-2.5-flash")
+    assert html =~ "GOOGLE_API_KEY 환경변수가 설정되지 않았습니다."
+  end
 end
