@@ -5,35 +5,17 @@ defmodule TrpgMasterWeb.CampaignLive do
 
   alias TrpgMaster.Campaign.{Manager, Server}
   alias TrpgMaster.AI.{Client, Models}
+  alias TrpgMasterWeb.CampaignPresenter
 
   @impl true
   def mount(%{"id" => campaign_id}, _session, socket) do
     case Manager.start_campaign(campaign_id) do
       {:ok, _id} ->
         state = Server.get_state(campaign_id)
-        messages = build_display_messages(state.exploration_history ++ state.combat_history)
-        current_model = state.ai_model || Models.default_model()
 
         {:ok,
          socket
-         |> assign(:campaign_id, campaign_id)
-         |> assign(:campaign_name, state.name)
-         |> assign(:messages, messages)
-         |> assign(:input_text, "")
-         |> assign(:loading, false)
-         |> assign(:error, nil)
-         |> assign(:last_player_message, nil)
-         |> assign(:current_location, state.current_location)
-         |> assign(:phase, state.phase)
-         |> assign(:character, List.first(state.characters))
-         |> assign(:characters, player_characters(state.characters, state.combat_state))
-         |> assign(:combat_state, state.combat_state)
-         |> assign(:mode, state.mode)
-         |> assign(:processing, false)
-         |> assign(:ending_session, false)
-         |> assign(:ai_model, current_model)
-         |> assign(:show_model_selector, false)
-         |> assign(:available_models, Models.list_with_status())}
+         |> assign(CampaignPresenter.mount_assigns(campaign_id, state))}
 
       {:error, :not_found} ->
         {:ok,
@@ -168,7 +150,13 @@ defmodule TrpgMasterWeb.CampaignLive do
     case Server.player_action(campaign_id, message) do
       # 전투 모드: 리스트 반환 [player_result | enemy_results]
       {:ok, [player_result | enemy_results]} when enemy_results != [] ->
-        messages = append_tool_messages(socket, player_result)
+        messages =
+          CampaignPresenter.append_tool_messages(
+            socket.assigns.messages,
+            socket.assigns.mode,
+            player_result
+          )
+
         messages = messages ++ [%{type: :dm, text: player_result.text}]
         state = Server.get_state(campaign_id)
 
@@ -179,11 +167,17 @@ defmodule TrpgMasterWeb.CampaignLive do
          socket
          |> assign(:messages, messages)
          |> assign(:loading, true)
-         |> update_state_assigns(state)}
+         |> assign(CampaignPresenter.state_assigns(state))}
 
       # 탐험 모드 또는 단일 결과 (전투 종료 시 등)
       {:ok, result} when not is_list(result) ->
-        messages = append_tool_messages(socket, result)
+        messages =
+          CampaignPresenter.append_tool_messages(
+            socket.assigns.messages,
+            socket.assigns.mode,
+            result
+          )
+
         messages = messages ++ [%{type: :dm, text: result.text}]
         state = Server.get_state(campaign_id)
 
@@ -192,7 +186,7 @@ defmodule TrpgMasterWeb.CampaignLive do
          |> assign(:messages, messages)
          |> assign(:loading, false)
          |> assign(:processing, false)
-         |> update_state_assigns(state)}
+         |> assign(CampaignPresenter.state_assigns(state))}
 
       {:error, reason} ->
         error_msg = Client.format_error(reason)
@@ -209,7 +203,10 @@ defmodule TrpgMasterWeb.CampaignLive do
   @impl true
   def handle_info({:display_enemy_turns, [result | rest]}, socket) do
     campaign_id = socket.assigns.campaign_id
-    messages = append_tool_messages(socket, result)
+
+    messages =
+      CampaignPresenter.append_tool_messages(socket.assigns.messages, socket.assigns.mode, result)
+
     messages = messages ++ [%{type: :dm, text: result.text}]
 
     if rest == [] do
@@ -221,7 +218,7 @@ defmodule TrpgMasterWeb.CampaignLive do
        |> assign(:messages, messages)
        |> assign(:loading, false)
        |> assign(:processing, false)
-       |> update_state_assigns(state)}
+       |> assign(CampaignPresenter.state_assigns(state))}
     else
       # 다음 적 그룹 표시 예약
       state = Server.get_state(campaign_id)
@@ -231,7 +228,7 @@ defmodule TrpgMasterWeb.CampaignLive do
        socket
        |> assign(:messages, messages)
        |> assign(:loading, true)
-       |> update_state_assigns(state)}
+       |> assign(CampaignPresenter.state_assigns(state))}
     end
   end
 
@@ -652,150 +649,6 @@ defmodule TrpgMasterWeb.CampaignLive do
   end
 
   # ── Private helpers ──────────────────────────────────────────────────────────
-
-  defp append_tool_messages(socket, result) do
-    Enum.reduce(result.tool_results, socket.assigns.messages, fn tool_result, acc ->
-      case tool_result do
-        %{result: %{"formatted" => _} = dice_result} ->
-          if socket.assigns.mode == :adventure && Map.get(tool_result.input || %{}, "hidden") do
-            acc
-          else
-            acc ++ [%{type: :dice, result: dice_result}]
-          end
-
-        %{tool: tool_name, input: input, result: %{"status" => "ok"}}
-        when tool_name in ~w(register_npc update_quest set_location start_combat end_combat update_character write_journal) ->
-          if socket.assigns.mode == :debug do
-            message = build_tool_narrative(tool_name, input)
-            acc ++ [%{type: :tool_narration, tool_name: tool_name, message: message}]
-          else
-            acc
-          end
-
-        _ ->
-          acc
-      end
-    end)
-  end
-
-  defp update_state_assigns(socket, state) do
-    player_chars = player_characters(state.characters, state.combat_state)
-
-    socket
-    |> assign(:current_location, state.current_location)
-    |> assign(:phase, state.phase)
-    |> assign(:character, List.first(player_chars))
-    |> assign(:characters, player_chars)
-    |> assign(:combat_state, state.combat_state)
-  end
-
-  # 전투 중에는 combat_state["player_names"]에 있는 캐릭터만 반환한다.
-  # 적(NPC/몬스터)이 update_character로 인해 state.characters에 섞여 있어도 필터링된다.
-  defp player_characters(characters, combat_state) do
-    case get_in(combat_state, ["player_names"]) do
-      names when is_list(names) and names != [] ->
-        Enum.filter(characters, fn c -> c["name"] in names end)
-      _ ->
-        characters
-    end
-  end
-
-  defp build_display_messages(conversation_history) do
-    conversation_history
-    |> Enum.reduce([], fn msg, acc ->
-      case msg do
-        %{"role" => "user", "synthetic" => true} ->
-          acc
-
-        %{"role" => "user", "content" => content} when is_binary(content) ->
-          acc ++ [%{type: :player, text: content}]
-
-        %{"role" => "assistant", "content" => content} when is_binary(content) ->
-          acc ++ [%{type: :dm, text: content}]
-
-        _ ->
-          acc
-      end
-    end)
-  end
-
-  # 도구 입력 데이터를 읽기 쉬운 서술로 변환
-  defp build_tool_narrative("register_npc", input) do
-    name = input["name"] || "?"
-    parts = ["'#{name}'"]
-    parts = if input["description"], do: parts ++ [input["description"]], else: parts
-    parts = if input["disposition"], do: parts ++ ["태도: #{input["disposition"]}"], else: parts
-    parts = if input["location"], do: parts ++ ["위치: #{input["location"]}"], else: parts
-    Enum.join(parts, " / ")
-  end
-
-  defp build_tool_narrative("update_quest", input) do
-    name = input["quest_name"] || "?"
-    status = if input["status"], do: " [#{input["status"]}]", else: ""
-    desc = if input["description"], do: ": #{input["description"]}", else: ""
-    "'#{name}'#{status}#{desc}"
-  end
-
-  defp build_tool_narrative("set_location", input) do
-    name = input["location_name"] || "?"
-    desc = if input["description"], do: " — #{input["description"]}", else: ""
-    "'#{name}'#{desc}"
-  end
-
-  defp build_tool_narrative("start_combat", input) do
-    participants = input["participants"] || []
-    enemies = input["enemies"] || []
-    part_str = if participants != [], do: Enum.join(participants, ", "), else: "?"
-    enemy_str =
-      if enemies != [] do
-        enemy_names =
-          Enum.map(enemies, fn e ->
-            count = e["count"] || 1
-            if count > 1, do: "#{e["name"]} x#{count}", else: e["name"]
-          end)
-        " vs #{Enum.join(enemy_names, ", ")}"
-      else
-        ""
-      end
-    "#{part_str}#{enemy_str}"
-  end
-
-  defp build_tool_narrative("end_combat", input) do
-    parts = []
-    loot = input["loot"] || []
-    parts = if loot != [], do: parts ++ ["전리품: #{Enum.join(loot, ", ")}"], else: parts
-    parts = if input["xp"], do: parts ++ ["#{input["xp"]}XP"], else: parts
-    parts = if input["summary"], do: parts ++ [input["summary"]], else: parts
-    if parts == [], do: "전투가 종료되었습니다.", else: Enum.join(parts, " / ")
-  end
-
-  defp build_tool_narrative("update_character", input) do
-    name = input["character_name"] || "?"
-    changes = input["changes"] || %{}
-    parts = []
-    parts = if changes["hp_current"], do: parts ++ ["HP → #{changes["hp_current"]}"], else: parts
-    parts = if changes["ac"], do: parts ++ ["AC #{changes["ac"]}"], else: parts
-    add = changes["inventory_add"] || []
-    parts = if add != [], do: parts ++ ["획득: #{Enum.join(add, ", ")}"], else: parts
-    remove = changes["inventory_remove"] || []
-    parts = if remove != [], do: parts ++ ["제거: #{Enum.join(remove, ", ")}"], else: parts
-    cond_add = changes["conditions_add"] || []
-    parts = if cond_add != [], do: parts ++ ["상태이상: #{Enum.join(cond_add, ", ")}"], else: parts
-    cond_remove = changes["conditions_remove"] || []
-    parts = if cond_remove != [], do: parts ++ ["상태이상 해제: #{Enum.join(cond_remove, ", ")}"], else: parts
-    parts = if changes["level"], do: parts ++ ["레벨 #{changes["level"]}"], else: parts
-    if parts == [], do: "'#{name}' 상태 업데이트", else: "'#{name}': #{Enum.join(parts, ", ")}"
-  end
-
-  defp build_tool_narrative("write_journal", input) do
-    category = input["category"] || "note"
-    entry = input["entry"] || ""
-    preview = String.slice(entry, 0, 120)
-    suffix = if String.length(entry) > 120, do: "…", else: ""
-    "[#{category}] #{preview}#{suffix}"
-  end
-
-  defp build_tool_narrative(_tool, _input), do: "완료"
 
   defp ability_modifier(nil), do: "+0"
 
