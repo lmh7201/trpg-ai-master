@@ -87,7 +87,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       |> assign(:bg_abilities, [])
       # 능력치
       |> assign(:ability_method, "standard_array")
-      |> assign(:abilities, %{"str" => nil, "dex" => nil, "con" => nil, "int" => nil, "wis" => nil, "cha" => nil})
+      |> assign(:abilities, %{
+        "str" => nil,
+        "dex" => nil,
+        "con" => nil,
+        "int" => nil,
+        "wis" => nil,
+        "cha" => nil
+      })
       |> assign(:available_scores, @standard_array)
       |> assign(:rolled_scores, nil)
       # 장비
@@ -119,7 +126,10 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   def handle_event("select_class", %{"id" => class_id}, socket) do
     class = CharacterData.get_class(class_id)
 
-    skill_opts = get_in(class, ["skillProficiencies", "options", "ko"]) || get_in(class, ["skillProficiencies", "options", "en"]) || []
+    skill_opts =
+      get_in(class, ["skillProficiencies", "options", "ko"]) ||
+        get_in(class, ["skillProficiencies", "options", "en"]) || []
+
     skill_count = get_in(class, ["skillProficiencies", "choose"]) || 2
 
     # 주문시전 여부 확인
@@ -169,7 +179,9 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       case get_in(bg, ["abilityScores", "en"]) do
         list when is_list(list) ->
           Enum.map(list, fn name -> ability_en_to_key(name) end)
-        _ -> []
+
+        _ ->
+          []
       end
 
     socket =
@@ -213,7 +225,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     socket =
       socket
       |> assign(:ability_method, method)
-      |> assign(:abilities, %{"str" => nil, "dex" => nil, "con" => nil, "int" => nil, "wis" => nil, "cha" => nil})
+      |> assign(:abilities, %{
+        "str" => nil,
+        "dex" => nil,
+        "con" => nil,
+        "int" => nil,
+        "wis" => nil,
+        "cha" => nil
+      })
       |> assign(:available_scores, if(method == "standard_array", do: @standard_array, else: []))
       |> assign(:rolled_scores, nil)
 
@@ -225,43 +244,6 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       {value, _} -> do_assign_ability(key, value, socket)
       :error -> {:noreply, socket}
     end
-  end
-
-  defp do_assign_ability(key, value, socket) do
-    abilities = socket.assigns.abilities
-
-    # 이미 다른 능력치에 같은 값이 배정되어 있으면 그쪽을 해제
-    # (표준 배열/롤 방식에서 같은 값을 중복 배정 방지)
-    old_key = Enum.find(@ability_keys, fn k -> abilities[k] == value && k != key end)
-
-    abilities =
-      if old_key do
-        Map.put(abilities, old_key, nil)
-      else
-        abilities
-      end
-
-    abilities = Map.put(abilities, key, value)
-
-    # 사용 가능한 점수 업데이트
-    all_scores =
-      case socket.assigns.ability_method do
-        "standard_array" -> @standard_array
-        "roll" -> socket.assigns.rolled_scores || []
-        _ -> []
-      end
-
-    used = abilities |> Map.values() |> Enum.reject(&is_nil/1)
-
-    available =
-      Enum.reduce(used, all_scores, fn val, acc ->
-        case Enum.find_index(acc, &(&1 == val)) do
-          nil -> acc
-          idx -> List.delete_at(acc, idx)
-        end
-      end)
-
-    {:noreply, socket |> assign(:abilities, abilities) |> assign(:available_scores, available)}
   end
 
   def handle_event("clear_ability", %{"key" => key}, socket) do
@@ -300,7 +282,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       socket
       |> assign(:rolled_scores, scores)
       |> assign(:available_scores, scores)
-      |> assign(:abilities, %{"str" => nil, "dex" => nil, "con" => nil, "int" => nil, "wis" => nil, "cha" => nil})
+      |> assign(:abilities, %{
+        "str" => nil,
+        "dex" => nil,
+        "con" => nil,
+        "int" => nil,
+        "wis" => nil,
+        "cha" => nil
+      })
 
     {:noreply, socket}
   end
@@ -398,14 +387,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
         character = build_final_character(socket.assigns)
         campaign_id = socket.assigns.campaign_id
 
-        # 캠페인 서버에 캐릭터 등록
-        state = Server.get_state(campaign_id)
-        new_state = %{state | characters: [character]}
-        # Server의 state를 직접 업데이트하기 위해 GenServer.call 사용
-        GenServer.call(
-          {:via, Registry, {TrpgMaster.Campaign.Registry, campaign_id}},
-          {:set_character, character}
-        )
+        Server.set_character(campaign_id, character)
 
         {:noreply, push_navigate(socket, to: "/play/#{campaign_id}")}
 
@@ -414,13 +396,55 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     end
   end
 
+  defp do_assign_ability(key, value, socket) do
+    abilities = socket.assigns.abilities
+
+    # 이미 다른 능력치에 같은 값이 배정되어 있으면 그쪽을 해제
+    # (표준 배열/롤 방식에서 같은 값을 중복 배정 방지)
+    old_key = Enum.find(@ability_keys, fn k -> abilities[k] == value && k != key end)
+
+    abilities =
+      if old_key do
+        Map.put(abilities, old_key, nil)
+      else
+        abilities
+      end
+
+    abilities = Map.put(abilities, key, value)
+
+    # 사용 가능한 점수 업데이트
+    all_scores =
+      case socket.assigns.ability_method do
+        "standard_array" -> @standard_array
+        "roll" -> socket.assigns.rolled_scores || []
+        _ -> []
+      end
+
+    used = abilities |> Map.values() |> Enum.reject(&is_nil/1)
+
+    available =
+      Enum.reduce(used, all_scores, fn val, acc ->
+        case Enum.find_index(acc, &(&1 == val)) do
+          nil -> acc
+          idx -> List.delete_at(acc, idx)
+        end
+      end)
+
+    {:noreply, socket |> assign(:abilities, abilities) |> assign(:available_scores, available)}
+  end
+
   # ── Step validation ────────────────────────────────────────────────────────
 
   defp validate_step(%{step: 1} = assigns) do
     cond do
-      is_nil(assigns.selected_class) -> {:error, "클래스를 선택하세요."}
-      length(assigns.class_skills) < assigns.class_skill_count -> {:error, "기술 숙련 #{assigns.class_skill_count}개를 선택하세요."}
-      true -> :ok
+      is_nil(assigns.selected_class) ->
+        {:error, "클래스를 선택하세요."}
+
+      length(assigns.class_skills) < assigns.class_skill_count ->
+        {:error, "기술 숙련 #{assigns.class_skill_count}개를 선택하세요."}
+
+      true ->
+        :ok
     end
   end
 
@@ -430,10 +454,17 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
   defp validate_step(%{step: 3} = assigns) do
     cond do
-      is_nil(assigns.selected_background) -> {:error, "배경을 선택하세요."}
-      is_nil(assigns.bg_ability_2) and assigns.bg_ability_1 == [] -> {:error, "능력치 보너스를 배정하세요. (+2 하나 또는 +1 둘)"}
-      assigns.bg_ability_1 != [] and length(assigns.bg_ability_1) < 2 -> {:error, "+1을 하나 더 배정하세요. (총 2곳)"}
-      true -> :ok
+      is_nil(assigns.selected_background) ->
+        {:error, "배경을 선택하세요."}
+
+      is_nil(assigns.bg_ability_2) and assigns.bg_ability_1 == [] ->
+        {:error, "능력치 보너스를 배정하세요. (+2 하나 또는 +1 둘)"}
+
+      assigns.bg_ability_1 != [] and length(assigns.bg_ability_1) < 2 ->
+        {:error, "+1을 하나 더 배정하세요. (총 2곳)"}
+
+      true ->
+        :ok
     end
   end
 
@@ -443,9 +474,12 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     cond do
       assigns.ability_method == "roll" and is_nil(assigns.rolled_scores) ->
         {:error, "주사위를 굴려주세요."}
+
       not all_assigned ->
         {:error, "모든 능력치에 값을 배정하세요."}
-      true -> :ok
+
+      true ->
+        :ok
     end
   end
 
@@ -456,9 +490,13 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
       cond do
         length(assigns.selected_cantrips) < assigns.cantrip_limit and assigns.cantrip_limit > 0 ->
           {:error, "소마법 #{assigns.cantrip_limit}개를 선택하세요."}
-        length(assigns.selected_spells) < resolved_spell_limit(assigns) and resolved_spell_limit(assigns) > 0 ->
+
+        length(assigns.selected_spells) < resolved_spell_limit(assigns) and
+            resolved_spell_limit(assigns) > 0 ->
           {:error, "1레벨 주문 #{resolved_spell_limit(assigns)}개를 선택하세요."}
-        true -> :ok
+
+        true ->
+          :ok
       end
     else
       :ok
@@ -492,8 +530,11 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
             int = final_ability_score(socket.assigns, "int")
             max(1, CharacterData.ability_modifier(int) + 1)
 
-          n when is_integer(n) -> n
-          _ -> 0
+          n when is_integer(n) ->
+            n
+
+          _ ->
+            0
         end
 
       socket
@@ -588,8 +629,11 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
         int = final_ability_score(assigns, "int")
         max(1, CharacterData.ability_modifier(int) + 1)
 
-      %{spells: n} when is_integer(n) -> n
-      _ -> assigns.spell_limit
+      %{spells: n} when is_integer(n) ->
+        n
+
+      _ ->
+        assigns.spell_limit
     end
   end
 
@@ -617,16 +661,20 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     case equip do
       [%{"options" => options} | _] ->
         target = "(#{choice})"
+
         Enum.find_value(options, "", fn opt ->
-          text = cond do
-            is_map(opt) -> opt["ko"] || opt["en"] || ""
-            is_binary(opt) -> opt
-            true -> ""
-          end
+          text =
+            cond do
+              is_map(opt) -> opt["ko"] || opt["en"] || ""
+              is_binary(opt) -> opt
+              true -> ""
+            end
+
           if String.starts_with?(text, target), do: String.replace(text, ~r/^\([A-Z]\)\s*/, "")
         end) || ""
 
-      _ -> ""
+      _ ->
+        ""
     end
   end
 
@@ -636,6 +684,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     |> Enum.map(&String.trim/1)
     |> Enum.reject(&(&1 == ""))
   end
+
   defp parse_equipment_string(_), do: []
 
   defp find_armor_in_equipment(equipment) do
@@ -643,9 +692,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
     armor_list =
       cond do
-        is_map(armor_data) -> Map.get(armor_data, "armor", []) ++ Map.get(armor_data, "shields", [])
-        is_list(armor_data) -> armor_data
-        true -> []
+        is_map(armor_data) ->
+          Map.get(armor_data, "armor", []) ++ Map.get(armor_data, "shields", [])
+
+        is_list(armor_data) ->
+          armor_data
+
+        true ->
+          []
       end
 
     Enum.find_value(equipment, nil, fn item ->
@@ -1133,11 +1187,14 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     final_abs =
       Map.new(@ability_keys, fn key ->
         base = assigns.abilities[key] || 10
-        bonus = cond do
-          assigns.bg_ability_2 == key -> 2
-          key in assigns.bg_ability_1 -> 1
-          true -> 0
-        end
+
+        bonus =
+          cond do
+            assigns.bg_ability_2 == key -> 2
+            key in assigns.bg_ability_1 -> 1
+            true -> 0
+          end
+
         {key, base + bonus}
       end)
 
@@ -1296,9 +1353,11 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
         10 + dex_mod
     end
   end
+
   defp compute_summary_ac(_, dex_mod), do: 10 + dex_mod
 
   defp parse_hit_die_val(nil), do: 8
+
   defp parse_hit_die_val(str) do
     case Regex.run(~r/[Dd](\d+)/, str) do
       [_, num] -> String.to_integer(num)

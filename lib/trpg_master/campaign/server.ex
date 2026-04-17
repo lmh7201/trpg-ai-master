@@ -30,6 +30,10 @@ defmodule TrpgMaster.Campaign.Server do
     GenServer.call(via(campaign_id), :get_state)
   end
 
+  def set_character(campaign_id, character) do
+    GenServer.call(via(campaign_id), {:set_character, character})
+  end
+
   def set_mode(campaign_id, mode) when mode in [:adventure, :debug] do
     GenServer.call(via(campaign_id), {:set_mode, mode})
   end
@@ -102,13 +106,15 @@ defmodule TrpgMaster.Campaign.Server do
         session_number = Summarizer.estimate_session_number(state)
         Persistence.append_session_log(state, session_number, summary_text)
 
-        new_state = %{state |
-          exploration_history: [],
-          combat_history: [],
-          combat_history_summary: nil,
-          post_combat_summary: nil,
-          context_summary: nil
+        new_state = %{
+          state
+          | exploration_history: [],
+            combat_history: [],
+            combat_history_summary: nil,
+            post_combat_summary: nil,
+            context_summary: nil
         }
+
         Persistence.save_async(new_state)
 
         {:reply, {:ok, summary_text}, new_state}
@@ -125,7 +131,10 @@ defmodule TrpgMaster.Campaign.Server do
 
     case state.phase do
       :combat ->
-        Combat.handle_action(message, state, model_opts: model_opts(state), tool_context: tool_context(state))
+        Combat.handle_action(message, state,
+          model_opts: model_opts(state),
+          tool_context: tool_context(state)
+        )
 
       _ ->
         handle_exploration_action(message, state)
@@ -138,9 +147,7 @@ defmodule TrpgMaster.Campaign.Server do
     history = state.exploration_history ++ [%{"role" => "user", "content" => message}]
     state = %{state | exploration_history: history}
 
-    Logger.info(
-      "탐험 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개"
-    )
+    Logger.info("탐험 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개")
 
     system_prompt = PromptBuilder.build(state)
     tools = Tools.definitions(state.phase) ++ Tools.state_tool_definitions()
