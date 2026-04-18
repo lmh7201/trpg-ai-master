@@ -1,7 +1,7 @@
 defmodule TrpgMaster.Campaign.ServerTest do
   use ExUnit.Case, async: false
 
-  alias TrpgMaster.Campaign.{Server, State}
+  alias TrpgMaster.Campaign.{Persistence, Server, State}
 
   setup do
     original_data_dir = Application.get_env(:trpg_master, :data_dir)
@@ -35,8 +35,29 @@ defmodule TrpgMaster.Campaign.ServerTest do
 
     assert %State{characters: [saved_character]} = Server.get_state(campaign_id)
     assert saved_character == character
+
+    assert {:ok, %State{characters: [persisted_character]}} =
+             wait_for_persisted_state(campaign_id)
+
+    assert persisted_character == character
   end
 
   defp restore_data_dir(nil), do: Application.delete_env(:trpg_master, :data_dir)
   defp restore_data_dir(path), do: Application.put_env(:trpg_master, :data_dir, path)
+
+  defp wait_for_persisted_state(campaign_id, attempts_left \\ 20)
+
+  defp wait_for_persisted_state(campaign_id, attempts_left) do
+    case Persistence.load(campaign_id) do
+      {:ok, %State{characters: [_ | _]} = state} ->
+        {:ok, state}
+
+      _ when attempts_left > 0 ->
+        Process.sleep(10)
+        wait_for_persisted_state(campaign_id, attempts_left - 1)
+
+      result ->
+        result
+    end
+  end
 end
