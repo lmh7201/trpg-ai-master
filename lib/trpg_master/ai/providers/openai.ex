@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   function calling(tool use) 루프와 재시도를 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
   require Logger
 
@@ -151,27 +152,19 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
     end
   end
 
-  defp handle_api_error(api_key, body, tool_results, {:api_error, 429, _}, retry_count)
-       when retry_count < 3 do
-    wait_ms = 2000 * (retry_count + 1)
-    Logger.warning("OpenAI Rate limit — #{wait_ms}ms 대기 후 재시도 (#{retry_count + 1}/3)")
-    Process.sleep(wait_ms)
-    do_chat_with_retry(api_key, body, tool_results, retry_count + 1)
-  end
+  defp handle_api_error(api_key, body, tool_results, reason, retry_count) do
+    case Retry.handle(reason, retry_count, %{body: body, tool_results: tool_results},
+           rules: [
+             Retry.rate_limit_rule("OpenAI"),
+             Retry.server_error_rule("OpenAI", [500, 503])
+           ]
+         ) do
+      {:retry, %{body: updated_body, tool_results: updated_tool_results}, next_retry_count} ->
+        do_chat_with_retry(api_key, updated_body, updated_tool_results, next_retry_count)
 
-  defp handle_api_error(api_key, body, tool_results, {:api_error, status, _}, retry_count)
-       when status in [500, 503] and retry_count < 2 do
-    Logger.warning("OpenAI 서버 에러 #{status} — 3초 대기 후 재시도 (#{retry_count + 1}/2)")
-    Process.sleep(3000)
-    do_chat_with_retry(api_key, body, tool_results, retry_count + 1)
-  end
-
-  defp handle_api_error(_api_key, _body, _tool_results, {:api_error, 401, _}, _retry_count) do
-    {:error, :invalid_api_key}
-  end
-
-  defp handle_api_error(_api_key, _body, _tool_results, reason, _retry_count) do
-    {:error, reason}
+      {:error, normalized_reason} ->
+        {:error, normalized_reason}
+    end
   end
 
   # ── Chat loop ───────────────────────────────────────────────────────────────

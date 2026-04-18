@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   tool use 루프, 재시도, 프롬프트 캐싱을 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
   alias TrpgMaster.AI.RateLimiter
   require Logger
@@ -58,34 +59,25 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
     end
   end
 
-  defp handle_api_error(api_key, body, {:api_error, 400, _error_body}, retry_count)
-       when retry_count < 2 do
-    Logger.warning("API 400 오류 — 히스토리 트리밍 후 재시도 (#{retry_count + 1}/2)")
-    trimmed_body = aggressive_trim_history(body)
-    do_chat_with_retry(api_key, trimmed_body, retry_count + 1)
-  end
+  defp handle_api_error(api_key, body, reason, retry_count) do
+    case Retry.handle(reason, retry_count, body,
+           rules: [
+             Retry.status_rule(400, 2,
+               log: fn attempt, _reason ->
+                 "Anthropic API 400 오류 — 히스토리 트리밍 후 재시도 (#{attempt}/2)"
+               end,
+               transform: fn retry_body, _reason -> aggressive_trim_history(retry_body) end
+             ),
+             Retry.rate_limit_rule("Anthropic"),
+             Retry.server_error_rule("Anthropic", [500, 529])
+           ]
+         ) do
+      {:retry, updated_body, next_retry_count} ->
+        do_chat_with_retry(api_key, updated_body, next_retry_count)
 
-  defp handle_api_error(api_key, body, {:api_error, 429, _error_body}, retry_count)
-       when retry_count < 3 do
-    wait_ms = 2000 * (retry_count + 1)
-    Logger.warning("Rate limit — #{wait_ms}ms 대기 후 재시도 (#{retry_count + 1}/3)")
-    Process.sleep(wait_ms)
-    do_chat_with_retry(api_key, body, retry_count + 1)
-  end
-
-  defp handle_api_error(api_key, body, {:api_error, status, _error_body}, retry_count)
-       when status in [500, 529] and retry_count < 2 do
-    Logger.warning("서버 에러 #{status} — 3초 대기 후 재시도 (#{retry_count + 1}/2)")
-    Process.sleep(3000)
-    do_chat_with_retry(api_key, body, retry_count + 1)
-  end
-
-  defp handle_api_error(_api_key, _body, {:api_error, 401, _}, _retry_count) do
-    {:error, :invalid_api_key}
-  end
-
-  defp handle_api_error(_api_key, _body, reason, _retry_count) do
-    {:error, reason}
+      {:error, normalized_reason} ->
+        {:error, normalized_reason}
+    end
   end
 
   defp add_cache_control_to_tools([]), do: []
