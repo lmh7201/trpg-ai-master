@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   function calling(tool use) 루프와 재시도를 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.ToolExecution
   require Logger
 
   @api_url "https://api.openai.com/v1/chat/completions"
@@ -238,39 +239,37 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   end
 
   defp execute_tools(tool_calls) do
-    results =
-      Enum.map(tool_calls, fn tc ->
-        tool_use_id = tc["id"]
-        tool_name = get_in(tc, ["function", "name"])
+    ToolExecution.run(tool_calls,
+      provider: "OpenAI",
+      extract: fn tool_call ->
+        %{
+          id: tool_call["id"],
+          name: get_in(tool_call, ["function", "name"]),
+          input: decode_tool_arguments(get_in(tool_call, ["function", "arguments"]))
+        }
+      end,
+      success: fn extracted, result ->
+        %{
+          role: "tool",
+          tool_call_id: extracted.id,
+          content: Jason.encode!(result)
+        }
+      end,
+      error: fn extracted, reason ->
+        %{
+          role: "tool",
+          tool_call_id: extracted.id,
+          content: "오류: #{reason}"
+        }
+      end
+    )
+  end
 
-        tool_input =
-          case Jason.decode(get_in(tc, ["function", "arguments"]) || "{}") do
-            {:ok, parsed} -> parsed
-            _ -> %{}
-          end
-
-        Logger.info("OpenAI 도구 실행: #{tool_name} — #{inspect(tool_input)}")
-
-        case TrpgMaster.AI.Tools.execute(tool_name, tool_input) do
-          {:ok, result} ->
-            {%{tool: tool_name, input: tool_input, result: result},
-             %{
-               role: "tool",
-               tool_call_id: tool_use_id,
-               content: Jason.encode!(result)
-             }}
-
-          {:error, reason} ->
-            {%{tool: tool_name, input: tool_input, error: reason},
-             %{
-               role: "tool",
-               tool_call_id: tool_use_id,
-               content: "오류: #{reason}"
-             }}
-        end
-      end)
-
-    {Enum.map(results, &elem(&1, 0)), Enum.map(results, &elem(&1, 1))}
+  defp decode_tool_arguments(arguments) do
+    case Jason.decode(arguments || "{}") do
+      {:ok, parsed} -> parsed
+      _ -> %{}
+    end
   end
 
   # ── HTTP ────────────────────────────────────────────────────────────────────

@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   tool use 루프, 재시도, 프롬프트 캐싱을 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.ToolExecution
   alias TrpgMaster.AI.RateLimiter
   require Logger
 
@@ -218,43 +219,39 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   end
 
   defp execute_tools(tool_use_blocks) do
-    results =
-      Enum.map(tool_use_blocks, fn block ->
-        tool_name = block["name"]
-        tool_input = block["input"]
-        tool_use_id = block["id"]
+    ToolExecution.run(tool_use_blocks,
+      provider: "Anthropic",
+      extract: fn block ->
+        %{
+          id: block["id"],
+          name: block["name"],
+          input: block["input"] || %{}
+        }
+      end,
+      success: fn extracted, result ->
+        encoded = Jason.encode!(result)
 
-        Logger.info("도구 실행: #{tool_name} — #{inspect(tool_input)}")
-
-        case TrpgMaster.AI.Tools.execute(tool_name, tool_input) do
-          {:ok, result} ->
-            encoded = Jason.encode!(result)
-            truncated = truncate_tool_result(encoded, tool_name)
-
-            {%{tool: tool_name, input: tool_input, result: result},
-             %{
-               type: "tool_result",
-               tool_use_id: tool_use_id,
-               content: truncated
-             }}
-
-          {:error, reason} ->
-            {%{tool: tool_name, input: tool_input, error: reason},
-             %{
-               type: "tool_result",
-               tool_use_id: tool_use_id,
-               is_error: true,
-               content: "오류: #{reason}"
-             }}
-        end
-      end)
-
-    {Enum.map(results, &elem(&1, 0)), Enum.map(results, &elem(&1, 1))}
+        %{
+          type: "tool_result",
+          tool_use_id: extracted.id,
+          content: truncate_tool_result(encoded, extracted.name)
+        }
+      end,
+      error: fn extracted, reason ->
+        %{
+          type: "tool_result",
+          tool_use_id: extracted.id,
+          is_error: true,
+          content: "오류: #{reason}"
+        }
+      end
+    )
   end
 
   @max_tool_result_chars 3000
 
-  defp truncate_tool_result(encoded, tool_name) when byte_size(encoded) > @max_tool_result_chars do
+  defp truncate_tool_result(encoded, tool_name)
+       when byte_size(encoded) > @max_tool_result_chars do
     Logger.info("도구 결과 압축: #{tool_name} — #{byte_size(encoded)}자 → #{@max_tool_result_chars}자")
     String.slice(encoded, 0, @max_tool_result_chars) <> "...(truncated)"
   end

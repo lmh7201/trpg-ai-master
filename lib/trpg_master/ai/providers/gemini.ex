@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.Gemini do
   function calling(tool use) 루프와 재시도를 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.ToolExecution
   require Logger
 
   @base_url "https://generativelanguage.googleapis.com/v1beta/models"
@@ -273,36 +274,33 @@ defmodule TrpgMaster.AI.Providers.Gemini do
   end
 
   defp execute_tools(function_calls) do
-    results =
-      Enum.map(function_calls, fn fc ->
-        fc_data = fc["functionCall"] || fc
-        tool_name = fc_data["name"]
-        tool_input = fc_data["args"] || %{}
+    ToolExecution.run(function_calls,
+      provider: "Gemini",
+      extract: fn function_call ->
+        fc_data = function_call["functionCall"] || function_call
 
-        Logger.info("Gemini 도구 실행: #{tool_name} — #{inspect(tool_input)}")
-
-        case TrpgMaster.AI.Tools.execute(tool_name, tool_input) do
-          {:ok, result} ->
-            {%{tool: tool_name, input: tool_input, result: result},
-             %{
-               function_response: %{
-                 name: tool_name,
-                 response: %{content: Jason.encode!(result)}
-               }
-             }}
-
-          {:error, reason} ->
-            {%{tool: tool_name, input: tool_input, error: reason},
-             %{
-               function_response: %{
-                 name: tool_name,
-                 response: %{error: "오류: #{reason}"}
-               }
-             }}
-        end
-      end)
-
-    {Enum.map(results, &elem(&1, 0)), Enum.map(results, &elem(&1, 1))}
+        %{
+          name: fc_data["name"],
+          input: fc_data["args"] || %{}
+        }
+      end,
+      success: fn extracted, result ->
+        %{
+          function_response: %{
+            name: extracted.name,
+            response: %{content: Jason.encode!(result)}
+          }
+        }
+      end,
+      error: fn extracted, reason ->
+        %{
+          function_response: %{
+            name: extracted.name,
+            response: %{error: "오류: #{reason}"}
+          }
+        }
+      end
+    )
   end
 
   # ── HTTP ────────────────────────────────────────────────────────────────────
