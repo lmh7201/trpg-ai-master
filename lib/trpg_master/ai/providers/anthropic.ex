@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   tool use 루프, 재시도, 프롬프트 캐싱을 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.Anthropic.Request
   alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
@@ -24,23 +25,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
     if is_nil(api_key) || api_key == "" do
       {:error, :no_api_key}
     else
-      selected_model = Keyword.get(opts, :model, default_model())
-      max_tokens = Keyword.get(opts, :max_tokens, 4096)
-
-      system_blocks = [
-        %{type: "text", text: system_prompt, cache_control: %{type: "ephemeral"}}
-      ]
-
-      cached_tools = add_cache_control_to_tools(tools)
-
-      body = %{
-        model: selected_model,
-        max_tokens: max_tokens,
-        system: system_blocks,
-        messages: messages,
-        tools: cached_tools
-      }
-
+      body = Request.build(system_prompt, messages, tools, opts)
       do_chat_with_retry(api_key, body, 0)
     end
   end
@@ -78,18 +63,6 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
 
       {:error, normalized_reason} ->
         {:error, normalized_reason}
-    end
-  end
-
-  defp add_cache_control_to_tools([]), do: []
-
-  defp add_cache_control_to_tools(tools) when is_list(tools) do
-    {last, rest} = List.pop_at(tools, -1)
-
-    if Map.has_key?(last, :cache_control) || Map.has_key?(last, "cache_control") do
-      tools
-    else
-      rest ++ [Map.put(last, :cache_control, %{type: "ephemeral"})]
     end
   end
 
@@ -265,9 +238,5 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
       provider: "Claude",
       timeout: @timeout
     )
-  end
-
-  defp default_model do
-    Application.get_env(:trpg_master, :ai_model, "claude-sonnet-4-6")
   end
 end
