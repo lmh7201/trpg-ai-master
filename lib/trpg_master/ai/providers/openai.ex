@@ -7,9 +7,8 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.OpenAI.Request
   alias TrpgMaster.AI.Providers.OpenAI.Response
-  alias TrpgMaster.AI.Providers.Retry
+  alias TrpgMaster.AI.Providers.StandardChat
   alias TrpgMaster.AI.Providers.ToolExecution
-  require Logger
 
   @api_url "https://api.openai.com/v1/chat/completions"
   @max_tool_iterations 20
@@ -25,94 +24,35 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
     if is_nil(api_key) || api_key == "" do
       {:error, :no_api_key}
     else
-      body = Request.build(system_prompt, messages, tools, opts)
-      do_chat_with_retry(api_key, body, [], 0)
-    end
-  end
-
-  # ── 재시도 ───────────────────────────────────────────────────────────────────
-
-  defp do_chat_with_retry(api_key, body, tool_results, retry_count) do
-    case do_chat_loop(api_key, body, tool_results, @max_tool_iterations, %{
-           input_tokens: 0,
-           output_tokens: 0
-         }) do
-      {:ok, result} ->
-        {:ok, result}
-
-      {:error, reason} ->
-        handle_api_error(api_key, body, tool_results, reason, retry_count)
-    end
-  end
-
-  defp handle_api_error(api_key, body, tool_results, reason, retry_count) do
-    case Retry.handle(reason, retry_count, %{body: body, tool_results: tool_results},
-           rules: [
-             Retry.rate_limit_rule("OpenAI"),
-             Retry.server_error_rule("OpenAI", [500, 503])
-           ]
-         ) do
-      {:retry, %{body: updated_body, tool_results: updated_tool_results}, next_retry_count} ->
-        do_chat_with_retry(api_key, updated_body, updated_tool_results, next_retry_count)
-
-      {:error, normalized_reason} ->
-        {:error, normalized_reason}
-    end
-  end
-
-  # ── Chat loop ───────────────────────────────────────────────────────────────
-
-  defp do_chat_loop(_api_key, _body, _tool_results, 0, _usage) do
-    Logger.warning("OpenAI Tool use 최대 반복 횟수 초과")
-    {:error, :max_tool_iterations}
-  end
-
-  defp do_chat_loop(api_key, body, tool_results, iterations_left, usage) do
-    case call_api(api_key, body) do
-      {:ok, response} ->
-        input_tokens = get_in(response, ["usage", "prompt_tokens"]) || 0
-        output_tokens = get_in(response, ["usage", "completion_tokens"]) || 0
-
-        cached_tokens =
-          get_in(response, ["usage", "prompt_tokens_details", "cached_tokens"]) || 0
-
-        new_usage = %{
-          input_tokens: usage.input_tokens + input_tokens,
-          output_tokens: usage.output_tokens + output_tokens
-        }
-
-        Logger.info(
-          "OpenAI API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시: #{cached_tokens}토큰"
-        )
-
-        handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
-
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
-
-  defp handle_response(api_key, body, response, tool_results, iterations_left, usage) do
-    if Response.tool_loop?(response) do
-      tool_calls = Response.tool_calls(response)
-      {new_tool_results, tool_result_messages} = execute_tools(tool_calls)
-      updated_body = Response.append_tool_results(body, response, tool_result_messages)
-
-      do_chat_loop(
-        api_key,
-        updated_body,
-        tool_results ++ new_tool_results,
-        iterations_left - 1,
-        usage
+      StandardChat.run(
+        provider: "OpenAI",
+        body: Request.build(system_prompt, messages, tools, opts),
+        context: %{api_key: api_key},
+        max_tool_iterations: @max_tool_iterations,
+        call_api: fn %{api_key: current_api_key}, body -> call_api(current_api_key, body) end,
+        response_module: Response,
+        execute_tools: &execute_tools/1,
+        usage_info: &usage_info/2,
+        retry_rules: [
+          TrpgMaster.AI.Providers.Retry.rate_limit_rule("OpenAI"),
+          TrpgMaster.AI.Providers.Retry.server_error_rule("OpenAI", [500, 503])
+        ]
       )
-    else
-      {:ok,
-       %{
-         text: Response.completion_text(response),
-         tool_results: tool_results,
-         usage: usage
-       }}
     end
+  end
+
+  defp usage_info(response, usage) do
+    input_tokens = get_in(response, ["usage", "prompt_tokens"]) || 0
+    output_tokens = get_in(response, ["usage", "completion_tokens"]) || 0
+    cached_tokens = get_in(response, ["usage", "prompt_tokens_details", "cached_tokens"]) || 0
+
+    %{
+      usage: %{
+        input_tokens: usage.input_tokens + input_tokens,
+        output_tokens: usage.output_tokens + output_tokens
+      },
+      log: "OpenAI API 호출 — 입력: #{input_tokens}토큰, 출력: #{output_tokens}토큰, 캐시: #{cached_tokens}토큰"
+    }
   end
 
   defp execute_tools(tool_calls) do
