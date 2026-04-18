@@ -27,16 +27,12 @@ defmodule TrpgMaster.Rules.Loader do
   use GenServer
   require Logger
 
+  alias TrpgMaster.Rules.Loader.{Indexer, Source}
+
   @table :dnd_rules
   @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd-reference/src/data"
   @fetch_timeout 60_000
 
-  # {filename, ets_type, name_style, list_key}
-  # name_style:
-  #   :name_object    — name이 {ko: ..., en: ...} 객체 (마이그레이션 후 모든 파일에 적용)
-  # list_key:
-  #   nil             — JSON 최상위가 배열
-  #   "key"           — JSON 최상위가 dict; 해당 키의 배열을 사용
   @file_type_map [
     {"spells.json", :spell, :name_object, nil},
     {"monsters.json", :monster, :name_object, nil},
@@ -48,8 +44,6 @@ defmodule TrpgMaster.Rules.Loader do
     {"adventuringGear.json", :item, :name_object, "gear"}
   ]
 
-  # rules/*.json 파일: 각 파일은 {id, title, intro, sections} 구조의 단일 객체.
-  # :rule 타입으로 ETS에 저장. 문서 전체 + 개별 섹션 모두 키 등록.
   @rules_file_map [
     "rules/combat.json",
     "rules/conditions.json",
@@ -67,7 +61,7 @@ defmodule TrpgMaster.Rules.Loader do
 
   @doc "정확한 이름으로 조회. Returns {:ok, entry} | :not_found"
   def lookup(type, name) do
-    key = {type, normalize(name)}
+    key = {type, Indexer.normalize(name)}
 
     try do
       case :ets.lookup(@table, key) do
@@ -81,7 +75,7 @@ defmodule TrpgMaster.Rules.Loader do
 
   @doc "부분 문자열 검색. Returns [entry, ...]"
   def search(type, query) do
-    normalized_query = normalize(query)
+    normalized_query = Indexer.normalize(query)
 
     match_spec = [
       {{{type, :"$1"}, :"$2"}, [{:is_binary, :"$1"}], [{{:"$1", :"$2"}}]}
@@ -92,8 +86,8 @@ defmodule TrpgMaster.Rules.Loader do
     rescue
       ArgumentError -> []
     end
-    |> Enum.filter(fn {name_str, _} -> String.contains?(name_str, normalized_query) end)
-    |> Enum.map(fn {_, entry} -> entry end)
+    |> Enum.filter(fn {name_str, _entry} -> String.contains?(name_str, normalized_query) end)
+    |> Enum.map(fn {_name, entry} -> entry end)
     |> Enum.uniq()
   end
 
@@ -116,11 +110,45 @@ defmodule TrpgMaster.Rules.Loader do
       [spell: 392, monster: 3, class: 12, feat: 78, item: 120]
   """
   def status do
-    types = @file_type_map |> Enum.map(fn {_, t, _, _} -> t end) |> Enum.uniq()
+    types = @file_type_map |> Enum.map(fn {_, type, _, _} -> type end) |> Enum.uniq()
     type_counts = Enum.map(types, fn type -> {type, list(type) |> length()} end)
     rule_count = list(:rule) |> length()
     type_counts ++ [{:rule, rule_count}]
   end
+
+  @doc """
+  CR 문자열을 float으로 변환한다.
+  "1/4" → 0.25, "1/2" → 0.5, "1" → 1.0, "24" → 24.0
+  파싱 불가 시 nil 반환.
+  """
+  def parse_cr(cr_string) when is_binary(cr_string) do
+    cr_string = String.trim(cr_string)
+
+    cond do
+      cr_string == "1/8" ->
+        0.125
+
+      cr_string == "1/4" ->
+        0.25
+
+      cr_string == "1/2" ->
+        0.5
+
+      true ->
+        case Float.parse(cr_string) do
+          {value, _} ->
+            value
+
+          :error ->
+            case Integer.parse(cr_string) do
+              {value, _} -> value * 1.0
+              :error -> nil
+            end
+        end
+    end
+  end
+
+  def parse_cr(_), do: nil
 
   # ── GenServer callbacks ─────────────────────────────────────────────────────
 
@@ -145,7 +173,7 @@ defmodule TrpgMaster.Rules.Loader do
 
     totals =
       status()
-      |> Enum.map(fn {t, n} -> "#{t}:#{n}" end)
+      |> Enum.map(fn {type, count} -> "#{type}:#{count}" end)
       |> Enum.join(", ")
 
     Logger.info("Rules.Loader: 로드 완료 — #{totals}")
@@ -161,35 +189,30 @@ defmodule TrpgMaster.Rules.Loader do
     Enum.each(@file_type_map, fn {filename, type, name_style, list_key} ->
       url = "#{@github_raw_base}/#{filename}"
 
-      case fetch_json(url, token) do
+      case Source.fetch_json(url, token, @fetch_timeout) do
         {:ok, raw} ->
-          entries = extract_list(raw, list_key)
-          count = insert_entries(table, type, name_style, entries)
-          log_columns(type, entries)
+          entries = Indexer.extract_list(raw, list_key)
+          count = Indexer.insert_entries(table, type, name_style, entries)
+          Indexer.log_columns(type, entries)
           Logger.info("Rules.Loader: [GitHub] #{filename} → #{type} #{count}개")
 
         {:error, reason} ->
-          Logger.warning(
-            "Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체"
-          )
+          Logger.warning("Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체")
 
           load_local_file(table, filename, type, name_style, list_key)
       end
     end)
 
-    # rules/*.json 로드
     Enum.each(@rules_file_map, fn filename ->
       url = "#{@github_raw_base}/#{filename}"
 
-      case fetch_json(url, token) do
+      case Source.fetch_json(url, token, @fetch_timeout) do
         {:ok, raw} ->
-          count = insert_rule_document(table, raw)
+          count = Indexer.insert_rule_document(table, raw)
           Logger.info("Rules.Loader: [GitHub] #{filename} → rule #{count}개")
 
         {:error, reason} ->
-          Logger.warning(
-            "Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체"
-          )
+          Logger.warning("Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체")
 
           load_local_rule_file(table, filename)
       end
@@ -201,43 +224,9 @@ defmodule TrpgMaster.Rules.Loader do
       load_local_file(table, filename, type, name_style, list_key)
     end)
 
-    # rules/*.json 로드
     Enum.each(@rules_file_map, fn filename ->
       load_local_rule_file(table, filename)
     end)
-  end
-
-  # ── GitHub HTTP fetch ───────────────────────────────────────────────────────
-
-  defp fetch_json(url, token) do
-    headers = [
-      {~c"Authorization", String.to_charlist("token #{token}")},
-      {~c"User-Agent", ~c"trpg-ai-master/1.0"}
-    ]
-
-    ssl_opts = build_ssl_opts()
-    http_opts = [timeout: @fetch_timeout, connect_timeout: 15_000, ssl: ssl_opts]
-
-    case :httpc.request(:get, {String.to_charlist(url), headers}, http_opts, []) do
-      {:ok, {{_, 200, _}, _headers, body}} ->
-        case Jason.decode(:erlang.list_to_binary(body)) do
-          {:ok, data} -> {:ok, data}
-          {:error, reason} -> {:error, "JSON 파싱 오류: #{inspect(reason)}"}
-        end
-
-      {:ok, {{_, 401, _}, _, _}} ->
-        {:error, "인증 실패 (401) — DATA_GITHUB_TOKEN을 확인하세요"}
-
-      {:ok, {{_, 404, _}, _, _}} ->
-        {:error, "파일 없음 (404)"}
-
-      {:ok, {{_, status, _}, _, body}} ->
-        body_str = :erlang.list_to_binary(body) |> String.slice(0, 200)
-        {:error, "HTTP #{status}: #{body_str}"}
-
-      {:error, reason} ->
-        {:error, "HTTP 요청 실패: #{inspect(reason)}"}
-    end
   end
 
   # ── Local file load ─────────────────────────────────────────────────────────
@@ -249,248 +238,43 @@ defmodule TrpgMaster.Rules.Loader do
     if File.exists?(path) do
       started_at = System.monotonic_time(:millisecond)
 
-      case File.read(path) do
-        {:ok, content} ->
-          case Jason.decode(content) do
-            {:ok, raw} ->
-              entries = extract_list(raw, list_key)
-              count = insert_entries(table, type, name_style, entries)
-              elapsed = System.monotonic_time(:millisecond) - started_at
-              log_columns(type, entries)
-              Logger.info("Rules.Loader: [로컬] #{filename} → #{type} #{count}개 (#{elapsed}ms)")
+      case Source.read_json_file(path) do
+        {:ok, raw} ->
+          entries = Indexer.extract_list(raw, list_key)
+          count = Indexer.insert_entries(table, type, name_style, entries)
+          elapsed = System.monotonic_time(:millisecond) - started_at
+          Indexer.log_columns(type, entries)
+          Logger.info("Rules.Loader: [로컬] #{filename} → #{type} #{count}개 (#{elapsed}ms)")
 
-            {:error, reason} ->
-              Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
-          end
+        {:error, {:decode, reason}} ->
+          Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
 
-        {:error, reason} ->
+        {:error, {:read, reason}} ->
           Logger.warning("Rules.Loader: #{path} 읽기 실패 — #{inspect(reason)}")
       end
     else
       Logger.info("Rules.Loader: #{path} 파일 없음. 건너뜁니다.")
     end
   end
-
-  # ── JSON list extraction ────────────────────────────────────────────────────
-
-  # JSON 최상위가 이미 list인 경우
-  defp extract_list(data, nil) when is_list(data), do: data
-  # JSON 최상위가 dict인 경우 → 지정된 키의 배열 추출
-  defp extract_list(data, list_key) when is_map(data) and is_binary(list_key) do
-    case Map.get(data, list_key) do
-      entries when is_list(entries) -> entries
-      _ -> []
-    end
-  end
-
-  defp extract_list(_, _), do: []
-
-  # ── ETS insert ─────────────────────────────────────────────────────────────
-
-  defp insert_entries(table, type, name_style, entries) do
-    Enum.reduce(entries, 0, fn entry, count ->
-      count + insert_entry(table, type, name_style, entry)
-    end)
-  end
-
-  defp insert_entry(table, type, name_style, entry) when is_map(entry) do
-    {ko_name, en_name} = extract_names(entry, name_style)
-
-    inserted =
-      if is_binary(ko_name) && ko_name != "" do
-        :ets.insert(table, {{type, normalize(ko_name)}, entry})
-        1
-      else
-        0
-      end
-
-    if is_binary(en_name) && en_name != "" do
-      :ets.insert(table, {{type, normalize(en_name)}, entry})
-    end
-
-    inserted
-  end
-
-  defp insert_entry(_table, _type, _name_style, _entry), do: 0
-
-  # ── Name extraction per style ───────────────────────────────────────────────
-
-  # 마이그레이션 후 모든 파일: name이 {ko: ..., en: ...} 객체
-  defp extract_names(entry, :name_object) do
-    case Map.get(entry, "name") do
-      %{"ko" => ko, "en" => en} -> {ko, en}
-      name when is_binary(name) -> {name, nil}
-      _ -> {nil, nil}
-    end
-  end
-
-  # ── Rules document loading ──────────────────────────────────────────────────
 
   defp load_local_rule_file(table, filename) do
     rules_dir = Application.app_dir(:trpg_master, "priv/rules")
     path = Path.join(rules_dir, filename)
 
     if File.exists?(path) do
-      case File.read(path) do
-        {:ok, content} ->
-          case Jason.decode(content) do
-            {:ok, raw} ->
-              count = insert_rule_document(table, raw)
-              Logger.info("Rules.Loader: [로컬] #{filename} → rule #{count}개")
+      case Source.read_json_file(path) do
+        {:ok, raw} ->
+          count = Indexer.insert_rule_document(table, raw)
+          Logger.info("Rules.Loader: [로컬] #{filename} → rule #{count}개")
 
-            {:error, reason} ->
-              Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
-          end
+        {:error, {:decode, reason}} ->
+          Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
 
-        {:error, reason} ->
+        {:error, {:read, reason}} ->
           Logger.warning("Rules.Loader: #{path} 읽기 실패 — #{inspect(reason)}")
       end
     else
       Logger.info("Rules.Loader: #{path} 파일 없음. 건너뜁니다.")
-    end
-  end
-
-  # rules/*.json은 {id, title, intro, sections} 구조의 단일 문서.
-  # 문서 전체를 id로 저장하고, 각 section도 section.id로 저장한다.
-  # title의 ko/en 키도 등록하여 한국어/영어 검색을 지원한다.
-  defp insert_rule_document(table, %{"id" => doc_id, "sections" => sections} = doc)
-       when is_binary(doc_id) and is_list(sections) do
-    # 문서 전체를 doc_id로 저장
-    :ets.insert(table, {{:rule, normalize(doc_id)}, doc})
-    count = 1
-
-    # title의 한국어/영어 키 등록
-    title_count = insert_rule_title_keys(table, doc_id, doc)
-
-    # 각 섹션을 section.id로 저장
-    section_count =
-      Enum.reduce(sections, 0, fn section, acc ->
-        acc + insert_rule_section(table, section)
-      end)
-
-    count + title_count + section_count
-  end
-
-  defp insert_rule_document(_table, _doc), do: 0
-
-  defp insert_rule_title_keys(table, doc_id, doc) do
-    title = Map.get(doc, "title", %{})
-    ko = Map.get(title, "ko")
-    en = Map.get(title, "en")
-
-    ko_count =
-      if is_binary(ko) && ko != "" && normalize(ko) != normalize(doc_id) do
-        :ets.insert(table, {{:rule, normalize(ko)}, doc})
-        1
-      else
-        0
-      end
-
-    en_count =
-      if is_binary(en) && en != "" && normalize(en) != normalize(doc_id) do
-        :ets.insert(table, {{:rule, normalize(en)}, doc})
-        1
-      else
-        0
-      end
-
-    ko_count + en_count
-  end
-
-  defp insert_rule_section(table, %{"id" => section_id} = section)
-       when is_binary(section_id) do
-    :ets.insert(table, {{:rule, normalize(section_id)}, section})
-
-    # 섹션 title의 한국어/영어 키 등록
-    title = Map.get(section, "title", %{})
-    ko = Map.get(title, "ko")
-    en = Map.get(title, "en")
-
-    ko_count =
-      if is_binary(ko) && ko != "" && normalize(ko) != normalize(section_id) do
-        :ets.insert(table, {{:rule, normalize(ko)}, section})
-        1
-      else
-        0
-      end
-
-    en_count =
-      if is_binary(en) && en != "" && normalize(en) != normalize(section_id) do
-        :ets.insert(table, {{:rule, normalize(en)}, section})
-        1
-      else
-        0
-      end
-
-    # 재귀: 하위 content 중 subsection이 있으면 처리
-    sub_count =
-      case Map.get(section, "content") do
-        content when is_list(content) ->
-          content
-          |> Enum.filter(fn item -> is_map(item) && Map.get(item, "type") == "subsection" end)
-          |> Enum.reduce(0, fn sub, acc -> acc + insert_rule_section(table, sub) end)
-
-        _ ->
-          0
-      end
-
-    1 + ko_count + en_count + sub_count
-  end
-
-  defp insert_rule_section(_table, _section), do: 0
-
-  # ── Helpers ─────────────────────────────────────────────────────────────────
-
-  defp log_columns(_type, []), do: :ok
-
-  defp log_columns(type, [first | _]) when is_map(first) do
-    keys = first |> Map.keys() |> Enum.sort() |> Enum.join(", ")
-    Logger.info("Rules.Loader: #{type} 컬럼 — [#{keys}]")
-  end
-
-  @doc """
-  CR 문자열을 float으로 변환한다.
-  "1/4" → 0.25, "1/2" → 0.5, "1" → 1.0, "24" → 24.0
-  파싱 불가 시 nil 반환.
-  """
-  def parse_cr(cr_string) when is_binary(cr_string) do
-    cr_string = String.trim(cr_string)
-
-    cond do
-      cr_string == "1/8" -> 0.125
-      cr_string == "1/4" -> 0.25
-      cr_string == "1/2" -> 0.5
-      true ->
-        case Float.parse(cr_string) do
-          {val, _} -> val
-          :error ->
-            case Integer.parse(cr_string) do
-              {val, _} -> val * 1.0
-              :error -> nil
-            end
-        end
-    end
-  end
-
-  def parse_cr(_), do: nil
-
-  defp normalize(name) when is_binary(name), do: name |> String.downcase() |> String.trim()
-  defp normalize(name), do: inspect(name)
-
-  defp build_ssl_opts do
-    ca_cert_file = System.get_env("SSL_CERT_FILE", "/etc/ssl/certs/ca-certificates.crt")
-
-    if File.exists?(ca_cert_file) do
-      [
-        verify: :verify_peer,
-        cacertfile: String.to_charlist(ca_cert_file),
-        depth: 10,
-        customize_hostname_check: [
-          match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
-        ]
-      ]
-    else
-      [verify: :verify_none]
     end
   end
 end
