@@ -9,8 +9,7 @@ defmodule TrpgMaster.Campaign.Server do
 
   use GenServer
 
-  alias TrpgMaster.Campaign.{State, Persistence, ToolHandler, Summarizer, Combat}
-  alias TrpgMaster.AI.{Client, PromptBuilder, Tools}
+  alias TrpgMaster.Campaign.{Combat, Exploration, Persistence, State, Summarizer}
 
   require Logger
 
@@ -137,68 +136,10 @@ defmodule TrpgMaster.Campaign.Server do
         )
 
       _ ->
-        handle_exploration_action(message, state)
-    end
-  end
-
-  # ── 탐험 모드 처리 ─────────────────────────────────────────────────────────
-
-  defp handle_exploration_action(message, state) do
-    history = state.exploration_history ++ [%{"role" => "user", "content" => message}]
-    state = %{state | exploration_history: history}
-
-    Logger.info("탐험 액션 처리 시작 [#{state.id}] 턴 #{state.turn_count} — 히스토리: #{length(history)}개")
-
-    system_prompt = PromptBuilder.build(state)
-    tools = Tools.definitions(state.phase) ++ Tools.state_tool_definitions()
-    trimmed_history = PromptBuilder.build_turn_messages(state, message)
-
-    model_opts = model_opts(state)
-    ctx = tool_context(state)
-
-    Process.put(:journal_entries, ctx.journal_entries)
-    Process.put(:campaign_characters, ctx.characters)
-
-    result =
-      try do
-        Client.chat(system_prompt, trimmed_history, tools, model_opts)
-      after
-        Process.delete(:journal_entries)
-        Process.delete(:campaign_characters)
-      end
-
-    case result do
-      {:ok, result} ->
-        state_before = state
-        state = ToolHandler.apply_all(state, result.tool_results)
-        log_npc_changes(state, state_before)
-
-        state = %{
-          state
-          | exploration_history:
-              state.exploration_history ++ [%{"role" => "assistant", "content" => result.text}]
-        }
-
-        # 전투 직후 첫 탐험 턴이면 post_combat_summary 소비
-        state =
-          if state.post_combat_summary do
-            %{state | post_combat_summary: nil}
-          else
-            state
-          end
-
-        state = Summarizer.update_context_summary(state)
-        Persistence.save_async(state)
-
-        Logger.info(
-          "턴 #{state.turn_count} 저장 완료 [#{state.id}] — npcs: #{map_size(state.npcs)}개, exploration: #{length(state.exploration_history)}개"
+        Exploration.handle_action(message, state,
+          model_opts: model_opts(state),
+          tool_context: tool_context(state)
         )
-
-        {:reply, {:ok, result}, state}
-
-      {:error, reason} ->
-        Logger.error("AI 호출 실패 [#{state.id}]: #{inspect(reason)}")
-        {:reply, {:error, reason}, state}
     end
   end
 
@@ -213,13 +154,5 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp tool_context(state) do
     %{journal_entries: state.journal_entries, characters: state.characters}
-  end
-
-  defp log_npc_changes(state, state_before) do
-    if map_size(state.npcs) != map_size(state_before.npcs) do
-      Logger.info(
-        "NPC 상태 변경 [#{state.id}]: #{map_size(state_before.npcs)}개 → #{map_size(state.npcs)}개"
-      )
-    end
   end
 end
