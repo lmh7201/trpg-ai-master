@@ -96,6 +96,9 @@ defmodule TrpgMaster.Characters.CreationTest do
     assert character["abilities"]["int"] == 14
     assert character["hp_max"] > 0
     assert is_list(character["equipment"])
+    assert character["alignment"] == "중립"
+    assert character["appearance"] == ""
+    assert character["backstory"] == ""
   end
 
   defp ensure_character_data_started do

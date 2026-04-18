@@ -124,6 +124,10 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     {:noreply, assign(socket, CharacterCreateFlow.set_alignment(alignment))}
   end
 
+  def handle_event("set_alignment", %{"value" => alignment}, socket) do
+    {:noreply, assign(socket, CharacterCreateFlow.set_alignment(alignment))}
+  end
+
   def handle_event("set_appearance", %{"value" => val}, socket) do
     {:noreply, assign(socket, CharacterCreateFlow.set_appearance(val))}
   end

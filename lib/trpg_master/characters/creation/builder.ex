@@ -17,11 +17,11 @@ defmodule TrpgMaster.Characters.Creation.Builder do
       class_skills: assigns.class_skills,
       equipment: equipment,
       spells: build_spell_data(assigns),
-      armor_choice: find_armor_in_equipment(equipment)
+      armor_choice: find_armor_in_equipment(equipment),
+      alignment: assigns.alignment,
+      appearance: assigns.appearance,
+      backstory: assigns.backstory
     })
-    |> Map.put("alignment", assigns.alignment)
-    |> Map.put("appearance", assigns.appearance)
-    |> Map.put("backstory", assigns.backstory)
   end
 
   def collect_equipment(assigns) do

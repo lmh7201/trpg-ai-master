@@ -31,11 +31,13 @@ defmodule TrpgMasterWeb.CharacterCreate.SummaryComponents do
 
       <div class="cc-alignment-select">
         <label>성향</label>
-        <select phx-change="set_alignment" name="alignment">
-          <%= for alignment <- ["질서 선", "중립 선", "혼돈 선", "질서 중립", "순수 중립", "혼돈 중립", "질서 악", "중립 악", "혼돈 악"] do %>
-            <option value={alignment} selected={alignment == @alignment}><%= alignment %></option>
-          <% end %>
-        </select>
+        <form phx-change="set_alignment">
+          <select name="alignment">
+            <%= for alignment <- ["질서 선", "중립 선", "혼돈 선", "질서 중립", "순수 중립", "혼돈 중립", "질서 악", "중립 악", "혼돈 악"] do %>
+              <option value={alignment} selected={alignment == @alignment}><%= alignment %></option>
+            <% end %>
+          </select>
+        </form>
       </div>
 
       <div class="cc-textarea-field">
