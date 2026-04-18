@@ -47,6 +47,28 @@ defmodule TrpgMasterWeb.CharacterCreateComponentsTest do
     assert html =~ first_spell
   end
 
+  test "abilities_step/1 renders assigned scores with background bonuses" do
+    assigns = wizard_summary_assigns()
+
+    html = render_component(&CharacterCreateComponents.abilities_step/1, assigns)
+
+    assert html =~ "능력치 결정"
+    assert html =~ "17"
+    assert html =~ "(기본 15 + 2)"
+    assert html =~ "수정치: +3"
+  end
+
+  test "equipment_step/1 renders class and background equipment choices" do
+    assigns = wizard_summary_assigns()
+
+    html = render_component(&CharacterCreateComponents.equipment_step/1, assigns)
+
+    assert html =~ "클래스 시작 장비"
+    assert html =~ "배경 장비"
+    assert html =~ get_in(assigns.selected_background, ["equipment", "optionA", "ko"])
+    assert html =~ get_in(assigns.selected_background, ["equipment", "optionB", "ko"])
+  end
+
   test "summary_step/1 renders final preview with derived stats and selections" do
     assigns = wizard_summary_assigns()
     preview_character = Creation.build_character(assigns)
