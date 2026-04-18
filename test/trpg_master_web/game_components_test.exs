@@ -178,4 +178,28 @@ defmodule TrpgMasterWeb.GameComponentsTest do
     assert html =~ "3라운드"
     assert html =~ "디버그"
   end
+
+  test "status_bar/1 renders spell slot summary for a single character" do
+    html =
+      render_component(&GameComponents.status_bar/1,
+        character: %{
+          "name" => "엘라라",
+          "hp_current" => 22,
+          "hp_max" => 30,
+          "ac" => 15,
+          "spell_slots" => %{"1" => 4, "2" => 3},
+          "spell_slots_used" => %{"1" => 2, "2" => 1}
+        },
+        location: "마탑",
+        phase: :exploration,
+        combat_state: nil,
+        mode: :adventure
+      )
+
+    assert html =~ "엘라라"
+    assert html =~ "22/30"
+    assert html =~ "AC"
+    assert html =~ "주문 슬롯 4/7"
+    assert html =~ "마탑"
+  end
 end
