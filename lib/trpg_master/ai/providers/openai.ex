@@ -6,6 +6,7 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
 
   alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.OpenAI.Request
+  alias TrpgMaster.AI.Providers.OpenAI.Response
   alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
   require Logger
@@ -92,17 +93,10 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   end
 
   defp handle_response(api_key, body, response, tool_results, iterations_left, usage) do
-    choice = get_in(response, ["choices", Access.at(0)]) || %{}
-    message = choice["message"] || %{}
-    finish_reason = choice["finish_reason"]
-    tool_calls = message["tool_calls"] || []
-
-    if finish_reason == "tool_calls" && length(tool_calls) > 0 do
+    if Response.tool_loop?(response) do
+      tool_calls = Response.tool_calls(response)
       {new_tool_results, tool_result_messages} = execute_tools(tool_calls)
-
-      # 현재 assistant 메시지를 히스토리에 추가
-      current_messages = body.messages ++ [message | tool_result_messages]
-      updated_body = %{body | messages: current_messages}
+      updated_body = Response.append_tool_results(body, response, tool_result_messages)
 
       do_chat_loop(
         api_key,
@@ -112,11 +106,9 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
         usage
       )
     else
-      text = message["content"] || ""
-
       {:ok,
        %{
-         text: text,
+         text: Response.completion_text(response),
          tool_results: tool_results,
          usage: usage
        }}

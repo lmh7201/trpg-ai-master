@@ -6,6 +6,7 @@ defmodule TrpgMaster.AI.Providers.Gemini do
 
   alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.Gemini.Request
+  alias TrpgMaster.AI.Providers.Gemini.Response
   alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
   require Logger
@@ -96,66 +97,26 @@ defmodule TrpgMaster.AI.Providers.Gemini do
   end
 
   defp handle_response(api_key, model, body, response, tool_results, iterations_left, usage) do
-    candidate = get_in(response, ["candidates", Access.at(0)]) || %{}
-    parts = get_in(candidate, ["content", "parts"]) || []
-    finish_reason = candidate["finishReason"]
+    if Response.tool_loop?(response) do
+      function_calls = Response.tool_calls(response)
+      {new_tool_results, function_responses} = execute_tools(function_calls)
+      updated_body = Response.append_tool_results(body, response, function_responses)
 
-    function_calls = Enum.filter(parts, &Map.has_key?(&1, "functionCall"))
-    text_parts = Enum.filter(parts, &Map.has_key?(&1, "text"))
-
-    if finish_reason == "STOP" && function_calls == [] do
-      text =
-        text_parts
-        |> Enum.map(& &1["text"])
-        |> Enum.join("\n")
-
+      do_chat_loop(
+        api_key,
+        model,
+        updated_body,
+        tool_results ++ new_tool_results,
+        iterations_left - 1,
+        usage
+      )
+    else
       {:ok,
        %{
-         text: text,
+         text: Response.completion_text(response),
          tool_results: tool_results,
          usage: usage
        }}
-    else
-      if function_calls != [] do
-        {new_tool_results, function_responses} = execute_tools(function_calls)
-
-        # 현재 모델 응답과 함수 결과를 contents에 추가
-        # parts 전체를 그대로 포함해야 thought_signature가 유지된다 (Gemini thinking 모델 필수)
-        model_turn = %{
-          role: "model",
-          parts: parts
-        }
-
-        user_turn = %{
-          role: "user",
-          parts: function_responses
-        }
-
-        updated_contents = body.contents ++ [model_turn, user_turn]
-        updated_body = %{body | contents: updated_contents}
-
-        do_chat_loop(
-          api_key,
-          model,
-          updated_body,
-          tool_results ++ new_tool_results,
-          iterations_left - 1,
-          usage
-        )
-      else
-        # 텍스트만 있는 경우
-        text =
-          text_parts
-          |> Enum.map(& &1["text"])
-          |> Enum.join("\n")
-
-        {:ok,
-         %{
-           text: text,
-           tool_results: tool_results,
-           usage: usage
-         }}
-      end
     end
   end
 

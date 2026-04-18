@@ -5,6 +5,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   """
 
   alias TrpgMaster.AI.Providers.Anthropic.Request
+  alias TrpgMaster.AI.Providers.Anthropic.Response
   alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
@@ -123,47 +124,10 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   end
 
   defp handle_response(api_key, body, response, tool_results, iterations_left, usage) do
-    content = Map.get(response, "content", [])
-    stop_reason = Map.get(response, "stop_reason")
-
-    text_parts =
-      content
-      |> Enum.filter(&(&1["type"] == "text"))
-      |> Enum.map(& &1["text"])
-
-    tool_use_blocks =
-      content
-      |> Enum.filter(&(&1["type"] == "tool_use"))
-
-    if stop_reason == "tool_use" && length(tool_use_blocks) > 0 do
+    if Response.tool_loop?(response) do
+      tool_use_blocks = Response.tool_calls(response)
       {new_tool_results, tool_result_blocks} = execute_tools(tool_use_blocks)
-
-      # 도구 호출 전에 텍스트가 있었다면, 해당 텍스트가 유저에게 전달되지 않았음을 안내
-      has_preceding_text = Enum.any?(text_parts, &(String.trim(&1) != ""))
-
-      user_content =
-        if has_preceding_text do
-          tool_result_blocks ++
-            [
-              %{
-                type: "text",
-                text:
-                  "[시스템] 위 assistant 메시지의 text 부분은 플레이어에게 전달되지 않았습니다. " <>
-                    "최종 응답에 도구 호출 전에 작성했던 서술 내용을 자연스럽게 포함하여 완전한 장면을 작성하세요."
-              }
-            ]
-        else
-          tool_result_blocks
-        end
-
-      updated_messages =
-        body.messages ++
-          [
-            %{role: "assistant", content: content},
-            %{role: "user", content: user_content}
-          ]
-
-      updated_body = %{body | messages: updated_messages}
+      updated_body = Response.append_tool_results(body, response, tool_result_blocks)
 
       do_chat_loop(
         api_key,
@@ -173,11 +137,9 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
         usage
       )
     else
-      final_text = Enum.join(text_parts, "\n")
-
       {:ok,
        %{
-         text: final_text,
+         text: Response.completion_text(response),
          tool_results: tool_results,
          usage: usage
        }}
