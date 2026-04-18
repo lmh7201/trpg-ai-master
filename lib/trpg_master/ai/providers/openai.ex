@@ -4,6 +4,7 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   function calling(tool use) 루프와 재시도를 포함한다.
   """
 
+  alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.Retry
   alias TrpgMaster.AI.Providers.ToolExecution
   require Logger
@@ -268,83 +269,14 @@ defmodule TrpgMaster.AI.Providers.OpenAI do
   # ── HTTP ────────────────────────────────────────────────────────────────────
 
   defp call_api(api_key, body) do
-    :ssl.start()
-    :inets.start()
-
-    json_body = Jason.encode!(body)
-
     headers = [
       {~c"authorization", String.to_charlist("Bearer #{api_key}")},
       {~c"content-type", ~c"application/json"}
     ]
 
-    ssl_opts = ssl_options()
-
-    http_opts = [
-      timeout: @timeout,
-      connect_timeout: 10_000,
-      ssl: ssl_opts
-    ]
-
-    request = {String.to_charlist(@api_url), headers, ~c"application/json", json_body}
-
-    case :httpc.request(:post, request, http_opts, []) do
-      {:ok, {{_, status, _}, _headers, resp_body}} when status in 200..299 ->
-        case Jason.decode(:erlang.list_to_binary(resp_body)) do
-          {:ok, parsed} -> {:ok, parsed}
-          {:error, reason} -> {:error, {:json_parse_error, reason}}
-        end
-
-      {:ok, {{_, status, _}, _headers, resp_body}} ->
-        body_str = :erlang.list_to_binary(resp_body)
-        Logger.error("OpenAI API 오류 #{status}: #{body_str}")
-
-        error_body =
-          case Jason.decode(body_str) do
-            {:ok, parsed} -> parsed
-            _ -> %{"raw" => String.slice(body_str, 0, 300)}
-          end
-
-        {:error, {:api_error, status, error_body}}
-
-      {:error, {:failed_connect, _}} ->
-        {:error, :connection_failed}
-
-      {:error, :timeout} ->
-        {:error, :timeout}
-
-      {:error, reason} ->
-        Logger.error("OpenAI HTTP 요청 실패: #{inspect(reason)}")
-        {:error, {:http_error, reason}}
-    end
-  end
-
-  defp ssl_options do
-    ca_cert_file = System.get_env("SSL_CERT_FILE") || find_cacert_file()
-
-    if File.exists?(ca_cert_file) do
-      [
-        verify: :verify_peer,
-        cacertfile: String.to_charlist(ca_cert_file),
-        depth: 10,
-        customize_hostname_check: [
-          match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
-        ]
-      ]
-    else
-      [verify: :verify_none]
-    end
-  end
-
-  defp find_cacert_file do
-    paths = [
-      "/etc/ssl/certs/ca-certificates.crt",
-      "/etc/pki/tls/certs/ca-bundle.crt",
-      "/opt/homebrew/etc/openssl/cert.pem",
-      "/usr/local/etc/openssl/cert.pem",
-      "/etc/ssl/cert.pem"
-    ]
-
-    Enum.find(paths, List.first(paths), &File.exists?/1)
+    Http.post_json(@api_url, headers, body,
+      provider: "OpenAI",
+      timeout: @timeout
+    )
   end
 end
