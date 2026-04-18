@@ -87,6 +87,63 @@ defmodule TrpgMaster.Campaign.PersistenceTest do
     assert {:error, :not_found} = Persistence.load_campaign_history(campaign_id)
   end
 
+  test "list_campaigns/0 returns saved campaigns sorted by updated_at descending" do
+    older_id = "campaign-older-#{System.unique_integer([:positive])}"
+    newer_id = "campaign-newer-#{System.unique_integer([:positive])}"
+
+    older_path = write_campaign_summary(older_id, "Older Campaign", "2026-04-18T10:00:00Z")
+    _newer_path = write_campaign_summary(newer_id, "Newer Campaign", "2026-04-18T12:00:00Z")
+
+    campaigns = Persistence.list_campaigns()
+
+    assert Enum.take(campaigns, 2) == [
+             %{id: newer_id, name: "Newer Campaign", updated_at: "2026-04-18T12:00:00Z"},
+             %{id: older_id, name: "Older Campaign", updated_at: "2026-04-18T10:00:00Z"}
+           ]
+
+    assert File.exists?(older_path)
+  end
+
+  test "load/1 falls back to legacy conversation history file" do
+    campaign_id = "legacy-#{System.unique_integer([:positive])}"
+
+    state = %State{
+      id: campaign_id,
+      name: "Legacy Migration Test",
+      exploration_history: [%{"role" => "assistant", "content" => "기존 대화 기록"}]
+    }
+
+    assert :ok = Persistence.save(state)
+
+    data_dir = Application.fetch_env!(:trpg_master, :data_dir)
+    campaign_dir = Path.join([data_dir, "campaigns", campaign_id])
+    exploration_path = Path.join(campaign_dir, "exploration_history.json")
+    legacy_path = Path.join(campaign_dir, "conversation_history.json")
+
+    assert :ok = File.rename(exploration_path, legacy_path)
+    assert {:ok, loaded_state} = Persistence.load(campaign_id)
+    assert loaded_state.exploration_history == state.exploration_history
+  end
+
   defp restore_data_dir(nil), do: Application.delete_env(:trpg_master, :data_dir)
   defp restore_data_dir(path), do: Application.put_env(:trpg_master, :data_dir, path)
+
+  defp write_campaign_summary(campaign_id, name, updated_at) do
+    data_dir = Application.fetch_env!(:trpg_master, :data_dir)
+    campaign_dir = Path.join([data_dir, "campaigns", campaign_id])
+    summary_path = Path.join(campaign_dir, "campaign-summary.json")
+
+    File.mkdir_p!(campaign_dir)
+
+    File.write!(
+      summary_path,
+      Jason.encode!(%{
+        "id" => campaign_id,
+        "name" => name,
+        "updated_at" => updated_at
+      })
+    )
+
+    summary_path
+  end
 end
