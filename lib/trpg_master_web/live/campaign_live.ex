@@ -1,6 +1,7 @@
 defmodule TrpgMasterWeb.CampaignLive do
   use TrpgMasterWeb, :live_view
 
+  import TrpgMasterWeb.ChatComponents
   import TrpgMasterWeb.GameComponents
 
   alias TrpgMaster.Campaign.{Manager, Server}
