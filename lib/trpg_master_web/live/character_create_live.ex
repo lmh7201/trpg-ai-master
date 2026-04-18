@@ -6,8 +6,8 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   require Logger
 
   alias TrpgMaster.Campaign.{Manager, Server}
-  alias TrpgMaster.Characters.Creation
   alias TrpgMaster.Rules.CharacterData
+  alias TrpgMasterWeb.CharacterCreateFlow
 
   # ── Mount ──────────────────────────────────────────────────────────────────
 
@@ -33,13 +33,17 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   end
 
   defp mount_with_data(id, classes, socket) do
-    form_state =
-      Creation.initial_state(classes, CharacterData.races(), CharacterData.backgrounds())
-
     socket =
       socket
       |> assign(:campaign_id, id)
-      |> assign(form_state)
+      |> assign(
+        CharacterCreateFlow.mount_assigns(
+          id,
+          classes,
+          CharacterData.races(),
+          CharacterData.backgrounds()
+        )
+      )
 
     {:ok, socket}
   end
@@ -49,181 +53,118 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   @impl true
   def handle_event("select_class", %{"id" => class_id}, socket) do
     class = CharacterData.get_class(class_id)
-    {:noreply, assign(socket, Creation.class_selection(class))}
+    {:noreply, assign(socket, CharacterCreateFlow.select_class(class))}
   end
 
   def handle_event("toggle_class_skill", %{"skill" => skill}, socket) do
-    current = socket.assigns.class_skills
-    max_count = socket.assigns.class_skill_count
-
-    new_skills =
-      if skill in current do
-        List.delete(current, skill)
-      else
-        if length(current) < max_count, do: current ++ [skill], else: current
-      end
-
-    {:noreply, assign(socket, :class_skills, new_skills)}
+    {:noreply, assign(socket, CharacterCreateFlow.toggle_class_skill(socket.assigns, skill))}
   end
 
   def handle_event("select_race", %{"id" => race_id}, socket) do
     race = CharacterData.get_race(race_id)
-    {:noreply, assign(socket, :selected_race, race) |> assign(:detail_panel, nil)}
+    {:noreply, assign(socket, CharacterCreateFlow.select_race(race))}
   end
 
   def handle_event("select_background", %{"id" => bg_id}, socket) do
     bg = CharacterData.get_background(bg_id)
-    {:noreply, assign(socket, Creation.background_selection(bg))}
+    {:noreply, assign(socket, CharacterCreateFlow.select_background(bg))}
   end
 
   def handle_event("set_bg_ability", %{"rank" => rank, "key" => key}, socket) do
-    case rank do
-      "2" ->
-        # +2 하나만 배정 (기존 +1 모두 해제)
-        # 같은 곳 다시 누르면 해제
-        new_2 = if socket.assigns.bg_ability_2 == key, do: nil, else: key
-        {:noreply, socket |> assign(:bg_ability_2, new_2) |> assign(:bg_ability_1, [])}
-
-      "1" ->
-        # +1 토글 (최대 2개, +2는 해제)
-        current = socket.assigns.bg_ability_1
-
-        new_1 =
-          if key in current do
-            List.delete(current, key)
-          else
-            if length(current) < 2, do: current ++ [key], else: current
-          end
-
-        {:noreply, socket |> assign(:bg_ability_1, new_1) |> assign(:bg_ability_2, nil)}
-
-      _ ->
-        {:noreply, socket}
-    end
+    {:noreply, assign(socket, CharacterCreateFlow.set_bg_ability(socket.assigns, rank, key))}
   end
 
   def handle_event("set_ability_method", %{"method" => method}, socket) do
-    {:noreply, assign(socket, Creation.ability_method_updates(method))}
+    {:noreply, assign(socket, CharacterCreateFlow.set_ability_method(method))}
   end
 
   def handle_event("assign_ability", %{"key" => key, "score" => score_str}, socket) do
-    case Integer.parse(score_str) do
-      {value, _} ->
-        {:noreply, assign(socket, Creation.assign_ability(socket.assigns, key, value))}
+    case CharacterCreateFlow.assign_ability(socket.assigns, key, score_str) do
+      {:ok, updates} ->
+        {:noreply, assign(socket, updates)}
 
-      :error ->
+      :ignore ->
         {:noreply, socket}
     end
   end
 
   def handle_event("clear_ability", %{"key" => key}, socket) do
-    {:noreply, assign(socket, Creation.clear_ability(socket.assigns, key))}
+    {:noreply, assign(socket, CharacterCreateFlow.clear_ability(socket.assigns, key))}
   end
 
   def handle_event("roll_abilities", _params, socket) do
-    {:noreply, assign(socket, Creation.roll_abilities())}
+    {:noreply, assign(socket, CharacterCreateFlow.roll_abilities())}
   end
 
   def handle_event("set_class_equip", %{"choice" => choice}, socket) do
-    {:noreply, assign(socket, :class_equip_choice, choice)}
+    {:noreply, assign(socket, CharacterCreateFlow.set_class_equip(choice))}
   end
 
   def handle_event("set_bg_equip", %{"choice" => choice}, socket) do
-    {:noreply, assign(socket, :bg_equip_choice, choice)}
+    {:noreply, assign(socket, CharacterCreateFlow.set_bg_equip(choice))}
   end
 
   def handle_event("toggle_cantrip", %{"id" => spell_id}, socket) do
-    current = socket.assigns.selected_cantrips
-    limit = socket.assigns.cantrip_limit
-
-    new =
-      if spell_id in current do
-        List.delete(current, spell_id)
-      else
-        if length(current) < limit, do: current ++ [spell_id], else: current
-      end
-
-    {:noreply, assign(socket, :selected_cantrips, new)}
+    {:noreply, assign(socket, CharacterCreateFlow.toggle_cantrip(socket.assigns, spell_id))}
   end
 
   def handle_event("toggle_spell", %{"id" => spell_id}, socket) do
-    current = socket.assigns.selected_spells
-    limit = Creation.resolved_spell_limit(socket.assigns)
-
-    new =
-      if spell_id in current do
-        List.delete(current, spell_id)
-      else
-        if length(current) < limit, do: current ++ [spell_id], else: current
-      end
-
-    {:noreply, assign(socket, :selected_spells, new)}
+    {:noreply, assign(socket, CharacterCreateFlow.toggle_spell(socket.assigns, spell_id))}
   end
 
   def handle_event("set_name", %{"value" => name}, socket) do
-    {:noreply, assign(socket, :character_name, String.trim(name))}
+    {:noreply, assign(socket, CharacterCreateFlow.set_name(name))}
   end
 
   def handle_event("set_name", %{"name" => name}, socket) do
-    {:noreply, assign(socket, :character_name, String.trim(name))}
+    {:noreply, assign(socket, CharacterCreateFlow.set_name(name))}
   end
 
   def handle_event("set_alignment", %{"alignment" => alignment}, socket) do
-    {:noreply, assign(socket, :alignment, alignment)}
+    {:noreply, assign(socket, CharacterCreateFlow.set_alignment(alignment))}
   end
 
   def handle_event("set_appearance", %{"value" => val}, socket) do
-    {:noreply, assign(socket, :appearance, val)}
+    {:noreply, assign(socket, CharacterCreateFlow.set_appearance(val))}
   end
 
   def handle_event("set_backstory", %{"value" => val}, socket) do
-    {:noreply, assign(socket, :backstory, val)}
+    {:noreply, assign(socket, CharacterCreateFlow.set_backstory(val))}
   end
 
   def handle_event("show_detail", %{"type" => type, "id" => id}, socket) do
-    {:noreply, assign(socket, :detail_panel, %{type: type, id: id})}
+    {:noreply, assign(socket, CharacterCreateFlow.show_detail(type, id))}
   end
 
   def handle_event("close_detail", _params, socket) do
-    {:noreply, assign(socket, :detail_panel, nil)}
+    {:noreply, assign(socket, CharacterCreateFlow.close_detail())}
   end
 
   def handle_event("next_step", _params, socket) do
-    case Creation.validate_step(socket.assigns) do
-      :ok ->
-        new_step = min(socket.assigns.step + 1, 7)
-        step_updates = Creation.prepare_step(socket.assigns, new_step)
+    case CharacterCreateFlow.next_step(socket.assigns) do
+      {:ok, updates} ->
+        {:noreply, assign(socket, updates)}
 
-        socket =
-          socket
-          |> assign(:step, new_step)
-          |> assign(:error, nil)
-          |> assign(step_updates)
-
-        {:noreply, socket}
-
-      {:error, msg} ->
-        {:noreply, assign(socket, :error, msg)}
+      {:error, updates} ->
+        {:noreply, assign(socket, updates)}
     end
   end
 
   def handle_event("prev_step", _params, socket) do
-    new_step = max(socket.assigns.step - 1, 1)
-    {:noreply, socket |> assign(:step, new_step) |> assign(:error, nil)}
+    {:noreply, assign(socket, CharacterCreateFlow.prev_step(socket.assigns))}
   end
 
   def handle_event("finish", _params, socket) do
-    case Creation.validate_step(socket.assigns) do
-      :ok ->
-        character = Creation.build_character(socket.assigns)
+    case CharacterCreateFlow.finish(socket.assigns) do
+      {:ok, character} ->
         campaign_id = socket.assigns.campaign_id
 
         Server.set_character(campaign_id, character)
 
         {:noreply, push_navigate(socket, to: "/play/#{campaign_id}")}
 
-      {:error, msg} ->
-        {:noreply, assign(socket, :error, msg)}
+      {:error, message} ->
+        {:noreply, assign(socket, :error, message)}
     end
   end
 
