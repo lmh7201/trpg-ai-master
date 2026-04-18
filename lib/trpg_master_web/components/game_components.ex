@@ -161,6 +161,82 @@ defmodule TrpgMasterWeb.GameComponents do
   end
 
   @doc """
+  캠페인 채팅 피드 컴포넌트.
+  """
+  attr(:messages, :list, required: true)
+  attr(:character, :map, default: nil)
+  attr(:ending_session, :boolean, default: false)
+  attr(:loading, :boolean, default: false)
+  attr(:error, :string, default: nil)
+  attr(:last_player_message, :string, default: nil)
+
+  def chat_feed(assigns) do
+    ~H"""
+    <div class="chat-area" id="chat-area" phx-hook="ScrollBottom">
+      <%= if @messages == [] do %>
+        <div class="welcome-message">
+          <.system_message text="AI 던전 마스터에 오신 것을 환영합니다! 메시지를 입력하여 모험을 시작하세요." />
+        </div>
+      <% end %>
+
+      <%= for msg <- @messages do %>
+        <.chat_message msg={msg} player_name={player_name(@character)} />
+      <% end %>
+
+      <%= if @ending_session do %>
+        <.system_message text="📋 세션 요약을 생성 중입니다..." />
+      <% end %>
+
+      <%= if @loading && !@ending_session do %>
+        <.typing_indicator />
+      <% end %>
+
+      <%= if @error do %>
+        <div class="message error-message">
+          <span>⚠️ <%= @error %></span>
+          <%= if @last_player_message do %>
+            <button phx-click="retry_last" class="retry-btn">다시 시도</button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    """
+  end
+
+  @doc """
+  화면 하단 캐릭터 상태바 묶음 컴포넌트.
+  """
+  attr(:characters, :list, required: true)
+  attr(:character, :map, default: nil)
+  attr(:location, :string, default: nil)
+  attr(:phase, :atom, default: :exploration)
+  attr(:combat_state, :map, default: nil)
+  attr(:mode, :atom, default: :adventure)
+
+  def campaign_status_bars(assigns) do
+    display_characters =
+      if length(assigns.characters) > 1 do
+        assigns.characters
+      else
+        [assigns.character]
+      end
+
+    assigns = assign(assigns, :display_characters, display_characters)
+
+    ~H"""
+    <%= for char <- @display_characters do %>
+      <.status_bar
+        character={char}
+        location={@location}
+        phase={@phase}
+        combat_state={@combat_state}
+        mode={@mode}
+      />
+    <% end %>
+    """
+  end
+
+  @doc """
   캐릭터 상태바 컴포넌트.
   채팅 화면 하단에 HP, AC, 주문 슬롯, 현재 위치를 표시.
   """
@@ -439,6 +515,35 @@ defmodule TrpgMasterWeb.GameComponents do
   end
 
   @doc """
+  채팅 입력 폼 컴포넌트.
+  """
+  attr(:input_text, :string, default: "")
+  attr(:loading, :boolean, default: false)
+  attr(:processing, :boolean, default: false)
+
+  def chat_input(assigns) do
+    ~H"""
+    <form class="input-area" phx-submit="send_message" id="message-form">
+      <textarea
+        name="message"
+        placeholder={if @processing, do: "DM이 응답을 준비하는 중...", else: "무엇을 하시겠습니까? (Shift+Enter로 줄바꿈)"}
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        disabled={@loading || @processing}
+        rows="1"
+        phx-hook="AutoResize"
+        id="message-input"
+      ><%= @input_text %></textarea>
+      <button type="submit" disabled={@loading} aria-label="전송">
+        <span>↑</span>
+      </button>
+    </form>
+    """
+  end
+
+  @doc """
   타이핑 인디케이터.
   """
   def typing_indicator(assigns) do
@@ -499,6 +604,29 @@ defmodule TrpgMasterWeb.GameComponents do
   end
 
   defp ability_modifier(_), do: "+0"
+
+  attr(:msg, :map, required: true)
+  attr(:player_name, :string, required: true)
+
+  defp chat_message(assigns) do
+    ~H"""
+    <%= case @msg.type do %>
+      <% :dm -> %>
+        <.dm_message text={@msg.text} />
+      <% :player -> %>
+        <.player_message text={@msg.text} name={@player_name} />
+      <% :dice -> %>
+        <.dice_result result={@msg.result} />
+      <% :tool_narration -> %>
+        <.tool_narration tool_name={@msg.tool_name} message={@msg.message} />
+      <% :system -> %>
+        <.system_message text={@msg.text} />
+    <% end %>
+    """
+  end
+
+  defp player_name(%{"name" => name}) when is_binary(name) and name != "", do: name
+  defp player_name(_), do: "플레이어"
 
   defp phase_label(:exploration), do: "탐험"
   defp phase_label(:combat), do: "전투"

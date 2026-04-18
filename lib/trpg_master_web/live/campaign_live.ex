@@ -178,83 +178,25 @@ defmodule TrpgMasterWeb.CampaignLive do
         <.character_sheet_modal character={@character} />
       <% end %>
 
-      <div class="chat-area" id="chat-area" phx-hook="ScrollBottom">
-        <%= if @messages == [] do %>
-          <div class="welcome-message">
-            <.system_message text="AI 던전 마스터에 오신 것을 환영합니다! 메시지를 입력하여 모험을 시작하세요." />
-          </div>
-        <% end %>
+      <.chat_feed
+        messages={@messages}
+        character={@character}
+        ending_session={@ending_session}
+        loading={@loading}
+        error={@error}
+        last_player_message={@last_player_message}
+      />
 
-        <%= for msg <- @messages do %>
-          <%= case msg.type do %>
-            <% :dm -> %>
-              <.dm_message text={msg.text} />
-            <% :player -> %>
-              <.player_message text={msg.text} name={if @character, do: @character["name"] || "플레이어", else: "플레이어"} />
-            <% :dice -> %>
-              <.dice_result result={msg.result} />
-            <% :tool_narration -> %>
-              <.tool_narration tool_name={msg.tool_name} message={msg.message} />
-            <% :system -> %>
-              <.system_message text={msg.text} />
-          <% end %>
-        <% end %>
+      <.campaign_status_bars
+        characters={@characters}
+        character={@character}
+        location={@current_location}
+        phase={@phase}
+        combat_state={@combat_state}
+        mode={@mode}
+      />
 
-        <%= if @ending_session do %>
-          <.system_message text="📋 세션 요약을 생성 중입니다..." />
-        <% end %>
-
-        <%= if @loading && !@ending_session do %>
-          <.typing_indicator />
-        <% end %>
-
-        <%= if @error do %>
-          <div class="message error-message">
-            <span>⚠️ <%= @error %></span>
-            <%= if @last_player_message do %>
-              <button phx-click="retry_last" class="retry-btn">다시 시도</button>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-
-      <%= if length(@characters) > 1 do %>
-        <%= for char <- @characters do %>
-          <.status_bar
-            character={char}
-            location={@current_location}
-            phase={@phase}
-            combat_state={@combat_state}
-            mode={@mode}
-          />
-        <% end %>
-      <% else %>
-        <.status_bar
-          character={@character}
-          location={@current_location}
-          phase={@phase}
-          combat_state={@combat_state}
-          mode={@mode}
-        />
-      <% end %>
-
-      <form class="input-area" phx-submit="send_message" id="message-form">
-        <textarea
-          name="message"
-          placeholder={if @processing, do: "DM이 응답을 준비하는 중...", else: "무엇을 하시겠습니까? (Shift+Enter로 줄바꿈)"}
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
-          disabled={@loading || @processing}
-          rows="1"
-          phx-hook="AutoResize"
-          id="message-input"
-        ><%= @input_text %></textarea>
-        <button type="submit" disabled={@loading} aria-label="전송">
-          <span>↑</span>
-        </button>
-      </form>
+      <.chat_input input_text={@input_text} loading={@loading} processing={@processing} />
     </div>
     """
   end
