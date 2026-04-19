@@ -27,35 +27,10 @@ defmodule TrpgMaster.Rules.Loader do
   use GenServer
   require Logger
 
-  alias TrpgMaster.Rules.Loader.{Indexer, Source}
+  alias TrpgMaster.Rules.Loader.{Indexer, Local, Manifest, Remote}
 
   @table :dnd_rules
-  @github_raw_base "https://raw.githubusercontent.com/lmh7201/dnd_reference_ko/main/dnd_korean/dnd-reference/src/data"
   @fetch_timeout 60_000
-
-  @file_type_map [
-    {"spells.json", :spell, :name_object, nil},
-    {"monsters.json", :monster, :name_object, nil},
-    {"classes.json", :class, :name_object, nil},
-    {"feats.json", :feat, :name_object, nil},
-    {"items.json", :item, :name_object, nil},
-    {"weapons.json", :item, :name_object, nil},
-    {"armor.json", :item, :name_object, nil},
-    {"adventuringGear.json", :item, :name_object, "gear"}
-  ]
-
-  @rules_file_map [
-    "rules/combat.json",
-    "rules/conditions.json",
-    "rules/actions.json",
-    "rules/damage-and-healing.json",
-    "rules/d20-tests.json",
-    "rules/abilities.json",
-    "rules/exploration.json",
-    "rules/proficiency.json",
-    "rules/social-interaction.json",
-    "rules/spellcasting.json"
-  ]
 
   # ── Public API ─────────────────────────────────────────────────────────────
 
@@ -110,8 +85,7 @@ defmodule TrpgMaster.Rules.Loader do
       [spell: 392, monster: 3, class: 12, feat: 78, item: 120]
   """
   def status do
-    types = @file_type_map |> Enum.map(fn {_, type, _, _} -> type end) |> Enum.uniq()
-    type_counts = Enum.map(types, fn type -> {type, list(type) |> length()} end)
+    type_counts = Enum.map(Manifest.status_types(), fn type -> {type, list(type) |> length()} end)
     rule_count = list(:rule) |> length()
     type_counts ++ [{:rule, rule_count}]
   end
@@ -186,95 +160,22 @@ defmodule TrpgMaster.Rules.Loader do
   defp load_from_github(table, token) do
     Logger.info("Rules.Loader: DATA_GITHUB_TOKEN 감지됨 → GitHub에서 데이터 fetch 시작")
 
-    Enum.each(@file_type_map, fn {filename, type, name_style, list_key} ->
-      url = "#{@github_raw_base}/#{filename}"
-
-      case Source.fetch_json(url, token, @fetch_timeout) do
-        {:ok, raw} ->
-          entries = Indexer.extract_list(raw, list_key)
-          count = Indexer.insert_entries(table, type, name_style, entries)
-          Indexer.log_columns(type, entries)
-          Logger.info("Rules.Loader: [GitHub] #{filename} → #{type} #{count}개")
-
-        {:error, reason} ->
-          Logger.warning("Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체")
-
-          load_local_file(table, filename, type, name_style, list_key)
-      end
+    Enum.each(Manifest.data_files(), fn spec ->
+      Remote.load_data_file(table, spec, token, @fetch_timeout, fn ->
+        Local.load_data_file(table, spec)
+      end)
     end)
 
-    Enum.each(@rules_file_map, fn filename ->
-      url = "#{@github_raw_base}/#{filename}"
-
-      case Source.fetch_json(url, token, @fetch_timeout) do
-        {:ok, raw} ->
-          count = Indexer.insert_rule_document(table, raw)
-          Logger.info("Rules.Loader: [GitHub] #{filename} → rule #{count}개")
-
-        {:error, reason} ->
-          Logger.warning("Rules.Loader: [GitHub] #{filename} fetch 실패 (#{reason}) → 로컬 파일로 대체")
-
-          load_local_rule_file(table, filename)
-      end
+    Enum.each(Manifest.rule_files(), fn filename ->
+      Remote.load_rule_file(table, filename, token, @fetch_timeout, fn ->
+        Local.load_rule_file(table, filename)
+      end)
     end)
   end
 
   defp load_from_local(table) do
-    Enum.each(@file_type_map, fn {filename, type, name_style, list_key} ->
-      load_local_file(table, filename, type, name_style, list_key)
-    end)
+    Enum.each(Manifest.data_files(), &Local.load_data_file(table, &1))
 
-    Enum.each(@rules_file_map, fn filename ->
-      load_local_rule_file(table, filename)
-    end)
-  end
-
-  # ── Local file load ─────────────────────────────────────────────────────────
-
-  defp load_local_file(table, filename, type, name_style, list_key) do
-    rules_dir = Application.app_dir(:trpg_master, "priv/rules")
-    path = Path.join(rules_dir, filename)
-
-    if File.exists?(path) do
-      started_at = System.monotonic_time(:millisecond)
-
-      case Source.read_json_file(path) do
-        {:ok, raw} ->
-          entries = Indexer.extract_list(raw, list_key)
-          count = Indexer.insert_entries(table, type, name_style, entries)
-          elapsed = System.monotonic_time(:millisecond) - started_at
-          Indexer.log_columns(type, entries)
-          Logger.info("Rules.Loader: [로컬] #{filename} → #{type} #{count}개 (#{elapsed}ms)")
-
-        {:error, {:decode, reason}} ->
-          Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
-
-        {:error, {:read, reason}} ->
-          Logger.warning("Rules.Loader: #{path} 읽기 실패 — #{inspect(reason)}")
-      end
-    else
-      Logger.info("Rules.Loader: #{path} 파일 없음. 건너뜁니다.")
-    end
-  end
-
-  defp load_local_rule_file(table, filename) do
-    rules_dir = Application.app_dir(:trpg_master, "priv/rules")
-    path = Path.join(rules_dir, filename)
-
-    if File.exists?(path) do
-      case Source.read_json_file(path) do
-        {:ok, raw} ->
-          count = Indexer.insert_rule_document(table, raw)
-          Logger.info("Rules.Loader: [로컬] #{filename} → rule #{count}개")
-
-        {:error, {:decode, reason}} ->
-          Logger.warning("Rules.Loader: #{path} JSON 파싱 실패 — #{inspect(reason)}")
-
-        {:error, {:read, reason}} ->
-          Logger.warning("Rules.Loader: #{path} 읽기 실패 — #{inspect(reason)}")
-      end
-    else
-      Logger.info("Rules.Loader: #{path} 파일 없음. 건너뜁니다.")
-    end
+    Enum.each(Manifest.rule_files(), &Local.load_rule_file(table, &1))
   end
 end
