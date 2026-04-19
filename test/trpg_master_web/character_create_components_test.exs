@@ -9,6 +9,30 @@ defmodule TrpgMasterWeb.CharacterCreateComponentsTest do
 
   @endpoint TrpgMasterWeb.Endpoint
 
+  defmodule ShellHarness do
+    use TrpgMasterWeb, :html
+
+    import TrpgMasterWeb.CharacterCreateComponents
+
+    attr(:campaign_id, :string, required: true)
+    attr(:step, :integer, required: true)
+    attr(:steps, :list, required: true)
+    attr(:error, :string, default: nil)
+
+    def render(assigns) do
+      ~H"""
+      <.wizard_shell
+        campaign_id={@campaign_id}
+        step={@step}
+        steps={@steps}
+        error={@error}
+      >
+        <div>현재 단계 본문</div>
+      </.wizard_shell>
+      """
+    end
+  end
+
   test "class_step/1 renders class cards and selected class details" do
     wizard = fetch_data!(:class, "wizard")
     fighter = fetch_data!(:class, "fighter")
@@ -89,6 +113,24 @@ defmodule TrpgMasterWeb.CharacterCreateComponentsTest do
     assert html =~ List.first(background_skills)
     assert html =~ first_cantrip
     assert html =~ first_spell
+  end
+
+  test "wizard_shell/1 renders shared header, error banner, and step controls" do
+    html =
+      render_component(&ShellHarness.render/1,
+        campaign_id: "campaign-42",
+        step: 3,
+        steps: [{1, "클래스", :class}, {2, "종족", :race}, {3, "배경", :background}],
+        error: "배경을 선택해주세요"
+      )
+
+    assert html =~ "캐릭터 생성"
+    assert html =~ ~s(href="/play/campaign-42")
+    assert html =~ "배경을 선택해주세요"
+    assert html =~ "현재 단계 본문"
+    assert html =~ "cc-step-dot active"
+    assert html =~ "← 이전"
+    assert html =~ "다음 →"
   end
 
   defp wizard_summary_assigns do

@@ -6,9 +6,12 @@ defmodule TrpgMasterWeb.CharacterCreateComponents do
 
   alias TrpgMasterWeb.CharacterCreate.{
     ProgressionComponents,
+    ShellComponents,
     SelectionComponents,
     SummaryComponents
   }
+
+  defdelegate wizard_shell(assigns), to: ShellComponents
 
   defdelegate class_step(assigns), to: SelectionComponents
   defdelegate race_step(assigns), to: SelectionComponents
