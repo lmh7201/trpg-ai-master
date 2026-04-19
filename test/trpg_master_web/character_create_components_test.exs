@@ -57,6 +57,36 @@ defmodule TrpgMasterWeb.CharacterCreateComponentsTest do
     end
   end
 
+  test "race_step/1 renders selected race details and traits" do
+    assigns = wizard_summary_assigns()
+    first_trait = List.first(assigns.selected_race["traits"] || [])
+
+    html = render_component(&CharacterCreateComponents.race_step/1, assigns)
+
+    assert html =~ display_name(assigns.selected_race)
+    assert html =~ "종족 특성"
+    assert html =~ get_in(assigns.selected_race, ["basicTraits", "creatureType", "ko"])
+
+    if first_trait do
+      assert html =~
+               (get_in(first_trait, ["name", "ko"]) || get_in(first_trait, ["name", "en"]))
+    end
+  end
+
+  test "background_step/1 renders selected background details and ability choices" do
+    assigns = wizard_summary_assigns()
+
+    html = render_component(&CharacterCreateComponents.background_step/1, assigns)
+
+    assert html =~ display_name(assigns.selected_background)
+    assert html =~ "능력치 보너스 배분"
+    assert html =~ get_in(assigns.selected_background, ["equipment", "optionA", "ko"])
+    assert html =~ get_in(assigns.selected_background, ["equipment", "optionB", "ko"])
+
+    assert html =~
+             List.first(get_in(assigns.selected_background, ["skillProficiencies", "ko"]) || [])
+  end
+
   test "spells_step/1 renders cantrip and spell choices for spellcasters" do
     assigns = wizard_summary_assigns()
 
@@ -69,6 +99,16 @@ defmodule TrpgMasterWeb.CharacterCreateComponentsTest do
     assert html =~ "1레벨 주문 선택"
     assert html =~ first_cantrip
     assert html =~ first_spell
+  end
+
+  test "spells_step/1 renders a guidance message for non-spellcasters" do
+    assigns = fighter_summary_assigns()
+
+    html = render_component(&CharacterCreateComponents.spells_step/1, assigns)
+
+    assert html =~ "1레벨에서 주문을 사용하지 않습니다."
+    assert html =~ "다음 단계로 넘어가세요."
+    refute html =~ "소마법 (Cantrip) 선택"
   end
 
   test "abilities_step/1 renders assigned scores with background bonuses" do
@@ -168,6 +208,35 @@ defmodule TrpgMasterWeb.CharacterCreateComponentsTest do
     spell_assigns
     |> Map.put(:selected_cantrips, take_spell_ids(spell_assigns.available_cantrips, 2))
     |> Map.put(:selected_spells, take_spell_ids(spell_assigns.available_spells, 2))
+  end
+
+  defp fighter_summary_assigns do
+    fighter = fetch_data!(:class, "fighter")
+    elf = fetch_data!(:race, "elf")
+    sage = fetch_data!(:background, "sage")
+
+    base_assigns =
+      Creation.initial_state([fighter], [elf], [sage])
+      |> Map.merge(Creation.class_selection(fighter))
+      |> Map.put(:selected_race, elf)
+      |> Map.merge(Creation.background_selection(sage))
+      |> Map.merge(%{
+        class_skills:
+          Enum.take(get_in(fighter, ["skillProficiencies", "options", "ko"]) || [], 2),
+        bg_ability_2: "str",
+        abilities: %{
+          "str" => 15,
+          "dex" => 14,
+          "con" => 13,
+          "int" => 10,
+          "wis" => 12,
+          "cha" => 8
+        },
+        character_name: "브론"
+      })
+
+    base_assigns
+    |> Map.merge(Creation.prepare_step(base_assigns, 6))
   end
 
   defp fetch_data!(:class, id), do: CharacterData.get_class(id) || flunk("missing class #{id}")
