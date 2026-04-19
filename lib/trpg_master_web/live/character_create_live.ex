@@ -5,55 +5,27 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
 
   require Logger
 
-  alias TrpgMaster.Campaign.{Manager, Server}
-  alias TrpgMaster.Rules.CharacterData
+  alias TrpgMasterWeb.CharacterCreateSession
   alias TrpgMasterWeb.CharacterCreateFlow
 
   # ── Mount ──────────────────────────────────────────────────────────────────
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
-    # 캠페인 서버가 떠 있는지 확인
-    unless Server.alive?(id) do
-      case Manager.start_campaign(id) do
-        {:ok, _} -> :ok
-        {:error, _} -> :ok
-      end
+    case CharacterCreateSession.mount_assigns(id) do
+      {:navigate, path} ->
+        {:ok, push_navigate(socket, to: path)}
+
+      {:ok, assigns} ->
+        {:ok, assign(socket, assigns)}
     end
-
-    # 데이터가 로드되지 않았으면 AI 캐릭터 생성으로 바로 이동
-    classes = CharacterData.classes()
-
-    if classes == [] do
-      Logger.warning("CharacterCreateLive: 캐릭터 데이터 없음 → AI 캐릭터 생성으로 이동")
-      {:ok, push_navigate(socket, to: "/play/#{id}")}
-    else
-      mount_with_data(id, classes, socket)
-    end
-  end
-
-  defp mount_with_data(id, classes, socket) do
-    socket =
-      socket
-      |> assign(:campaign_id, id)
-      |> assign(
-        CharacterCreateFlow.mount_assigns(
-          id,
-          classes,
-          CharacterData.races(),
-          CharacterData.backgrounds()
-        )
-      )
-
-    {:ok, socket}
   end
 
   # ── Events ─────────────────────────────────────────────────────────────────
 
   @impl true
   def handle_event("select_class", %{"id" => class_id}, socket) do
-    class = CharacterData.get_class(class_id)
-    {:noreply, assign(socket, CharacterCreateFlow.select_class(class))}
+    {:noreply, assign(socket, CharacterCreateSession.select_class(class_id))}
   end
 
   def handle_event("toggle_class_skill", %{"skill" => skill}, socket) do
@@ -61,13 +33,11 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   end
 
   def handle_event("select_race", %{"id" => race_id}, socket) do
-    race = CharacterData.get_race(race_id)
-    {:noreply, assign(socket, CharacterCreateFlow.select_race(race))}
+    {:noreply, assign(socket, CharacterCreateSession.select_race(race_id))}
   end
 
   def handle_event("select_background", %{"id" => bg_id}, socket) do
-    bg = CharacterData.get_background(bg_id)
-    {:noreply, assign(socket, CharacterCreateFlow.select_background(bg))}
+    {:noreply, assign(socket, CharacterCreateSession.select_background(bg_id))}
   end
 
   def handle_event("set_bg_ability", %{"rank" => rank, "key" => key}, socket) do
@@ -112,21 +82,13 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
     {:noreply, assign(socket, CharacterCreateFlow.toggle_spell(socket.assigns, spell_id))}
   end
 
-  def handle_event("set_name", %{"value" => name}, socket) do
-    {:noreply, assign(socket, CharacterCreateFlow.set_name(name))}
-  end
+  def handle_event("set_name", params, socket),
+    do: {:noreply, assign(socket, CharacterCreateFlow.set_name(field_value(params, "name")))}
 
-  def handle_event("set_name", %{"name" => name}, socket) do
-    {:noreply, assign(socket, CharacterCreateFlow.set_name(name))}
-  end
-
-  def handle_event("set_alignment", %{"alignment" => alignment}, socket) do
-    {:noreply, assign(socket, CharacterCreateFlow.set_alignment(alignment))}
-  end
-
-  def handle_event("set_alignment", %{"value" => alignment}, socket) do
-    {:noreply, assign(socket, CharacterCreateFlow.set_alignment(alignment))}
-  end
+  def handle_event("set_alignment", params, socket),
+    do:
+      {:noreply,
+       assign(socket, CharacterCreateFlow.set_alignment(field_value(params, "alignment")))}
 
   def handle_event("set_appearance", %{"value" => val}, socket) do
     {:noreply, assign(socket, CharacterCreateFlow.set_appearance(val))}
@@ -145,13 +107,7 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   end
 
   def handle_event("next_step", _params, socket) do
-    case CharacterCreateFlow.next_step(socket.assigns) do
-      {:ok, updates} ->
-        {:noreply, assign(socket, updates)}
-
-      {:error, updates} ->
-        {:noreply, assign(socket, updates)}
-    end
+    {:noreply, apply_update_result(socket, CharacterCreateFlow.next_step(socket.assigns))}
   end
 
   def handle_event("prev_step", _params, socket) do
@@ -159,17 +115,20 @@ defmodule TrpgMasterWeb.CharacterCreateLive do
   end
 
   def handle_event("finish", _params, socket) do
-    case CharacterCreateFlow.finish(socket.assigns) do
-      {:ok, character} ->
-        campaign_id = socket.assigns.campaign_id
-
-        Server.set_character(campaign_id, character)
-
+    case CharacterCreateSession.finish(socket.assigns) do
+      {:ok, campaign_id} ->
         {:noreply, push_navigate(socket, to: "/play/#{campaign_id}")}
 
       {:error, message} ->
         {:noreply, assign(socket, :error, message)}
     end
+  end
+
+  defp apply_update_result(socket, {:ok, updates}), do: assign(socket, updates)
+  defp apply_update_result(socket, {:error, updates}), do: assign(socket, updates)
+
+  defp field_value(params, key) do
+    Map.get(params, key) || Map.get(params, "value") || ""
   end
 
   # ── Render ─────────────────────────────────────────────────────────────────
