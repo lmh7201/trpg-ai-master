@@ -3,16 +3,12 @@ defmodule TrpgMasterWeb.CharacterCreate.SummaryComponents do
 
   use TrpgMasterWeb, :html
 
-  alias TrpgMaster.Characters.Creation
   alias TrpgMaster.Rules.CharacterData
+  alias TrpgMasterWeb.CharacterCreate.SummaryComponents.Preview
 
   def summary_step(assigns) do
-    preview_character = Creation.build_character(assigns)
-
     assigns =
-      assigns
-      |> assign(:preview_character, preview_character)
-      |> assign(:final_abilities, preview_character["abilities"])
+      assign(assigns, Preview.build(assigns))
 
     ~H"""
     <div class="cc-step-content">
@@ -62,17 +58,8 @@ defmodule TrpgMasterWeb.CharacterCreate.SummaryComponents do
 
       <div class="cc-summary-sheet">
         <div class="cc-summary-header">
-          <h3><%= if @character_name != "", do: @character_name, else: "???" %></h3>
-          <p>
-            <%= if @selected_race, do: get_in(@selected_race, ["name", "ko"]), else: "?" %>
-            <%= if @selected_class,
-              do: get_in(@selected_class, ["name", "ko"]) || get_in(@selected_class, ["name", "en"]),
-              else: "?" %>
-            Lv.1 | 배경:
-            <%= if @selected_background,
-              do: get_in(@selected_background, ["name", "ko"]) || get_in(@selected_background, ["name", "en"]),
-              else: "?" %>
-          </p>
+          <h3><%= @preview_name %></h3>
+          <p><%= @preview_line %></p>
         </div>
 
         <div class="cc-summary-abilities">
@@ -98,11 +85,7 @@ defmodule TrpgMasterWeb.CharacterCreate.SummaryComponents do
           </div>
           <div class="cc-summary-stat">
             <span class="cc-stat-label">이동속도</span>
-            <span class="cc-stat-value">
-              <%= if @selected_race,
-                do: get_in(@selected_race, ["basicTraits", "speed", "ko"]) || "30피트",
-                else: "30피트" %>
-            </span>
+            <span class="cc-stat-value"><%= @speed_display %></span>
           </div>
           <div class="cc-summary-stat">
             <span class="cc-stat-label">숙련 보너스</span>
@@ -113,44 +96,25 @@ defmodule TrpgMasterWeb.CharacterCreate.SummaryComponents do
         <div class="cc-summary-details">
           <div class="cc-summary-block">
             <h4>기술 숙련</h4>
-            <p><%= Enum.join(@class_skills ++ extract_bg_skills(@selected_background), ", ") %></p>
+            <p><%= Enum.join(@skill_names, ", ") %></p>
           </div>
 
-          <%= if @is_spellcaster and @selected_cantrips != [] do %>
+          <%= if @cantrip_names != [] do %>
             <div class="cc-summary-block">
               <h4>소마법</h4>
-              <p>
-                <%= @selected_cantrips
-                |> Enum.map(fn id -> find_spell_name(@available_cantrips, id) end)
-                |> Enum.join(", ") %>
-              </p>
+              <p><%= Enum.join(@cantrip_names, ", ") %></p>
             </div>
           <% end %>
 
-          <%= if @is_spellcaster and @selected_spells != [] do %>
+          <%= if @spell_names != [] do %>
             <div class="cc-summary-block">
               <h4>1레벨 주문</h4>
-              <p>
-                <%= @selected_spells
-                |> Enum.map(fn id -> find_spell_name(@available_spells, id) end)
-                |> Enum.join(", ") %>
-              </p>
+              <p><%= Enum.join(@spell_names, ", ") %></p>
             </div>
           <% end %>
         </div>
       </div>
     </div>
     """
-  end
-
-  defp extract_bg_skills(nil), do: []
-  defp extract_bg_skills(%{"skillProficiencies" => %{"ko" => skills}}), do: skills
-  defp extract_bg_skills(_), do: []
-
-  defp find_spell_name(spells, id) do
-    case Enum.find(spells, &(&1["id"] == id)) do
-      nil -> id
-      spell -> get_in(spell, ["name", "ko"]) || get_in(spell, ["name", "en"])
-    end
   end
 end
