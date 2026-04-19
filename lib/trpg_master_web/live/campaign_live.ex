@@ -4,18 +4,14 @@ defmodule TrpgMasterWeb.CampaignLive do
   import TrpgMasterWeb.ChatComponents
   import TrpgMasterWeb.GameComponents
 
-  alias TrpgMaster.Campaign.{Manager, Server}
-  alias TrpgMasterWeb.{CampaignFlow, CampaignPresenter}
+  alias TrpgMaster.Campaign.Server
+  alias TrpgMasterWeb.{CampaignFlow, CampaignSession}
 
   @impl true
   def mount(%{"id" => campaign_id}, _session, socket) do
-    case Manager.start_campaign(campaign_id) do
-      {:ok, _id} ->
-        state = Server.get_state(campaign_id)
-
-        {:ok,
-         socket
-         |> assign(CampaignPresenter.mount_assigns(campaign_id, state))}
+    case CampaignSession.mount_assigns(campaign_id) do
+      {:ok, assigns} ->
+        {:ok, assign(socket, assigns)}
 
       {:error, :not_found} ->
         {:ok,
@@ -31,8 +27,7 @@ defmodule TrpgMasterWeb.CampaignLive do
   def handle_event("send_message", %{"message" => message}, socket) when message != "" do
     case CampaignFlow.submit_message(socket.assigns, message) do
       {:ok, updates, trimmed_message} ->
-        send(self(), {:call_ai, trimmed_message})
-        {:noreply, assign(socket, updates)}
+        {:noreply, queue_ai_call(socket, trimmed_message, updates)}
 
       :ignore ->
         {:noreply, socket}
@@ -49,8 +44,7 @@ defmodule TrpgMasterWeb.CampaignLive do
   def handle_event("retry_last", _, socket) do
     case CampaignFlow.retry_last(socket.assigns) do
       {:ok, updates, message} ->
-        send(self(), {:call_ai, message})
-        {:noreply, assign(socket, updates)}
+        {:noreply, queue_ai_call(socket, message, updates)}
 
       :ignore ->
         {:noreply, socket}
@@ -103,41 +97,22 @@ defmodule TrpgMasterWeb.CampaignLive do
 
   @impl true
   def handle_info({:call_ai, message}, socket) do
-    campaign_id = socket.assigns.campaign_id
+    case CampaignSession.call_ai(socket.assigns, message) do
+      {:enemy_turns, updates, rest} ->
+        send(self(), {:display_enemy_turns, rest})
+        {:noreply, assign(socket, updates)}
 
-    case Server.player_action(campaign_id, message) do
-      {:ok, [player_result | enemy_results]} when enemy_results != [] ->
-        state = Server.get_state(campaign_id)
+      {:done, updates} ->
+        {:noreply, assign(socket, updates)}
 
-        case CampaignFlow.apply_player_action_result(
-               socket.assigns,
-               [player_result | enemy_results],
-               state
-             ) do
-          {:enemy_turns, updates, rest} ->
-            send(self(), {:display_enemy_turns, rest})
-            {:noreply, assign(socket, updates)}
-        end
-
-      {:ok, result} when not is_list(result) ->
-        state = Server.get_state(campaign_id)
-
-        case CampaignFlow.apply_player_action_result(socket.assigns, result, state) do
-          {:done, updates} ->
-            {:noreply, assign(socket, updates)}
-        end
-
-      {:error, reason} ->
-        {:noreply, assign(socket, CampaignFlow.apply_player_action_error(reason))}
+      {:error, updates} ->
+        {:noreply, assign(socket, updates)}
     end
   end
 
   @impl true
   def handle_info({:display_enemy_turns, [result | rest]}, socket) do
-    campaign_id = socket.assigns.campaign_id
-    state = Server.get_state(campaign_id)
-
-    case CampaignFlow.apply_enemy_turn(socket.assigns, result, rest, state) do
+    case CampaignSession.display_enemy_turn(socket.assigns, result, rest) do
       {:done, updates} ->
         {:noreply, assign(socket, updates)}
 
@@ -149,11 +124,7 @@ defmodule TrpgMasterWeb.CampaignLive do
 
   @impl true
   def handle_info(:do_end_session, socket) do
-    campaign_id = socket.assigns.campaign_id
-
-    result = Server.end_session(campaign_id)
-
-    {:noreply, assign(socket, CampaignFlow.apply_end_session_result(socket.assigns, result))}
+    {:noreply, assign(socket, CampaignSession.end_session(socket.assigns))}
   end
 
   # ── Render ───────────────────────────────────────────────────────────────────
@@ -203,4 +174,9 @@ defmodule TrpgMasterWeb.CampaignLive do
   end
 
   # ── Private helpers ──────────────────────────────────────────────────────────
+
+  defp queue_ai_call(socket, message, updates) do
+    send(self(), {:call_ai, message})
+    assign(socket, updates)
+  end
 end
