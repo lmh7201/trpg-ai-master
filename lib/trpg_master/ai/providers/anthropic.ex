@@ -8,6 +8,7 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   alias TrpgMaster.AI.Providers.Anthropic.Response
   alias TrpgMaster.AI.Providers.Http
   alias TrpgMaster.AI.Providers.Retry
+  alias TrpgMaster.AI.Providers.StandardChat
   alias TrpgMaster.AI.Providers.ToolExecution
   alias TrpgMaster.AI.RateLimiter
   require Logger
@@ -26,45 +27,33 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
     if is_nil(api_key) || api_key == "" do
       {:error, :no_api_key}
     else
-      body = Request.build(system_prompt, messages, tools, opts)
-      do_chat_with_retry(api_key, body, 0)
+      StandardChat.run(
+        provider: "Anthropic",
+        body: Request.build(system_prompt, messages, tools, opts),
+        context: %{api_key: api_key},
+        max_tool_iterations: @max_tool_iterations,
+        call_api: &call_api_with_rate_limit/2,
+        response_module: Response,
+        execute_tools: &execute_tools/1,
+        usage_info: &usage_info/2,
+        retry_rules: retry_rules()
+      )
     end
   end
 
-  # ── 재시도 래퍼 ─────────────────────────────────────────────────────────────
-
-  defp do_chat_with_retry(api_key, body, retry_count) do
-    case do_chat_loop(api_key, body, [], @max_tool_iterations, %{
-           input_tokens: 0,
-           output_tokens: 0
-         }) do
-      {:ok, result} ->
-        {:ok, result}
-
-      {:error, reason} ->
-        handle_api_error(api_key, body, reason, retry_count)
-    end
-  end
-
-  defp handle_api_error(api_key, body, reason, retry_count) do
-    case Retry.handle(reason, retry_count, body,
-           rules: [
-             Retry.status_rule(400, 2,
-               log: fn attempt, _reason ->
-                 "Anthropic API 400 오류 — 히스토리 트리밍 후 재시도 (#{attempt}/2)"
-               end,
-               transform: fn retry_body, _reason -> aggressive_trim_history(retry_body) end
-             ),
-             Retry.rate_limit_rule("Anthropic"),
-             Retry.server_error_rule("Anthropic", [500, 529])
-           ]
-         ) do
-      {:retry, updated_body, next_retry_count} ->
-        do_chat_with_retry(api_key, updated_body, next_retry_count)
-
-      {:error, normalized_reason} ->
-        {:error, normalized_reason}
-    end
+  defp retry_rules do
+    [
+      Retry.status_rule(400, 2,
+        log: fn attempt, _reason ->
+          "Anthropic API 400 오류 — 히스토리 트리밍 후 재시도 (#{attempt}/2)"
+        end,
+        transform: fn state, _reason ->
+          %{state | body: aggressive_trim_history(state.body)}
+        end
+      ),
+      Retry.rate_limit_rule("Anthropic"),
+      Retry.server_error_rule("Anthropic", [500, 529])
+    ]
   end
 
   defp aggressive_trim_history(body) do
@@ -82,68 +71,34 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
     %{body | messages: trimmed}
   end
 
-  # ── Chat loop ───────────────────────────────────────────────────────────────
-
-  defp do_chat_loop(_api_key, _body, _tool_results, 0, _usage) do
-    Logger.warning("Tool use 최대 반복 횟수 초과")
-    {:error, :max_tool_iterations}
-  end
-
-  defp do_chat_loop(api_key, body, tool_results, iterations_left, usage) do
+  defp call_api_with_rate_limit(%{api_key: api_key}, body) do
     case RateLimiter.check_and_wait() do
       :ok ->
-        case call_api(api_key, body) do
-          {:ok, response} ->
-            input_tokens = get_in(response, ["usage", "input_tokens"]) || 0
-            output_tokens = get_in(response, ["usage", "output_tokens"]) || 0
-            cache_read = get_in(response, ["usage", "cache_read_input_tokens"]) || 0
-            cache_create = get_in(response, ["usage", "cache_creation_input_tokens"]) || 0
-
-            # ITPM에 카운트되는 토큰: input_tokens + cache_creation (cache_read는 미포함)
-            itpm_tokens = input_tokens + cache_create
-            RateLimiter.record_usage(itpm_tokens)
-
-            new_usage = %{
-              input_tokens: usage.input_tokens + input_tokens,
-              output_tokens: usage.output_tokens + output_tokens
-            }
-
-            Logger.info(
-              "Claude API 호출 — ITPM: #{itpm_tokens}토큰 (입력:#{input_tokens} + 캐시생성:#{cache_create}), 출력: #{output_tokens}토큰, 캐시읽기: #{cache_read}토큰"
-            )
-
-            handle_response(api_key, body, response, tool_results, iterations_left, new_usage)
-
-          {:error, reason} ->
-            {:error, reason}
-        end
+        call_api(api_key, body)
 
       {:error, :rate_limited} ->
         {:error, :rate_limited}
     end
   end
 
-  defp handle_response(api_key, body, response, tool_results, iterations_left, usage) do
-    if Response.tool_loop?(response) do
-      tool_use_blocks = Response.tool_calls(response)
-      {new_tool_results, tool_result_blocks} = execute_tools(tool_use_blocks)
-      updated_body = Response.append_tool_results(body, response, tool_result_blocks)
+  defp usage_info(response, usage) do
+    input_tokens = get_in(response, ["usage", "input_tokens"]) || 0
+    output_tokens = get_in(response, ["usage", "output_tokens"]) || 0
+    cache_read = get_in(response, ["usage", "cache_read_input_tokens"]) || 0
+    cache_create = get_in(response, ["usage", "cache_creation_input_tokens"]) || 0
 
-      do_chat_loop(
-        api_key,
-        updated_body,
-        tool_results ++ new_tool_results,
-        iterations_left - 1,
-        usage
-      )
-    else
-      {:ok,
-       %{
-         text: Response.completion_text(response),
-         tool_results: tool_results,
-         usage: usage
-       }}
-    end
+    # ITPM에 카운트되는 토큰: input_tokens + cache_creation (cache_read는 미포함)
+    itpm_tokens = input_tokens + cache_create
+    RateLimiter.record_usage(itpm_tokens)
+
+    %{
+      usage: %{
+        input_tokens: usage.input_tokens + input_tokens,
+        output_tokens: usage.output_tokens + output_tokens
+      },
+      log:
+        "Claude API 호출 — ITPM: #{itpm_tokens}토큰 (입력:#{input_tokens} + 캐시생성:#{cache_create}), 출력: #{output_tokens}토큰, 캐시읽기: #{cache_read}토큰"
+    }
   end
 
   defp execute_tools(tool_use_blocks) do
@@ -187,7 +142,6 @@ defmodule TrpgMaster.AI.Providers.Anthropic do
   defp truncate_tool_result(encoded, _tool_name), do: encoded
 
   # ── HTTP ────────────────────────────────────────────────────────────────────
-
   defp call_api(api_key, body) do
     headers = [
       {~c"x-api-key", String.to_charlist(api_key)},

@@ -141,4 +141,67 @@ defmodule TrpgMaster.AI.Providers.StandardChatTest do
     assert Process.get(:standard_chat_retry_bodies) == [%{retried?: false}, %{retried?: true}]
     assert result.text == "재시도 성공"
   end
+
+  test "run/1 preserves accumulated tool results and usage across retry" do
+    Process.put(:standard_chat_retry_sequence, 0)
+
+    on_exit(fn ->
+      Process.delete(:standard_chat_retry_sequence)
+    end)
+
+    assert {:ok, result} =
+             StandardChat.run(
+               provider: "TestProvider",
+               body: %{history: [], retried?: false},
+               context: %{},
+               max_tool_iterations: 4,
+               call_api: fn _context, body ->
+                 step = Process.get(:standard_chat_retry_sequence, 0)
+                 Process.put(:standard_chat_retry_sequence, step + 1)
+
+                 case step do
+                   0 ->
+                     assert body.history == []
+                     {:ok, %{loop?: true, tool_calls: [%{name: "inspect"}]}}
+
+                   1 ->
+                     assert body.history == [[%{payload: "tool-result"}]]
+                     {:error, {:api_error, 429, %{}}}
+
+                   2 ->
+                     assert body.retried?
+                     assert body.history == [[%{payload: "tool-result"}]]
+                     {:ok, %{loop?: false, text: "재시도 후 완료"}}
+                 end
+               end,
+               response_module: FakeResponse,
+               execute_tools: fn [%{name: "inspect"}] ->
+                 {[%{tool: "inspect", result: %{"status" => "ok"}}], [%{payload: "tool-result"}]}
+               end,
+               usage_info: fn _response, usage ->
+                 %{
+                   usage: %{
+                     input_tokens: usage.input_tokens + 1,
+                     output_tokens: usage.output_tokens + 2
+                   },
+                   log: "preserve state"
+                 }
+               end,
+               retry_rules: [
+                 Retry.status_rule(429, 1,
+                   log: fn _attempt, _reason -> "retry" end,
+                   transform: fn state, _reason ->
+                     %{state | body: %{state.body | retried?: true}}
+                   end
+                 )
+               ],
+               retry_opts: [sleep_fun: fn _duration -> :ok end]
+             )
+
+    assert result == %{
+             text: "재시도 후 완료",
+             tool_results: [%{tool: "inspect", result: %{"status" => "ok"}}],
+             usage: %{input_tokens: 2, output_tokens: 4}
+           }
+  end
 end
