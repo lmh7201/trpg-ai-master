@@ -22,19 +22,34 @@ defmodule TrpgMasterWeb.CharacterCreateSession do
     end
   end
 
-  def select_class(class_id, opts \\ []) do
-    get_class = Keyword.get(opts, :get_class, &CharacterData.get_class/1)
-    class_id |> get_class.() |> CharacterCreateFlow.select_class()
-  end
+  def select_class(class_id, opts \\ []),
+    do:
+      select_entity(class_id, opts,
+        opts_key: :get_class,
+        default_getter: &CharacterData.get_class/1,
+        applier: &CharacterCreateFlow.select_class/1
+      )
 
-  def select_race(race_id, opts \\ []) do
-    get_race = Keyword.get(opts, :get_race, &CharacterData.get_race/1)
-    race_id |> get_race.() |> CharacterCreateFlow.select_race()
-  end
+  def select_race(race_id, opts \\ []),
+    do:
+      select_entity(race_id, opts,
+        opts_key: :get_race,
+        default_getter: &CharacterData.get_race/1,
+        applier: &CharacterCreateFlow.select_race/1
+      )
 
-  def select_background(background_id, opts \\ []) do
-    get_background = Keyword.get(opts, :get_background, &CharacterData.get_background/1)
-    background_id |> get_background.() |> CharacterCreateFlow.select_background()
+  def select_background(background_id, opts \\ []),
+    do:
+      select_entity(background_id, opts,
+        opts_key: :get_background,
+        default_getter: &CharacterData.get_background/1,
+        applier: &CharacterCreateFlow.select_background/1
+      )
+
+  # id → (opts[opts_key] || default_getter).(id) → applier.(entity)
+  defp select_entity(id, opts, cfg) do
+    getter = Keyword.get(opts, cfg[:opts_key], cfg[:default_getter])
+    id |> getter.() |> cfg[:applier].()
   end
 
   def finish(assigns, opts \\ []) do

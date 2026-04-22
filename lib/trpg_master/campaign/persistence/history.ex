@@ -82,10 +82,18 @@ defmodule TrpgMaster.Campaign.Persistence.History do
         entries =
           content
           |> String.split("\n", trim: true)
-          |> Enum.map(fn line ->
+          |> Enum.with_index(1)
+          |> Enum.map(fn {line, line_no} ->
             case Jason.decode(line) do
-              {:ok, entry} -> entry
-              _ -> nil
+              {:ok, entry} ->
+                entry
+
+              {:error, reason} ->
+                Logger.warning(
+                  "[Persistence] summary_log.jsonl 손상된 라인 무시 [#{campaign_id}] line #{line_no}: #{inspect(reason)}"
+                )
+
+                nil
             end
           end)
           |> Enum.reject(&is_nil/1)

@@ -27,9 +27,12 @@ defmodule TrpgMaster.Campaign.Persistence do
 
   @doc """
   비동기로 캠페인 상태를 저장한다 (응답 지연 방지).
+
+  `TrpgMaster.TaskSupervisor` 아래에서 실행하므로 Task가 크래시해도
+  상위 supervisor가 로그를 남기고 상태가 예측 가능하게 유지된다.
   """
   def save_async(%State{} = state) do
-    Task.start(fn ->
+    Task.Supervisor.start_child(TrpgMaster.TaskSupervisor, fn ->
       try do
         case save(state) do
           :ok ->

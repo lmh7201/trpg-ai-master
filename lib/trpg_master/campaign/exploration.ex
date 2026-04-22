@@ -4,7 +4,7 @@ defmodule TrpgMaster.Campaign.Exploration do
   프롬프트 생성, AI 호출, 도구 반영, 컨텍스트 요약 갱신을 담당한다.
   """
 
-  alias TrpgMaster.AI.{Client, PromptBuilder, Tools}
+  alias TrpgMaster.AI.{Client, PromptBuilder, Tools, ToolContext}
   alias TrpgMaster.Campaign.{Persistence, Summarizer, ToolHandler}
 
   require Logger
@@ -86,15 +86,9 @@ defmodule TrpgMaster.Campaign.Exploration do
   end
 
   defp call_ai_with_context(system_prompt, history, tools, model_opts, tool_context, chat_fun) do
-    Process.put(:journal_entries, tool_context.journal_entries)
-    Process.put(:campaign_characters, tool_context.characters)
-
-    try do
+    ToolContext.with_context(tool_context, fn ->
       chat_fun.(system_prompt, history, tools, model_opts)
-    after
-      Process.delete(:journal_entries)
-      Process.delete(:campaign_characters)
-    end
+    end)
   end
 
   defp consume_post_combat_summary(%{post_combat_summary: nil} = state), do: state

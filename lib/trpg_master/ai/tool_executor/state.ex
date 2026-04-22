@@ -1,11 +1,12 @@
 defmodule TrpgMaster.AI.ToolExecutor.State do
   @moduledoc false
 
+  alias TrpgMaster.AI.ToolContext
   alias TrpgMaster.Rules.CharacterData
 
   def get_character_info(input) do
     category = Map.get(input, "category", "summary")
-    characters = Process.get(:campaign_characters, [])
+    characters = ToolContext.characters()
 
     case characters do
       [character | _] ->
@@ -87,7 +88,7 @@ defmodule TrpgMaster.AI.ToolExecutor.State do
       end
 
     {features_msg, subclass_features_msg} =
-      level_up_feature_messages(Process.get(:campaign_characters, []), input)
+      level_up_feature_messages(ToolContext.characters(), input)
 
     {:ok,
      %{
@@ -104,7 +105,7 @@ defmodule TrpgMaster.AI.ToolExecutor.State do
 
   def read_journal(input) do
     category = Map.get(input, "category")
-    entries = Process.get(:journal_entries, [])
+    entries = ToolContext.journal_entries()
 
     filtered =
       if category do

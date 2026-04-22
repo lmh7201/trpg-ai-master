@@ -9,7 +9,7 @@ defmodule TrpgMaster.Campaign.Server do
 
   use GenServer
 
-  alias TrpgMaster.Campaign.{Combat, Exploration, Persistence, State, Summarizer}
+  alias TrpgMaster.Campaign.{Combat, Exploration, Persistence, ServerActions, State, Summarizer}
 
   require Logger
 
@@ -74,25 +74,22 @@ defmodule TrpgMaster.Campaign.Server do
 
   @impl true
   def handle_call({:set_character, character}, _from, state) do
-    new_state = %{state | characters: [character]}
-    Persistence.save_async(new_state)
-    Logger.info("캐릭터 등록 [#{state.id}]: #{character["name"]}")
+    {new_state, log} = ServerActions.set_character(state, character)
+    persist_and_log(new_state, log)
     {:reply, :ok, new_state}
   end
 
   @impl true
   def handle_call({:set_mode, mode}, _from, state) do
-    new_state = %{state | mode: mode}
-    Persistence.save_async(new_state)
-    Logger.info("모드 변경 [#{state.id}]: #{state.mode} → #{mode}")
+    {new_state, log} = ServerActions.set_mode(state, mode)
+    persist_and_log(new_state, log)
     {:reply, :ok, new_state}
   end
 
   @impl true
   def handle_call({:set_model, model_id}, _from, state) do
-    new_state = %{state | ai_model: model_id}
-    Persistence.save_async(new_state)
-    Logger.info("AI 모델 변경 [#{state.id}]: #{state.ai_model} → #{model_id}")
+    {new_state, log} = ServerActions.set_model(state, model_id)
+    persist_and_log(new_state, log)
     {:reply, :ok, new_state}
   end
 
@@ -105,15 +102,7 @@ defmodule TrpgMaster.Campaign.Server do
         session_number = Summarizer.estimate_session_number(state)
         Persistence.append_session_log(state, session_number, summary_text)
 
-        new_state = %{
-          state
-          | exploration_history: [],
-            combat_history: [],
-            combat_history_summary: nil,
-            post_combat_summary: nil,
-            context_summary: nil
-        }
-
+        new_state = ServerActions.clear_session_state(state)
         Persistence.save_async(new_state)
 
         {:reply, {:ok, summary_text}, new_state}
@@ -126,7 +115,7 @@ defmodule TrpgMaster.Campaign.Server do
 
   @impl true
   def handle_call({:player_action, message}, _from, state) do
-    state = %{state | turn_count: state.turn_count + 1}
+    state = ServerActions.advance_turn(state)
 
     case state.phase do
       :combat ->
@@ -154,5 +143,10 @@ defmodule TrpgMaster.Campaign.Server do
 
   defp tool_context(state) do
     %{journal_entries: state.journal_entries, characters: state.characters}
+  end
+
+  defp persist_and_log(state, log_message) do
+    Persistence.save_async(state)
+    Logger.info(log_message)
   end
 end

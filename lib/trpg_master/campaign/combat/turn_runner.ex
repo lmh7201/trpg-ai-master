@@ -1,6 +1,7 @@
 defmodule TrpgMaster.Campaign.Combat.TurnRunner do
   @moduledoc false
 
+  alias TrpgMaster.AI.ToolContext
   alias TrpgMaster.Campaign.Combat.{Dependencies, Runtime, StatePersistence}
   require Logger
 
@@ -166,18 +167,8 @@ defmodule TrpgMaster.Campaign.Combat.TurnRunner do
   end
 
   defp call_ai_with_context(system_prompt, history, tools, model_opts, tool_context, chat_fun) do
-    if tool_context do
-      Process.put(:journal_entries, tool_context.journal_entries)
-      Process.put(:campaign_characters, tool_context.characters)
-    end
-
-    try do
+    ToolContext.with_context(tool_context, fn ->
       chat_fun.(system_prompt, history, tools, model_opts)
-    after
-      if tool_context do
-        Process.delete(:journal_entries)
-        Process.delete(:campaign_characters)
-      end
-    end
+    end)
   end
 end

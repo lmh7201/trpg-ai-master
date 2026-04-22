@@ -58,11 +58,6 @@ defmodule TrpgMaster.AI.PromptBuilder do
   def build_turn_messages(state, current_message, opts),
     do: Messages.build_turn_messages(state, current_message, opts)
 
-  @doc """
-  하위 호환: trim_history/1은 build_messages/1로 대체됨.
-  """
-  def trim_history(history), do: build_messages(history)
-
   defp default_system_prompt do
     """
     당신은 D&D 5.5e 솔로 플레이 던전 마스터입니다. 한국어로 진행합니다.

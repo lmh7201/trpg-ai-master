@@ -9,6 +9,7 @@ defmodule TrpgMaster.Application do
       TrpgMasterWeb.Telemetry,
       {Phoenix.PubSub, name: TrpgMaster.PubSub},
       {DNSCluster, query: Application.get_env(:trpg_master, :dns_cluster_query) || :ignore},
+      {Task.Supervisor, name: TrpgMaster.TaskSupervisor},
       TrpgMaster.AI.RateLimiter,
       TrpgMaster.Rules.Loader,
       TrpgMaster.Rules.DC,

@@ -24,11 +24,30 @@ defmodule TrpgMaster.Campaign.Persistence.Files.Paths do
   def journal_path(dir), do: Path.join(dir, "journal.json")
   def context_summary_path(dir), do: Path.join(dir, "context_summary.json")
 
-  def sanitize_filename(name) do
-    name
-    |> String.replace(~r/[\/\\:*?"<>|]/, "_")
-    |> String.trim()
+  @doc """
+  파일/디렉터리 이름을 안전한 형태로 바꾼다.
+
+  - 경로 구분자(`/`, `\\`)와 예약 문자는 `_`로 치환한다.
+  - 앞뒤 공백·점(`.`, `..` 포함)을 제거해 경로 순회(`..`)를 차단한다.
+  - 결과가 빈 문자열이면 `_`를 돌려준다.
+
+  이 함수는 파일 시스템에 쓰는 경로를 만들 때마다 반드시 거쳐야 한다.
+  """
+  def sanitize_filename(name) when is_binary(name) do
+    sanitized =
+      name
+      |> String.replace(~r/[\/\\:*?"<>|\x00-\x1f]/u, "_")
+      |> String.trim()
+      |> String.replace(~r/^\.+/, "")
+      |> String.replace(~r/\.+$/, "")
+
+    case sanitized do
+      "" -> "_"
+      other -> other
+    end
   end
+
+  def sanitize_filename(_), do: "_"
 
   defp data_dir do
     Application.get_env(:trpg_master, :data_dir, "data")
